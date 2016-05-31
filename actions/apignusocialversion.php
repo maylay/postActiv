@@ -84,3 +84,4 @@ class ApiGNUsocialVersionAction extends ApiPrivateAuthAction
         return true;
     }
 }
+?>

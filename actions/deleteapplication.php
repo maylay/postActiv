@@ -180,3 +180,4 @@ class DeleteapplicationAction extends Action
         $this->app->delete();
     }
 }
+?>

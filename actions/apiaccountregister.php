@@ -194,5 +194,5 @@ class ApiAccountRegisterAction extends ApiAction
         $user = User::getKV('email', $email);
         return is_object($user);
     }
-
 }
+?>

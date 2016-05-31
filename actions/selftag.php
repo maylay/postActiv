@@ -206,3 +206,4 @@ class SelfTagProfileListItem extends ProfileListItem
         }
     }
 }
+?>

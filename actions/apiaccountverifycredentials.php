@@ -87,3 +87,4 @@ class ApiAccountVerifyCredentialsAction extends ApiAuthAction
         return true;
     }
 }
+?>

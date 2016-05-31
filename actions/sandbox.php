@@ -88,3 +88,4 @@ class SandboxAction extends ProfileFormAction
         $this->profile->sandbox();
     }
 }
+?>

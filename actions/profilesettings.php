@@ -476,3 +476,4 @@ class ProfilesettingsAction extends SettingsAction
         $this->elementEnd('div');
     }
 }
+?>

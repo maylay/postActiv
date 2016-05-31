@@ -183,3 +183,4 @@ class FoafGroupAction extends Action
     }
 
 }
+?>

@@ -130,3 +130,4 @@ class TagAction extends ManagedAction
         return true;
     }
 }
+?>

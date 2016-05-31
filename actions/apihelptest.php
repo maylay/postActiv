@@ -78,3 +78,4 @@ class ApiHelpTestAction extends ApiPrivateAuthAction
         return true;
     }
 }
+?>

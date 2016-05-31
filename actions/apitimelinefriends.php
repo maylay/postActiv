@@ -346,3 +346,4 @@ class ApiTimelineFriendsAction extends ApiBareAuthAction
         return null;
     }
 }
+?>

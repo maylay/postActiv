@@ -108,3 +108,4 @@ class PluginsadminpanelAction extends AdminPanelAction
         }
     }
 }
+?>

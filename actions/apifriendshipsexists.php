@@ -120,3 +120,4 @@ class ApiFriendshipsExistsAction extends ApiPrivateAuthAction
         return true;
     }
 }
+?>

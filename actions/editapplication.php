@@ -304,3 +304,4 @@ class EditApplicationAction extends Action
         }
     }
 }
+?>

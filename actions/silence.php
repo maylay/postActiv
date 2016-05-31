@@ -52,3 +52,4 @@ class SilenceAction extends ProfileFormAction
         $this->profile->silenceAs($this->scoped);
     }
 }
+?>

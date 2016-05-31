@@ -84,3 +84,4 @@ class CancelsubscriptionAction extends FormAction
         common_redirect(common_local_url('subscriptions', array('nickname' => $this->scoped->getNickname())), 303);
     }
 }
+?>

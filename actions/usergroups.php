@@ -152,3 +152,4 @@ class UsergroupsAction extends GalleryAction
         $block->show();
     }
 }
+?>

@@ -126,3 +126,4 @@ class ApiGroupJoinAction extends ApiAuthAction
         }
     }
 }
+?>

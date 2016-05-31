@@ -138,3 +138,4 @@ class ApiAtomServiceAction extends ApiBareAuthAction
         $this->endXML();
     }
 }
+?>

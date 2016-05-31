@@ -124,3 +124,4 @@ class ApiOAuthAccessTokenAction extends ApiOAuthAction
         print $token;
     }
 }
+?>

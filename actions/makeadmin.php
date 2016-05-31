@@ -177,3 +177,4 @@ class MakeadminAction extends RedirectingAction
     }
 
 }
+?>

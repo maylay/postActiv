@@ -77,3 +77,4 @@ class AllrssAction extends TargetedRss10Action
         return $c;
     }
 }
+?>

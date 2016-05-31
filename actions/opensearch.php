@@ -96,3 +96,4 @@ class OpensearchAction extends Action
         return true;
     }
 }
+?>

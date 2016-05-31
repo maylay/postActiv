@@ -80,3 +80,4 @@ class NetworkpublicAction extends SitestreamAction
                               _('Network Public Timeline Feed (Atom)')));
     }
 }
+?>

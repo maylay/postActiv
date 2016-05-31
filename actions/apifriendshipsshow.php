@@ -171,3 +171,4 @@ class ApiFriendshipsShowAction extends ApiBareAuthAction
         return true;
     }
 }
+?>

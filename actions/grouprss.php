@@ -114,3 +114,4 @@ class GroupRssAction extends TargetedRss10Action
         return $this->group->homepage_logo;
     }
 }
+?>

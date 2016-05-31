@@ -279,3 +279,4 @@ class AtompubmembershipfeedAction extends AtompubAction
         return null;
     }
 }
+?>

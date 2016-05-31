@@ -425,3 +425,4 @@ class ImsettingsAction extends SettingsAction
         return $user_im_prefs->find(true) ? true : false;
     }
 }
+?>

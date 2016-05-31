@@ -52,3 +52,4 @@ class UnsilenceAction extends ProfileFormAction
         $this->profile->unsilenceAs($this->scoped);
     }
 }
+?>

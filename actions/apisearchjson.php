@@ -138,3 +138,4 @@ class ApiSearchJSONAction extends ApiPrivateAuthAction
         return true;
     }
 }
+?>

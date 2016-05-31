@@ -166,3 +166,4 @@ class PeopletagAction extends Action
     {
     }
 }
+?>

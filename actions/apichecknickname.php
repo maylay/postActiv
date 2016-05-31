@@ -70,3 +70,4 @@ class ApiCheckNicknameAction extends ApiAction
         $this->endDocument('json');
     }
 }
+?>

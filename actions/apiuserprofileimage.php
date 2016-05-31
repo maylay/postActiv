@@ -119,3 +119,4 @@ class ApiUserProfileImageAction extends ApiPrivateAuthAction
         return true;
     }
 }
+?>

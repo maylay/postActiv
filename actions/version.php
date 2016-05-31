@@ -284,3 +284,4 @@ class VersionAction extends Action
                               'Samantha Doherty (StatusNet)',
                               'Mikael Nordfeldth (FSF)');
 }
+?>

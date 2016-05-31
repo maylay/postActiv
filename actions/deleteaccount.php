@@ -326,3 +326,4 @@ class DeleteAccountForm extends Form
                            _('Permanently delete your account.'));
     }
 }
+?>

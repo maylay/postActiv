@@ -98,3 +98,4 @@ class RevokeRoleAction extends ProfileFormAction
         $this->profile->revokeRole($this->role);
     }
 }
+?>

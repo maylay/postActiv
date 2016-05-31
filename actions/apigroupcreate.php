@@ -183,3 +183,4 @@ class ApiGroupCreateAction extends ApiAuthAction
         return true;
     }
 }
+?>

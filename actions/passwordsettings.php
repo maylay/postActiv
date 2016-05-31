@@ -157,3 +157,4 @@ class PasswordsettingsAction extends SettingsAction
         return _('Password saved.');
     }
 }
+?>

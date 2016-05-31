@@ -189,3 +189,4 @@ class ThreadingInboxNoticeStream extends ThreadingNoticeStream
         parent::__construct(new InboxNoticeStream($target, $scoped));
     }
 }
+?>

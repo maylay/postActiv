@@ -108,3 +108,4 @@ class ApiAttachmentAction extends ApiAuthAction
         return true;
     }
 }
+?>

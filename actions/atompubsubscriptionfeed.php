@@ -255,3 +255,4 @@ class AtompubsubscriptionfeedAction extends AtompubAction
         }
     }
 }
+?>

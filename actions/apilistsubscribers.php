@@ -104,3 +104,4 @@ class ApiListSubscribersAction extends ApiListUsersAction
             Profile_list::getAtCursor($fn, array(), $this->cursor, 20);
     }
 }
+?>

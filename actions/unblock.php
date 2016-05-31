@@ -92,3 +92,4 @@ class UnblockAction extends ProfileFormAction
         }
     }
 }
+?>

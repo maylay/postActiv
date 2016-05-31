@@ -221,3 +221,4 @@ class LoginAction extends FormAction
     {
     }
 }
+?>

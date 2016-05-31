@@ -255,3 +255,4 @@ class ShownoticeAction extends ManagedAction
                                      'content' => $this->notice->content));
     }
 }
+?>

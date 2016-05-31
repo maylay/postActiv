@@ -84,3 +84,4 @@ class RobotstxtAction extends ManagedAction
         return true;
     }
 }
+?>

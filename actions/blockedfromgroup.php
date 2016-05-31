@@ -321,3 +321,4 @@ class GroupUnblockForm extends Form
                            _('Unblock this user'));
     }
 }
+?>

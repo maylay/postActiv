@@ -115,3 +115,4 @@ class ApiBlockCreateAction extends ApiAuthAction
         }
     }
 }
+?>

@@ -26,3 +26,4 @@ class ApiTimelineNetworkPublicAction extends ApiTimelinePublicAction
         return new NetworkPublicNoticeStream($this->scoped);
     }
 }
+?>

@@ -101,3 +101,4 @@ class GeocodeAction extends Action
         return true;
     }
 }
+?>

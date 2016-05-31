@@ -199,3 +199,4 @@ class OldSchoolSettingsForm extends Form
         return 'form_settings';
     }
 }
+?>

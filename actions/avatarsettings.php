@@ -376,3 +376,4 @@ class AvatarsettingsAction extends SettingsAction
         $this->autofocus('avatarfile');
     }
 }
+?>

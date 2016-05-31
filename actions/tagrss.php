@@ -62,3 +62,4 @@ class TagrssAction extends Rss10Action
         return true;
     }
 }
+?>

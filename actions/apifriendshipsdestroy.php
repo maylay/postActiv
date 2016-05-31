@@ -116,3 +116,4 @@ class ApiFriendshipsDestroyAction extends ApiAuthAction
         $this->endDocument($this->format);
     }
 }
+?>

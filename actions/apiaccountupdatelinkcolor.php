@@ -91,3 +91,4 @@ class ApiAccountUpdateLinkColorAction extends ApiAuthAction
         $this->endDocument('json');
     }
 }
+?>

@@ -112,3 +112,4 @@ class ApiListSubscriptionsAction extends ApiBareAuthAction
                 Profile_list::getAtCursor($fn, array(), $this->cursor, 20);
     }
 }
+?>

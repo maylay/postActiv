@@ -127,3 +127,4 @@ class PublicAction extends SitestreamAction
                               _('Public Timeline Feed (Atom)')));
     }
 }
+?>

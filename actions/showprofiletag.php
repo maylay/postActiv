@@ -286,3 +286,4 @@ class ShowprofiletagAction extends ShowstreamAction
         $this->elementEnd('div');
     }
 }
+?>

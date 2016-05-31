@@ -136,3 +136,4 @@ class SubscribersAction extends GalleryAction
         parent::showSections();
     }
 }
+?>

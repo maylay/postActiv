@@ -82,3 +82,4 @@ class ApiUserFriendsAction extends ApiSubscriptionsAction
         return $profiles;
     }
 }
+?>

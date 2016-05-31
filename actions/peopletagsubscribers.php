@@ -248,3 +248,4 @@ class PeopletagSubscriberListItem extends ProfileListItem
         return $args;
     }
 }
+?>

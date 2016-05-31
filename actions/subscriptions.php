@@ -158,3 +158,4 @@ class SubscriptionsAction extends GalleryAction
                                       $this->target->getNickname())));
     }
 }
+?>

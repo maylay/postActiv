@@ -476,3 +476,4 @@ class PathsAdminPanelForm extends AdminForm
         $this->out->input("$section-$setting", $title, $this->value($setting, $section), $instructions);
     }
 }
+?>

@@ -369,3 +369,4 @@ class ShowApplicationAction extends Action
         $this->showPage();
     }
 }
+?>

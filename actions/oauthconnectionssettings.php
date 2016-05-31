@@ -222,3 +222,4 @@ class OauthconnectionssettingsAction extends SettingsAction
         $this->elementEnd('section');
     }
 }
+?>

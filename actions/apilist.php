@@ -242,3 +242,4 @@ class ApiListAction extends ApiBareAuthAction
         return null;
     }
 }
+?>

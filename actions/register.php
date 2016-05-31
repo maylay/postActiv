@@ -647,3 +647,4 @@ class RegisterAction extends Action
         }
     }
 }
+?>

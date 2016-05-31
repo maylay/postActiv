@@ -92,3 +92,4 @@ class ProfiletagbyidAction extends Action
         common_redirect($this->peopletag->homeUrl(), 303);
     }
 }
+?>

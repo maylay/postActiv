@@ -197,3 +197,4 @@ class ApiMediaUploadAction extends ApiAuthAction
         exit;
     }
 }
+?>

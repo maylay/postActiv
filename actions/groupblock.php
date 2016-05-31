@@ -234,3 +234,4 @@ class GroupblockAction extends RedirectingAction
         $this->autofocus('form_action-yes');
     }
 }
+?>

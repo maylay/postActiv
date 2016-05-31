@@ -213,3 +213,4 @@ class ApiGroupListAction extends ApiBareAuthAction
         return null;
     }
 }
+?>

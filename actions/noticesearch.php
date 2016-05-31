@@ -242,3 +242,4 @@ class SearchNoticeListItem extends NoticeListItem {
         return $result;
     }
 }
+?>

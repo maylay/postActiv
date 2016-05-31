@@ -87,3 +87,4 @@ class ApiTrendsAction extends ApiPrivateAuthAction
         $this->serverError(_('API method under construction.'), 501);
     }
 }
+?>
