@@ -112,6 +112,7 @@ require_once(INSTALLDIR.'/lib/language.php');
 
 require_once(INSTALLDIR.'/lib/event.php');
 require_once(INSTALLDIR.'/lib/plugin.php');
+require_once(INSTALLDIR.'/lib/xml.php');
 
 function addPlugin($name, array $attrs=array())
 {

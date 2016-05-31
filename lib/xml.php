@@ -6,7 +6,13 @@
  *   gnuSocial (C) 2015, Free Software Foundation, Inc
  *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
- * Low-level generator for XML
+ * This file collates the two XML classes into a single file.  Previously
+ * they were located at:
+ *     xmlstringer.php
+ *     xmloutputter.php
+ *
+ * XML stringer creates a XML file in memory, while XML outputter spits it out
+ * for display elsewhere.
  *
  * PHP version 5
  *
@@ -24,34 +30,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category  Output
- * @package   StatusNet
+ * @package   postActiv
  * @author    Evan Prodromou <evan@status.net>
  * @author    Sarven Capadisli <csarven@status.net>
+ * @author    Maiyannay Bishop <maiyannah@member.fsf.net>
+ * @copyright 2016 Maiyannah Bishop
  * @copyright 2008 StatusNet, Inc.
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link      http://status.net/
+ * @link      https://git.gnu.io/maiyannah/postActiv
+ *
+ * @see       HTMLOutputter
  */
 
 if (!defined('STATUSNET') && !defined('LACONICA')) {
     exit(1);
 }
-
-/**
- * Low-level generator for XML
- *
- * This is a thin wrapper around PHP's XMLWriter. The main
- * advantage is the element() method, which simplifies outputting
- * an element.
- *
- * @category Output
- * @package  StatusNet
- * @author   Evan Prodromou <evan@status.net>
- * @author   Sarven Capadisli <csarven@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
- * @see      Action
- * @see      HTMLOutputter
- */
 
 class XMLOutputter
 {
@@ -282,6 +275,30 @@ class XMLOutputter
     function flush()
     {
         $this->xw->flush();
+    }
+}
+
+class XMLStringer extends XMLOutputter
+{
+    function __construct($indent=false)
+    {
+        $this->xw = new XMLWriter();
+        $this->xw->openMemory();
+        $this->xw->setIndent($indent);
+    }
+
+    function getString()
+    {
+        return $this->xw->outputMemory();
+    }
+
+    // utility for quickly creating XML-strings
+
+    static function estring($tag, $attrs=null, $content=null)
+    {
+        $xs = new XMLStringer();
+        $xs->element($tag, $attrs, $content);
+        return $xs->getString();
     }
 }
 ?>
