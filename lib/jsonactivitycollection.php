@@ -1,6 +1,11 @@
 <?php
-
-/*
+/***
+ * postActiv - a fork of the gnuSocial microblogging software
+ * Copyright (C) 2016, Maiyannah Bishop <maiyannah@member.fsf.org>
+ * Derived from code copyright various sources:
+ *   gnuSocial (C) 2015, Free Software Foundation, Inc
+ *   StatusNet (C) 2008-2011, StatusNet, Inc
+ *
  * Collection primarily as the root of an Activity Streams doc but can be used as the value
  * of extension properties in a variety of situations.
  *

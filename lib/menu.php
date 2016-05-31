@@ -1,5 +1,5 @@
 <?php
-/**
+/***
  * StatusNet - the distributed open-source microblogging tool
  * Copyright (C) 2011, StatusNet, Inc.
  *

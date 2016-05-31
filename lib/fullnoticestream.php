@@ -1,10 +1,17 @@
 <?php
+/***
+ * postActiv - a fork of the gnuSocial microblogging software
+ * Copyright (C) 2016, Maiyannah Bishop <maiyannah@member.fsf.org>
+ * Derived from code copyright various sources:
+ *   gnuSocial (C) 2015, Free Software Foundation, Inc
+ *   StatusNet (C) 2008-2011, StatusNet, Inc
+ *
+ * Class for notice streams that does not filter anything out.
+ */
+
 
 if (!defined('GNUSOCIAL')) { exit(1); }
 
-/**
- * Class for notice streams that does not filter anything out.
- */
 abstract class FullNoticeStream extends NoticeStream
 {
     protected $selectVerbs = [];

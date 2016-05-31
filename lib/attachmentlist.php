@@ -1,8 +1,17 @@
 <?php
-/**
- * StatusNet, the distributed open-source microblogging tool
+/***
+ * postActiv - a fork of the gnuSocial microblogging software
+ * Copyright (C) 2016, Maiyannah Bishop <maiyannah@member.fsf.org>
+ * Derived from code copyright various sources:
+ *   gnuSocial (C) 2015, Free Software Foundation, Inc
+ *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
- * widget for displaying a list of notice attachments
+ * Widget for displaying a list of notice attachments
+ *
+ * There are a number of actions that display a list of notices, in
+ * reverse chronological order. This widget abstracts out most of the
+ * code for UI for notice lists. It's overridden to hide some
+ * data for e.g. the profile page.
  *
  * PHP version 5
  *
@@ -26,27 +35,13 @@
  * @copyright 2008 StatusNet, Inc.
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
  * @link      http://status.net/
- */
-
-if (!defined('GNUSOCIAL')) { exit(1); }
-
-/**
- * widget for displaying a list of notice attachments
- *
- * There are a number of actions that display a list of notices, in
- * reverse chronological order. This widget abstracts out most of the
- * code for UI for notice lists. It's overridden to hide some
- * data for e.g. the profile page.
- *
- * @category UI
- * @package  StatusNet
- * @author   Evan Prodromou <evan@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
  * @see      Notice
  * @see      NoticeListItem
  * @see      ProfileNoticeList
  */
+
+if (!defined('GNUSOCIAL')) { exit(1); }
+
 class AttachmentList extends Widget
 {
     /** the current stream of notices being displayed. */

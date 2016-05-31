@@ -1,7 +1,17 @@
 <?php
-/*
- * StatusNet - the distributed open-source microblogging tool
- * Copyright (C) 2008, 2009, StatusNet, Inc.
+/***
+ * postActiv - a fork of the gnuSocial microblogging software
+ * Copyright (C) 2016, Maiyannah Bishop <maiyannah@member.fsf.org>
+ * Derived from code copyright various sources:
+ *   gnuSocial (C) 2015, Free Software Foundation, Inc
+ *   StatusNet (C) 2008-2011, StatusNet, Inc
+ *
+ * PHP 5.3 implementation of function currying, using native closures.
+ * On 5.2 and lower we use the fallback implementation in util.php
+ *
+ * @param callback $fn
+ * @param ... any remaining arguments will be appended to call-time params
+ * @return callback
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -17,14 +27,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * PHP 5.3 implementation of function currying, using native closures.
- * On 5.2 and lower we use the fallback implementation in util.php
- *
- * @param callback $fn
- * @param ... any remaining arguments will be appended to call-time params
- * @return callback
- */
 function curry($fn) {
     $extra_args = func_get_args();
     array_shift($extra_args);
