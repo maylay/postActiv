@@ -92,3 +92,4 @@ class GrantRoleForm extends ProfileActionForm
         return sprintf(_('Grant this user the "%s" role'), $this->label);
     }
 }
+?>

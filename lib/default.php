@@ -387,3 +387,4 @@ $default =
           array('cors' => false), // Allow Cross-Origin Resource Sharing for service discovery (host-meta, XRD, etc.)
         'performance' => array('high' => false) // disable some features for higher performance; default false
     );
+?>

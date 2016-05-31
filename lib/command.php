@@ -942,3 +942,4 @@ class HelpCommand extends Command
         $channel->output($this->user, implode("\n", $out));
     }
 }
+?>

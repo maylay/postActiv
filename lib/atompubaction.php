@@ -92,3 +92,4 @@ abstract class AtompubAction extends ApiAuthAction
         return !in_array($_SERVER['REQUEST_METHOD'], array('GET', 'HEAD'));
     }
 }
+?>

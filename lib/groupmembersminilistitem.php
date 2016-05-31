@@ -22,3 +22,4 @@ class GroupMembersMiniListItem extends ProfileMiniListItem
         return $aAttrs;
     }
 }
+?>

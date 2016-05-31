@@ -121,3 +121,4 @@ class AtomGroupNoticeFeed extends AtomNoticeFeed
         $this->element('statusnet:group_info', $attrs, null);
     }
 }
+?>

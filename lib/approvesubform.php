@@ -112,3 +112,4 @@ class ApproveSubForm extends Form
         $this->out->submit($this->id().'-cancel', _m('BUTTON','Reject'), 'submit cancel', 'cancel');
     }
 }
+?>

@@ -156,3 +156,4 @@ class Event {
         Event::$_handlers = array();
     }
 }
+?>

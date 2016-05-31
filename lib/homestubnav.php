@@ -67,3 +67,4 @@ class HomeStubNav extends Menu
         return $items;
     }
 }
+?>

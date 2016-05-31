@@ -78,3 +78,4 @@ class BackupAccountForm extends Form
                            _('Backup your account.'));
     }
 }
+?>

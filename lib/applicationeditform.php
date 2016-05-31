@@ -361,3 +361,4 @@ class ApplicationEditForm extends Form
                            'save', _('Save application changes.'));
     }
 }
+?>

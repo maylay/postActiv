@@ -67,3 +67,4 @@ class AttachmentNoticeSection extends NoticeSection
         return 'attachment_section';
     }
 }
+?>

@@ -1570,3 +1570,4 @@ class ApiAction extends Action
         return $uri;
     }
 }
+?>

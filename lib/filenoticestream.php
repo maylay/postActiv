@@ -109,3 +109,4 @@ class RawFileNoticeStream extends NoticeStream
         return $ids;
     }
 }
+?>

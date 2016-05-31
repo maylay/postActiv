@@ -107,3 +107,4 @@ class IMChannel extends Channel
         }
     }
 }
+?>

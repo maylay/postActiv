@@ -770,3 +770,4 @@ class Activity
         return $d->format('c');
     }
 }
+?>

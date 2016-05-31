@@ -123,3 +123,4 @@ class GalleryAction extends ProfileAction
         $block->show();
     }
 }
+?>

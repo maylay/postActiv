@@ -104,3 +104,4 @@ class AtomListNoticeFeed extends AtomNoticeFeed
         return $this->list;
     }
 }
+?>

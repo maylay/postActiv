@@ -114,3 +114,4 @@ class GroupsNav extends MoreMenu
                              $cls);
     }
 }
+?>

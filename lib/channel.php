@@ -205,3 +205,4 @@ class MailChannel extends Channel
         return true;
     }
 }
+?>

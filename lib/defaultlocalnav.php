@@ -89,3 +89,4 @@ class DefaultLocalNav extends Menu
         $this->action->elementEnd('ul');
     }
 }
+?>

@@ -154,3 +154,4 @@ class AtomNoticeFeed extends Atom10Feed
         return true;
     }
 }
+?>

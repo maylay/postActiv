@@ -191,3 +191,4 @@ function PEAR_ErrorToPEAR_Exception(PEAR_Error $err)
     }
     throw new PEAR_Exception($err->getMessage());
 }
+?>

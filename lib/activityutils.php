@@ -8,6 +8,12 @@
  *
  * An activity
  *
+ * Utilities for turning DOMish things into Activityish things
+ *
+ * Some common functions that I didn't have the bandwidth to try to factor
+ * into some kind of reasonable superclass, so just dumped here. Might
+ * be useful to have an ActivityObject parent class or something.
+ *
  * PHP version 5
  *
  * LICENCE: This program is free software: you can redistribute it and/or modify
@@ -36,20 +42,6 @@ if (!defined('STATUSNET')) {
     exit(1);
 }
 
-/**
- * Utilities for turning DOMish things into Activityish things
- *
- * Some common functions that I didn't have the bandwidth to try to factor
- * into some kind of reasonable superclass, so just dumped here. Might
- * be useful to have an ActivityObject parent class or something.
- *
- * @category  OStatus
- * @package   StatusNet
- * @author    Evan Prodromou <evan@status.net>
- * @copyright 2010 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPLv3
- * @link      http://status.net/
- */
 class ActivityUtils
 {
     const ATOM = 'http://www.w3.org/2005/Atom';
@@ -455,3 +447,4 @@ class ActivityUtils
         return ucfirst(self::resolveUri($verb, true));
     }
 }
+?>

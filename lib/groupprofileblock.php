@@ -186,3 +186,4 @@ class GroupProfileBlock extends ProfileBlock
         }
     }
 }
+?>

@@ -40,3 +40,4 @@ class EmptyIdException extends ServerException
         parent::__construct(sprintf(_('Empty ID value was given to query for a "%s" object'), $called_class));
     }
 }
+?>

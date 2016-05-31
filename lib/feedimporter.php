@@ -162,3 +162,4 @@ class FeedImporter extends QueueHandler
         return $user;
     }
 }
+?>

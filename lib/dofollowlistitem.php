@@ -86,3 +86,4 @@ class DoFollowListItem extends NoticeListItem
         $this->out->elementEnd('div');
     }
 }
+?>

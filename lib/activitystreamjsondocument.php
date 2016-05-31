@@ -179,3 +179,4 @@ class ActivityStreamJSONDocument extends JSONActivityCollection
     }
 
 }
+?>

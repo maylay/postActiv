@@ -35,20 +35,6 @@ if (!defined('STATUSNET') && !defined('LACONICA')) {
     exit(1);
 }
 
-/**
- * Base class for Administrative forms
- *
- * Just a place holder for some utility methods to simply some
- * repetitive form building code
- *
- * @category Widget
- * @package  StatusNet
- * @author   Zach Copley <zach@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
- *
- * @see      Form
- */
 class AdminForm extends Form
 {
     /**
@@ -84,3 +70,4 @@ class AdminForm extends Form
         return $value;
     }
 }
+?>

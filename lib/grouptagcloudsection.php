@@ -107,3 +107,4 @@ class GroupTagCloudSection extends TagCloudSection
         return $tag;
     }
 }
+?>

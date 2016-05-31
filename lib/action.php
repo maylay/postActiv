@@ -1707,3 +1707,4 @@ class Action extends HTMLOutputter // lawsuit
         return ($_SERVER['REQUEST_METHOD'] == 'POST');
     }
 }
+?>

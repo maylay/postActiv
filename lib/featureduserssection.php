@@ -110,3 +110,4 @@ class FeaturedUsersSection extends ProfileSection
         return common_local_url('featured');
     }
 }
+?>

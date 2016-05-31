@@ -122,3 +122,4 @@ class ApproveGroupForm extends Form
         $this->out->submit('cancel', _m('BUTTON','Reject'));
     }
 }
+?>

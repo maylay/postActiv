@@ -44,3 +44,4 @@ class ActivityStreamsMediaLink extends ActivityStreamsLink
         );
     }
 }
+?>

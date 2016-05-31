@@ -142,3 +142,4 @@ class RawGroupNoticeStream extends NoticeStream
         return $ids;
     }
 }
+?>

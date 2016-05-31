@@ -45,3 +45,4 @@ try {
     echo '<a href="install.php">'. _('Go to the installer.') .'</a>';
     exit;
 }
+?>

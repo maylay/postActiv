@@ -292,3 +292,4 @@ class GroupAction extends Action
         return $this->group;
     }
 }
+?>

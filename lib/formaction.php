@@ -121,3 +121,4 @@ class FormAction extends ManagedAction
         return $form;
     }
 }
+?>

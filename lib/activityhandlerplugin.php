@@ -629,3 +629,4 @@ abstract class ActivityHandlerPlugin extends Plugin
         $out->text($stored->getContent());
     }
 }
+?>

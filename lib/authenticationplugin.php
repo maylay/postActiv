@@ -253,3 +253,4 @@ abstract class AuthenticationPlugin extends Plugin
         return true;
     }
 }
+?>

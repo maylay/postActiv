@@ -16,3 +16,4 @@ class GroupBlockedMiniList extends ProfileMiniList
         return new GroupBlockedMiniListItem($profile, $this->action);
     }
 }
+?>

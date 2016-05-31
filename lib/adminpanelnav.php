@@ -144,3 +144,4 @@ class AdminPanelNav extends Menu
         $this->action->elementEnd('ul');
     }
 }
+?>

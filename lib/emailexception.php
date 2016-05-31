@@ -36,3 +36,4 @@ if (!defined('GNUSOCIAL')) { exit(1); }
 class EmailException extends Exception
 {
 }
+?>

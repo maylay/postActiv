@@ -127,3 +127,4 @@ class AtomUserNoticeFeed extends AtomNoticeFeed
         return false;
     }
 }
+?>

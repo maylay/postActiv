@@ -22,3 +22,4 @@ class GroupBlockedMiniListItem extends ProfileMiniListItem
         return $aAttrs;
     }
 }
+?>

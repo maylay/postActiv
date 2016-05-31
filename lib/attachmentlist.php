@@ -120,3 +120,4 @@ class AttachmentList extends Widget
         return new AttachmentListItem($attachment, $this->out);
     }
 }
+?>

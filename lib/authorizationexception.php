@@ -60,3 +60,4 @@ class AuthorizationException extends ClientException
         parent::__construct($message, 403);
     }
 }
+?>

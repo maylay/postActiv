@@ -102,3 +102,4 @@ class AvatarLink
         return null;
     }
 }
+?>
