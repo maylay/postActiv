@@ -79,7 +79,7 @@ class Fave extends Managed_DataObject
         return $stored;
     }
 
-    public function removeEntry(Profile $actor, Notice $target)
+    static function removeEntry(Profile $actor, Notice $target)
     {
         $fave            = new Fave();
         $fave->user_id   = $actor->getID();
@@ -152,16 +152,22 @@ class Fave extends Managed_DataObject
         return $result;
     }
 
+    // FIXME: Instead of $own, send the scoped Profile so we can pass it along directly to FaveNoticeStream
+    // and preferrably we should get a Profile instead of $user_id
     static function stream($user_id, $offset=0, $limit=NOTICES_PER_PAGE, $own=false, $since_id=0, $max_id=0)
     {
-        $stream = new FaveNoticeStream($user_id, $own);
+        $target = Profile::getByID($user_id);
+        $stream = new FaveNoticeStream($target, ($own ? $target : null));
 
         return $stream->getNotices($offset, $limit, $since_id, $max_id);
     }
 
+    // FIXME: Instead of $own, send the scoped Profile so we can pass it along directly to FaveNoticeStream
+    // and preferrably we should get a Profile instead of $user_id
     function idStream($user_id, $offset=0, $limit=NOTICES_PER_PAGE, $own=false, $since_id=0, $max_id=0)
     {
-        $stream = new FaveNoticeStream($user_id, $own);
+        $target = Profile::getByID($user_id);
+        $stream = new FaveNoticeStream($target, ($own ? $target : null));
 
         return $stream->getNoticeIds($offset, $limit, $since_id, $max_id);
     }
@@ -187,6 +193,13 @@ class Fave extends Managed_DataObject
         $act->content = sprintf(_('%1$s favorited something by %2$s: %3$s'),
                                 $actor->getNickname(), $target->getProfile()->getNickname(),
                                 $target->getRendered());
+        $act->context = new ActivityContext();
+        $act->context->replyToID = $target->getUri();
+        try {
+            $act->context->replyToURL = $target->getUrl();
+        } catch (InvalidUrlException $e) {
+            // ok, no replyToURL, i.e. the href="" in <thr:in-reply-to/>
+        }
 
         $act->actor     = $actor->asActivityObject();
         $act->target    = $target->asActivityObject();

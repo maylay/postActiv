@@ -91,8 +91,8 @@ class AttachmentListItem extends Widget
 
     function linkAttr() {
         return array('class' => 'attachment',
-                     'href' => $this->attachment->getUrl(false),
-                     'id' => 'attachment-' . $this->attachment->id,
+                     'href' => $this->attachment->getAttachmentUrl(),
+                     'id' => 'attachment-' . $this->attachment->getID(),
                      'title' => $this->linkTitle());
     }
 
@@ -208,11 +208,7 @@ class AttachmentListItem extends Widget
      */
     protected function scrubHtmlFile(File $attachment)
     {
-        $path = File::path($attachment->filename);
-        if (!file_exists($path) || !is_readable($path)) {
-            common_log(LOG_ERR, "Missing local HTML attachment $path");
-            return false;
-        }
+        $path = $attachment->getPath();
         $raw = file_get_contents($path);
 
         // Normalize...

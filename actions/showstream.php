@@ -159,18 +159,23 @@ class ShowstreamAction extends NoticestreamAction
                               sprintf(_('FOAF for %s'), $this->target->getNickname())));
     }
 
+    public function extraHeaders()
+    {
+        parent::extraHeaders();
+        // Publish all the rel="me" in the HTTP headers on our main profile page
+        if (get_class($this) == 'ShowstreamAction') {
+            foreach ($this->target->getRelMes() as $relMe) {
+                header('Link: <'.htmlspecialchars($relMe['href']).'>; rel="me"', false);
+            }
+        }
+    }
+
     function extraHead()
     {
         if ($this->target->bio) {
             $this->element('meta', array('name' => 'description',
                                          'content' => $this->target->getDescription()));
         }
-
-        // See https://wiki.mozilla.org/Microsummaries
-
-        $this->element('link', array('rel' => 'microsummary',
-                                     'href' => common_local_url('microsummary',
-                                                                array('nickname' => $this->target->getNickname()))));
 
         $rsd = common_local_url('rsd',
                                 array('nickname' => $this->target->getNickname()));

@@ -143,6 +143,11 @@ class OembedPlugin extends Plugin
         return true;
     }
 
+    public function onEndShowStylesheets(Action $action) {
+        $action->cssLink($this->path('css/oembed.css'));
+        return true;
+    }
+
     /**
      * Save embedding information for a File, if applicable.
      *
@@ -223,6 +228,70 @@ class OembedPlugin extends Plugin
             }
         }
         return true;
+    }
+
+    public function onStartShowAttachmentRepresentation(HTMLOutputter $out, File $file)
+    {
+        try {
+            $oembed = File_oembed::getByFile($file);
+        } catch (NoResultException $e) {
+            return true;
+        }
+
+        // Show thumbnail as usual if it's a photo.
+        if ($oembed->type === 'photo') {
+            return true;
+        }
+
+        $out->elementStart('article', ['class'=>'h-entry oembed']);
+        $out->elementStart('header');
+        try  {
+            $thumb = $file->getThumbnail(128, 128);
+            $out->element('img', $thumb->getHtmlAttrs(['class'=>'u-photo oembed']));
+            unset($thumb);
+        } catch (Exception $e) {
+            $out->element('div', ['class'=>'error'], $e->getMessage());
+        }
+        $out->elementStart('h5', ['class'=>'p-name oembed']);
+        $out->element('a', ['class'=>'u-url', 'href'=>$file->getUrl()], common_strip_html($oembed->title));
+        $out->elementEnd('h5');
+        $out->elementStart('div', ['class'=>'p-author oembed']);
+        if (!empty($oembed->author_name)) {
+            // TRANS: text before the author name of oEmbed attachment representation
+            // FIXME: The whole "By x from y" should be i18n because of different language constructions.
+            $out->text(_('By '));
+            $attrs = ['class'=>'h-card p-author'];
+            if (!empty($oembed->author_url)) {
+                $attrs['href'] = $oembed->author_url;
+                $tag = 'a';
+            } else {
+                $tag = 'span';
+            }
+            $out->element($tag, $attrs, $oembed->author_name);
+        }
+        if (!empty($oembed->provider)) {
+            // TRANS: text between the oEmbed author name and provider url
+            // FIXME: The whole "By x from y" should be i18n because of different language constructions.
+            $out->text(_(' from '));
+            $attrs = ['class'=>'h-card'];
+            if (!empty($oembed->provider_url)) {
+                $attrs['href'] = $oembed->provider_url;
+                $tag = 'a';
+            } else {
+                $tag = 'span';
+            }
+            $out->element($tag, $attrs, $oembed->provider);
+        }
+        $out->elementEnd('div');
+        $out->elementEnd('header');
+        $out->elementStart('div', ['class'=>'p-summary oembed']);
+        $out->raw(common_purify($oembed->html));
+        $out->elementEnd('div');
+        $out->elementStart('footer');
+        $out->elementEnd('footer');
+        $out->elementEnd('article');
+
+        return false;
     }
     
     public function onShowUnsupportedAttachmentRepresentation(HTMLOutputter $out, File $file)
@@ -385,8 +454,10 @@ class OembedPlugin extends Plugin
             throw new UnsupportedMediaException(_('Image file had impossible geometry (0 width or height)'));
         }
 
+        $ext = File::guessMimeExtension($info['mime']);
+
         // We'll trust sha256 (File::FILEHASH_ALG) not to have collision issues any time soon :)
-        $filename = hash(File::FILEHASH_ALG, $imgData) . '.' . common_supported_mime_to_ext($info['mime']);
+        $filename = 'oembed-'.hash(File::FILEHASH_ALG, $imgData) . ".{$ext}";
         $fullpath = File_thumbnail::path($filename);
         // Write the file to disk. Throw Exception on failure
         if (!file_exists($fullpath) && file_put_contents($fullpath, $imgData) === false) {

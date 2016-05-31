@@ -227,6 +227,10 @@ class Router
                         array('action' => 'attachment'),
                         array('attachment' => '[0-9]+'));
 
+            $m->connect('attachment/:attachment/download',
+                        array('action' => 'attachment_download'),
+                        array('attachment' => '[0-9]+'));
+
             $m->connect('attachment/:attachment/thumbnail',
                         array('action' => 'attachment_thumbnail'),
                         array('attachment' => '[0-9]+'));
@@ -836,7 +840,7 @@ class Router
 
                 foreach (array('subscriptions', 'subscribers',
                                'all', 'foaf', 'replies',
-                               'microsummary') as $a) {
+                               ) as $a) {
                     $m->connect($a,
                                 array('action' => $a,
                                       'nickname' => $nickname));
@@ -948,7 +952,7 @@ class Router
 
             foreach (array('subscriptions', 'subscribers',
                            'nudge', 'all', 'foaf', 'replies',
-                           'inbox', 'outbox', 'microsummary') as $a) {
+                           'inbox', 'outbox') as $a) {
                 $m->connect(':nickname/'.$a,
                             array('action' => $a),
                             array('nickname' => Nickname::DISPLAY_FMT));

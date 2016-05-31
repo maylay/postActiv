@@ -42,7 +42,6 @@ $default =
               'logfile' => null,
               'logo' => null,
               'ssllogo' => null,
-              'logdebug' => false,
               'logperf' => false, // Enable to dump performance counters to syslog
               'logperf_detail' => false, // Enable to dump every counter hit
               'fancy' => false,
@@ -87,7 +86,11 @@ $default =
               'mysql_foreign_keys' => false), // if set, enables experimental foreign key support on MySQL
         'fix' =>
         array('fancyurls' => true,   // makes sure aliases in WebFinger etc. are not f'd by index.php/ URLs
+              'legacy_http' => false,   // set this to true if you have upgraded your site from http=>https
               ),
+        'log' => [
+                'debugtrace' => false,  // index.php handleError function, whether to include exception backtrace in log
+            ],
         'syslog' =>
         array('appname' => 'statusnet', # for syslog
               'priority' => 'debug', # XXX: currently ignored
@@ -245,6 +248,7 @@ $default =
                                 'application/vnd.oasis.opendocument.text-web'               => 'oth',
                                 'application/pdf'   => 'pdf',
                                 'application/zip'   => 'zip',
+                                'application/x-go-sgf' => 'sgf',
                                 'application/xml'   => 'xml',
                                 'image/png'         => 'png',
                                 'image/jpeg'        => 'jpg',
@@ -266,18 +270,26 @@ $default =
               'user_quota' => 50000000,
               'monthly_quota' => 15000000,
               'uploads' => true,
-              'filename_base' => 'hash',   // for new files, choose one: 'upload', 'hash'
               'show_html' => false,  // show (filtered) text/html attachments (and oEmbed HTML etc.). Doesn't affect AJAX calls.
               'show_thumbs' => true, // show thumbnails in notice lists for uploaded images, and photos and videos linked remotely that provide oEmbed info
               'process_links' => true, // check linked resources for embeddable photos and videos; this will hit referenced external web sites when processing new messages.
+              'extblacklist' => [
+                    'php' => 'phps',
+                    'exe' => false,  // this would deny any uploads to keep the "exe" file extension
+                ],
               ),
-        'thumbnail' =>
-        array('crop' => false,      // overridden to true if thumb height === null
+        'thumbnail' => [
+              'dir' => null,    // falls back to File::path('thumb') (equivalent to ['attachments']['dir'] .  '/thumb/')
+              'path' => null,   // falls back to generating a URL with File::url('thumb/$filename') (equivalent to ['attachments']['path'] . '/thumb/')
+              'server' => null, // Only used if ['thumbnail']['path'] is NOT empty, and then it falls back to ['site']['server'], schema is decided from GNUsocial::useHTTPS()
+
+              'crop' => false,      // overridden to true if thumb height === null
               'maxsize' => 1000,     // thumbs with an edge larger than this will not be generated
               'width' => 450,
               'height' => 600,
               'upscale' => false,
-              'animated' => false), // null="UseFileAsThumbnail", false="can use still frame". true requires ImageMagickPlugin
+              'animated' => false, // null="UseFileAsThumbnail", false="can use still frame". true requires ImageMagickPlugin
+            ],
         'application' =>
         array('desclimit' => null),
         'group' =>
@@ -295,11 +307,15 @@ $default =
         array('handle' => false,   // whether to handle sessions ourselves
               'debug' => false,    // debugging output for sessions
               'gc_limit' => 1000), // max sessions to expire at a time
-        'htmlfilter' => array(  // purify HTML through HTMLPurifier
+        'htmlfilter' => [  // remove tags from user/remotely generated HTML if they are === true
             'img' => true,
             'video' => true,
             'audio' => true,
-        ),
+        ],
+        'htmlpurifier' => [ // configurable options for HTMLPurifier
+            'Cache.DefinitionImpl'  => 'Serializer',
+            'Cache.SerializerPath'  => implode(DIRECTORY_SEPARATOR, [sys_get_temp_dir(), 'gnusocial']),
+        ],
         'notice' =>
         array('contentlimit' => null,
               'allowprivate' => false,  // whether to allow users to "check the padlock" to publish notices available for their subscribers.
