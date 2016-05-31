@@ -54,7 +54,7 @@ class Attention extends Managed_DataObject
     {
         try {
             $att = Attention::getByKeys(['notice_id'=>$notice->getID(), 'profile_id'=>$target->getID()]);
-            throw new AlreadyFulfilledException('Attention already exists with reason: '.var_export($att->reason,true));
+            throw new AlreadyFulfilledException('Attention already exists with reason: '._ve($att->reason));
         } catch (NoResultException $e) {
             $att = new Attention();
         
@@ -68,6 +68,7 @@ class Attention extends Managed_DataObject
                 throw new Exception('Failed Attention::saveNew for notice id=='.$notice->getID().' target id=='.$target->getID().', reason=="'.$reason.'"');
             }
         }
+        self::blow('attention:stream:%d', $target->getID());
         return $att;
     }
 }

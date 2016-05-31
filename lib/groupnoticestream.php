@@ -31,11 +31,7 @@
  * @link      http://status.net/
  */
 
-if (!defined('STATUSNET')) {
-    // This check helps protect against security problems;
-    // your code file can't be executed directly from the web.
-    exit(1);
-}
+if (!defined('GNUSOCIAL')) { exit(1); }
 
 /**
  * Stream of notices for a group
@@ -50,19 +46,14 @@ if (!defined('STATUSNET')) {
 class GroupNoticeStream extends ScopingNoticeStream
 {
     var $group;
-    var $userProfile;
 
-    function __construct($group, $profile = -1)
+    function __construct($group, Profile $scoped=null)
     {
-        if (is_int($profile) && $profile == -1) {
-            $profile = Profile::current();
-        }
         $this->group = $group;
-        $this->userProfile = $profile;
 
         parent::__construct(new CachingNoticeStream(new RawGroupNoticeStream($group),
                                                     'user_group:notice_ids:' . $group->id),
-                            $profile);
+                            $scoped);
     }
 
     function getNoticeIds($offset, $limit, $since_id, $max_id)
@@ -86,7 +77,7 @@ class GroupNoticeStream extends ScopingNoticeStream
     function impossibleStream() 
     {
         if ($this->group->force_scope &&
-            (empty($this->userProfile) || !$this->userProfile->isMember($this->group))) {
+            (!$this->scoped instanceof Profile || $this->scoped->isMember($this->group))) {
             return true;
         }
 

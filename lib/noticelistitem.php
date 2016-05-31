@@ -182,8 +182,8 @@ class NoticeListItem extends Widget
     function showNoticeTitle()
     {
         if (Event::handle('StartShowNoticeTitle', array($this))) {
-            $this->element('a', array('href' => $this->notice->getUrl(true),
-                                      'class' => 'notice-title'),
+            $this->element('a', array('href' => $this->notice->getUri(),
+                                      'class' => 'p-name u-uid'),
                            $this->notice->getTitle());
             Event::handle('EndShowNoticeTitle', array($this));
         }
@@ -192,6 +192,7 @@ class NoticeListItem extends Widget
     function showNoticeInfo()
     {
         if (Event::handle('StartShowNoticeInfo', array($this))) {
+            $this->showContextLink();
             $this->showNoticeLink();
             $this->showNoticeSource();
             $this->showNoticeLocation();
@@ -304,9 +305,15 @@ class NoticeListItem extends Widget
 
         foreach ($attentions as $attn) {
             $class = $attn->isGroup() ? 'group' : 'account';
-            $this->pa[] = array('href' => $attn->profileurl,
+            $profileurl = $attn->getUri();
+            if (common_valid_http_url($profileurl)) {
+                $class .= ' u-uid';
+            } else {
+                $profileurl = $attn->getUrl();
+            }
+            $this->pa[] = array('href' => $profileurl,
                                 'title' => $attn->getNickname(),
-                                'class' => "addressee {$class}",
+                                'class' => "addressee {$class} p-name u-url",
                                 'text' => $attn->getStreamName());
         }
 
@@ -372,14 +379,10 @@ class NoticeListItem extends Widget
      */
     function showNoticeLink()
     {
-        $this->out->elementStart('a', array('rel' => 'bookmark',
-                                            'class' => 'timestamp',
-                                            'href' => Conversation::getUrlFromNotice($this->notice)));
         $this->out->element('time', array('class' => 'dt-published',
                                           'datetime' => common_date_iso8601($this->notice->created),
                                           'title' => common_exact_date($this->notice->created)),
                             common_date_string($this->notice->created));
-        $this->out->elementEnd('a');
     }
 
     /**
@@ -563,6 +566,18 @@ class NoticeListItem extends Widget
         } catch (InvalidUrlException $e) {
             // no permalink available
         }
+    }
+
+    /**
+     * Show link to conversation view.
+     */
+    function showContextLink()
+    {
+        $this->out->element('a', array('rel' => 'bookmark',
+                                            'class' => 'timestamp',
+                                            'href' => Conversation::getUrlFromNotice($this->notice)),
+                            // TRANS: A link to the conversation view of a notice, on the local server.
+                            _('In conversation'));
     }
 
     /**

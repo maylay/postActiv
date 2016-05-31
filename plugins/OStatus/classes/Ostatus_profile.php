@@ -80,12 +80,13 @@ class Ostatus_profile extends Managed_DataObject
         return $this->uri;
     }
 
-    public function fromProfile(Profile $profile)
+    static function fromProfile(Profile $profile)
     {
-        $oprofile = Ostatus_profile::getKV('profile_id', $profile->id);
+        $oprofile = Ostatus_profile::getKV('profile_id', $profile->getID());
         if (!$oprofile instanceof Ostatus_profile) {
-            throw new Exception('No Ostatus_profile for Profile ID: '.$profile->id);
+            throw new Exception('No Ostatus_profile for Profile ID: '.$profile->getID());
         }
+        return $oprofile;
     }
 
     /**
@@ -539,7 +540,6 @@ class Ostatus_profile extends Managed_DataObject
 
         try {
             $stored = Notice::saveActivity($activity, $actor, $options);
-            Ostatus_source::saveNew($stored, $this, $method);
         } catch (Exception $e) {
             common_log(LOG_ERR, "OStatus save of remote message $sourceUri failed: " . $e->getMessage());
             throw $e;
@@ -1281,6 +1281,12 @@ class Ostatus_profile extends Managed_DataObject
      */
     public function updateFromActivityObject(ActivityObject $object, array $hints=array())
     {
+        if (self::getActivityObjectProfileURI($object) !== $this->getUri()) {
+            common_log(LOG_ERR, 'Trying to update profile with URI '._ve($this->getUri()).' from ActivityObject with URI: '._ve(self::getActivityObjectProfileURI($object)));
+            // FIXME: Maybe not AuthorizationException?
+            throw new AuthorizationException('Trying to update profile from ActivityObject with different URI.');
+        }
+
         if ($this->isGroup()) {
             $group = $this->localGroup();
             self::updateGroup($group, $object, $hints);
@@ -1296,8 +1302,8 @@ class Ostatus_profile extends Managed_DataObject
         if ($avatar && !isset($ptag)) {
             try {
                 $this->updateAvatar($avatar);
-            } catch (Exception $ex) {
-                common_log(LOG_WARNING, "Exception updating OStatus profile avatar: " . $ex->getMessage());
+            } catch (Exception $e) {
+                common_log(LOG_WARNING, 'Exception ('.get_class($e).') updating OStatus profile avatar: ' . $e->getMessage());
             }
         }
     }

@@ -193,7 +193,7 @@ class User extends Managed_DataObject
         return Sms_carrier::getKV('id', $this->carrier);
     }
 
-    function hasBlocked($other)
+    function hasBlocked(Profile $other)
     {
         return $this->getProfile()->hasBlocked($other);
     }
@@ -387,8 +387,7 @@ class User extends Managed_DataObject
 
             if (!empty($email) && empty($user->email)) {
                 try {
-                    require_once(INSTALLDIR . '/lib/mail.php');
-                    mail_confirm_address($user, $confirm->code, $profile->getNickname(), $email);
+                    $confirm->sendConfirmation();
                 } catch (EmailException $e) {
                     common_log(LOG_ERR, "Could not send user registration email for user id=={$profile->getID()}: {$e->getMessage()}");
                     if (!$accept_email_fail) {
@@ -707,15 +706,18 @@ class User extends Managed_DataObject
 
     function repeatedByMe($offset=0, $limit=20, $since_id=null, $max_id=null)
     {
-        $stream = new RepeatedByMeNoticeStream($this);
+        // FIXME: Use another way to get Profile::current() since we
+        // want to avoid confusion between session user and queue processing.
+        $stream = new RepeatedByMeNoticeStream($this->getProfile(), Profile::current());
         return $stream->getNotices($offset, $limit, $since_id, $max_id);
     }
 
 
     function repeatsOfMe($offset=0, $limit=20, $since_id=null, $max_id=null)
     {
-        $stream = new RepeatsOfMeNoticeStream($this);
-
+        // FIXME: Use another way to get Profile::current() since we
+        // want to avoid confusion between session user and queue processing.
+        $stream = new RepeatsOfMeNoticeStream($this->getProfile(), Profile::current());
         return $stream->getNotices($offset, $limit, $since_id, $max_id);
     }
 

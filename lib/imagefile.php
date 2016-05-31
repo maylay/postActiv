@@ -84,9 +84,9 @@ class ImageFile
         $this->type     = $info[2];
         $this->mimetype = $info['mime'];
 
-        if ($this->type == IMAGETYPE_JPEG && function_exists('exif_read_data')) {
+        if ($this->type === IMAGETYPE_JPEG && function_exists('exif_read_data')) {
             // Orientation value to rotate thumbnails properly
-            $exif = exif_read_data($this->filepath);
+            $exif = @exif_read_data($this->filepath);
             if (is_array($exif) && isset($exif['Orientation'])) {
                 switch ((int)$exif['Orientation']) {
                 case 1: // top is top
@@ -123,7 +123,7 @@ class ImageFile
             // First some mimetype specific exceptions
             switch ($file->mimetype) {
             case 'image/svg+xml':
-                throw new UseFileAsThumbnailException($file->id);
+                throw new UseFileAsThumbnailException($file);
             }
 
             // And we'll only consider it an image if it has such a media type
@@ -144,8 +144,14 @@ class ImageFile
             $image = new ImageFile($file->getID(), $imgPath);
         } catch (UnsupportedMediaException $e) {
             // Avoid deleting the original
-            if ($imgPath != $file->getPath()) {
-                unlink($imgPath);
+            try {
+                if ($imgPath !== $file->getPath()) {
+                    @unlink($imgPath);
+                }
+            } catch (FileNotFoundException $e) {
+                // File reported (via getPath) that the original file
+                // doesn't exist anyway, so it's safe to delete $imgPath
+                @unlink($imgPath);
             }
             throw $e;
         }
@@ -267,7 +273,11 @@ class ImageFile
         }
 
         if (!file_exists($outpath)) {
-            throw new UseFileAsThumbnailException($this->id);
+            if ($this->fileRecord instanceof File) {
+                throw new UseFileAsThumbnailException($this->fileRecord);
+            } else {
+                throw new UnsupportedMediaException('No local File object exists for ImageFile.');
+            }
         }
 
         return $outpath;
@@ -529,7 +539,7 @@ class ImageFile
         }
 
         fclose($fh);
-        return $count > 1;
+        return $count >= 1; // number of animated frames apart from the original image
     }
 
     public function getFileThumbnail($width, $height, $crop, $upscale=false)
@@ -598,10 +608,15 @@ class ImageFile
         // Perform resize and store into file
         $this->resizeTo($outpath, $box);
 
-        // Avoid deleting the original
-        if ($this->getPath() != File_thumbnail::path($this->filename)) {
-            $this->unlink();
+        try {
+            // Avoid deleting the original
+            if (!in_array($this->getPath(), [File::path($this->filename), File_thumbnail::path($this->filename)])) {
+                $this->unlink();
+            }
+        } catch (FileNotFoundException $e) {
+            // $this->getPath() says the file doesn't exist anyway, so no point in trying to delete it!
         }
+
         return File_thumbnail::saveThumbnail($this->fileRecord->getID(),
                                       null, // no url since we generated it ourselves and can dynamically generate the url
                                       $width, $height,

@@ -31,11 +31,7 @@
  * @link      http://status.net/
  */
 
-if (!defined('STATUSNET')) {
-    // This check helps protect against security problems;
-    // your code file can't be executed directly from the web.
-    exit(1);
-}
+if (!defined('GNUSOCIAL')) { exit(1); }
 
 /**
  * This notice stream filters notices by whether their conversation
@@ -61,7 +57,7 @@ class ThreadingNoticeStream extends FilteringNoticeStream
         return parent::getNotices($offset, $limit, $sinceId, $maxId);
     }
 
-    function filter($notice)
+    protected function filter(Notice $notice)
     {
         if (!array_key_exists($notice->conversation, $this->seen)) {
             $this->seen[$notice->conversation] = true;
