@@ -1,7 +1,12 @@
 <?php
 /**
+ * postActiv - a fork of the gnuSocial microblogging software
+ * Copyright (C) 2016 Maiyannah Bishop <maiyannah@member.fsf.org>
+ * Derived from StatusNet copyright (C) 2008-2011, StatusNet, Inc.
+ *
  * Table Definition for sms_carrier
  */
+ 
 require_once INSTALLDIR.'/classes/Memcached_DataObject.php';
 
 class Sms_carrier extends Managed_DataObject

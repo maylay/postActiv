@@ -1,7 +1,11 @@
 <?php
-/*
- * StatusNet - the distributed open-source microblogging tool
- * Copyright (C) 2010, StatusNet, Inc.
+/***
+ * postActiv - a fork of the gnuSocial microblogging software
+ * Copyright (C) 2016 Maiyannah Bishop <maiyannah@member.fsf.org>
+ * Derived from StatusNet copyright (C) 2008-2011, StatusNet, Inc.
+ *
+ * Wrapper for Memcached_DataObject which knows its own schema definition.
+ * Builds its own damn settings from a schema definition.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -15,11 +19,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-/**
- * Wrapper for Memcached_DataObject which knows its own schema definition.
- * Builds its own damn settings from a schema definition.
  *
  * @author Brion Vibber <brion@status.net>
  */
