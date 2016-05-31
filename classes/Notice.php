@@ -3088,3 +3088,4 @@ class Notice extends Managed_DataObject
         print "\n";
     }
 }
+?>

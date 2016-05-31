@@ -38,3 +38,4 @@ class Notice_source extends Managed_DataObject
         );
     }
 }
+?>

@@ -63,3 +63,4 @@ class User_location_prefs extends Managed_DataObject
         );
     }
 }
+?>

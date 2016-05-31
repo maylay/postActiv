@@ -287,3 +287,4 @@ class Safe_DataObject extends GS_DataObject
         return Safe_DataObject::$iniCache[$key];
     }
 }
+?>

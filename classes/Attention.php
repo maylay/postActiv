@@ -71,3 +71,4 @@ class Attention extends Managed_DataObject
         return $att;
     }
 }
+?>

@@ -51,3 +51,4 @@ class Token extends Managed_DataObject
         );
     }
 }
+?>

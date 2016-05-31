@@ -56,3 +56,4 @@ class Invitation extends Managed_DataObject
         );
     }
 }
+?>

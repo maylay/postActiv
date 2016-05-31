@@ -123,3 +123,4 @@ class Group_block extends Managed_DataObject
         return true;
     }
 }
+?>

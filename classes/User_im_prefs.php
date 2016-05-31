@@ -75,3 +75,4 @@ class User_im_prefs extends Managed_DataObject
     }
 
 }
+?>

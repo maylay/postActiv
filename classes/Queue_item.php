@@ -100,3 +100,4 @@ class Queue_item extends Managed_DataObject
         $this->encache();
     }
 }
+?>

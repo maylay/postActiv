@@ -62,7 +62,7 @@ class Old_school_prefs extends Managed_DataObject
             'fields' => array(
                 'user_id' => array('type' => 'int', 'not null' => true, 'description' => 'user who has the preference'),
                 'stream_mode_only' => array('type' => 'int', 
-                                            'size' => 'tiny', 
+                                            'size' => 'tiny',
                                             'default' => 1, 
                                             'description' => 'No conversation streams'),
                 'conversation_tree' => array('type' => 'int', 
@@ -83,3 +83,4 @@ class Old_school_prefs extends Managed_DataObject
         );
     }
 }
+?>

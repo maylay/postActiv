@@ -216,3 +216,4 @@ class Session extends Managed_DataObject
         session_write_close();
     }
 }
+?>

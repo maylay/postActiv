@@ -38,3 +38,4 @@ class Related_group extends Managed_DataObject
         );
     }
 }
+?>

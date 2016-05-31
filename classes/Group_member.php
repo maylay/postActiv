@@ -212,3 +212,4 @@ class Group_member extends Managed_DataObject
         return $this->uri ?: self::newUri($this->getMember(), $this->getGroup()->getProfile(), $this->created);
     }
 }
+?>

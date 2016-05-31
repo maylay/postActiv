@@ -61,3 +61,4 @@ class Profile_block extends Managed_DataObject
                                             'blocked' => $blocked->id));
     }
 }
+?>

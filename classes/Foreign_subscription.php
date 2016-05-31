@@ -45,3 +45,4 @@ class Foreign_subscription extends Managed_DataObject
         );
     }
 }
+?>

@@ -122,3 +122,4 @@ class User_urlshortener_prefs extends Managed_DataObject
         return $prefs;
     }
 }
+?>

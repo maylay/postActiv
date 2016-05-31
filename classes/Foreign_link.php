@@ -165,3 +165,4 @@ class Foreign_link extends Managed_DataObject
         }
     }
 }
+?>

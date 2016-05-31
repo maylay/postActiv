@@ -1775,3 +1775,4 @@ class Profile extends Managed_DataObject
         return $this->getUser()->getConnectedApps($offset, $limit);
     }
 }
+?>

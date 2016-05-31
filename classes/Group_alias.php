@@ -64,3 +64,4 @@ class Group_alias extends Managed_DataObject
         return $group->getProfile();
     }
 }
+?>

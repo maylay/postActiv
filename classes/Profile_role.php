@@ -81,3 +81,4 @@ class Profile_role extends Managed_DataObject
         return self::isValid($role) && in_array($role, $allowedRoles);
     }
 }
+?>

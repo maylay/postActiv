@@ -113,3 +113,4 @@ class Subscription_queue extends Managed_DataObject
         mail_subscribe_pending_notify_profile($listenee, $other);
     }
 }
+?>

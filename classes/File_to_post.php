@@ -113,3 +113,4 @@ class File_to_post extends Managed_DataObject
         return parent::delete($useWhere);
     }
 }
+?>

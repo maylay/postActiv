@@ -77,3 +77,4 @@ class Notice_location extends Managed_DataObject
         return $location;
     }
 }
+?>

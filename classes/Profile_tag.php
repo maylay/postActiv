@@ -333,3 +333,4 @@ class Profile_tag extends Managed_DataObject
         return $result;
     }
 }
+?>

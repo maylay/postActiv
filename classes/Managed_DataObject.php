@@ -591,3 +591,4 @@ abstract class Managed_DataObject extends Memcached_DataObject
         return parent::update($dataObject);
     }
 }
+?>

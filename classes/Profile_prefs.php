@@ -172,3 +172,4 @@ class Profile_prefs extends Managed_DataObject
         return true;
     }
 }
+?>

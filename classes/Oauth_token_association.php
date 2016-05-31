@@ -59,3 +59,4 @@ class Oauth_token_association extends Managed_DataObject
         );
     }
 }
+?>

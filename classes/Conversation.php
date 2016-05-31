@@ -162,3 +162,4 @@ class Conversation extends Managed_DataObject
         return $result;
     }
 }
+?>

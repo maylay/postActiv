@@ -425,3 +425,4 @@ class File_redirection extends Managed_DataObject
         return $this->file;
     }
 }
+?>

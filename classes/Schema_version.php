@@ -33,3 +33,4 @@ class Schema_version extends Managed_DataObject
         );
     }
 }
+?>

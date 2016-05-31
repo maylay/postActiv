@@ -191,3 +191,4 @@ class Oauth_application extends Managed_DataObject
         );
     }
 }
+?>

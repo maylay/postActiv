@@ -442,3 +442,4 @@ class Subscription extends Managed_DataObject
         return $this->uri ?: self::newUri($this->getSubscriber(), $this->getSubscribed(), $this->created);
     }
 }
+?>

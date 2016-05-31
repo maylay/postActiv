@@ -125,3 +125,4 @@ class Group_join_queue extends Managed_DataObject
         mail_notify_group_join_pending($group, $joiner);
     }
 }
+?>
