@@ -40,16 +40,17 @@ Using plugins available to postActiv, status messages can be sent to mobile
 phones or pages, instant messenger clients that implement XMPP, and desktop
 clients with support for the Twitter API.
 
-postActiv supports an open standard called OStatus <https://www.w3.org/
-community/ostatus/> that lets users in different networks follow each other. It
-enables a distributed social network spread all across the Web.
+postActiv supports an open standard called OStatus 
+<https://www.w3.org/community/ostatus/> that lets users in different networks 
+follow each other. It enables a distributed social network spread all across 
+the Web.
 
 postActive is derived from GNU social, and GNU social was originally developed
 as "StatusNet" by StatusNet, Inc. with Evan Prodromou as lead developer.
 
 It is shared with you in hope that you too make an service available to your
-users. To learn more, please see the Open Software Service Definition 1.1: <
-http://www.opendefinition.org/ossd>
+users. To learn more, please see the Open Software Service Definition 1.1:
+<http://www.opendefinition.org/ossd>
 
 ### License
 
@@ -121,7 +122,7 @@ If you're adventurous or impatient, you may want to install the development
 version of GNU social. To get it, use the git version control tool
 <http://git-scm.com/> like so:
 
-    git clone git@git.gnu.io:gnu/gnu-social.git
+    git clone git@git.gnu.io:maiyannah/postActiv.git
 
 In the current phase of development it is probably recommended to use git as a
 means to stay up to date with the source code. You can choose between these
@@ -137,11 +138,13 @@ To keep it up-to-date, use 'git pull'. Watch for conflicts!
 
 There are several ways to get more information about GNU social.
 
-* Following us on the Fediverse -- <https://community.highlandarrow.com/postActiv>
+* Following us on the Fediverse -- 
+<https://community.highlandarrow.com/postActiv>
 
 * GNU social has a bug tracker for any defects you may find, or ideas for
   making things better. <https://git.gnu.io/maiyannah/postActiv/issues/>
-* Patches are welcome, preferrably to our repository on git.gnu.io. <https://git.gnu.io/maiyannah/postActiv>
+* Patches are welcome, preferrably to our repository on git.gnu.io. 
+<https://git.gnu.io/maiyannah/postActiv>
 
 Credits
 =======
