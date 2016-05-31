@@ -6,7 +6,31 @@
  *   gnuSocial (C) 2015, Free Software Foundation, Inc
  *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
- * An activity
+ * An activity verb in class form, and the related scaffolding.
+ *
+ * This file also now consolidates the ActivityContext, ActivityImporter,
+ * ActivityMover, ActivitySink, and ActivitySource classes, formerly at
+ * /lib/<class>.php
+ *
+ * Activity abstracts the class for an activity verb.
+ * ActivityContext contains information of the context of the activity verb.
+ * ActivityImporter abstracts a means that is importing activity verbs
+ * into the system as part of a user's timeline.
+ * ActivityMover abstracts the means to transport activity verbs.
+ *
+ * ActivityObject is a noun in the activity universe basically, from
+ * the original file:
+ *     A noun-ish thing in the activity universe
+ *
+ *     The activity streams spec talks about activity objects, while also
+ *     having a tag activity:object, which is in fact an activity object.
+ *     Aaaaaah!
+ *
+ *     This is just a thing in the activity universe. Can be the subject,
+ *     object, or indirect object (target!) of an activity verb. Rotten
+ *     name, and I'm propagating it. *sigh*
+ * It's large enough that I've left it seperate.
+ *
  *
  * PHP version 5
  *
@@ -24,9 +48,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category  Feed
- * @package   StatusNet
+ * @package   postActiv
  * @author    Evan Prodromou <evan@status.net>
  * @author    Zach Copley <zach@status.net>
+ * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
  * @copyright 2010 StatusNet, Inc.
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPLv3
  * @link      http://status.net/
@@ -766,6 +791,613 @@ class Activity
         $dateStr = date('d F Y H:i:s', $tm);
         $d = new DateTime($dateStr, new DateTimeZone('UTC'));
         return $d->format('c');
+    }
+}
+
+class ActivityContext
+{
+    public $replyToID;
+    public $replyToUrl;
+    public $location;
+    public $attention = array();    // 'uri' => 'type'
+    public $conversation;
+    public $scope;
+
+    const THR     = 'http://purl.org/syndication/thread/1.0';
+    const GEORSS  = 'http://www.georss.org/georss';
+    const OSTATUS = 'http://ostatus.org/schema/1.0';
+
+    const INREPLYTO  = 'in-reply-to';
+    const REF        = 'ref';
+    const HREF       = 'href';
+
+    // OStatus element names with prefixes
+    const OBJECTTYPE = 'ostatus:object-type';   // FIXME: Undocumented!
+    const CONVERSATION = 'ostatus:conversation';
+
+    const POINT     = 'point';
+
+    const MENTIONED    = 'mentioned';
+
+    const ATTN_PUBLIC  = 'http://activityschema.org/collection/public';
+
+    function __construct($element = null)
+    {
+        if (empty($element)) {
+            return;
+        }
+
+        $replyToEl = ActivityUtils::child($element, self::INREPLYTO, self::THR);
+
+        if (!empty($replyToEl)) {
+            $this->replyToID  = $replyToEl->getAttribute(self::REF);
+            $this->replyToUrl = $replyToEl->getAttribute(self::HREF);
+        }
+
+        $this->location = $this->getLocation($element);
+
+        $convs = $element->getElementsByTagNameNS(self::OSTATUS, self::CONVERSATION);
+        foreach ($convs as $conv) {
+            $this->conversation = $conv->textContent;
+        }
+        if (empty($this->conversation)) {
+            // fallback to the atom:link rel="ostatus:conversation" element
+            $this->conversation = ActivityUtils::getLink($element, self::CONVERSATION);
+        }
+
+        // Multiple attention links allowed
+
+        $links = $element->getElementsByTagNameNS(ActivityUtils::ATOM, ActivityUtils::LINK);
+
+        for ($i = 0; $i < $links->length; $i++) {
+            $link = $links->item($i);
+
+            $linkRel  = $link->getAttribute(ActivityUtils::REL);
+            $linkHref = $link->getAttribute(self::HREF);
+            if ($linkRel == self::MENTIONED && $linkHref !== '') {
+                $this->attention[$linkHref] = $link->getAttribute(ActivityContext::OBJECTTYPE);
+            }
+        }
+    }
+
+    /**
+     * Parse location given as a GeoRSS-simple point, if provided.
+     * http://www.georss.org/simple
+     *
+     * @param feed item $entry
+     * @return mixed Location or false
+     */
+    function getLocation($dom)
+    {
+        $points = $dom->getElementsByTagNameNS(self::GEORSS, self::POINT);
+
+        for ($i = 0; $i < $points->length; $i++) {
+            $point = $points->item($i)->textContent;
+            return self::locationFromPoint($point);
+        }
+
+        return null;
+    }
+
+    // XXX: Move to ActivityUtils or Location?
+    static function locationFromPoint($point)
+    {
+        $point = str_replace(',', ' ', $point); // per spec "treat commas as whitespace"
+        $point = preg_replace('/\s+/', ' ', $point);
+        $point = trim($point);
+        $coords = explode(' ', $point);
+        if (count($coords) == 2) {
+            list($lat, $lon) = $coords;
+            if (is_numeric($lat) && is_numeric($lon)) {
+                common_log(LOG_INFO, "Looking up location for $lat $lon from georss point");
+                return Location::fromLatLon($lat, $lon);
+            }
+        }
+        common_log(LOG_ERR, "Ignoring bogus georss:point value $point");
+        return null;
+    }
+
+    /**
+     * Returns context (StatusNet stuff) as an array suitable for serializing
+     * in JSON. Right now context stuff is an extension to Activity.
+     *
+     * @return array the context
+     */
+
+    function asArray()
+    {
+        $context = array();
+
+        $context['inReplyTo']    = $this->getInReplyToArray();
+        $context['conversation'] = $this->conversation;
+
+        return array_filter($context);
+    }
+
+    /**
+     * Returns an array of arrays representing Activity Objects (intended to be
+     * serialized in JSON) that represent WHO the Activity is supposed to
+     * be received by. This is not really specified but appears in an example
+     * of the current spec as an extension. We might want to figure out a JSON
+     * serialization for OStatus and use that to express mentions instead.
+     *
+     * XXX: People's ideas on how to do this are all over the place
+     *
+     * @return array the array of recipients
+     */
+
+    function getToArray()
+    {
+        $tos = array();
+
+        foreach ($this->attention as $attnUrl => $attnType) {
+            $to = array(
+                'objectType' => $attnType,  // can be empty
+                'id'         => $attnUrl,
+            );
+            $tos[] = $to;
+        }
+
+        return $tos;
+    }
+
+    /**
+     * Return an array for the notices this notice is a reply to 
+     * suitable for serializing as JSON note objects.
+     *
+     * @return array the array of notes
+     */
+
+     function getInReplyToArray()
+     {
+         if (empty($this->replyToID) && empty($this->replyToUrl)) {
+             return null;
+         }
+
+         $replyToObj = array('objectType' => 'note');
+
+         // XXX: Possibly shorten this to just the numeric ID?
+         //      Currently, it's the full URI of the notice.
+         if (!empty($this->replyToID)) {
+             $replyToObj['id'] = $this->replyToID;
+         }
+         if (!empty($this->replyToUrl)) {
+             $replyToObj['url'] = $this->replyToUrl;
+         }
+
+         return $replyToObj;
+     }
+
+}
+
+class ActivityImporter extends QueueHandler
+{
+    private $trusted = false;
+
+    /**
+     * Function comment
+     *
+     * @param
+     *
+     * @return
+     */
+    function handle($data)
+    {
+        list($user, $author, $activity, $trusted) = $data;
+
+        $this->trusted = $trusted;
+
+        $done = null;
+
+        try {
+            if (Event::handle('StartImportActivity',
+                              array($user, $author, $activity, $trusted, &$done))) {
+                switch ($activity->verb) {
+                case ActivityVerb::FOLLOW:
+                    $this->subscribeProfile($user, $author, $activity);
+                    break;
+                case ActivityVerb::JOIN:
+                    $this->joinGroup($user, $activity);
+                    break;
+                case ActivityVerb::POST:
+                    $this->postNote($user, $author, $activity);
+                    break;
+                default:
+                    // TRANS: Client exception thrown when using an unknown verb for the activity importer.
+                    throw new ClientException(sprintf(_("Unknown verb: \"%s\"."),$activity->verb));
+                }
+                Event::handle('EndImportActivity',
+                              array($user, $author, $activity, $trusted));
+                $done = true;
+            }
+        } catch (Exception $e) {
+            common_log(LOG_ERR, $e->getMessage());
+            $done = true;
+        }
+        return $done;
+    }
+
+    function subscribeProfile($user, $author, $activity)
+    {
+        $profile = $user->getProfile();
+
+        if ($activity->objects[0]->id == $author->id) {
+            if (!$this->trusted) {
+                // TRANS: Client exception thrown when trying to force a subscription for an untrusted user.
+                throw new ClientException(_('Cannot force subscription for untrusted user.'));
+            }
+
+            $other = $activity->actor;
+            $otherUser = User::getKV('uri', $other->id);
+
+            if (!$otherUser instanceof User) {
+                // TRANS: Client exception thrown when trying to force a remote user to subscribe.
+                throw new Exception(_('Cannot force remote user to subscribe.'));
+            }
+
+            $otherProfile = $otherUser->getProfile();
+
+            // XXX: don't do this for untrusted input!
+
+            Subscription::ensureStart($otherProfile, $profile);
+        } else if (empty($activity->actor)
+                   || $activity->actor->id == $author->id) {
+
+            $other = $activity->objects[0];
+
+            try {
+                $otherProfile = Profile::fromUri($other->id);
+                // TRANS: Client exception thrown when trying to subscribe to an unknown profile.
+            } catch (UnknownUriException $e) {
+                // Let's convert it to a client exception instead of server.
+                throw new ClientException(_('Unknown profile.'));
+            }
+
+            Subscription::ensureStart($profile, $otherProfile);
+        } else {
+            // TRANS: Client exception thrown when trying to import an event not related to the importing user.
+            throw new Exception(_('This activity seems unrelated to our user.'));
+        }
+    }
+
+    function joinGroup($user, $activity)
+    {
+        // XXX: check that actor == subject
+
+        $uri = $activity->objects[0]->id;
+
+        $group = User_group::getKV('uri', $uri);
+
+        if (!$group instanceof User_group) {
+            $oprofile = Ostatus_profile::ensureActivityObjectProfile($activity->objects[0]);
+            if (!$oprofile->isGroup()) {
+                // TRANS: Client exception thrown when trying to join a remote group that is not a group.
+                throw new ClientException(_('Remote profile is not a group!'));
+            }
+            $group = $oprofile->localGroup();
+        }
+
+        assert(!empty($group));
+
+        if ($user->isMember($group)) {
+            // TRANS: Client exception thrown when trying to join a group the importing user is already a member of.
+            throw new ClientException(_("User is already a member of this group."));
+        }
+
+        $user->joinGroup($group);
+    }
+
+    // XXX: largely cadged from Ostatus_profile::processNote()
+
+    function postNote($user, $author, $activity)
+    {
+        $note = $activity->objects[0];
+
+        $sourceUri = $note->id;
+
+        $notice = Notice::getKV('uri', $sourceUri);
+
+        if ($notice instanceof Notice) {
+
+            common_log(LOG_INFO, "Notice {$sourceUri} already exists.");
+
+            if ($this->trusted) {
+
+                $profile = $notice->getProfile();
+
+                $uri = $profile->getUri();
+
+                if ($uri === $author->id) {
+                    common_log(LOG_INFO, sprintf('Updating notice author from %s to %s', $author->id, $user->getUri()));
+                    $orig = clone($notice);
+                    $notice->profile_id = $user->id;
+                    $notice->update($orig);
+                    return;
+                } else {
+                    // TRANS: Client exception thrown when trying to import a notice by another user.
+                    // TRANS: %1$s is the source URI of the notice, %2$s is the URI of the author.
+                    throw new ClientException(sprintf(_('Already know about notice %1$s and '.
+                                                        ' it has a different author %2$s.'),
+                                                      $sourceUri, $uri));
+                }
+            } else {
+                // TRANS: Client exception thrown when trying to overwrite the author information for a non-trusted user during import.
+                throw new ClientException(_('Not overwriting author info for non-trusted user.'));
+            }
+        }
+
+        // Use summary as fallback for content
+
+        if (!empty($note->content)) {
+            $sourceContent = $note->content;
+        } else if (!empty($note->summary)) {
+            $sourceContent = $note->summary;
+        } else if (!empty($note->title)) {
+            $sourceContent = $note->title;
+        } else {
+            // @fixme fetch from $sourceUrl?
+            // TRANS: Client exception thrown when trying to import a notice without content.
+            // TRANS: %s is the notice URI.
+            throw new ClientException(sprintf(_('No content for notice %s.'),$sourceUri));
+        }
+
+        // Get (safe!) HTML and text versions of the content
+
+        $rendered = common_purify($sourceContent);
+        $content = common_strip_html($rendered);
+
+        $shortened = $user->shortenLinks($content);
+
+        $options = array('is_local' => Notice::LOCAL_PUBLIC,
+                         'uri' => $sourceUri,
+                         'rendered' => $rendered,
+                         'replies' => array(),
+                         'groups' => array(),
+                         'tags' => array(),
+                         'urls' => array(),
+                         'distribute' => false);
+
+        // Check for optional attributes...
+
+        if (!empty($activity->time)) {
+            $options['created'] = common_sql_date($activity->time);
+        }
+
+        if ($activity->context) {
+            // Any individual or group attn: targets?
+
+            list($options['groups'], $options['replies']) = $this->filterAttention($activity->context->attention);
+
+            // Maintain direct reply associations
+            // @fixme what about conversation ID?
+            if (!empty($activity->context->replyToID)) {
+                $orig = Notice::getKV('uri', $activity->context->replyToID);
+                if ($orig instanceof Notice) {
+                    $options['reply_to'] = $orig->id;
+                }
+            }
+
+            $location = $activity->context->location;
+
+            if ($location) {
+                $options['lat'] = $location->lat;
+                $options['lon'] = $location->lon;
+                if ($location->location_id) {
+                    $options['location_ns'] = $location->location_ns;
+                    $options['location_id'] = $location->location_id;
+                }
+            }
+        }
+
+        // Atom categories <-> hashtags
+
+        foreach ($activity->categories as $cat) {
+            if ($cat->term) {
+                $term = common_canonical_tag($cat->term);
+                if ($term) {
+                    $options['tags'][] = $term;
+                }
+            }
+        }
+
+        // Atom enclosures -> attachment URLs
+        foreach ($activity->enclosures as $href) {
+            // @fixme save these locally or....?
+            $options['urls'][] = $href;
+        }
+
+        common_log(LOG_INFO, "Saving notice {$options['uri']}");
+
+        $saved = Notice::saveNew($user->id,
+                                 $content,
+                                 'restore', // TODO: restore the actual source
+                                 $options);
+
+        return $saved;
+    }
+
+    protected function filterAttention(array $attn)
+    {
+        $groups = array();  // TODO: context->attention
+        $replies = array(); // TODO: context->attention
+
+        foreach ($attn as $recipient=>$type) {
+
+            // Is the recipient a local user?
+
+            $user = User::getKV('uri', $recipient);
+
+            if ($user instanceof User) {
+                // TODO: @fixme sender verification, spam etc?
+                $replies[] = $recipient;
+                continue;
+            }
+
+            // Is the recipient a remote group?
+            $oprofile = Ostatus_profile::ensureProfileURI($recipient);
+
+            if ($oprofile) {
+                if (!$oprofile->isGroup()) {
+                    // may be canonicalized or something
+                    $replies[] = $oprofile->uri;
+                }
+                continue;
+            }
+
+            // Is the recipient a local group?
+            // TODO: @fixme uri on user_group isn't reliable yet
+            // $group = User_group::getKV('uri', $recipient);
+            $id = OStatusPlugin::localGroupFromUrl($recipient);
+
+            if ($id) {
+                $group = User_group::getKV('id', $id);
+                if ($group) {
+                    // Deliver to all members of this local group if allowed.
+                    $profile = $sender->localProfile();
+                    if ($profile->isMember($group)) {
+                        $groups[] = $group->id;
+                    } else {
+                        common_log(LOG_INFO, "Skipping reply to local group {$group->nickname} as sender {$profile->id} is not a member");
+                    }
+                    continue;
+                } else {
+                    common_log(LOG_INFO, "Skipping reply to bogus group $recipient");
+                }
+            }
+        }
+
+        return array($groups, $replies);
+    }
+}
+
+class ActivityMover extends QueueHandler
+{
+    function transport()
+    {
+        return 'actmove';
+    }
+
+    function handle($data)
+    {
+        list ($act, $sink, $userURI, $remoteURI) = $data;
+
+        $user   = User::getKV('uri', $userURI);
+        try {
+            $remote = Profile::fromUri($remoteURI);
+        } catch (UnknownUriException $e) {
+            // Don't retry. It's hard to tell whether it's because of
+            // lookup failures or because the URI is permanently gone.
+            // If we knew it was temporary, we'd return false here.
+            return true;
+        }
+
+        try {
+            $this->moveActivity($act, $sink, $user, $remote);
+        } catch (ClientException $cex) {
+            $this->log(LOG_WARNING,
+                       $cex->getMessage());
+            // "don't retry me"
+            return true;
+        } catch (ServerException $sex) {
+            $this->log(LOG_WARNING,
+                       $sex->getMessage());
+            // "retry me" (because we think the server might handle it next time)
+            return false;
+        } catch (Exception $ex) {
+            $this->log(LOG_WARNING,
+                       $ex->getMessage());
+            // "don't retry me"
+            return true;
+        }
+    }
+
+    function moveActivity($act, $sink, $user, $remote)
+    {
+        if (empty($user)) {
+            // TRANS: Exception thrown if a non-existing user is provided. %s is a user ID.
+            throw new Exception(sprintf(_('No such user "%s".'),$act->actor->id));
+        }
+
+        switch ($act->verb) {
+/*        case ActivityVerb::FAVORITE:
+            $this->log(LOG_INFO,
+                       "Moving favorite of {$act->objects[0]->id} by ".
+                       "{$act->actor->id} to {$remote->nickname}.");
+            // push it, then delete local
+            $sink->postActivity($act);
+            $notice = Notice::getKV('uri', $act->objects[0]->id);
+            if (!empty($notice)) {
+                $fave = Fave::pkeyGet(array('user_id' => $user->id,
+                                            'notice_id' => $notice->id));
+                $fave->delete();
+            }
+            break;*/
+        case ActivityVerb::POST:
+            $this->log(LOG_INFO,
+                       "Moving notice {$act->objects[0]->id} by ".
+                       "{$act->actor->id} to {$remote->nickname}.");
+            // XXX: send a reshare, not a post
+            $sink->postActivity($act);
+            $notice = Notice::getKV('uri', $act->objects[0]->id);
+            if (!empty($notice)) {
+                $notice->deleteAs($user->getProfile(), false);
+            }
+            break;
+        case ActivityVerb::JOIN:
+            $this->log(LOG_INFO,
+                       "Moving group join of {$act->objects[0]->id} by ".
+                       "{$act->actor->id} to {$remote->nickname}.");
+            $sink->postActivity($act);
+            $group = User_group::getKV('uri', $act->objects[0]->id);
+            if (!empty($group)) {
+                $user->leaveGroup($group);
+            }
+            break;
+        case ActivityVerb::FOLLOW:
+            if ($act->actor->id === $user->getUri()) {
+                $this->log(LOG_INFO,
+                           "Moving subscription to {$act->objects[0]->id} by ".
+                           "{$act->actor->id} to {$remote->nickname}.");
+                $sink->postActivity($act);
+                try {
+                    $other = Profile::fromUri($act->objects[0]->id);
+                    Subscription::cancel($user->getProfile(), $other);
+                } catch (UnknownUriException $e) {
+                    // Can't cancel subscription if we don't know who to alert
+                }
+            } else {
+                $otherUser = User::getKV('uri', $act->actor->id);
+                if (!empty($otherUser)) {
+                    $this->log(LOG_INFO,
+                               "Changing sub to {$act->objects[0]->id}".
+                               "by {$act->actor->id} to {$remote->nickname}.");
+                    $otherProfile = $otherUser->getProfile();
+                    Subscription::ensureStart($otherProfile, $remote);
+                    Subscription::cancel($otherProfile, $user->getProfile());
+                } else {
+                    $this->log(LOG_NOTICE,
+                               "Not changing sub to {$act->objects[0]->id}".
+                               "by remote {$act->actor->id} ".
+                               "to {$remote->nickname}.");
+                }
+            }
+            break;
+        }
+    }
+
+    /**
+     * Log some data
+     *
+     * Add a header for our class so we know who did it.
+     *
+     * @param int    $level   Log level, like LOG_ERR or LOG_INFO
+     * @param string $message Message to log
+     *
+     * @return void
+     */
+    protected function log($level, $message)
+    {
+        common_log($level, "ActivityMover: " . $message);
     }
 }
 ?>
