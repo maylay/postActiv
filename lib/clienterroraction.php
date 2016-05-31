@@ -1,18 +1,15 @@
 <?php
-/**
+/***
+ * postActiv - a fork of the gnuSocial microblogging software
+ * Copyright (C) 2016, Maiyannah Bishop <maiyannah@member.fsf.org>
+ * Derived from code copyright various sources:
+ *   gnuSocial (C) 2015, Free Software Foundation, Inc
+ *   StatusNet (C) 2008-2011, StatusNet, Inc
+ *
  * Client error action.
+ * Class for displaying HTTP client errors
  *
  * PHP version 5
- *
- * @category Action
- * @package  StatusNet
- * @author   Evan Prodromou <evan@status.net>
- * @author   Zach Copley <zach@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl.html AGPLv3
- * @link     http://status.net/
- *
- * StatusNet - the distributed open-source microblogging tool
- * Copyright (C) 2008-2010 StatusNet, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -26,19 +23,17 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-if (!defined('GNUSOCIAL')) { exit(1); }
-
-/**
- * Class for displaying HTTP client errors
  *
  * @category Action
  * @package  StatusNet
+ * @author   Evan Prodromou <evan@status.net>
  * @author   Zach Copley <zach@status.net>
  * @license  http://www.fsf.org/licensing/licenses/agpl.html AGPLv3
  * @link     http://status.net/
  */
+
+if (!defined('GNUSOCIAL')) { exit(1); }
+
 class ClientErrorAction extends ErrorAction
 {
     static $status = array(400 => 'Bad Request',

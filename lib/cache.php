@@ -1,8 +1,16 @@
 <?php
-/**
- * StatusNet, the distributed open-source microblogging tool
+/***
+ * postActiv - a fork of the gnuSocial microblogging software
+ * Copyright (C) 2016, Maiyannah Bishop <maiyannah@member.fsf.org>
+ * Derived from code copyright various sources:
+ *   gnuSocial (C) 2015, Free Software Foundation, Inc
+ *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
  * Cache interface plus default in-memory cache implementation
+ *
+ * An abstract interface for caching. Because we originally used the
+ * Memcache plugin directly, the interface uses a small subset of the
+ * Memcache interface.
  *
  * PHP version 5
  *
@@ -27,20 +35,6 @@
  * @link      http://status.net/
  */
 
-/**
- * Interface for caching
- *
- * An abstract interface for caching. Because we originally used the
- * Memcache plugin directly, the interface uses a small subset of the
- * Memcache interface.
- *
- * @category  Cache
- * @package   StatusNet
- * @author    Evan Prodromou <evan@status.net>
- * @copyright 2009 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
- * @link      http://status.net/
- */
 class Cache
 {
     /**

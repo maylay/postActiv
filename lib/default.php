@@ -1,6 +1,10 @@
 <?php
-/**
- * StatusNet, the distributed open-source microblogging tool
+/***
+ * postActiv - a fork of the gnuSocial microblogging software
+ * Copyright (C) 2016, Maiyannah Bishop <maiyannah@member.fsf.org>
+ * Derived from code copyright various sources:
+ *   gnuSocial (C) 2015, Free Software Foundation, Inc
+ *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
  * Default settings for core configuration
  *
@@ -29,8 +33,8 @@
 
 $default =
     array('site' =>
-        array('name' => 'Just another GNU social node',
-              'nickname' => 'gnusocial',
+        array('name' => 'Just another postActiv node',
+              'nickname' => 'postactiv',
               'wildcard' => null,
               'server' => $_server,
               'theme' => 'neo-gnu',

@@ -1,6 +1,10 @@
 <?php
-/**
- * StatusNet, the distributed open-source microblogging tool
+/***
+ * postActiv - a fork of the gnuSocial microblogging software
+ * Copyright (C) 2016, Maiyannah Bishop <maiyannah@member.fsf.org>
+ * Derived from code copyright various sources:
+ *   gnuSocial (C) 2015, Free Software Foundation, Inc
+ *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
  * Superclass for plugins that do authentication and/or authorization
  *
@@ -29,15 +33,6 @@
 
 if (!defined('GNUSOCIAL')) { exit(1); }
 
-/**
- * Superclass for plugins that do authentication
- *
- * @category Plugin
- * @package  StatusNet
- * @author   Craig Andrews <candrews@integralblue.com>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
- */
 abstract class AuthenticationPlugin extends Plugin
 {
     //is this plugin authoritative for authentication?

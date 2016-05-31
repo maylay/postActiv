@@ -1,8 +1,13 @@
 <?php
-/**
- * StatusNet, the distributed open-source microblogging tool
+/***
+ * postActiv - a fork of the gnuSocial microblogging software
+ * Copyright (C) 2016, Maiyannah Bishop <maiyannah@member.fsf.org>
+ * Derived from code copyright various sources:
+ *   gnuSocial (C) 2015, Free Software Foundation, Inc
+ *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
  * FIXME
+ * These are the widgets that show interesting data about a person * group, or site.
  *
  * PHP version 5
  *
@@ -31,17 +36,6 @@ if (!defined('STATUSNET') && !defined('LACONICA')) {
     exit(1);
 }
 
-/**
- * FIXME
- *
- * These are the widgets that show interesting data about a person * group, or site.
- *
- * @category Widget
- * @package  StatusNet
- * @author   Evan Prodromou <evan@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
- */
 class AttachmentNoticeSection extends NoticeSection
 {
     function showContent() {

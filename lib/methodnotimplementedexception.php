@@ -1,6 +1,10 @@
 <?php
-/**
- * StatusNet, the distributed open-source microblogging tool
+/***
+ * postActiv - a fork of the gnuSocial microblogging software
+ * Copyright (C) 2016, Maiyannah Bishop <maiyannah@member.fsf.org>
+ * Derived from code copyright various sources:
+ *   gnuSocial (C) 2015, Free Software Foundation, Inc
+ *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
  * class for an exception when a method is not implemented
  *
@@ -30,16 +34,6 @@
 if (!defined('GNUSOCIAL')) {
     exit(1);
 }
-
-/**
- * Class for an exception when a local user is not found by certain criteria
- *
- * @category Exception
- * @package  StatusNet
- * @author   Mikael Nordfeldth <mmn@hethane.se>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPLv3
- * @link     http://status.net/
- */
 
 class MethodNotImplementedException extends ServerException
 {

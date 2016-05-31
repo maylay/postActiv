@@ -1,6 +1,10 @@
 <?php
-/**
- * StatusNet, the distributed open-source microblogging tool
+/***
+ * postActiv - a fork of the gnuSocial microblogging software
+ * Copyright (C) 2016, Maiyannah Bishop <maiyannah@member.fsf.org>
+ * Derived from code copyright various sources:
+ *   gnuSocial (C) 2015, Free Software Foundation, Inc
+ *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
  * Form for blocking a user
  *
@@ -28,22 +32,8 @@
  * @link      http://status.net/
  */
 
-if (!defined('STATUSNET') && !defined('LACONICA')) {
-    exit(1);
-}
+if (!defined('STATUSNET') && !defined('LACONICA')) { exit(1); }
 
-/**
- * Form for blocking a user
- *
- * @category Form
- * @package  StatusNet
- * @author   Evan Prodromou <evan@status.net>
- * @author   Sarven Capadisli <csarven@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
- *
- * @see      UnblockForm
- */
 class BlockForm extends ProfileActionForm
 {
     /**

@@ -1,7 +1,10 @@
 <?php
-/**
- * StatusNet - the distributed open-source microblogging tool
- * Copyright (C) 2011, StatusNet, Inc.
+/***
+ * postActiv - a fork of the gnuSocial microblogging software
+ * Copyright (C) 2016, Maiyannah Bishop <maiyannah@member.fsf.org>
+ * Derived from code copyright various sources:
+ *   gnuSocial (C) 2015, Free Software Foundation, Inc
+ *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
  * A stream of notices
  *
@@ -33,17 +36,6 @@ if (!defined('STATUSNET')) {
     // your code file can't be executed directly from the web.
     exit(1);
 }
-
-/**
- * Class for notice streams
- *
- * @category  Stream
- * @package   StatusNet
- * @author    Evan Prodromou <evan@status.net>
- * @copyright 2011 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
- * @link      http://status.net/
- */
 
 class CachingNoticeStream extends NoticeStream
 {
