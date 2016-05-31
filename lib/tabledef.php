@@ -31,9 +31,7 @@
  * @link      http://status.net/
  */
 
-if (!defined('STATUSNET')) {
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * A class encapsulating the structure of a table.
@@ -51,7 +49,7 @@ class TableDef
     public $name;
     /** array of ColumnDef objects for the columns. */
     public $columns;
-    
+
     /**
      * Constructor.
      *
