@@ -305,6 +305,53 @@ class OembedPlugin extends Plugin
         throw new ServerException(sprintf(_('Domain not in remote thumbnail source whitelist: %s'), $host));
     }
 
+   // patch to get filesize before we get a remote image (using http headers) -mb
+   // returns size or false if unsuccessful
+   private function getRemoteFileSize($url) {
+      if (!$url) {
+         return false;
+      }
+      try {
+         stream_context_set_default(array('http' => array('method' => 'HEAD')));
+         $head = @get_headers($url,1);
+         if (gettype($head)=="array") {
+            $head = array_change_key_case($head);
+            $size = isset($head['content-length']) ? $head['content-length'] : 0;
+
+            if (!$size) {
+               return false;
+            }
+         } else {
+            return false;
+         }
+         return $size; // return formatted size
+      } catch (Exception $err) {
+         common_log(LOG_ERR, __CLASS__.': getRemoteFileSize on URL : '._ve($file->getUrl()).' threw exception: '.$err->getMessage());
+         return false;
+      }
+   }
+
+   // patch to parse PHP upload limit into something machine-usable -mb
+   // returns size or false if unsuccessful
+   private function getPHPUploadLimit() {  
+      $size = ini_get("upload_max_filesize");
+      $suffix = substr($size, -1);
+      $size = substr($size, 0, -1);
+      switch(strtoupper($suffix)) {
+      case 'P':
+         $size *= 1024;
+      case 'T':
+         $size *= 1024;
+      case 'G':
+         $size *= 1024;
+      case 'M':
+         $size *= 1024;
+      case 'K':
+         $size *= 1024;
+         break;
+      }
+   }
+
     protected function storeRemoteFileThumbnail(File_thumbnail $thumbnail)
     {
         if (!empty($thumbnail->filename) && file_exists($thumbnail->getPath())) {
@@ -313,6 +360,19 @@ class OembedPlugin extends Plugin
 
         $url = $thumbnail->getUrl();
         $this->checkWhitelist($url);
+
+        // patch: abort if the remote image exceeds the php upload limit -mb
+        try {
+           $max_size  = $this->getPHPUploadLimit();
+           $file_size = $this->getRemoteFileSize($url);
+           if (($file_size!=false) & ($file_size > $max_size)) {
+              common_debug("Went to store remote thumbnail of size " . $file_size . " but the upload limit is " . $max_size . " so we aborted.");
+              return false;
+           }
+        } catch (Exception $err) {
+           common_debug("Could not determine size of remote image, aborted local storage.");
+           return false;
+        }
 
         // First we download the file to memory and test whether it's actually an image file
         // FIXME: To support remote video/whatever files, this needs reworking.
