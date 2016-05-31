@@ -34,3 +34,4 @@ class PrivateStreamException extends AuthorizationException
         parent::__construct($msg, ($reader instanceof Profile ? 403 : 401));
     }
 }
+?>

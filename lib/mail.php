@@ -863,3 +863,4 @@ function mail_notify_group_join_pending($group, $joiner)
         }
     }
 }
+?>

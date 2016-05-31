@@ -124,3 +124,4 @@ class RawReplyNoticeStream extends NoticeStream
         return $ids;
     }
 }
+?>

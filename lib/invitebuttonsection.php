@@ -85,3 +85,4 @@ class InviteButtonSection extends Section
         return false;
     }
 }
+?>

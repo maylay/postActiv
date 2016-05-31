@@ -320,3 +320,4 @@ class TaggedProfileItem extends Widget
         $this->out->elementEnd('a');
     }
 }
+?>

@@ -5,7 +5,7 @@
  * Derived from code copyright various sources:
  *   gnuSocial (C) 2015, Free Software Foundation, Inc
  *   StatusNet (C) 2008-2011, StatusNet, Inc
- */ 
+ */
 
 if (!defined('GNUSOCIAL')) { exit(1); }
 
@@ -16,3 +16,4 @@ class SubQueueList extends ProfileList
         return new SubQueueListItem($target, $this->action);
     }
 }
+?>

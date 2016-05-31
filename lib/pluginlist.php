@@ -214,3 +214,4 @@ class PluginListItem extends Widget
         return self::$versions;
     }
 }
+?>

@@ -60,3 +60,4 @@ class NoProfileException extends ServerException
         parent::__construct($msg, 404);
     }
 }
+?>

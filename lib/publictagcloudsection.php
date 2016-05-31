@@ -119,3 +119,4 @@ class PublicTagCloudSection extends TagCloudSection
     {
     }
 }
+?>

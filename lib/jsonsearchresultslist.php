@@ -277,3 +277,4 @@ class ResultItem
         return $source_name;
     }
 }
+?>

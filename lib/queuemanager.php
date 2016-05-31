@@ -381,3 +381,4 @@ abstract class QueueManager extends IoManager
         common_log($level, "$class$groups: $msg");
     }
 }
+?>

@@ -80,3 +80,4 @@ class SandboxForm extends ProfileActionForm
         return _('Sandbox this user');
     }
 }
+?>

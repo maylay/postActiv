@@ -131,3 +131,4 @@ function ping_notice_tags($notice) {
     }
     return NULL;
 }
+?>

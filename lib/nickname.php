@@ -330,3 +330,4 @@ class NicknameTakenException extends NicknameException
         return _('Nickname is already in use on this server.');
     }
 }
+?>

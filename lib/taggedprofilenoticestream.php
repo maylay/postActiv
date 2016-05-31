@@ -122,3 +122,4 @@ class RawTaggedProfileNoticeStream extends NoticeStream
         return $ids;
     }
 }
+?>

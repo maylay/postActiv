@@ -60,3 +60,4 @@ class SubscribersPeopleSelfTagCloudSection extends SubPeopleTagCloudSection
 //        return 'select tag, count(tag) as weight from subscription left join profile_tag on tagger = subscribed where subscriber=%d and subscribed != subscriber and tagger = tagged and tag is not null group by tag order by weight desc';
     }
 }
+?>

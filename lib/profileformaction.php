@@ -126,3 +126,4 @@ class ProfileFormAction extends RedirectingAction
         $this->serverError(_("Unimplemented method."));
     }
 }
+?>

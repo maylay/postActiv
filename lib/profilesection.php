@@ -101,3 +101,4 @@ abstract class ProfileSection extends Section
         $this->out->elementEnd('tr');
     }
 }
+?>

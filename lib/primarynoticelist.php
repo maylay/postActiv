@@ -56,3 +56,4 @@ class PrimaryNoticeList extends NoticeList
         return $total;
     }
 }
+?>

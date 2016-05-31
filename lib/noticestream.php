@@ -90,3 +90,4 @@ abstract class NoticeStream
         unset($filter);
     }
 }
+?>

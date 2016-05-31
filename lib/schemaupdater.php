@@ -142,3 +142,4 @@ class SchemaUpdater
         $this->checksums[$table] = $checksum;
     }
 }
+?>

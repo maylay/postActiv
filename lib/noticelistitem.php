@@ -644,3 +644,4 @@ class NoticeListItem extends Widget
         return $this->notice;
     }
 }
+?>

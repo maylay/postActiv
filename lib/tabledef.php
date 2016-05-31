@@ -65,3 +65,4 @@ class TableDef
         $this->columns = $columns;
     }
 }
+?>

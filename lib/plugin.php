@@ -246,3 +246,4 @@ class Plugin
         return $protocol.'://'.$server.$path.$plugin.'/'.$relative;
     }
 }
+?>

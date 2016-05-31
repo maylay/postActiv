@@ -54,3 +54,4 @@ class PluginQueueHandler extends QueueHandler
         return true;
     }
 }
+?>

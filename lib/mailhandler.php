@@ -286,3 +286,4 @@ class MailHandler
         return trim($output);
     }
 }
+?>

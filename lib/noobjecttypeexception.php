@@ -43,3 +43,4 @@ class NoObjectTypeException extends ServerException
         parent::__construct(sprintf(_('Notice has no object type.')));
     }
 }
+?>

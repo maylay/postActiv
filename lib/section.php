@@ -126,3 +126,4 @@ abstract class Section extends Widget
         return _('More...');
     }
 }
+?>

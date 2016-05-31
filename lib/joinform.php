@@ -107,3 +107,4 @@ class JoinForm extends Form
         $this->out->submit('submit', _m('BUTTON','Join'));
     }
 }
+?>

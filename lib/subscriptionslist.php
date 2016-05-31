@@ -18,3 +18,4 @@ class SubscriptionsList extends SubscriptionList
         return new SubscriptionsListItem($profile, $this->owner, $this->action);
     }
 }
+?>

@@ -78,3 +78,4 @@ class PeopletagsBySubsSection extends PeopletagSection
         return 'top_peopletags_by_subs';
     }
 }
+?>

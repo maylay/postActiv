@@ -763,4 +763,4 @@ class StompQueueManager extends QueueManager
         }
     }
 }
-
+?>

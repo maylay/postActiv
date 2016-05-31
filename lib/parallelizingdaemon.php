@@ -229,5 +229,5 @@ class ParallelizingDaemon extends Daemon
     {
         die("Implement ParallelizingDaemon::childTask($object).");
     }
-
 }
+?>

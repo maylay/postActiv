@@ -43,3 +43,4 @@ class ImReceiverQueueHandler extends QueueHandler
         return $this->plugin->receiveRawMessage($data);
     }
 }
+?>

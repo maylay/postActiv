@@ -42,3 +42,4 @@ class MethodNotImplementedException extends ServerException
         parent::__construct(sprintf(_('Method %s not implemented'), $method));
     }
 }
+?>

@@ -212,3 +212,4 @@ class PeopletagEditForm extends Form
         $item->show();
     }
 }
+?>

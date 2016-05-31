@@ -170,3 +170,4 @@ class SubGroupNav extends Menu
         return $req->count();
     }
 }
+?>

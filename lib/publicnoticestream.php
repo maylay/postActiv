@@ -102,3 +102,4 @@ class RawPublicNoticeStream extends FullNoticeStream
         return $ids;
     }
 }
+?>

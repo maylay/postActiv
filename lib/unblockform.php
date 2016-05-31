@@ -82,3 +82,4 @@ class UnblockForm extends ProfileActionForm
         return _('Unblock this user');
     }
 }
+?>

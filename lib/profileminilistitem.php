@@ -78,3 +78,4 @@ class ProfileMiniListItem extends ProfileListItem
         return $aAttrs;
     }
 }
+?>

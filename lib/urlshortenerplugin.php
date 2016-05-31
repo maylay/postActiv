@@ -157,3 +157,4 @@ abstract class UrlShortenerPlugin extends Plugin
         return true;
     }
 }
+?>

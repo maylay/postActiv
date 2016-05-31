@@ -83,3 +83,4 @@ class TopPostersSection extends ProfileSection
         return 'top_posters';
     }
 }
+?>

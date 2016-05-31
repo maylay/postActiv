@@ -76,3 +76,4 @@ class UserNoProfileException extends NoProfileException
         return $this->user;
     }
 }
+?>

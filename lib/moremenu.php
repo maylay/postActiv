@@ -139,3 +139,4 @@ class MoreMenu extends Menu
         return null;
     }
 }
+?>

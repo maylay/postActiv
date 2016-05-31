@@ -371,3 +371,4 @@ class ThreadedNoticeListMoreItem extends NoticeListItem
         $this->out->element('a', array('href' => $url), $msg);
     }
 }
+?>

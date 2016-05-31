@@ -98,3 +98,4 @@ class TagURI
         return 'tag:'.$base.':'.$extra;
     }
 }
+?>

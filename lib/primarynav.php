@@ -95,3 +95,4 @@ class PrimaryNav extends Menu
         $this->action->elementEnd('ul');
     }
 }
+?>

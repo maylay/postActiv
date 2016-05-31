@@ -25,3 +25,4 @@ class Peopletag extends PeopletagListItem
         $this->out->elementEnd('div');
     }
 }
+?>

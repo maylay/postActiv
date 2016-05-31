@@ -155,3 +155,4 @@ class SettingsNav extends Menu
         $this->action->elementEnd('ul');
     }
 }
+?>

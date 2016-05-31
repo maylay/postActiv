@@ -86,3 +86,4 @@ class PeopletagList extends Widget
         $ptag->show();
     }
 }
+?>

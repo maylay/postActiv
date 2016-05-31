@@ -128,3 +128,4 @@ class MakeAdminForm extends Form
           _m('TOOLTIP','Make this user an admin.'));
     }
 }
+?>

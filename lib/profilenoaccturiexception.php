@@ -60,3 +60,4 @@ class ProfileNoAcctUriException extends ServerException
         parent::__construct($msg);
     }
 }
+?>

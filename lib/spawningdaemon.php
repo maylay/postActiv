@@ -229,4 +229,4 @@ abstract class SpawningDaemon extends Daemon
         return strtolower(get_class($this).'.'.$this->get_id());
     }
 }
-
+?>

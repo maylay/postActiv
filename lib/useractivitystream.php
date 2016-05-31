@@ -365,3 +365,4 @@ class UserActivityStream extends AtomUserNoticeFeed
         fwrite($handle, ']}');
     }
 }
+?>

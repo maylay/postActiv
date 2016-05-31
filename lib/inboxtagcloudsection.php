@@ -111,3 +111,4 @@ class InboxTagCloudSection extends TagCloudSection
     {
     }
 }
+?>

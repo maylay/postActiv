@@ -43,3 +43,4 @@ class NoAvatarException extends NoResultException
         parent::__construct($obj);
     }
 }
+?>

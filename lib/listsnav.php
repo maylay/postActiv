@@ -92,3 +92,4 @@ class ListsNav extends MoreMenu
                      _('See all lists you have created.'));
     }
 }
+?>

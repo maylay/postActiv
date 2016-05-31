@@ -25,3 +25,4 @@ class StatusNet
         return GNUsocial::isHTTPS();
     }
 }
+?>

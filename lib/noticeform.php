@@ -311,3 +311,4 @@ class NoticeForm extends Form
                                            'value' => _m('BUTTON', 'Send')));
     }
 }
+?>

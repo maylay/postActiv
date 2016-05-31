@@ -143,3 +143,4 @@ abstract class MicroAppPlugin extends ActivityHandlerPlugin
         return true;
     }
 }
+?>

@@ -186,3 +186,4 @@ class WebColor {
 class WebColorException extends Exception
 {
 }
+?>

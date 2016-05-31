@@ -69,3 +69,4 @@ class NoSuchUserException extends ServerException
         parent::__construct(_('No such user found.'));
     }
 }
+?>

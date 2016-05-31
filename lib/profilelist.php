@@ -107,3 +107,4 @@ class ProfileList extends Widget
         return PROFILES_PER_PAGE;
     }
 }
+?>

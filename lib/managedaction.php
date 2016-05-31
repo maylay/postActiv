@@ -102,3 +102,4 @@ class ManagedAction extends Action
         return false;
     }
 }
+?>

@@ -53,3 +53,4 @@ class TargetedRss10Action extends Rss10Action
         return $this->target->avatarUrl(AVATAR_PROFILE_SIZE);
     }
 }
+?>

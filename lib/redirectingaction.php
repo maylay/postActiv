@@ -97,3 +97,4 @@ class RedirectingAction extends Action
         $this->clientError(_('No return-to arguments.'));
     }
 }
+?>

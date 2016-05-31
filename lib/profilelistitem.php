@@ -252,3 +252,4 @@ class ProfileListItem extends Widget
                      'class' => 'u-url');
     }
 }
+?>

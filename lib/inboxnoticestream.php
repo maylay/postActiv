@@ -141,3 +141,4 @@ class RawInboxNoticeStream extends FullNoticeStream
         return $ids;
     }
 }
+?>

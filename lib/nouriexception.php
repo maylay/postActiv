@@ -44,3 +44,4 @@ class NoUriException extends ServerException
         parent::__construct($msg);
     }
 }
+?>

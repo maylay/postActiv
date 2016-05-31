@@ -130,3 +130,4 @@ class RawPeopletagNoticeStream extends NoticeStream
         return $ids;
     }
 }
+?>

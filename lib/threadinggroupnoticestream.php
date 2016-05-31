@@ -16,3 +16,4 @@ class ThreadingGroupNoticeStream extends ThreadingNoticeStream
         parent::__construct(new GroupNoticeStream($group, $profile));
     }
 }
+?>

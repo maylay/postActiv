@@ -43,3 +43,4 @@ class NoParentNoticeException extends ServerException
         parent::__construct(sprintf(_('No parent for notice with ID "%s".'), $this->notice->id));
     }
 }
+?>

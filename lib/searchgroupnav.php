@@ -89,3 +89,4 @@ class SearchGroupNav extends Menu
         $this->action->elementEnd('ul');
     }
 }
+?>

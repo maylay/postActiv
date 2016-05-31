@@ -60,3 +60,4 @@ class SubscriptionList extends ProfileList
         return new SubscriptionListItem($profile, $this->owner, $this->action);
     }
 }
+?>

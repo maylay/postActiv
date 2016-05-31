@@ -45,3 +45,4 @@ class SelftagsWidget extends PeopletagsWidget
         return _m('LABEL','Tags');
     }
 }
+?>

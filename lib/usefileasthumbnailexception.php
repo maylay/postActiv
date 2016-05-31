@@ -48,3 +48,4 @@ class UseFileAsThumbnailException extends UnsupportedMediaException
         parent::__construct('Thumbnail not generated', $this->file->getPath());
     }
 }
+?>

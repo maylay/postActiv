@@ -98,3 +98,4 @@ class ScopingNoticeStream extends FilteringNoticeStream
         }
     }
 }
+?>

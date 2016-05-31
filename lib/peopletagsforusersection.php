@@ -92,3 +92,4 @@ class PeopletagsForUserSection extends PeopletagSection
         return 'peopletag_subscriptions';
     }
 }
+?>
