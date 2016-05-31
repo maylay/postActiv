@@ -32,9 +32,7 @@
  * @link     http://status.net/
  */
 
-if (!defined('STATUSNET') && !defined('LACONICA')) {
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Superclass for actions that redirect to a given return-to page on completion.

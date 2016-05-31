@@ -31,7 +31,7 @@
  * @link      http://status.net/
  */
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Stream of notices by a profile
@@ -109,6 +109,8 @@ class ProfileNoticeStream extends ScopingNoticeStream
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
  * @link      http://status.net/
  */
+ 
+
 
 class RawProfileNoticeStream extends NoticeStream
 {

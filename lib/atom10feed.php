@@ -31,10 +31,7 @@
  * @link      http://status.net/
  */
 
-if (!defined('STATUSNET'))
-{
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 class Atom10FeedException extends Exception
 {

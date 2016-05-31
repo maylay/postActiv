@@ -27,6 +27,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+if (!defined('POSTACTIV')) { exit(1); }
+
 function curry($fn) {
     $extra_args = func_get_args();
     array_shift($extra_args);

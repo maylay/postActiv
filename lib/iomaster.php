@@ -31,6 +31,8 @@
  * @link      http://status.net/
  */
 
+if (!defined('POSTACTIV')) { exit(1); }
+
 abstract class IoMaster
 {
     public $id;

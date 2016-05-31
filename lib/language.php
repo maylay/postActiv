@@ -32,9 +32,7 @@
  * @link     http://status.net/
  */
 
-if (!defined('STATUSNET') && !defined('LACONICA')) {
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 // Locale category constants are usually predefined, but may not be
 // on some systems such as Win32.
@@ -321,7 +319,7 @@ function get_all_languages() {
     return array(
         'af'      => array('q' => 0.8, 'lang' => 'af', 'name' => 'Afrikaans', 'direction' => 'ltr'),
         'ar'      => array('q' => 0.8, 'lang' => 'ar', 'name' => 'Arabic', 'direction' => 'rtl'),
-        'ast'      => array('q' => 1, 'lang' => 'ast', 'name' => 'Asturian', 'direction' => 'ltr'),        
+        'ast'      => array('q' => 1, 'lang' => 'ast', 'name' => 'Asturian', 'direction' => 'ltr'),
         'eu'      => array('q' => 1, 'lang' => 'eu',    'name' => 'Basque', 'direction' => 'ltr'),
         'be-tarask' => array('q' => 0.5, 'lang' => 'be-tarask', 'name' => 'Belarusian (Taraškievica orthography)', 'direction' => 'ltr'),
         'br'      => array('q' => 0.8, 'lang' => 'br', 'name' => 'Breton', 'direction' => 'ltr'),
@@ -353,7 +351,7 @@ function get_all_languages() {
         'id'      => array('q' => 1, 'lang' => 'id', 'name' => 'Indonesian', 'direction' => 'ltr'),
         'ia'      => array('q' => 0.8, 'lang' => 'ia', 'name' => 'Interlingua', 'direction' => 'ltr'),
         'ga'      => array('q' => 0.5, 'lang' => 'ga', 'name' => 'Irish', 'direction' => 'ltr'),
-        'it'      => array('q' => 1, 'lang' => 'it', 'name' => 'Italian', 'direction' => 'ltr'),        
+        'it'      => array('q' => 1, 'lang' => 'it', 'name' => 'Italian', 'direction' => 'ltr'),
         'ja'      => array('q' => 0.5, 'lang' => 'ja', 'name' => 'Japanese', 'direction' => 'ltr'),        
         'ko'      => array('q' => 0.9, 'lang' => 'ko',    'name' => 'Korean', 'direction' => 'ltr'),        
         'lv'      => array('q' => 1, 'lang' => 'lv', 'name' => 'Latvian', 'direction' => 'ltr'),

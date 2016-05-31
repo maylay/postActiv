@@ -41,7 +41,7 @@
  * @link      http://status.net/
  */
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 class GNUsocial_HTTPResponse extends HTTP_Request2_Response
 {

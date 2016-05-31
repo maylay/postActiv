@@ -32,6 +32,8 @@
  * @link      http://status.net/
  */
 
+if (!defined('POSTACTIV')) { exit(1); }
+
 class DBQueueManager extends QueueManager
 {
     /**

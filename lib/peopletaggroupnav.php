@@ -56,6 +56,9 @@ require_once INSTALLDIR.'/lib/widget.php';
  *
  * @see      HTMLOutputter
  */
+
+if (!defined('POSTACTIV')) { exit(1); } 
+
 class PeopletagGroupNav extends Widget
 {
     var $action = null;

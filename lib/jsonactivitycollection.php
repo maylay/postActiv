@@ -11,6 +11,8 @@
  *
  * A valid Collection object serialization MUST contain at least the url or items properties.
  */
+if (!defined('POSTACTIV')) { exit(1); } 
+
 class JSONActivityCollection {
 
     /* Non-negative integer specifying the total number of activities within the stream */

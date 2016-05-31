@@ -35,6 +35,7 @@
  * @author   Sarven Capadisli <csarven@controlyourself.ca>
  * @author   Tom Adams <tom@holizz.com>
  * @author   Zach Copley <zach@status.net>
+ * @author   Maiyannah Bishop <maiyannah@member.fsf.org>
  * @copyright 2009 Free Software Foundation, Inc http://www.fsf.org
  *
  * @license  GNU Affero General Public License http://www.gnu.org/licenses/
@@ -50,7 +51,8 @@ $_perfCounters = array();
 set_include_path('.');  // mainly fixes an issue where /usr/share/{pear,php*}/DB/DataObject.php is _old_ on various systems...
 
 define('INSTALLDIR', dirname(__FILE__));
-define('GNUSOCIAL', true);
+define('POSTACTIV', true);
+define('GNUSOCIAL', true);  // compatibility
 define('STATUSNET', true);  // compatibility
 
 $user = null;

@@ -46,6 +46,8 @@ if (!defined('STATUSNET') && !defined('LACONICA')) {
  * @see      PluginEnableForm
  */
 
+if (!defined('POSTACTIV')) { exit(1); }
+
 class PluginDisableForm extends PluginEnableForm
 {
     /**

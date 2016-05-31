@@ -9,6 +9,8 @@
 
 // @todo FIXME: add documentation.
 
+if (!defined('POSTACTIV')) { exit(1); }
+
 class GroupMemberList extends ProfileList
 {
     var $group = null;

@@ -45,6 +45,8 @@ if (!defined('STATUSNET') && !defined('LACONICA')) {
  * @link     http://status.net/
  */
 
+if (!defined('POSTACTIV')) { exit(1); }
+
 class SubPeopleTagCloudSection extends TagCloudSection
 {
     function getTags()

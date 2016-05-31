@@ -23,6 +23,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+ 
+if (!defined('POSTACTIV')) { exit(1); } 
 
 class LiberalStomp extends Stomp
 {

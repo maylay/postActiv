@@ -28,6 +28,8 @@
  * @maintainer Brion Vibber <brion@status.net>
  */
 
+if (!defined('POSTACTIV')) { exit(1); }
+
 class DelUserQueueHandler extends QueueHandler
 {
     const DELETION_WINDOW = 50;

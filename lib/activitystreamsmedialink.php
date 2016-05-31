@@ -15,6 +15,8 @@
  * @link     http://status.net/
  */
 
+if (!defined('POSTACTIV')) { exit(1); }
+
 class ActivityStreamsMediaLink extends ActivityStreamsLink
 {
     private $linkDict;

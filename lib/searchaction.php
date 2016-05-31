@@ -31,9 +31,7 @@
  * @link     http://status.net/
  */
 
-if (!defined('STATUSNET') && !defined('LACONICA')) {
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 require_once INSTALLDIR.'/lib/searchgroupnav.php';
 

@@ -32,7 +32,7 @@
  * @link      http://status.net/
  */
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 // Can include XHTML options but these are too fragile in practice.
 define('PAGE_TYPE_PREFS', 'text/html');

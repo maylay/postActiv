@@ -42,9 +42,7 @@
  * @see       HTMLOutputter
  */
 
-if (!defined('STATUSNET') && !defined('LACONICA')) {
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 class XMLOutputter
 {
