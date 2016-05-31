@@ -53,3 +53,4 @@ class InlineAttachmentList extends AttachmentList
         return new InlineAttachmentListItem($attachment, $this->out);
     }
 }
+?>

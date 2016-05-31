@@ -230,3 +230,4 @@ class PeopletagListItem extends Widget
         $this->out->element('div', 'e-content description', $this->peopletag->description);
     }
 }
+?>

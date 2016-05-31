@@ -105,3 +105,4 @@ class PersonalGroupNav extends Menu
         $this->out->elementEnd('ul');
     }
 }
+?>

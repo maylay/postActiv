@@ -108,3 +108,4 @@ class LeaveForm extends Form
         $this->out->submit('submit', _m('BUTTON','Leave'));
     }
 }
+?>

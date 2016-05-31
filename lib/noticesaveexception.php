@@ -20,3 +20,4 @@ if (!defined('GNUSOCIAL')) { exit(1); }
 class NoticeSaveException extends ServerException
 {
 }
+?>

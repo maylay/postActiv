@@ -385,3 +385,4 @@ function get_all_languages() {
         'vi'      => array('q' => 0.8, 'lang' => 'vi', 'name' => 'Vietnamese', 'direction' => 'ltr'),    
     );
 }
+?>

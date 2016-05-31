@@ -46,3 +46,4 @@ class PasswordHashException extends ServerException
         parent::__construct($msg, $code);
     }
 }
+?>

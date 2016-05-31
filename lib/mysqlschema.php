@@ -457,3 +457,4 @@ class MysqlSchema extends Schema
         return $tableDef;
     }
 }
+?>

@@ -651,3 +651,4 @@ abstract class Installer
     abstract function updateStatus($status, $error=false);
 
 }
+?>

@@ -110,3 +110,4 @@ class PeopletagNav extends Menu
         $this->out->elementEnd('ul');
     }
 }
+?>

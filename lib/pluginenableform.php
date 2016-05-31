@@ -116,3 +116,4 @@ class PluginEnableForm extends Form
         $this->out->submit('submit', _m('plugin', 'Enable'));
     }
 }
+?>

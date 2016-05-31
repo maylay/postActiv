@@ -457,3 +457,4 @@ class PgsqlSchema extends Schema
         return $def;
     }
 }
+?>

@@ -29,3 +29,4 @@ class SubQueueListItem extends ProfileListItem
         $this->out->elementEnd('li');
     }
 }
+?>

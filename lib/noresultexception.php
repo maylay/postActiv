@@ -44,3 +44,4 @@ class NoResultException extends ServerException
         parent::__construct(sprintf(_('No result found on %s lookup.'), get_class($obj)));
     }
 }
+?>

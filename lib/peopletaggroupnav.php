@@ -162,3 +162,4 @@ class PeopletagGroupNav extends Widget
         $this->out->elementEnd('ul');
     }
 }
+?>

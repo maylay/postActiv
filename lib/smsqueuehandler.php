@@ -40,3 +40,4 @@ class SmsQueueHandler extends QueueHandler
         return mail_broadcast_notice_sms($notice);
     }
 }
+?>

@@ -121,3 +121,4 @@ class RawTagNoticeStream extends NoticeStream
         return $ids;
     }
 }
+?>

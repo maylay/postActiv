@@ -159,3 +159,4 @@ class Menu extends Widget
         }
     }
 }
+?>

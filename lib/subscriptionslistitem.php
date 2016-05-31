@@ -66,3 +66,4 @@ class SubscriptionsListItem extends SubscriptionListItem
         $this->out->elementEnd('form');
     }
 }
+?>

@@ -44,3 +44,4 @@ class InvalidUrlException extends ServerException
         parent::__construct(_('Invalid URL.'));
     }
 }
+?>

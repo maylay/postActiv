@@ -69,3 +69,4 @@ class NoSuchGroupException extends ServerException
         parent::__construct(_('No such group found.'));
     }
 }
+?>

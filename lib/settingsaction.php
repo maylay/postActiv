@@ -76,3 +76,4 @@ class SettingsAction extends FormAction
     {
     }
 }
+?>

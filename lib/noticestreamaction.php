@@ -44,3 +44,4 @@ abstract class NoticestreamAction extends ProfileAction
     // this fetches the NoticeStream
     abstract public function getStream();
 }
+?>

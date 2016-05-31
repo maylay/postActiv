@@ -67,3 +67,4 @@ class ProfileMiniList extends ProfileList
         return AVATAR_MINI_SIZE;
     }
 }
+?>

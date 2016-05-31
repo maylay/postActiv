@@ -86,3 +86,4 @@ class PeopletagSubscriptionsSection extends PeopletagSection
         return 'peopletag_subscriptions';
     }
 }
+?>

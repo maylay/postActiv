@@ -150,3 +150,4 @@ class SearchAction extends Action
         $this->elementEnd('div');
     }
 }
+?>

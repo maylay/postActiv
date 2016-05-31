@@ -43,3 +43,4 @@ class NoQueueHandlerException extends ServerException
         parent::__construct(sprintf(_('No queue handler found for transport %s.'), _ve($this->transport)));
     }
 }
+?>

@@ -47,3 +47,4 @@ class JSONActivityCollection {
         return $this->totalItems;
     }
 }
+?>

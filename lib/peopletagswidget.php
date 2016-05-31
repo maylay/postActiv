@@ -178,3 +178,4 @@ class PeopletagsWidget extends Widget
         return !empty($this->user) && $this->tagger->id == $this->user->id;
     }
 }
+?>

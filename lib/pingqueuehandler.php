@@ -38,3 +38,4 @@ class PingQueueHandler extends QueueHandler {
         return ping_broadcast_notice($notice);
     }
 }
+?>

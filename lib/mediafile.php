@@ -381,3 +381,4 @@ class MediaFile
         throw new ClientException($hint);
     }
 }
+?>

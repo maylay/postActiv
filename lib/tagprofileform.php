@@ -147,3 +147,4 @@ class TagProfileForm extends Form
         $this->out->submit('save', _m('BUTTON', 'Save'));
     }
 }
+?>

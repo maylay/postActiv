@@ -284,3 +284,4 @@ class XMLOutputter
         $this->xw->flush();
     }
 }
+?>

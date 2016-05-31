@@ -258,3 +258,4 @@ class PatternReplacer
         return '(?P<'.$name.'>'.$pattern.')';
     }
 }
+?>

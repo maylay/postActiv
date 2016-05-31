@@ -231,3 +231,4 @@ class Location
         return $url;
     }
 }
+?>

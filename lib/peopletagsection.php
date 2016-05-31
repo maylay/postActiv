@@ -142,3 +142,4 @@ class PeopletagSectionItem extends PeopletagListItem
         $this->out->elementEnd('span');
     }
 }
+?>

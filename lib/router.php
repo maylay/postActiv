@@ -1145,3 +1145,4 @@ class Router
         return $url;
     }
 }
+?>

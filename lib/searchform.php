@@ -110,3 +110,4 @@ class SearchForm extends Form
         return 'get';
     }
 }
+?>

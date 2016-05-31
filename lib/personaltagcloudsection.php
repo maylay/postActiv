@@ -87,3 +87,4 @@ class PersonalTagCloudSection extends TagCloudSection
         return $tag;
     }
 }
+?>

@@ -16,3 +16,4 @@ class ThreadingPublicNoticeStream extends ThreadingNoticeStream
         parent::__construct(new PublicNoticeStream($scoped));
     }
 }
+?>

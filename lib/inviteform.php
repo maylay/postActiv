@@ -136,3 +136,4 @@ class InviteForm extends Form
         );
     }
 }
+?>

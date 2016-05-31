@@ -1069,4 +1069,4 @@ class SchemaTableMissingException extends Exception
 {
     // no-op
 }
-
+?>

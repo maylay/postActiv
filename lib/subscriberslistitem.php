@@ -61,3 +61,4 @@ class SubscribersListItem extends SubscriptionListItem
         return $aAttrs;
     }
 }
+?>

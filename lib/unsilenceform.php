@@ -80,3 +80,4 @@ class UnSilenceForm extends ProfileActionForm
         return _('Unsilence this user');
     }
 }
+?>

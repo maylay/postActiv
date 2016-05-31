@@ -16,3 +16,4 @@ class SubscribersList extends SubscriptionList
         return new SubscribersListItem($profile, $this->owner, $this->action); 
     } 
 }
+?>

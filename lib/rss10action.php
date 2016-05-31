@@ -380,4 +380,4 @@ class Rss10Action extends ManagedAction
         return strtotime($this->notices[0]->created);
     }
 }
-
+?>

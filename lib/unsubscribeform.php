@@ -138,3 +138,4 @@ class UnsubscribeForm extends Form
                            _('Unsubscribe from this user.'));
     }
 }
+?>

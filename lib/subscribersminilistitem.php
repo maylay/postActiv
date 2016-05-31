@@ -20,3 +20,4 @@ class SubscribersMiniListItem extends ProfileMiniListItem
         return $aAttrs;
     }
 }
+?>

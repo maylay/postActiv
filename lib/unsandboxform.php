@@ -82,3 +82,4 @@ class UnsandboxForm extends ProfileActionForm
         return _('Unsandbox this user');
     }
 }
+?>

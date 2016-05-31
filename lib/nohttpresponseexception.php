@@ -45,3 +45,4 @@ class NoHttpResponseException extends HTTP_Request2_ConnectionException
         parent::__construct(sprintf(_('No HTTP response from URL %s.'), _ve($url)), self::READ_ERROR);
     }
 }
+?>

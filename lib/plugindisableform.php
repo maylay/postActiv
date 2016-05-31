@@ -95,3 +95,4 @@ class PluginDisableForm extends PluginEnableForm
     }
 
 }
+?>

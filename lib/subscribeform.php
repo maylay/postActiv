@@ -136,3 +136,4 @@ class SubscribeForm extends Form
                            _('Subscribe to this user.'));
     }
 }
+?>

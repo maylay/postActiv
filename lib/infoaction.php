@@ -125,3 +125,4 @@ class InfoAction extends ManagedAction
     }
 
 }
+?>

@@ -46,5 +46,5 @@ class ImQueueHandler extends QueueHandler
         }
         return true;
     }
-
 }
+?>

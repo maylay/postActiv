@@ -79,3 +79,4 @@ class NoticeListItemAdapter
         return $this->nli->$name;
     }
 }
+?>

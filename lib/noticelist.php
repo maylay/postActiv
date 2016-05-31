@@ -149,7 +149,7 @@ class NoticeList extends Widget
                        'options' => $this->options);
         return new NoticeListItem($notice, $this->out, $prefs);
     }
-    
+
     static function prefill(array &$notices)
     {
         $scoped = Profile::current();
@@ -166,3 +166,4 @@ class NoticeList extends Widget
         }
     }
 }
+?>

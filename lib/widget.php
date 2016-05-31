@@ -132,3 +132,4 @@ class Widget
                                          'alt' => $profile->getBestName()));
     }
 }
+?>

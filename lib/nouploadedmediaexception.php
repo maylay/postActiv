@@ -34,3 +34,4 @@ class NoUploadedMediaException extends ClientException
         parent::__construct($msg, 400);
     }
 }
+?>

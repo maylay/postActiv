@@ -41,4 +41,4 @@ class ImSenderQueueHandler extends QueueHandler
         return $this->plugin->imManager->send_raw_message($data);
     }
 }
-
+?>

@@ -100,3 +100,4 @@ class PublicGroupNav extends Menu
         $this->action->elementEnd('ul');
     }
 }
+?>

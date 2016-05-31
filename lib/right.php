@@ -75,4 +75,4 @@ class Right
     const REVIEWSPAM         = 'reviewspam';
     const TRAINSPAM          = 'trainspam';
 }
-
+?>

@@ -132,3 +132,4 @@ class NudgeForm extends Form
                            _('Send a nudge to this user.'));
     }
 }
+?>

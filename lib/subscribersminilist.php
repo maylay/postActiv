@@ -16,3 +16,4 @@ class SubscribersMiniList extends ProfileMiniList
         return new SubscribersMiniListItem($profile, $this->action);
     }
 }
+?>

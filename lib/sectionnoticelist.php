@@ -54,3 +54,4 @@ class SectionNoticeList extends NoticeList
     protected $options = false;
     protected $show_n = NOTICES_PER_SECTION;
 }
+?>

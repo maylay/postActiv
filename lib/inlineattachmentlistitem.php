@@ -64,3 +64,4 @@ class InlineAttachmentListItem extends AttachmentListItem
         $this->out->elementEnd('li');
     }
 }
+?>

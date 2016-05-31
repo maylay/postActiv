@@ -150,4 +150,4 @@ class PGSearch extends SearchEngine
         }
     }
 }
-
+?>

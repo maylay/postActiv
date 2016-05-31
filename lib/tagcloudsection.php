@@ -130,3 +130,4 @@ class TagCloudSection extends Section
         return 'tagcloud';
     }
 }
+?>

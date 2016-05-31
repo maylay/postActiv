@@ -92,3 +92,4 @@ class RevokeRoleForm extends ProfileActionForm
         return sprintf(_('Revoke the "%s" role from this user'), $this->label);
     }
 }
+?>

@@ -49,3 +49,4 @@ class SubscriptionListItem extends ProfileListItem
         return (!empty($user) && ($this->owner->id == $user->id));
     }
 }
+?>

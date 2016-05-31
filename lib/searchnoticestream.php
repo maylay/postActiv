@@ -93,3 +93,4 @@ class RawSearchNoticeStream extends NoticeStream
         return $ids;
     }
 }
+?>

@@ -215,3 +215,4 @@ abstract class UAPPlugin extends Plugin
      */
     abstract protected function showLeaderboard($action);
 }
+?>

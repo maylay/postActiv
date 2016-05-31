@@ -41,3 +41,4 @@ class UnsupportedMediaException extends ServerException
         parent::__construct($msg);
     }
 }
+?>

@@ -86,3 +86,4 @@ class LoginGroupNav extends Menu
         $this->action->elementEnd('ul');
     }
 }
+?>

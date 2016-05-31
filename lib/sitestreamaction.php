@@ -187,3 +187,4 @@ class SitestreamAction extends ManagedAction
         $this->elementEnd('div');
     }
 }
+?>

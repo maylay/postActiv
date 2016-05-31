@@ -70,3 +70,4 @@ class XMLStringer extends XMLOutputter
         return $xs->getString();
     }
 }
+?>
