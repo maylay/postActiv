@@ -126,3 +126,4 @@ class CancelSubscriptionForm extends Form
         $this->out->submit('submit', _m('BUTTON','Cancel subscription request'));
     }
 }
+?>

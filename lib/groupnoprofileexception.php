@@ -76,3 +76,4 @@ class GroupNoProfileException extends NoProfileException
         return $this->group;
     }
 }
+?>

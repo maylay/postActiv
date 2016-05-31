@@ -43,3 +43,4 @@ class FileNotFoundException extends ServerException
         parent::__construct(_('File not found in filesystem.'), 404);
     }
 }
+?>

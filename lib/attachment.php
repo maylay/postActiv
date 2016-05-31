@@ -63,3 +63,4 @@ class Attachment extends AttachmentListItem
         return array('rel' => 'external', 'href' => $this->attachment->getUrl());
     }
 }
+?>

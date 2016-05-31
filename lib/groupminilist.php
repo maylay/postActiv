@@ -87,3 +87,4 @@ class GroupMiniList extends GroupList
         $this->out->elementEnd('li');
     }
 }
+?>

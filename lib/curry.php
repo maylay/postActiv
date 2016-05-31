@@ -36,3 +36,4 @@ function curry($fn) {
             array_merge($args, $extra_args));
     };
 }
+?>

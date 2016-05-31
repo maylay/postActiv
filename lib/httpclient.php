@@ -8,6 +8,16 @@
  *
  * Utility for doing HTTP-related things
  *
+ * We make HTTP calls in several places, and we have several different
+ * ways of doing them. This class hides the specifics of what underlying
+ * library (curl or PHP-HTTP or whatever) that's used.
+ *
+ * This extends the HTTP_Request2_Response class with methods to get info
+ * about any followed redirects.
+ *
+ * Originally used the name 'HTTPResponse' to match earlier code, but
+ * this conflicts with a class in in the PECL HTTP extension.
+ *
  * PHP version 5
  *
  * LICENCE: This program is free software: you can redistribute it and/or modify
@@ -33,26 +43,6 @@
 
 if (!defined('GNUSOCIAL')) { exit(1); }
 
-/**
- * Useful structure for HTTP responses
- *
- * We make HTTP calls in several places, and we have several different
- * ways of doing them. This class hides the specifics of what underlying
- * library (curl or PHP-HTTP or whatever) that's used.
- *
- * This extends the HTTP_Request2_Response class with methods to get info
- * about any followed redirects.
- * 
- * Originally used the name 'HTTPResponse' to match earlier code, but
- * this conflicts with a class in in the PECL HTTP extension.
- *
- * @category HTTP
- * @package StatusNet
- * @author Evan Prodromou <evan@status.net>
- * @author Brion Vibber <brion@status.net>
- * @license http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link http://status.net/
- */
 class GNUsocial_HTTPResponse extends HTTP_Request2_Response
 {
     function __construct(HTTP_Request2_Response $response, $url, $redirects=0)
@@ -369,3 +359,4 @@ class HTTPClient extends HTTP_Request2
         return new GNUsocial_HTTPResponse($response, $this->getUrl(), $redirs);
     }
 }
+?>

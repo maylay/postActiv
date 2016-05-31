@@ -75,3 +75,4 @@ class DBErrorAction extends ServerErrorAction
         // don't show primary nav
     }
 }
+?>

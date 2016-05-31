@@ -615,3 +615,4 @@ class HTMLOutputter extends XMLOutputter
                    ' });');
     }
 }
+?>

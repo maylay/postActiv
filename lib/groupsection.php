@@ -100,3 +100,4 @@ abstract class GroupSection extends Section
         $this->out->elementEnd('tr');
     }
 }
+?>

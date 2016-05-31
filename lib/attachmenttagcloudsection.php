@@ -75,3 +75,4 @@ class AttachmentTagCloudSection extends TagCloudSection
         return $notice_tag;
     }
 }
+?>

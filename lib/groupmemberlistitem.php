@@ -6,7 +6,7 @@
  *   gnuSocial (C) 2015, Free Software Foundation, Inc
  *   StatusNet (C) 2008-2011, StatusNet, Inc
  */
- 
+
 // @todo FIXME: add documentation.
 
 class GroupMemberListItem extends ProfileListItem
@@ -111,3 +111,4 @@ class GroupMemberListItem extends ProfileListItem
         return $args;
     }
 }
+?>

@@ -38,3 +38,4 @@ class ActivityStreamsLink
         return array_filter($this->linkDict);
     }
 }
+?>

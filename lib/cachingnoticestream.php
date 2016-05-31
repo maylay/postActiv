@@ -126,3 +126,4 @@ class CachingNoticeStream extends NoticeStream
         return $ids;
     }
 }
+?>

@@ -6,6 +6,11 @@
  *   gnuSocial (C) 2015, Free Software Foundation, Inc
  *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
+ * Background job to delete prolific users without disrupting front-end too much.
+ *
+ * Up to 50 messages are deleted on each run through; when all messages are gone,
+ * the actual account is deleted.
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -18,13 +23,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-/**
- * Background job to delete prolific users without disrupting front-end too much.
- *
- * Up to 50 messages are deleted on each run through; when all messages are gone,
- * the actual account is deleted.
  *
  * @package QueueHandler
  * @maintainer Brion Vibber <brion@status.net>
@@ -105,3 +103,4 @@ class DelUserQueueHandler extends QueueHandler
     }
 
 }
+?>

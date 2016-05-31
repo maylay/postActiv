@@ -268,3 +268,4 @@ class AttachmentListItem extends Widget
         $this->out->elementEnd('li');
     }
 }
+?>

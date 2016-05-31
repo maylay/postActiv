@@ -86,3 +86,4 @@ class ApiBareAuthAction extends ApiAuthAction
         return false;
     }
 }
+?>

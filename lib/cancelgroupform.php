@@ -104,3 +104,4 @@ class CancelGroupForm extends Form
         $this->out->submit('submit', _m('BUTTON','Cancel join request'));
     }
 }
+?>

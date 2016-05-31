@@ -317,3 +317,4 @@ class Atom10Feed extends XMLStringer
         array_push($this->links, $attrs);
     }
 }
+?>

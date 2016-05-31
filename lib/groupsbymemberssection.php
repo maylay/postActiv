@@ -80,3 +80,4 @@ class GroupsByMembersSection extends GroupSection
         return 'top_groups_by_member';
     }
 }
+?>

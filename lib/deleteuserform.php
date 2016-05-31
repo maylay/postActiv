@@ -79,3 +79,4 @@ class DeleteUserForm extends ProfileActionForm
         return _('Delete this user');
     }
 }
+?>

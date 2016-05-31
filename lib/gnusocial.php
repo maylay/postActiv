@@ -460,3 +460,4 @@ class NoConfigException extends Exception
         $this->configFiles = $configFiles;
     }
 }
+?>

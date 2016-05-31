@@ -16,3 +16,4 @@ class GroupMembersMiniList extends ProfileMiniList
         return new GroupMembersMiniListItem($profile, $this->action);
     }
 }
+?>

@@ -400,3 +400,4 @@ class ApiAuthAction extends ApiAction
         common_log(LOG_WARNING, $msg . $logMsg);
      }
 }
+?>

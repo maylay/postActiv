@@ -84,3 +84,4 @@ class AtomCategory
         $xo->element('category', $attribs);
     }
 }
+?>

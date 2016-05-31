@@ -2594,3 +2594,4 @@ function _ve($var)
 {
     return var_export($var, true);
 }
+?>

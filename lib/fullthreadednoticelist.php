@@ -76,3 +76,4 @@ class FullThreadedNoticeListItem extends ThreadedNoticeListItem
         return 1000; // @fixme
     }
 }
+?>

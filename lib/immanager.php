@@ -57,3 +57,4 @@ abstract class ImManager extends IoManager
         throw new Exception('ImManager should be created using it\'s constructor, not the static get method');
     }
 }
+?>

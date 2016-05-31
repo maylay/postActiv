@@ -80,3 +80,4 @@ class GroupsByPostsSection extends GroupSection
         return 'top_groups_by_post';
     }
 }
+?>

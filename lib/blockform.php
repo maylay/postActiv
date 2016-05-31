@@ -69,3 +69,4 @@ class BlockForm extends ProfileActionForm
         return _('Block this user');
     }
 }
+?>

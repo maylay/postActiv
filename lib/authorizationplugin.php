@@ -97,3 +97,4 @@ abstract class AuthorizationPlugin extends Plugin
         }
     }
 }
+?>

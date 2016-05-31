@@ -40,3 +40,4 @@ class GroupAdminSection extends ProfileSection
         return null;
     }
 }
+?>

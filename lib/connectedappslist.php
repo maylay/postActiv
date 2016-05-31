@@ -165,3 +165,4 @@ class ConnectedAppsList extends Widget
         $this->out->elementEnd('li');
     }
 }
+?>

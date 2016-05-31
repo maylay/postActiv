@@ -25,3 +25,4 @@ class GroupMemberList extends ProfileList
         return new GroupMemberListItem($profile, $this->group, $this->action);
     }
 }
+?>

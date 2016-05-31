@@ -265,3 +265,4 @@ class AdminPanelAction extends Action
     {
     }
 }
+?>

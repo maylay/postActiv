@@ -78,3 +78,4 @@ class ApiPrivateAuthAction extends ApiAuthAction
         return false;
     }
 }
+?>

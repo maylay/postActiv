@@ -133,3 +133,4 @@ class GroupBlockForm extends Form
             _m('TOOLTIP', 'Block this user so that they can no longer post messages to it.'));
     }
 }
+?>

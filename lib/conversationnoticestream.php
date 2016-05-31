@@ -104,3 +104,4 @@ class RawConversationNoticeStream extends NoticeStream
         return $notice->fetchAll('id');
     }
 }
+?>

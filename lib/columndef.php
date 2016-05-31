@@ -166,3 +166,4 @@ class ColumnDef
                 ($this->nullable == $other->nullable));
     }
 }
+?>

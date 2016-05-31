@@ -95,3 +95,4 @@ class ApiOAuthAction extends ApiAction
     }
 
 }
+?>

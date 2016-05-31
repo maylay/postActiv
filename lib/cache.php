@@ -278,3 +278,4 @@ class Cache
         return $success;
     }
 }
+?>

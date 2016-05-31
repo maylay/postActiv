@@ -172,3 +172,4 @@ class GroupList extends Widget
         return htmlspecialchars($text);
     }
 }
+?>

@@ -145,3 +145,4 @@ class AccountMover extends QueueHandler
         common_log($level, "AccountMover: " . $message);
     }
 }
+?>

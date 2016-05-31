@@ -36,20 +36,6 @@ if (!defined('STATUSNET')) {
     exit(1);
 }
 
-/**
- * Feed data to store in the <atom:source> element
- *
- * I wanted to use Atom10Feed but it seems more heavyweight than what's
- * needed here.
- * 
- * @category  OStatus
- * @package   StatusNet
- * @author    Evan Prodromou <evan@status.net>
- * @copyright 2010 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPLv3
- * @link      http://status.net/
- */
-
 class ActivitySource
 {
     public $id;
@@ -58,3 +44,4 @@ class ActivitySource
     public $updated;
     public $links;
 }
+?>

@@ -16,3 +16,4 @@ abstract class FullNoticeStream extends NoticeStream
 {
     protected $selectVerbs = [];
 }
+?>

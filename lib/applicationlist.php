@@ -111,3 +111,4 @@ class ApplicationList extends Widget
         return;
     }
 }
+?>

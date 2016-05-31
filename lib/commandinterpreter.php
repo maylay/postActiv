@@ -321,3 +321,4 @@ class CommandInterpreter
         return $pieces;
     }
 }
+?>
