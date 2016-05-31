@@ -15,7 +15,7 @@
  * @link     https://gnu.io/social
  */
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 class NoticeSaveException extends ServerException
 {

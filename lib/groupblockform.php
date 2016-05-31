@@ -17,6 +17,8 @@
  *
  * @see      BlockForm
  */
+if (!defined('POSTACTIV')) { exit(1); } 
+
 class GroupBlockForm extends Form
 {
     /**

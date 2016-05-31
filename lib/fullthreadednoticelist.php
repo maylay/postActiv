@@ -31,11 +31,7 @@
  * @link      http://status.net/
  */
 
-if (!defined('STATUSNET')) {
-    // This check helps protect against security problems;
-    // your code file can't be executed directly from the web.
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * A threaded notice list that shows all notices

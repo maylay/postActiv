@@ -20,7 +20,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 define('GNUSOCIAL_ENGINE', 'postActiv');
 define('GNUSOCIAL_ENGINE_URL', 'https://git.gnu.io/maiyannah/postActiv');

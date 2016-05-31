@@ -31,10 +31,7 @@
  * @link      http://status.net/
  */
 
-if (!defined('STATUSNET'))
-{
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * A class for generating JSON documents that represent an Activity Streams

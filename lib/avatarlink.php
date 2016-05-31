@@ -32,9 +32,7 @@
  * @link      http://status.net/
  */
 
-if (!defined('STATUSNET')) {
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 // XXX: Arg! This wouldn't be necessary if we used Avatars conistently
 class AvatarLink

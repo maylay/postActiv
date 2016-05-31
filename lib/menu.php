@@ -28,11 +28,7 @@
  * @link      http://status.net/
  */
 
-if (!defined('STATUSNET')) {
-    // This check helps protect against security problems;
-    // your code file can't be executed directly from the web.
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Superclass for menus
@@ -97,7 +93,7 @@ class Menu extends Widget
                 list($actionName, $args, $label, $description, $id) = $item;
                 $this->item($actionName, $args, $label, $description, $id);
             }
-        
+
             $this->out->elementEnd('ul');
             
             Event::handle('EndNav', array($this, $tag, $items));

@@ -36,6 +36,9 @@ if (!defined('GNUSOCIAL')) { exit(1); }
  * event with their own class, in which case they must ensure that
  * their notices get enqueued when they need them.
  */
+
+if (!defined('POSTACTIV')) { exit(1); } 
+
 class PluginQueueHandler extends QueueHandler
 {
     function transport()

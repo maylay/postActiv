@@ -45,6 +45,8 @@ if (!defined('GNUSOCIAL')) { exit(1); }
  * @link     http://status.net/
  */
 
+if (!defined('POSTACTIV')) { exit(1); }
+
 class NoSuchGroupException extends ServerException
 {
     public $data = array();

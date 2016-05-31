@@ -1,6 +1,6 @@
 <?php
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Moderated notice stream, will take into account the scoping of

@@ -31,7 +31,7 @@
  * @link      https://www.gnu.org/software/social/
  */
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 class NoUriException extends ServerException
 {

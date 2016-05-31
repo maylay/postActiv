@@ -31,6 +31,8 @@
  * @link      http://www.gnu.org/software/social/
  */
 
+if (!defined('POSTACTIV')) { exit(1); }
+
 $default =
     array('site' =>
         array('name' => 'Just another postActiv node',

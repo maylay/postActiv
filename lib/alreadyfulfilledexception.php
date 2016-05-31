@@ -20,7 +20,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Parent class for an exception when trying to do something that was
@@ -28,7 +28,7 @@ if (!defined('GNUSOCIAL')) { exit(1); }
  *
  * This is a common case for example when remote sites are not up to
  * date with our database. For example subscriptions, where a remote
- * user may be unsubscribed from our user, but they request it anyway. 
+ * user may be unsubscribed from our user, but they request it anyway.
  *
  * This exception is usually caught in a manner that lets the execution
  * continue _as if_ the desired action did what it was supposed to do.

@@ -31,7 +31,7 @@
  * @link      http://www.gnu.org/software/social/
  */
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 // Can't extend HTTP_Request2_Exception since it requires an HTTP status code which we didn't get
 class NoHttpResponseException extends HTTP_Request2_ConnectionException

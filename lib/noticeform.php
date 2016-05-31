@@ -32,7 +32,7 @@
  * @link      http://status.net/
  */
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Form for posting a notice
@@ -115,7 +115,7 @@ class NoticeForm extends Form
 
         $this->actionName  = $action->trimmed('action');
 
-        $prefill = array('content', 'inreplyto', 'lat', 
+        $prefill = array('content', 'inreplyto', 'lat',
                          'lon', 'location_id', 'location_ns',
                          'to_group', 'to_profile', 'private');
 

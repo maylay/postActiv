@@ -7,7 +7,7 @@
  *   StatusNet (C) 2008-2011, StatusNet, Inc
  */
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Backwards compatible class for plugins for GNU social <1.2

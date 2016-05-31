@@ -37,6 +37,8 @@ if (!defined('STATUSNET') && !defined('LACONICA')) { exit(1); }
  * 4) implement send_raw_message() to send raw data that ImPlugin::enqueueOutgoingRaw
  *      enqueued
  */
+ 
+ if (!defined('POSTACTIV')) { exit(1); }
 
 abstract class ImManager extends IoManager
 {
