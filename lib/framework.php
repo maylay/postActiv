@@ -22,15 +22,15 @@
 
 if (!defined('GNUSOCIAL')) { exit(1); }
 
-define('GNUSOCIAL_ENGINE', 'GNU social');
-define('GNUSOCIAL_ENGINE_URL', 'https://www.gnu.org/software/social/');
+define('GNUSOCIAL_ENGINE', 'postActiv');
+define('GNUSOCIAL_ENGINE_URL', 'https://git.gnu.io/maiyannah/postActiv');
 
-define('GNUSOCIAL_BASE_VERSION', '1.2.0');
-define('GNUSOCIAL_LIFECYCLE', 'beta4'); // 'dev', 'alpha[0-9]+', 'beta[0-9]+', 'rc[0-9]+', 'release'
+define('GNUSOCIAL_BASE_VERSION', '1.0.0');
+define('GNUSOCIAL_LIFECYCLE', 'dev'); // 'dev', 'alpha[0-9]+', 'beta[0-9]+', 'rc[0-9]+', 'release'
 
 define('GNUSOCIAL_VERSION', GNUSOCIAL_BASE_VERSION . '-' . GNUSOCIAL_LIFECYCLE);
 
-define('GNUSOCIAL_CODENAME', 'Not decided yet');
+define('GNUSOCIAL_CODENAME', 'Genesis');
 
 define('AVATAR_PROFILE_SIZE', 96);
 define('AVATAR_STREAM_SIZE', 48);
