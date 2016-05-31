@@ -3,7 +3,7 @@
  * postActiv - a fork of the gnuSocial microblogging software
  * Copyright (C) 2016 Maiyannah Bishop <maiyannah@member.fsf.org>
  * Derived from StatusNet copyright (C) 2008-2011, StatusNet, Inc.
- * 
+ *
  * Table Definition for foreign_service
  */
 require_once INSTALLDIR.'/classes/Memcached_DataObject.php';
@@ -40,3 +40,4 @@ class Foreign_service extends Managed_DataObject
         );
     }
 }
+?>

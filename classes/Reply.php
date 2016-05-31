@@ -65,3 +65,4 @@ class Reply extends Managed_DataObject
         return $stream->getNotices($offset, $limit, $since_id, $max_id);
     }
 }
+?>

@@ -79,3 +79,4 @@ class Local_group extends Managed_DataObject
         return $result;
     }
 }
+?>

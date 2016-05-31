@@ -48,3 +48,4 @@ class Sms_carrier extends Managed_DataObject
         );
     }
 }
+?>

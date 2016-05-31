@@ -67,3 +67,4 @@ class User_username extends Managed_DataObject
         }
     }
 }
+?>

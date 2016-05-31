@@ -82,3 +82,4 @@ class Consumer extends Managed_DataObject
         $nonce->delete();
     }
 }
+?>

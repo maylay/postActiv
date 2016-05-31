@@ -81,3 +81,4 @@ class Foreign_user extends Managed_DataObject
         return $fuser;
     }
 }
+?>

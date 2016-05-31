@@ -238,3 +238,4 @@ class GS_DataObject extends DB_DataObject
         return $res;
     }
 }
+?>

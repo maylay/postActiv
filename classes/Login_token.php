@@ -83,3 +83,4 @@ class Login_token extends Managed_DataObject
         return $login_token;
     }
 }
+?>

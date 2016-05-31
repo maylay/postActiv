@@ -1075,3 +1075,4 @@ class User extends Managed_DataObject
         return $this->getProfile()->setPref($namespace, $topic, $data);
     }
 }
+?>

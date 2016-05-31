@@ -141,3 +141,4 @@ class Profile_tag_subscription extends Managed_DataObject
         return $result;
     }
 }
+?>

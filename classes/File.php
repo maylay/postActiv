@@ -676,3 +676,4 @@ class File extends Managed_DataObject
         echo "Resuming core schema upgrade...";
     }
 }
+?>

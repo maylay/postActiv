@@ -956,3 +956,4 @@ class Memcached_DataObject extends Safe_DataObject
         return $vstr;
     }
 }
+?>

@@ -857,3 +857,4 @@ class User_group extends Managed_DataObject
         return array_keys($ids);
     }
 }
+?>

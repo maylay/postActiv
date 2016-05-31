@@ -919,3 +919,4 @@ class Profile_list extends Managed_DataObject
         return $result;
     }
 }
+?>

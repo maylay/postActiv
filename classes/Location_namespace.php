@@ -51,3 +51,4 @@ class Location_namespace extends Managed_DataObject
         );
     }
 }
+?>

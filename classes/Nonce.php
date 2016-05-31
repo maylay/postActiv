@@ -55,3 +55,4 @@ class Nonce extends Managed_DataObject
         );
     }
 }
+?>

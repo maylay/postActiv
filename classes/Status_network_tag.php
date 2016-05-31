@@ -145,3 +145,4 @@ class Status_network_tag extends Safe_DataObject
         return $snt;
     }
 }
+?>

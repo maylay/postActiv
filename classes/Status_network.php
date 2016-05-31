@@ -374,3 +374,4 @@ class Status_network extends Safe_DataObject
         return in_array($tag, $this->getTags());
     }
 }
+?>

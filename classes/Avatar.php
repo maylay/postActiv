@@ -251,3 +251,4 @@ class Avatar extends Managed_DataObject
         return $scaled;
     }
 }
+?>

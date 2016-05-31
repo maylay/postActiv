@@ -229,3 +229,4 @@ class File_thumbnail extends Managed_DataObject
         $this->urlhash = mb_strlen($this->url)>0 ? self::hashurl($this->url) : null;
     }
 }
+?>

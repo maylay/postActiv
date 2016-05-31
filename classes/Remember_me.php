@@ -36,3 +36,4 @@ class Remember_me extends Managed_DataObject
         );
     }    
 }
+?>

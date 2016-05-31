@@ -91,3 +91,4 @@ class Oauth_application_user extends Managed_DataObject
         return $result;
     }
 }
+?>

@@ -41,3 +41,4 @@ class Group_inbox extends Managed_DataObject
         );
     }
 }
+?>
