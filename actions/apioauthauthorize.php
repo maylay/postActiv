@@ -709,3 +709,4 @@ class ApiOAuthAuthorizeAction extends ApiOAuthAction
         }
     }
 }
+?>

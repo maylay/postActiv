@@ -174,3 +174,4 @@ class ApiOAuthPinAction extends InfoAction
         $this->element('div', array('id' => 'oauth_pin'), $this->verifier);
     }
 }
+?>

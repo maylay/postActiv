@@ -226,3 +226,4 @@ class ApiStatusesShowAction extends ApiPrivateAuthAction
         print("\n");
     }
 }
+?>

@@ -120,4 +120,4 @@ class ConversationAction extends ManagedAction
                               _('Conversation feed (Atom)')));
     }
 }
-
+?>

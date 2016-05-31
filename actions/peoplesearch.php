@@ -144,3 +144,4 @@ class PeopleSearchResultItem extends ProfileListItem
         return preg_replace($this->pattern, '<strong>\\1</strong>', htmlspecialchars($text));
     }
 }
+?>

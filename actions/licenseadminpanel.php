@@ -340,3 +340,4 @@ class LicenseAdminPanelForm extends AdminForm
         );
     }
 }
+?>

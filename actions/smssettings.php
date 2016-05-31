@@ -534,3 +534,4 @@ class SmssettingsAction extends SettingsAction
         return _('New incoming email address added.');
     }
 }
+?>

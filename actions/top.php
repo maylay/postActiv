@@ -49,3 +49,4 @@ class TopAction extends ManagedAction
         }
     }
 }
+?>

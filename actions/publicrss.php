@@ -96,3 +96,4 @@ class PublicrssAction extends Rss10Action
         return true;
     }
 }
+?>

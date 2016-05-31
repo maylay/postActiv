@@ -160,3 +160,4 @@ class AtompubshowmembershipAction extends AtompubAction
                                           $ctime)) . '"';
     }
 }
+?>

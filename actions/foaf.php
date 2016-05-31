@@ -308,3 +308,4 @@ class FoafAction extends ManagedAction
         return $person;
     }
 }
+?>

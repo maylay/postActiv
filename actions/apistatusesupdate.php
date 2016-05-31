@@ -368,3 +368,4 @@ class ApiStatusesUpdateAction extends ApiAuthAction
         return $supported;
     }
 }
+?>

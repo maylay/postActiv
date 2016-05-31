@@ -185,3 +185,4 @@ class AtompubshowsubscriptionAction extends AtompubAction
         }
     }
 }
+?>

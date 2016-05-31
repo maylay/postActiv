@@ -181,3 +181,4 @@ class PublictagcloudAction extends Action
         $this->elementEnd('li');
     }
 }
+?>

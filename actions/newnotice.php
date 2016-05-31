@@ -252,3 +252,4 @@ class NewnoticeAction extends FormAction
         // pass
     }
 }
+?>

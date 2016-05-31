@@ -113,3 +113,4 @@ class ApiFriendshipsCreateAction extends ApiAuthAction
         $this->endDocument($this->format);
     }
 }
+?>

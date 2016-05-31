@@ -256,3 +256,4 @@ abstract class ApiSubscriptionsAction extends ApiBareAuthAction
         }
     }
 }
+?>

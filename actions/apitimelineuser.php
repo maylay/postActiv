@@ -383,3 +383,4 @@ class ApiTimelineUserAction extends ApiBareAuthAction
         $this->showSingleAtomStatus($stored);
     }
 }
+?>

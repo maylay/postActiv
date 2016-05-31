@@ -216,3 +216,4 @@ class AccessAdminPanelForm extends AdminForm
         $this->out->submit('submit', _m('BUTTON', 'Save'), 'submit', null, $title);
     }
 }
+?>

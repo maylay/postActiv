@@ -1,5 +1,5 @@
 <?php
-/***
+/***x
  * postActiv - a fork of the gnuSocial microblogging software
  * Copyright (C) 2016, Maiyannah Bishop <maiyannah@member.fsf.org>
  * Derived from code copyright various sources:
@@ -232,3 +232,4 @@ class DeletegroupAction extends RedirectingAction
         $this->elementEnd('form');
     }
 }
+?>

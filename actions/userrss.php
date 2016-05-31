@@ -75,3 +75,4 @@ class UserrssAction extends TargetedRss10Action
         return true;
     }
 }
+?>

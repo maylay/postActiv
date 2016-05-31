@@ -299,3 +299,4 @@ class InviteAction extends Action
         mail_send($recipients, $headers, $body);
     }
 }
+?>

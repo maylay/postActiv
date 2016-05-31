@@ -186,3 +186,4 @@ class ConfirmaddressAction extends ManagedAction
                                $this->address));
     }
 }
+?>

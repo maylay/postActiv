@@ -189,3 +189,4 @@ class DocListNav extends Menu
         return $items;
     }
 }
+?>

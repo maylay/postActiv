@@ -121,3 +121,4 @@ class ApiAccountRateLimitStatusAction extends ApiBareAuthAction
         return true;
     }
 }
+?>

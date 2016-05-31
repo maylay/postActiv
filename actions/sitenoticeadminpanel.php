@@ -198,3 +198,4 @@ class SiteNoticeAdminPanelForm extends AdminForm
         );
     }
 }
+?>

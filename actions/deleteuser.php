@@ -187,3 +187,4 @@ class DeleteuserAction extends ProfileFormAction
         }
     }
 }
+?>

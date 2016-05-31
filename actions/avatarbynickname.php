@@ -96,3 +96,4 @@ class AvatarbynicknameAction extends Action
         return true;
     }
 }
+?>

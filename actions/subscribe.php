@@ -150,3 +150,4 @@ class SubscribeAction extends Action
         }
     }
 }
+?>

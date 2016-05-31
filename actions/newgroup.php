@@ -153,3 +153,4 @@ class NewgroupAction extends FormAction
         }
     }
 }
+?>

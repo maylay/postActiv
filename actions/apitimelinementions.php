@@ -256,3 +256,4 @@ class ApiTimelineMentionsAction extends ApiBareAuthAction
         return null;
     }
 }
+?>

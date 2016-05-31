@@ -184,3 +184,4 @@ class GroupQueueListItem extends GroupMemberListItem
         $this->out->elementEnd('li');
     }
 }
+?>

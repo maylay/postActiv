@@ -394,3 +394,4 @@ class ApiSearchAtomAction extends ApiPrivateAuthAction
         $this->elementEnd('feed');
     }
 }
+?>

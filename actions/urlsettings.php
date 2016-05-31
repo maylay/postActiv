@@ -230,3 +230,4 @@ class UrlsettingsAction extends SettingsAction
         return _('Preferences saved.');
     }
 }
+?>

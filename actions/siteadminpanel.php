@@ -380,3 +380,4 @@ class SiteAdminPanelForm extends AdminForm
                            _('Save the site settings.'));
     }
 }
+?>

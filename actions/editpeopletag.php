@@ -332,3 +332,4 @@ class EditpeopletagAction extends Action
         return !empty($ptag);
     }
 }
+?>

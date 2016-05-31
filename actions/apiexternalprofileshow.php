@@ -101,3 +101,4 @@ class ApiExternalProfileShowAction extends ApiPrivateAuthAction
         return true;
     }
 }
+?>

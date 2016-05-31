@@ -165,3 +165,4 @@ class PluginEnableAction extends Action
         return new DisablePluginForm($this, $this->plugin);
     }
 }
+?>

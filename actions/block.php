@@ -234,3 +234,4 @@ class BlockAction extends ProfileFormAction
         }
     }
 }
+?>

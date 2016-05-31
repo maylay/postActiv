@@ -141,3 +141,4 @@ class GroupsAction extends Action
         $gbm->show();
     }
 }
+?>

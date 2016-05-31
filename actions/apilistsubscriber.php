@@ -89,3 +89,4 @@ class ApiListSubscriberAction extends ApiBareAuthAction
         }
     }
 }
+?>

@@ -66,3 +66,4 @@ class GroupbyidAction extends ManagedAction
         common_redirect($this->group->homeUrl(), 303);
     }
 }
+?>

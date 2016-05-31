@@ -308,3 +308,4 @@ class UserAdminPanelForm extends AdminForm
                            _('Save user settings.'));
     }
 }
+?>

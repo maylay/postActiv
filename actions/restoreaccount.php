@@ -376,3 +376,4 @@ class RestoreAccountForm extends Form
                            _('Upload the file'));
     }
 }
+?>

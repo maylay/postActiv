@@ -64,7 +64,7 @@ class ApiCheckHubAction extends ApiAuthAction
         if (!common_valid_http_url($this->url)) {
             $this->clientError(_('Invalid URL.'), 403);
         }
-        
+
         return true;
     }
 
@@ -117,3 +117,4 @@ class ApiCheckHubAction extends ApiAuthAction
         return true;
     }
 }
+?>

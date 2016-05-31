@@ -210,3 +210,4 @@ class SessionsAdminPanelForm extends AdminForm
                            _('Save session settings'));
     }
 }
+?>

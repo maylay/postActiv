@@ -142,3 +142,4 @@ class AttachmentAction extends ManagedAction
         }
     }
 }
+?>

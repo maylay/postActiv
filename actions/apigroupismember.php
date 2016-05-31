@@ -127,3 +127,4 @@ class ApiGroupIsMemberAction extends ApiBareAuthAction
         return true;
     }
 }
+?>

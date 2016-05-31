@@ -98,3 +98,4 @@ class NoticesearchrssAction extends Rss10Action
         return true;
     }
 }
+?>

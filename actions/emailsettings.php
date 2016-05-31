@@ -502,3 +502,4 @@ class EmailsettingsAction extends SettingsAction
         return $other->id != $user->id;
     }
 }
+?>

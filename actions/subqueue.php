@@ -106,3 +106,4 @@ class SubqueueAction extends GalleryAction
                           array('nickname' => $this->target->getNickname())); // urgh
     }
 }
+?>

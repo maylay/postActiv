@@ -218,3 +218,4 @@ class ProfilecompletionAction extends Action
         $this->elementEnd('li');
     }
 }
+?>

@@ -127,3 +127,4 @@ class OauthappssettingsAction extends SettingsAction
         $this->elementEnd('div');
     }
 }
+?>

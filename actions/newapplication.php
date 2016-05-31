@@ -215,3 +215,4 @@ class NewApplicationAction extends SettingsAction
         return !empty($app);
     }
 }
+?>

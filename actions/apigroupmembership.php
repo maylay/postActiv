@@ -183,3 +183,4 @@ class ApiGroupMembershipAction extends ApiPrivateAuthAction
         return null;
     }
 }
+?>

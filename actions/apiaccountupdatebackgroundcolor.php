@@ -89,6 +89,5 @@ class ApiAccountUpdateBackgroundColorAction extends ApiAuthAction
         $this->showJsonObjects($twitter_user);
         $this->endDocument('json');
     }
-
-
 }
+?>

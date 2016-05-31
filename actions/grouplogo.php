@@ -485,3 +485,4 @@ class GrouplogoAction extends GroupAction
         $this->autofocus('avatarfile');
     }
 }
+?>

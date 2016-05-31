@@ -249,3 +249,4 @@ class ApiGroupProfileUpdateAction extends ApiAuthAction
         return $aliases;
     }
 }
+?>

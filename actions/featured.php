@@ -147,3 +147,4 @@ class FeaturedAction extends Action
         }
     }
 }
+?>

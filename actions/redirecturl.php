@@ -90,3 +90,4 @@ class RedirecturlAction extends ManagedAction
                                           $this->file->getID())) . '"';
     }
 }
+?>

@@ -104,3 +104,4 @@ class ApiBlockDestroyAction extends ApiAuthAction
         }
     }
 }
+?>
