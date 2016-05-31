@@ -1,13 +1,14 @@
-# GNU social 1.2.x
-2015
+# postActiv 1.0
+(c) 2016 Maiyannah Lysander <maiyannah@member.fsf.org>
 
-(c) Free Software Foundation, Inc
-(c) StatusNet, Inc
+Derived from code copyright various sources:
+ * gnuSocial (C) 2015, Free Software Foundation, Inc
+ * StatusNet (C) 2008-2011, StatusNet, Inc
 
-This is the README file for GNU social, the free
-software social networking platform. It includes
-general information about the software and the
-project.
+This is the README file for postActiv, a fork of gnuSocial, the free software
+social networking platform which refactors the code base and adds several
+patches and features. It includes general information about the software and
+the project.
 
 Some other files to review:
 
@@ -18,57 +19,51 @@ Some other files to review:
 - EVENTS.txt: events supported by the plugin system
 - COPYING: full text of the software license
 
-Information on using GNU social can be found in
-the "doc" subdirectory or in the "help" section
-on-line, or you can catch us on IRC in #social on
-the freenode network.
+Information on using GNU social can be found in the "doc" subdirectory or in the "help" section on-line, or you can contact maiyannah on the fediverse at @maiyannah@community.highlandarrow.com
 
 ## About
 
-GNU social is a free social networking
-platform. It helps people in a community, company
-or group to exchange short status updates, do
-polls, announce events, or other social activities
-(and you can add more!). Users can choose which
-people to "follow" and receive only their friends'
-or colleagues' status messages. It provides a
-similar service to proprietary social network sites,
-but is much more awesome.
+postActiv is a free software project to develop a social networking platform.
+It is derived from gnuSocial, which is itself derived from StatusNet and
+Laconia.  It helps people in a community, company, or group to exchange short
+status updates, do polls, annouce events, or other social activites.  Users can
+choose which people to "follow" and reveive only their friends' or collegues'
+status messages.  They can also view the public timeline of the site to see
+everyone, or the "whole known network" timeline, to see all the people in sites
+that have connected with this one, by someone following them.  It provides a
+similar service to proprietary social network sites, but is decentralized, and
+with many additional features and an open, free software codebase that you can
+develop your own plugins for, it is much more awesome.
 
-With a little work, status messages can be sent to
-mobile phones, instant messenger programs (using
-XMPP), and specially-designed desktop clients that
-support the Twitter API.
+Using plugins available to postActiv, status messages can be sent to mobile
+phones or pages, instant messenger clients that implement XMPP, and desktop
+clients with support for the Twitter API.
 
-GNU social supports an open standard called
-OStatus <https://www.w3.org/community/ostatus/> that lets users in
-different networks follow each other. It enables a
-distributed social network spread all across the
-Web.
+postActiv supports an open standard called OStatus <https://www.w3.org/
+community/ostatus/> that lets users in different networks follow each other. It
+enables a distributed social network spread all across the Web.
 
-GNU social was originally developed as "StatusNet" by
-StatusNet, Inc. with Evan Prodromou as lead developer.
+postActive is derived from GNU social, and GNU social was originally developed
+as "StatusNet" by StatusNet, Inc. with Evan Prodromou as lead developer.
 
-It is shared with you in hope that you too make an
-service available to your users. To learn more,
-please see the Open Software Service Definition
-1.1: <http://www.opendefinition.org/ossd>
+It is shared with you in hope that you too make an service available to your
+users. To learn more, please see the Open Software Service Definition 1.1: <
+http://www.opendefinition.org/ossd>
 
 ### License
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as
-published by the Free Software Foundation, either version 3 of the
-License, or (at your option) any later version.
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU Affero General Public License as published by the Free
+Software Foundation, either version 3 of the License, or (at your option) any
+later version.
 
-This program is distributed in the hope that it will be useful, but
-WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-Affero General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
 
-You should have received a copy of the GNU Affero General Public
-License along with this program, in the file "COPYING".  If not, see
-<http://www.gnu.org/licenses/>.
+You should have received a copy of the GNU Affero General Public License along
+with this program, in the file "COPYING".  If not, see <http://www.gnu.org/
+licenses/>.
 
     IMPORTANT NOTE: The GNU Affero General Public License (AGPL) has
     *different requirements* from the "regular" GPL. In particular, if
@@ -86,71 +81,52 @@ CSS and images in the /theme/ directory are available under the
 Creative Commons Attribution 3.0 Unported license, with attribution to
 "GNU social". See <http://creativecommons.org/licenses/by/3.0/> for details.
 
-Our understanding and intention is that if you add your own theme that
-uses only CSS and images, those files are not subject to the copyleft
-requirements of the Affero General Public License 3.0. See
-<http://wordpress.org/news/2009/07/themes-are-gpl-too/>. This is not
-legal advice; consult your lawyer.
+Our understanding and intention is that if you add your own theme that uses
+only CSS and images, those files are not subject to the copyleft requirements
+of the Affero General Public License 3.0.
+See <http://wordpress.org/news/2009/07/themes-are-gpl-too/>.
+This is not legal advice; consult your lawyer.
 
-Additional library software has been made available in the 'extlib'
-directory. All of it is Free Software and can be distributed under
-liberal terms, but those terms may differ in detail from the AGPL's
-particulars. See each package's license file in the extlib directory
-for additional terms.
+Additional library software has been made available in the 'extlib' directory.
+All of it is Free Software and can be distributed under liberal terms, but
+those terms may differ in detail from the AGPL's particulars. See each package's
+license file in the extlib directory for additional terms.
 
-## New this version
-
-This is the development branch for the 1.2.x version of GNU social.
-All daring 1.1.x admins should upgrade to this version.
-
-So far it includes the following changes:
-
-- Backing up a user's account is more and more complete.
-- Emojis 😸 (utf8mb4 support)
-
-The last release, 1.1.3, gave us these improvements:
-
-- XSS security fix (thanks Simon Waters, <https://www.surevine.com/>)
-- Many improvements to ease adoption of the Qvitter front-end <https://github.com/hannesmannerheim/qvitter>
-- Protocol adaptions for improved performance and stability
-
-Upgrades from _StatusNet_ 1.1.1 will also experience these improvements:
-
-- Fixes for SQL injection errors in profile lists.
-- Improved ActivityStreams JSON representation of activities and objects.
-- Upgrade to the Twitter 1.1 API.
-- More robust handling of errors in distribution.
-- Fix error in OStatus subscription for remote groups.
-- Fix error in XMPP distribution.
-- Tracking of conversation URI metadata (more coherent convos)
+## Compatibility
+Being a fork of GNU social, most plugins that work with GNU social 1.2.0-beta4,
+the version of GNU social it was forked from, should also work with postActiv.
+However, if you run into porting issues with a GNU social plugin that you know
+works with GNU social but does not with postActiv, please raise an issue in the
+issue tracker and we can look into this.
 
 ### Troubleshooting
 
-The primary output for GNU social is syslog,
-unless you configured a separate logfile. This is
-probably the first place to look if you're getting
-weird behaviour from GNU social.
+The primary output for postActiv is syslog, unless you configured a separate
+logfile. This is probably the first place to look if you're getting weird
+behaviour from postActiv.
 
-If you're tracking the unstable version of
-GNU social in the git repository (see below), and you
-get a compilation error ("unexpected T_STRING") in
-the browser, check to see that you don't have any
-conflicts in your code.
+If you wish the postActiv log file to be in another location, specify this
+with the following in the config.php file:
+
+    $config['site']['logfile'] = '/path/to/postactiv.log';
+
+If you're tracking the unstable version of postActiv in the git repository (see
+below), and you get a compilation error ("unexpected T_STRING") in the browser,
+check to see that you don't have any conflicts in your code.
 
 ### Unstable version
 
-If you're adventurous or impatient, you may want
-to install the development version of GNU social.
-To get it, use the git version control tool
+If you're adventurous or impatient, you may want to install the development
+version of GNU social. To get it, use the git version control tool
 <http://git-scm.com/> like so:
 
     git clone git@git.gnu.io:gnu/gnu-social.git
 
-In the current phase of development it is probably
-recommended to use git as a means to stay up to date
-with the source code. You can choose between these
+In the current phase of development it is probably recommended to use git as a
+means to stay up to date with the source code. You can choose between these
 branches:
-- 1.2.x     "stable", few updates, well tested code
+
+- release   "stable", few updates, well tested code
 - master    "testing", more updates, usually working well
 - nightly   "unstable", most updates, not always working
 
@@ -160,23 +136,28 @@ To keep it up-to-date, use 'git pull'. Watch for conflicts!
 
 There are several ways to get more information about GNU social.
 
-* The #social IRC channel on freenode.net <https://www.freenode.net/>.
-* The unofficial XMPP room linked to IRC on <xmpp:gnusocial@conference.bka.li>
-* The GNU social website <https://gnu.io/social/>
-* Following us on GNU social -- <https://quitter.se/gnusocial>
+* Following us on the Fediverse -- <https://community.highlandarrow.com/postActiv>
 
 * GNU social has a bug tracker for any defects you may find, or ideas for
-  making things better. <https://git.gnu.io/gnu/gnu-social/issues/>
-* Patches are welcome, preferrably to our repository on git.gnu.io. <https://git.gnu.io/gnu/gnu-social>
+  making things better. <https://git.gnu.io/maiyannah/postActiv/issues/>
+* Patches are welcome, preferrably to our repository on git.gnu.io. <https://git.gnu.io/maiyannah/postActiv>
 
 Credits
 =======
 
-The following is an incomplete list of developers
-who've worked on GNU social, or its predecessors
-StatusNet and Free Social. Apologies for any
-oversight; please let mattl@gnu.org know if
-anyone's been overlooked in error.
+The following is a list of developers who've contributed to postActiv:
+
+## Lead Maintainer / Developer
+
+* Maiyannah Bishop
+
+## Contributors
+* Neil E Hodges
+
+Acknowledgements
+================
+
+The following is an incomplete list of developers who've worked on GNU social, or its predecessors StatusNet and Free Social, which postActiv is derived from and acknowledges the hard work and efforts of developers
 
 ## Project Founders
 
