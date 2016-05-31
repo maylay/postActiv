@@ -24,6 +24,49 @@ class StoreRemoteMediaPlugin extends Plugin
 
         $this->domain_whitelist = array_merge($this->domain_whitelist, $this->append_whitelist);
     }
+    
+   // patch to get filesize before we get a remote image (using http headers) -mb
+   // returns size or false if unsuccessful
+   private function getRemoteFileSize($url) {
+      if (!$url) {
+         return false;
+      }
+      try {
+         stream_context_set_default(array('http' => array('method' => 'HEAD')));
+         $head = array_change_key_case(get_headers($url, 1));
+         $size = isset($head['content-length']) ? $head['content-length'] : 0;
+
+         if (!$size) {
+            return false;
+         }
+         return $size; // return formatted size
+      } catch (Exception $err) {
+         common_log(LOG_ERR, __CLASS__.': getRemoteFileSize on URL : '._ve($file->getUrl()).' threw exception: '.$err->getMessage());
+         return false;
+      }
+   }
+
+   // patch to parse PHP upload limit into something machine-usable -mb
+   // returns size or false if unsuccessful
+   private function getPHPUploadLimit() {  
+      $size = ini_get("upload_max_filesize");
+      $suffix = substr($size, -1);  
+      $size = substr($size, 0, -1);  
+      switch(strtoupper($suffix)) {  
+      case 'P':  
+         $size *= 1024;  
+      case 'T':  
+         $size *= 1024;  
+      case 'G':  
+         $size *= 1024;  
+      case 'M':  
+         $size *= 1024;  
+      case 'K':  
+         $size *= 1024;  
+         break;  
+      }  
+      return $size;    
+   }
 
     /**
      * Save embedding information for a File, if applicable.
@@ -75,6 +118,14 @@ class StoreRemoteMediaPlugin extends Plugin
         }
 
         $this->checkWhitelist($file->getUrl());
+        
+        // patch: abort if the remote image exceeds the php upload limit -mb
+        $max_size  = $this->getPHPUploadLimit();
+        $file_size = $this->getRemoteFileSize($file->getUrl());
+        if (($file_size!=false) & ($file_size > $max_size)) {
+           common_debug("Went to store remote media of size " . $file_size . " but the upload limit is " . $max_size . " so we aborted.");
+           return false;
+        }        
 
         // First we download the file to memory and test whether it's actually an image file
         common_debug(sprintf('Downloading remote file id==%u with URL: %s', $file->getID(), _ve($file->getUrl())));
