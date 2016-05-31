@@ -31,9 +31,7 @@
  * @link      http://status.net/
  */
 
-if (!defined('STATUSNET') && !defined('LACONICA')) {
-     exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 class WebColor {
     // XXX: Maybe make getters and setters for r,g,b values and tuples,
