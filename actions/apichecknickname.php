@@ -1,7 +1,9 @@
 <?php
         	
 /**
- * StatusNet, the distributed open-source microblogging tool
+ * postActiv - a fork of the gnuSocial microblogging software
+ * Copyright (C) 2016 Maiyannah Bishop <maiyannah@member.fsf.org>
+ * Derived from StatusNet copyright (C) 2008-2011, StatusNet, Inc.
  *
  * Check nickname
  *
