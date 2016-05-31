@@ -326,3 +326,4 @@ main();
 // this always gets called
 
 Event::handle('CleanupPlugin');
+?>
