@@ -5,10 +5,9 @@ Derived from code copyright various sources:
  * gnuSocial (C) 2015, Free Software Foundation, Inc
  * StatusNet (C) 2008-2011, StatusNet, Inc
 
-This is the README file for postActiv, a fork of gnuSocial, the free software
-social networking platform which refactors the code base and adds several
-patches and features. It includes general information about the software and
-the project.
+This is the README file for postActiv, a fork of the free software networking
+platform GNU social, which refactors the code base and adds several patches and
+features. It includes general information about the software and the project.
 
 Some other files to review:
 
@@ -19,7 +18,9 @@ Some other files to review:
 - EVENTS.txt: events supported by the plugin system
 - COPYING: full text of the software license
 
-Information on using GNU social can be found in the "doc" subdirectory or in the "help" section on-line, or you can contact maiyannah on the fediverse at @maiyannah@community.highlandarrow.com
+Information on using GNU social can be found in the "doc" subdirectory or in
+the "help" section on-line, or you can contact maiyannah on the fediverse at 
+@maiyannah@community.highlandarrow.com
 
 ## About
 
@@ -157,7 +158,9 @@ The following is a list of developers who've contributed to postActiv:
 Acknowledgements
 ================
 
-The following is an incomplete list of developers who've worked on GNU social, or its predecessors StatusNet and Free Social, which postActiv is derived from and acknowledges the hard work and efforts of developers
+The following is an incomplete list of developers who've worked on GNU social,
+or its predecessors StatusNet and Free Social, which postActiv is derived from
+and acknowledges the hard work and efforts of developers
 
 ## Project Founders
 
