@@ -1,7 +1,10 @@
 <?php
-/*
- * StatusNet - the distributed open-source microblogging tool
- * Copyright (C) 2009, StatusNet, Inc.
+/***
+ * postActiv - a fork of the gnuSocial microblogging software
+ * Copyright (C) 2016 Maiyannah Bishop <maiyannah@member.fsf.org>
+ * Derived from StatusNet copyright (C) 2008-2011, StatusNet, Inc.
+ *
+ * Table Definition for location_namespace
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -18,10 +21,6 @@
  */
 
 if (!defined('STATUSNET') && !defined('LACONICA')) { exit(1); }
-
-/**
- * Table Definition for location_namespace
- */
 
 require_once INSTALLDIR.'/classes/Memcached_DataObject.php';
 

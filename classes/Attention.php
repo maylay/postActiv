@@ -1,7 +1,8 @@
 <?php
-/*
- * GNU social - a federating social network
- * Copyright (C) 2014, Free Software Foundation, Inc.
+/***
+ * postActiv - a fork of the gnuSocial microblogging software
+ * Copyright (C) 2016 Maiyannah Bishop <maiyannah@member.fsf.org>
+ * Derived from StatusNet copyright (C) 2008-2011, StatusNet, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by

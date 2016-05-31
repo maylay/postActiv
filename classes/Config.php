@@ -1,7 +1,8 @@
 <?php
-/*
- * Laconica - a distributed open-source microblogging tool
- * Copyright (C) 2008, 2009, Control Yourself, Inc.
+/***
+ * postActiv - a fork of the gnuSocial microblogging software
+ * Copyright (C) 2016 Maiyannah Bishop <maiyannah@member.fsf.org>
+ * Derived from Laconica copyright (C) 2008, 2009, Control Yourself, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by

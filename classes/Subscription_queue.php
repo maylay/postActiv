@@ -1,10 +1,13 @@
 <?php
-
-if (!defined('GNUSOCIAL')) { exit(1); }
-
-/**
+/***
+ * postActiv - a fork of the gnuSocial microblogging software
+ * Copyright (C) 2016 Maiyannah Bishop <maiyannah@member.fsf.org>
+ * Derived from StatusNet copyright (C) 2008-2011, StatusNet, Inc.
+ *
  * Table Definition for subscription_queue
  */
+
+if (!defined('GNUSOCIAL')) { exit(1); }
 
 class Subscription_queue extends Managed_DataObject
 {
