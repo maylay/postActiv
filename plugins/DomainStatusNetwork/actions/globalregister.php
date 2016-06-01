@@ -55,10 +55,10 @@ class GlobalregisterAction extends GlobalApiAction
      * @return boolean true
      */
 
-    function prepare($argarray)
+    function prepare(array $args = array())
     {
         try {
-            parent::prepare($argarray);
+            parent::prepare($args);
             return true;
         } catch (ClientException $e) {
             $this->showError($e->getMessage(), $e->getCode());
