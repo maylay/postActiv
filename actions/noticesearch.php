@@ -54,7 +54,7 @@ class NoticesearchAction extends SearchAction
 {
     protected $q = null;
 
-    function prepare($args)
+    function prepare(array $args = array())
     {
         parent::prepare($args);
 

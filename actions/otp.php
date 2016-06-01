@@ -57,7 +57,7 @@ class OtpAction extends Action
     var $returnto;
     var $lt;
 
-    function prepare($args)
+    function prepare(array $args = array())
     {
         parent::prepare($args);
 
