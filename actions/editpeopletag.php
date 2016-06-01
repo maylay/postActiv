@@ -134,13 +134,11 @@ class EditpeopletagAction extends Action
      *
      * On GET, show the form. On POST, try to save the group.
      *
-     * @param array $args unused
-     *
      * @return void
      */
-    function handle($args)
+    function handle()
     {
-        parent::handle($args);
+        parent::handle();
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $this->trySave();
         } else {

@@ -88,9 +88,9 @@ class PeopletagAction extends Action
         return true;
     }
 
-    function handle($args)
+    function handle()
     {
-        parent::handle($args);
+        parent::handle();
         $this->showPage();
     }
 

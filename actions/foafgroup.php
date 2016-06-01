@@ -79,9 +79,9 @@ class FoafGroupAction extends Action
         return true;
     }
 
-    function handle($args)
+    function handle()
     {
-        parent::handle($args);
+        parent::handle();
 
         header('Content-Type: application/rdf+xml');
 

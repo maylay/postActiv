@@ -55,13 +55,11 @@ class OpensearchAction extends Action
     /**
      * Class handler.
      *
-     * @param array $args query arguments
-     *
      * @return boolean false if user doesn't exist
      */
-    function handle($args)
+    function handle()
     {
-        parent::handle($args);
+        parent::handle();
         $type       = $this->trimmed('type');
         $short_name = '';
         if ($type == 'people') {

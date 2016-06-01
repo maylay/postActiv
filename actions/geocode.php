@@ -76,7 +76,7 @@ class GeocodeAction extends Action
      * @return nothing
      *
      */
-    function handle($args)
+    function handle()
     {
         header('Content-Type: application/json; charset=utf-8');
         $location_object = array();
