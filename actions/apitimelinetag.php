@@ -72,8 +72,6 @@ class ApiTimelineTagAction extends ApiPrivateAuthAction
      *
      * Just show the notices
      *
-     * @param array $args $_REQUEST data (unused)
-     *
      * @return void
      */
     protected function handle()

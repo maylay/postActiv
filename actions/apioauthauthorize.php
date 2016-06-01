@@ -95,9 +95,9 @@ class ApiOAuthAuthorizeAction extends ApiOAuthAction
      *
      * @return void
      */
-    function handle($args)
+    function handle()
     {
-        parent::handle($args);
+        parent::handle();
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 

@@ -59,9 +59,9 @@ class ApiListSubscriberAction extends ApiBareAuthAction
         return true;
     }
 
-    function handle($args)
+    function handle()
     {
-        parent::handle($args);
+        parent::handle();
 
         $arr = array('profile_tag_id' => $this->list->id,
                       'profile_id' => $this->target->id);
