@@ -70,9 +70,9 @@ class QnaclosequestionAction extends Action
      *
      * @return boolean true
      */
-    function prepare($argarray)
+    function prepare(array $args = array())
     {
-        parent::prepare($argarray);
+        parent::prepare($args);
         if ($this->boolean('ajax')) {
             GNUsocial::setApi(true);
         }

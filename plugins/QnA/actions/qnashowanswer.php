@@ -55,9 +55,9 @@ class QnashowanswerAction extends ShownoticeAction
      *
      * @return boolean true
      */
-    function prepare($argarray)
+    function prepare(array $args = array())
     {
-        Action::prepare($argarray);
+        Action::prepare($args);
 
         $this->id = $this->trimmed('id');
 
