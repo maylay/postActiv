@@ -30,8 +30,8 @@
  * @copyright 2008-2011 SatusNet, Inc
  * @copyright 2015 Free Software Foundation, Inc
  * @copyright 2016 Maiyannah Bishop
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPLv3
- * @link     https://git.gnu.io/maiyannah/postActiv
+ * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPLv3
+ * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
 if (!defined('GNUSOCIAL')) { exit(1); }
