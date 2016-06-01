@@ -19,23 +19,26 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @category Actions
- * @package  Actions
- * @author   Adrian Lang <mail@adrianlang.de>
- * @author   Brenda Wallace <shiny@cpan.org>
- * @author   Brion Vibber <brion@pobox.com>
- * @author   Craig Andrews <candrews@integralblue.com>
- * @author   Evan Prodromou <evan@status.net>
- * @author   Jeffery To <jeffery.to@gmail.com>
- * @author   Meitar Moscovitz <meitarm@gmail.com>
- * @author   Mike Cochrane <mikec@mikenz.geek.nz>
- * @author   Robin Millette <millette@status.net>
- * @author   Sarven Capadisli <csarven@status.net>
- * @author   Siebrand Mazeland <s.mazeland@xs4all.nl>
- * @author   Zach Copley <zach@status.net>
- * @copyright 2009-2014 Free Software Foundation, Inc http://www.fsf.org
- * @license  GNU Affero General Public License http://www.gnu.org/licenses/
- * @link     http://status.net
+ * @category  Actions
+ * @package   postActiv
+ * @author    Adrian Lang <mail@adrianlang.de>
+ * @author    Brenda Wallace <shiny@cpan.org>
+ * @author    Brion Vibber <brion@pobox.com>
+ * @author    Craig Andrews <candrews@integralblue.com>
+ * @author    Evan Prodromou <evan@status.net>
+ * @author    Jeffery To <jeffery.to@gmail.com>
+ * @author    Meitar Moscovitz <meitarm@gmail.com>
+ * @author    Mike Cochrane <mikec@mikenz.geek.nz>
+ * @author    Robin Millette <millette@status.net>
+ * @author    Sarven Capadisli <csarven@status.net>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Zach Copley <zach@status.net>
+ * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
+ * @copyright 2008-2011 StatusNet, Inc.
+ * @copyright 2015 Free Software Foundation, Inc.
+ * @copyright 2016 Maiyannah Bishop
+ * @license   GNU Affero General Public License http://www.gnu.org/licenses/
+ * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
 if (!defined('GNUSOCIAL')) { exit(1); }

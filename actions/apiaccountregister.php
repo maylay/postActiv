@@ -24,10 +24,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category  API
- * @package   GNUsocial
+ * @package   postActiv
  * @author    Hannes Mannerheim <h@nnesmannerhe.im>
+ * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
+ * @copyright 2015 Hannes Mannerheim
+ * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link      http://www.gnu.org/software/social/
+ * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
 if (!defined('GNUSOCIAL')) { exit(1); }
