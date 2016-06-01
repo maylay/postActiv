@@ -126,7 +126,7 @@ class AddpeopletagAction extends Action
      *
      * @return void
      */
-    function handle($args)
+    function handle()
     {
         // Throws exception on error
         $ptag = Profile_tag::setTag($this->user->id, $this->tagged->id,

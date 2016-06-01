@@ -72,13 +72,11 @@ class ApiOAuthRequestTokenAction extends ApiOAuthAction
      * Make sure the request is kosher, then emit a set of temporary
      * credentials -- AKA an unauthorized request token.
      *
-     * @param array $args array of arguments
-     *
      * @return void
      */
-    function handle($args)
+    function handle()
     {
-        parent::handle($args);
+        parent::handle();
 
         $datastore   = new ApiGNUsocialOAuthDataStore();
         $server      = new OAuthServer($datastore);

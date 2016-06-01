@@ -91,7 +91,7 @@ class ApiconversationAction extends ApiAuthAction
      *
      * @return void
      */
-    function handle($argarray=null)
+    function handle()
     {
         $sitename   = common_config('site', 'name');
         // TRANS: Title for conversion timeline.

@@ -97,13 +97,11 @@ class ApiSearchJSONAction extends ApiPrivateAuthAction
     /**
      * Handle a request
      *
-     * @param array $args Arguments from $_REQUEST
-     *
      * @return void
      */
-    function handle($args)
+    function handle()
     {
-        parent::handle($args);
+        parent::handle();
         $this->showResults();
     }
 
