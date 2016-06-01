@@ -59,9 +59,9 @@ class TrainAction extends Action
      * @return boolean true
      */
 
-    function prepare($argarray)
+    function prepare(array $args = array())
     {
-        parent::prepare($argarray);
+        parent::prepare($args);
 
         // User must be logged in.
 
