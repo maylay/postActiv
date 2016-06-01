@@ -75,9 +75,9 @@ class EmailregisterAction extends Action
     protected $error;
     protected $complete;
 
-    function prepare($argarray)
+    function prepare(array $args = array())
     {
-        parent::prepare($argarray);
+        parent::prepare($args);
 
         if (common_config('site', 'closed')) {
             // TRANS: Client exception trown when registration by e-mail is not allowed.
