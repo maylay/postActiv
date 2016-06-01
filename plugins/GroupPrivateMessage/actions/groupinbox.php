@@ -55,9 +55,9 @@ class GroupinboxAction extends GroupAction
      *
      * @return boolean true
      */
-    function prepare($argarray)
+    function prepare(array $args = array())
     {
-        parent::prepare($argarray);
+        parent::prepare($args);
 
         $cur = common_current_user();
 
