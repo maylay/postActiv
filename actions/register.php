@@ -120,13 +120,11 @@ class RegisterAction extends Action
      *
      * Checks if registration is closed and shows an error if so.
      *
-     * @param array $args $_REQUEST data
-     *
      * @return void
      */
-    function handle($args)
+    function handle()
     {
-        parent::handle($args);
+        parent::handle();
 
         if (common_config('site', 'closed')) {
             // TRANS: Client error displayed when trying to register to a closed site.

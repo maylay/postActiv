@@ -63,11 +63,9 @@ class RedirectAction extends Action
     /**
      * Handle a request
      *
-     * @param array $args array of arguments
-     *
      * @return nothing
      */
-    function handle($args)
+    function handle()
     {
         common_redirect(common_local_url($this->arg('nextAction'), $this->arg('args')));
     }

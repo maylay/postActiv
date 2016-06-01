@@ -84,13 +84,11 @@ class SelftagAction extends Action
     /**
      * Handler method
      *
-     * @param array $argarray is ignored since it's now passed in in prepare()
-     *
      * @return boolean is read only action?
      */
-    function handle($argarray)
+    function handle()
     {
-        parent::handle($argarray);
+        parent::handle();
         $this->showPage();
     }
 

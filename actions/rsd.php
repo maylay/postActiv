@@ -125,11 +125,9 @@ class RsdAction extends Action
      * personal information if this is a personal file
      * (based on whether $user attribute is set).
      *
-     * @param array $args array of arguments
-     *
      * @return nothing
      */
-    function handle($args)
+    function handle()
     {
         header('Content-Type: application/rsd+xml');
 
