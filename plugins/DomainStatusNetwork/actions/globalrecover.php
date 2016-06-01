@@ -55,9 +55,9 @@ class GlobalrecoverAction extends GlobalApiAction
      * @return boolean true
      */
 
-    function prepare($argarray)
+    function prepare(array $args = array())
     {
-        parent::prepare($argarray);
+        parent::prepare($args);
         return true;
     }
 
