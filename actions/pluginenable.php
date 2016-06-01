@@ -120,11 +120,9 @@ class PluginEnableAction extends Action
      *
      * Does the subscription and returns results.
      *
-     * @param Array $args unused.
-     *
      * @return void
      */
-    function handle($args)
+    function handle()
     {
         $key = 'disable-' . $this->plugin;
         Config::save('plugins', $key, $this->overrideValue());

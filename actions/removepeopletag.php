@@ -119,11 +119,9 @@ class RemovepeopletagAction extends Action
      *
      * Does the subscription and returns results.
      *
-     * @param Array $args unused.
-     *
      * @return void
      */
-    function handle($args)
+    function handle()
     {
         // Throws exception on error
 

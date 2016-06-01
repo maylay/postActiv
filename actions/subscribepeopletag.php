@@ -105,14 +105,12 @@ class SubscribepeopletagAction extends Action
      *
      * On POST, add the current user to the group
      *
-     * @param array $args unused
-     *
      * @return void
      */
 
-    function handle($args)
+    function handle()
     {
-        parent::handle($args);
+        parent::handle();
 
         $cur = common_current_user();
 
