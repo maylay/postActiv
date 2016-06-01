@@ -53,7 +53,7 @@ class GeocodeAction extends Action
     var $lon = null;
     var $location = null;
 
-    function prepare($args)
+    function prepare(array $args = array())
     {
         parent::prepare($args);
         $token = $this->trimmed('token');

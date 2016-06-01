@@ -50,7 +50,7 @@ if (!defined('STATUSNET') && !defined('LACONICA')) {
  */
 class UnblockAction extends ProfileFormAction
 {
-    function prepare($args)
+    function prepare(array $args = array())
     {
         if (!parent::prepare($args)) {
             return false;

@@ -26,6 +26,7 @@
  * @category  API
  * @package   StatusNet
  * @author    Zach Copley <zach@status.net>
+ * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
  * @copyright 2010-2011 StatusNet, Inc.
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
  * @link      http://status.net/
@@ -64,7 +65,7 @@ class ApiOAuthAuthorizeAction extends ApiOAuthAction
         return false;
     }
 
-    function prepare($args)
+    function prepare(array $args = array())
     {
         parent::prepare($args);
 

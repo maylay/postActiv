@@ -24,10 +24,11 @@
  * PHP version 5
  *
  * @category  Action
- * @package   StatusNet
+ * @package   postActiv
  * @author    Shashi Gowda <connect2shashi@gmail.com>
+ * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPLv3
- * @link      http://status.net/
+ * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
 if (!defined('STATUSNET')) {
@@ -68,7 +69,7 @@ class AddpeopletagAction extends Action
      *
      * @return boolean success flag
      */
-    function prepare($args)
+    function prepare(array $args = array())
     {
         parent::prepare($args);
 
