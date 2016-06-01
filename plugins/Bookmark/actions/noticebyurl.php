@@ -58,9 +58,9 @@ class NoticebyurlAction extends Action
      *
      * @return boolean true
      */
-    function prepare($argarray)
+    function prepare(array $args = array())
     {
-        parent::prepare($argarray);
+        parent::prepare($args);
 
         $this->file = File::getKV('id', $this->trimmed('id'));
 
