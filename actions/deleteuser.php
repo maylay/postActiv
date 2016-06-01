@@ -80,11 +80,9 @@ class DeleteuserAction extends ProfileFormAction
      *
      * Shows a page with list of favorite notices
      *
-     * @param array $args $_REQUEST args; handled in prepare()
-     *
      * @return void
      */
-    function handle($args)
+    function handle()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($this->arg('no')) {

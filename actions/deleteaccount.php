@@ -1,4 +1,4 @@
-<?php
+x<?php
 /***
  * postActiv - a fork of the gnuSocial microblogging software
  * Copyright (C) 2016, Maiyannah Bishop <maiyannah@member.fsf.org>
@@ -90,9 +90,9 @@ class DeleteaccountAction extends Action
      *
      * @return void
      */
-    function handle($argarray=null)
+    function handle()
     {
-        parent::handle($argarray);
+        parent::handle();
 
         if ($this->isPost()) {
             $this->deleteAccount();

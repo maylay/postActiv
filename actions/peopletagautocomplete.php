@@ -111,11 +111,9 @@ class PeopletagautocompleteAction extends Action
      *
      * Print the JSON autocomplete data
      *
-     * @param Array $args unused.
-     *
      * @return void
      */
-    function handle($args)
+    function handle()
     {
         //common_log(LOG_DEBUG, 'Autocomplete data: ' . json_encode($this->tags));
         if ($this->tags) {

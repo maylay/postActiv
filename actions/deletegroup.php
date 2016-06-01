@@ -114,13 +114,11 @@ class DeletegroupAction extends RedirectingAction
      *
      * On POST, delete the group.
      *
-     * @param array $args unused
-     *
      * @return void
      */
-    function handle($args)
+    function handle()
     {
-        parent::handle($args);
+        parent::handle();
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($this->arg('no')) {
                 $this->returnToPrevious();

@@ -94,13 +94,11 @@ class EditApplicationAction extends Action
      *
      * On GET, show the form. On POST, try to save the app.
      *
-     * @param array $args unused
-     *
      * @return void
      */
-    function handle($args)
+    function handle()
     {
-        parent::handle($args);
+        parent::handle();
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $this->handlePost($args);
