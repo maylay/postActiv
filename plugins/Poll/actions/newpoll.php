@@ -70,9 +70,9 @@ class NewPollAction extends Action
      *
      * @return boolean true
      */
-    function prepare($argarray)
+    function prepare(array $args = array())
     {
-        parent::prepare($argarray);
+        parent::prepare($args);
 
         $this->user = common_current_user();
 
