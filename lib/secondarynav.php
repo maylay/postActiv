@@ -86,4 +86,5 @@ class SecondaryNav extends Menu
         }
         $this->out->elementEnd('ul');
     }
+}
 ?>
