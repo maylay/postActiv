@@ -65,9 +65,9 @@ neccesary, except for enumerations and arrays.
 -------------------------------------------------------------------------------
 Functions should be formatted as follows:
 
-   function xyz($args) {
-      code;
-   }
+    function xyz($args) {
+       code;
+    }
 
 Both GNU and kernel coding conventions ask for the brace on the line after
 the function declaration, but this is inconsistent (as the kernel coding
@@ -97,14 +97,14 @@ clear.
 
 So if you have something like:
 
-   $notice->post($contents);
+    $notice->post($contents);
 
 Well I can easily tell what you're doing there because the names are straight-
 forward and clear.
 
 Something like this:
 
-   foo->bar();
+    foo->bar();
 
 Is much less clear.
 
@@ -118,16 +118,16 @@ Properly enforcing scope of functions is something many PHP programmers don't
 do, but should.
 
 In general:
-   Variables unique to a class should be protected and use interfacing to 
+*  Variables unique to a class should be protected and use interfacing to
    change them.  This allows for input validation and making sure we don't have
    injection, especially when something's exposed to the API, that any program
    can use, and not all of them are going to be be safe and trusted.
-   
-   Variables not unique to a class should be validated prior to every call,
+
+*  Variables not unique to a class should be validated prior to every call,
    which is why it's generally not a good idea to re-use stuff across classes
    unless there's significant performance gains to doing so.
-   
-   Classes should protect functions that they do not want overriden, but they
+
+*  Classes should protect functions that they do not want overriden, but they
    should avoid protecting the constructor and destructor and related helper
    functions as this prevents proper inheritance.
 
@@ -182,52 +182,41 @@ fancy" then that inline commenting becomes a MUST.
 
 File headers follow a consistent format, as such:
 
-/***
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop <maiyannah@member.fsf.org>
- * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
- *
- * [description of file]
- *
- * PHP version [php version]
- *
- * LICENCE: This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @category  [category]
- * @package   postActiv
- * @author    [author] <[author's email]>
- * @copyright [copyright]
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
- * @link      https://git.gnu.io/maiyannah/postActiv
+    /***
+     * postActiv - a fork of the GNU Social microblogging software
+     * Copyright (C) 2016, Maiyannah Bishop <maiyannah@member.fsf.org>
+     * Derived from code copyright various sources:
+     *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
+     *   StatusNet (C) 2008-2011, StatusNet, Inc
+     *
+     * [description of file]
+     *
+     * PHP version [php version]
+     *
+     * [license text]
+     *
+     * @category  [category]
+     * @package   postActiv
+     * @author    [author] <[author's email]>
+     * @copyright [copyright]
+     * @license   [link to license]
+     * @link      https://git.gnu.io/maiyannah/postActiv
 
 Please use it.
 
 A few notes:
 
-   The description of the file doesn't have to be exhaustive.  Rather it's 
+*  The description of the file doesn't have to be exhaustive.  Rather it's
    meant to be a short summary of what's in this file and what it does.  Try
-   to keep it to 1-5 lines.  You can get more in-depth when documenting 
+   to keep it to 1-5 lines.  You can get more in-depth when documenting
    individual functions!
-   
-   You'll probably see files with multiple authors and copyrights, this is by
+
+*  You'll probably see files with multiple authors and copyrights, this is by
    design - many people contributed to postActiv or its forebears!  If you
    are modifying an existing file, APPEND your own author line, and copyright.
    Do not replace existing ones.
-   
-   You can use a license other than the AGPL if you are writing 100% from
+
+*  You can use a license other than the AGPL if you are writing 100% from
    scratch.  If you do, include the source code file header specified by your
    given license, and change the @license link as appropriate.
 
