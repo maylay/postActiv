@@ -2,7 +2,7 @@
 (c) 2016 Maiyannah Lysander <maiyannah@member.fsf.org>
 
 Derived from code copyright various sources:
- * gnuSocial (C) 2015, Free Software Foundation, Inc
+ * GNU Social (C) 2015, Free Software Foundation, Inc
  * StatusNet (C) 2008-2011, StatusNet, Inc
 
 This is the README file for postActiv, a fork of the free software networking
@@ -19,16 +19,16 @@ Some other files to review:
 - COPYING: full text of the software license
 
 Information on using GNU social can be found in the "doc" subdirectory or in
-the "help" section on-line, or you can contact maiyannah on the fediverse at 
+the "help" section on-line, or you can contact maiyannah on the fediverse at
 @maiyannah@community.highlandarrow.com
 
 ## About
 
 postActiv is a free software project to develop a social networking platform.
-It is derived from gnuSocial, which is itself derived from StatusNet and
-Laconia.  It helps people in a community, company, or group to exchange short
+It is derived from GNU Social, which is itself derived from StatusNet and
+Laconica.  It helps people in a community, company, or group to exchange short
 status updates, do polls, annouce events, or other social activites.  Users can
-choose which people to "follow" and reveive only their friends' or collegues'
+choose which people to "follow" and receive only their friends' or collegues'
 status messages.  They can also view the public timeline of the site to see
 everyone, or the "whole known network" timeline, to see all the people in sites
 that have connected with this one, by someone following them.  It provides a
@@ -38,15 +38,19 @@ develop your own plugins for, it is much more awesome.
 
 Using plugins available to postActiv, status messages can be sent to mobile
 phones or pages, instant messenger clients that implement XMPP, and desktop
-clients with support for the Twitter API.
+clients with support for the Twitter API.  It is also compatible with plugins
+developed for GNU Social.
 
-postActiv supports an open standard called OStatus 
-<https://www.w3.org/community/ostatus/> that lets users in different networks 
-follow each other. It enables a distributed social network spread all across 
+postActiv supports an open standard called OStatus
+<https://www.w3.org/community/ostatus/> that lets users in different networks
+follow each other. It enables a distributed social network spread all across
 the Web.
 
-postActive is derived from GNU social, and GNU social was originally developed
+postActive is derived from GNU Social, and GNU Social was originally developed
 as "StatusNet" by StatusNet, Inc. with Evan Prodromou as lead developer.
+It is forked form commit bd306bdb9fb43e80f9092784602a9508a7d52031 in the Nightly
+branch of GNU Social, available here:
+<https://git.gnu.io/gnu/gnu-social/commit/bd306bdb9fb43e80f9092784602a9508a7d52031>
 
 It is shared with you in hope that you too make an service available to your
 users. To learn more, please see the Open Software Service Definition 1.1:
