@@ -21,18 +21,20 @@
  *
  * @category  Actions
  * @package   postActiv
+ * @author    Evan Prodromou <evan@prodromou.name>
+ * @author    Mike Cochrane <mikec@mikenz.geek.nz>
+ * @author    Sarven Capadisli <csarven@status.net>
  * @author    Adrian Lang <mail@adrianlang.de>
+ * @author    Zach Copley <zach@status.net>
+ * @author    Meitar Moscovitz <meitarm@gmail.com>
+ * @author    Robin Millette <millette@controlyourself.ca>
+ * @auhtor    Jeffery To <jeffery.to@gmail.com>
+ * @author    Craig Andrews <candrews@integralblue.com>
  * @author    Brenda Wallace <shiny@cpan.org>
  * @author    Brion Vibber <brion@pobox.com>
- * @author    Craig Andrews <candrews@integralblue.com>
- * @author    Evan Prodromou <evan@status.net>
- * @author    Jeffery To <jeffery.to@gmail.com>
- * @author    Meitar Moscovitz <meitarm@gmail.com>
- * @author    Mike Cochrane <mikec@mikenz.geek.nz>
- * @author    Robin Millette <millette@status.net>
- * @author    Sarven Capadisli <csarven@status.net>
  * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
- * @author    Zach Copley <zach@status.net>
+ * @author    Eric Helgeson <erichelgeson@gmail.com>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
  * @copyright 2008-2011 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
