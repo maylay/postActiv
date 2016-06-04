@@ -3,7 +3,7 @@
  * postActiv - a fork of the gnuSocial microblogging software
  * Copyright (C) 2016, Maiyannah Bishop <maiyannah@member.fsf.org>
  * Derived from code copyright various sources:
- *   gnuSocial (C) 2015, Free Software Foundation, Inc
+ *   gnuSocial (C) 2013-2016, Free Software Foundation, Inc
  *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
  * Show version information for this software and plugins
@@ -28,7 +28,7 @@
  * @author    Evan Prodromou <evan@status.net>
  * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
  * @copyright 2008-2011 SatusNet, Inc
- * @copyright 2015 Free Software Foundation, Inc
+ * @copyright 2013-2016 Free Software Foundation, Inc
  * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPLv3
  * @link      https://git.gnu.io/maiyannah/postActiv
@@ -42,14 +42,6 @@ if (!defined('GNUSOCIAL')) { exit(1); }
  * A page that shows version information for this site. Helpful for
  * debugging, for giving credit to authors, and for linking to more
  * complete documentation for admins.
- *
- * @category Info
- * @package  GNUsocial
- * @author   Evan Prodromou <evan@status.net>
- * @author   Craig Andrews <candrews@integralblue.com>
- * @copyright 2009-2011 Free Software Foundation, Inc http://www.fsf.org
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPLv3
- * @link     http://status.net/
  */
 class VersionAction extends Action
 {

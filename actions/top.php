@@ -3,11 +3,11 @@
  * postActiv - a fork of the gnuSocial microblogging software
  * Copyright (C) 2016, Maiyannah Bishop <maiyannah@member.fsf.org>
  * Derived from code copyright various sources:
- *   gnuSocial (C) 2015, Free Software Foundation, Inc
+ *   gnuSocial (C) 2013-2016, Free Software Foundation, Inc
  *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
  * Redirect to the appropriate top-of-site
- * 
+ *
  * PHP version 5
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,7 +29,7 @@
  * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
  * @copyright 2010-2011 StatusNet, Inc.
- * @copyright 2015-2016 Free Software Foundation, Inc.
+ * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl-3.0.html AGPL 3.0
  * @link      https://git.gnu.io/maiyannah/postActiv
