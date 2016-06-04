@@ -24,12 +24,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category  Group
- * @package   StatusNet
+ * @package   postActiv
  * @author    Evan Prodromou <evan@status.net>
  * @author    Sarven Capadisli <csarven@status.net>
- * @copyright 2008-2009 StatusNet, Inc.
+ * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
+ * @copyright 2008-2011 StatusNet, Inc.
+ * @copyright 2009-2016 Free Software Foundation, Inc.
+ * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link      http://status.net/
+ * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
 if (!defined('GNUSOCIAL')) { exit(1); }
@@ -39,12 +42,6 @@ if (!defined('GNUSOCIAL')) { exit(1); }
  *
  * The group nickname can change, but not the group ID. So we use
  * an URL with the ID in it as the permanent identifier.
- *
- * @category Group
- * @package  StatusNet
- * @author   Evan Prodromou <evan@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
  */
 class GroupbyidAction extends ManagedAction
 {
