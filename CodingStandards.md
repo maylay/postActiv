@@ -46,7 +46,7 @@ containing trailing whitespace.  Along with making your source files slightly
 larger than they have to be, this can also lead to obscure and sometimes 
 difficult to resolve problems if that whitespace is in the wrong place.
 
-If Git warns you about your code continaing whitespace, and you ignore that
+If Git warns you about your code containing whitespace, and you ignore that
 warning with your merge request, I will probably not be very happy and reject
 your merge request.
 
