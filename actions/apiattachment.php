@@ -26,6 +26,7 @@
  * @category  API
  * @package   postActiv
  * @author    Hannes Mannerheim <h@nnesmannerhe.im>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
  * @copyright 2015-2016 Hannes Mannerheim
  * @copyright 2016 Maiyannah Bishop
