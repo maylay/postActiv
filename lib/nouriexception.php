@@ -1,9 +1,9 @@
 <?php
 /***
- * postActiv - a fork of the gnuSocial microblogging software
+ * postActiv - a fork of the GNU Social microblogging software
  * Copyright (C) 2016, Maiyannah Bishop <maiyannah@member.fsf.org>
  * Derived from code copyright various sources:
- *   gnuSocial (C) 2015, Free Software Foundation, Inc
+ *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
  *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
  * class for when an object that's supposed to have a URI is missing it
