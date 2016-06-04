@@ -24,13 +24,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category  Action
- * @package   GNUsocial
+ * @package   postActiv
  * @author    Evan Prodromou <evan@status.net>
  * @author    Mikael Nordfeldth <mmn@hethane.se>
- * @copyright 2010 StatusNet, Inc.
- * @copyright 2015 Free Software Foundation, Inc.
+ * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
+ * @copyright 2010-2011 StatusNet, Inc.
+ * @copyright 2015-2016 Free Software Foundation, Inc.
+ * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl-3.0.html AGPL 3.0
- * @link      https://gnu.io/social
+ * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
 if (!defined('GNUSOCIAL')) { exit(1); }

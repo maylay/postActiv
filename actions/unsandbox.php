@@ -31,7 +31,7 @@
  * @copyright 2015 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link      http://status.net/
+ * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
 if (!defined('STATUSNET')) {

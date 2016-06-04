@@ -18,6 +18,14 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @category  Mail
+ * @package   postActiv
+ * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
+ * @copyright 2009-2011 StatusNet, Inc.
+ * @copyright 2009-2016 Free Software Foundation, Inc.
+ * @copyright 2016 Maiyannah Bishop
+ * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
 if (!defined('GNUSOCIAL')) { exit(1); }

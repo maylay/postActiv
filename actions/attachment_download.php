@@ -8,11 +8,14 @@
  *
  * Download notice attachment
  *
- * @category Personal
- * @package  GNUsocial
- * @author   Mikael Nordfeldth <mmn@hethane.se>
- * @license  https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     https:/gnu.io/social
+ * @category  Personal
+ * @package   postActiv
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
+ * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
+ * @copyright 2010-2016 Free Software Foundation
+ * @copyright 2016 Maiyannah Bishop
+ * @license   https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
+ * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
 if (!defined('GNUSOCIAL')) { exit(1); }

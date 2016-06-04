@@ -24,11 +24,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category  Applications
- * @package   StatusNet
+ * @package   postActiv
  * @author    Zach Copley <zach@status.net>
+ * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
  * @copyright 2008-2011 StatusNet, Inc.
+ * @copyright 2009-2016 Free Software Foundation, Inc.
+ * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link      http://status.net/
+ * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
 if (!defined('STATUSNET') && !defined('LACONICA')) {
@@ -39,12 +42,6 @@ if (!defined('STATUSNET') && !defined('LACONICA')) {
  * Edit the details of an OAuth application
  *
  * This is the form for editing an application
- *
- * @category Application
- * @package  StatusNet
- * @author   Zach Copley <zach@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
  */
 class EditApplicationAction extends Action
 {

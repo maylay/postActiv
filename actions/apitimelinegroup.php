@@ -31,7 +31,7 @@
  * @author    Zach Copley <zach@status.net>
  * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
  * @copyright 2009-2011 StatusNet, Inc.
- * @copyright 2009-2015 Free Software Foundation, Inc http://www.fsf.org
+ * @copyright 2009-2016 Free Software Foundation, Inc http://www.fsf.org
  * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
  * @link      https://git.gnu.io/maiyannah/postActiv
@@ -43,15 +43,6 @@ if (!defined('STATUSNET')) {
 
 /**
  * Returns the most recent notices (default 20) posted to the group specified by ID
- *
- * @category API
- * @package  StatusNet
- * @author   Craig Andrews <candrews@integralblue.com>
- * @author   Evan Prodromou <evan@status.net>
- * @author   Jeffery To <jeffery.to@gmail.com>
- * @author   Zach Copley <zach@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
  */
 class ApiTimelineGroupAction extends ApiPrivateAuthAction
 {
