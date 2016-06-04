@@ -1,3 +1,20 @@
+ TAKE NOTE: This copyright does *not* cover user programs that interface 
+ with postActiv through its API or similar calls, nor does it include any
+ plugins you develop wholesale without any code from any other source 
+ except making use of event or calls to postActiv - you may license these
+ as you wish, they do *not* fall under the heading of "derived work" 
+ (unless, as noted, they include code from other sources that have such
+ a license.)
+
+ Also note that the AGPL v3 below is copyrighted by the Free Software 
+ Foundation, but the instance of code it refers to (postActiv) is
+ copyrighted by myself and others who actually wrote it (which does
+ include the Free Software Foundation, but also StatusNet, Inc et al.)
+ 
+ - mb
+
+ -------------------------------------------------------------------------------
+
                     GNU AFFERO GENERAL PUBLIC LICENSE
                        Version 3, 19 November 2007
 
