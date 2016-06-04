@@ -8,6 +8,8 @@
  *
  * Subscription action.
  *
+ * PHP version 5
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -21,13 +23,15 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * PHP version 5
- *
  * @category  Action
- * @package   StatusNet
+ * @package   postActiv
  * @author    Shashi Gowda <connect2shashi@gmail.com>
+ * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
+ * @copyright 2008-2011 StatusNet, Inc.
+ * @copyright 2013-2016 Free Software Foundation, Inc.
+ * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPLv3
- * @link      http://status.net/
+ * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
 if (!defined('STATUSNET')) {
@@ -49,12 +53,6 @@ require_once INSTALLDIR . '/lib/peopletageditform.php';
  *    - ajax: boolean; whether to return Ajax or full-browser results
  *
  * Only works if the current user is logged in.
- *
- * @category  Action
- * @package   StatusNet
- * @author    Shashi Gowda <connect2shashi@gmail.com>
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPLv3
- * @link      http://status.net/
  */
 
 class ProfilecompletionAction extends Action

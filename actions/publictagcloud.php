@@ -24,13 +24,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category  Public
- * @package   StatusNet
+ * @package   postActiv
  * @author    Mike Cochrane <mikec@mikenz.geek.nz>
  * @author    Evan Prodromou <evan@status.net>
+ * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
  * @copyright 2008 Mike Cochrane
- * @copyright 2008-2009 StatusNet, Inc.
+ * @copyright 2008-2011 StatusNet, Inc.
+ * @copyright 2013-2016 Free Software Foundation, Inc.
+ * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link      http://status.net/
+ * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
 if (!defined('STATUSNET') && !defined('LACONICA')) { exit(1); }
@@ -39,14 +42,6 @@ define('TAGS_PER_PAGE', 100);
 
 /**
  * Public tag cloud for notices
- *
- * @category Personal
- * @package  StatusNet
- * @author    Mike Cochrane <mikec@mikenz.geek.nz>
- * @author    Evan Prodromou <evan@status.net>
- * @copyright 2008 Mike Cochrane
- * @copyright 2008-2009 StatusNet, Inc.
- * @link     http://status.net/
  */
 class PublictagcloudAction extends Action
 {

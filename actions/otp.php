@@ -24,11 +24,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category  Login
- * @package   StatusNet
+ * @package   postActiv
  * @author    Evan Prodromou <evan@status.net>
+ * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
  * @copyright 2010 StatusNet, Inc.
+ * @copyright 2013-2016 Free Software Foundation, Inc.
+ * @copryight 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPLv3
- * @link      http://status.net/
+ * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
 if (!defined('STATUSNET')) {
@@ -41,13 +44,6 @@ if (!defined('STATUSNET')) {
  * This action will automatically log in the user identified by the user_id
  * parameter. A login_token record must be constructed beforehand, typically
  * by code where the user is already authenticated.
- *
- * @category  Login
- * @package   StatusNet
- * @author    Evan Prodromou <evan@status.net>
- * @copyright 2010 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPLv3
- * @link      http://status.net/
  */
 class OtpAction extends Action
 {

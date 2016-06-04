@@ -24,11 +24,14 @@
  * PHP version 5
  *
  * @category  Action
- * @package   StatusNet
+ * @package   postActiv
  * @author    Brion Vibber <brion@status.net>
- * @copyright 2010 StatusNet, Inc.
+ * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
+ * @copyright 2010-2011 StatusNet, Inc.
+ * @copyright 2013-2016 Free Software Foundation
+ * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPLv3
- * @link      http://status.net/
+ * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
 if (!defined('STATUSNET')) {
@@ -47,13 +50,6 @@ if (!defined('STATUSNET')) {
  *    - ajax: boolean; whether to return Ajax or full-browser results
  *
  * Only works if the current user is logged in.
- *
- * @category  Action
- * @package   StatusNet
- * @author    Brion Vibber <brion@status.net>
- * @copyright 2010 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPLv3
- * @link      http://status.net/
  */
 class PluginDisableAction extends PluginEnableAction
 {

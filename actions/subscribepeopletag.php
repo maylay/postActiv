@@ -24,10 +24,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category  Peopletag
- * @package   StatusNet
+ * @package   postActiv
  * @author    Shashi Gowda <connect2shashi@gmail.com>
+ * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
+ * @copyright 2008-2011 StatusNet, Inc.
+ * @copyright 2013-2016 Free Software Foundation, Inc.
+ * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link      http://status.net/
+ * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
 if (!defined('STATUSNET') && !defined('LACONICA')) {
@@ -39,12 +43,6 @@ if (!defined('STATUSNET') && !defined('LACONICA')) {
  *
  * This is the action for subscribing to a peopletag. It works more or less like the join action
  * for groups.
- *
- * @category Peopletag
- * @package  StatusNet
- * @author   Shashi Gowda <connect2shashi@gmail.com>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
  */
 class SubscribepeopletagAction extends Action
 {

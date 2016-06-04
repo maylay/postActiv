@@ -23,11 +23,15 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @category API
- * @package  StatusNet
- * @author   Evan Prodromou <evan@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl.html AGPLv3
- * @link     http://status.net/
+ * @category  API
+ * @package   postActiv
+ * @author    Evan Prodromou <evan@status.net>
+ * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
+ * @copyright 2008-2011 StatusNet, Inc.
+ * @copyright 2013-2016 Free Software Foundation, Inc.
+ * @copyright 2016 Maiyannah Bishop
+ * @license   http://www.fsf.org/licensing/licenses/agpl.html AGPLv3
+ * @link      https://git.gnu.io/maiyannah/postActiv
  *
  */
 
@@ -64,12 +68,6 @@ if (!defined('STATUSNET')) {
  *   a blogId.
  * - I've added a setting to the API to indicate that OAuth support is
  *   available.
- *
- * @category API
- * @package  StatusNet
- * @author   Evan Prodromou <evan@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl.html AGPLv3
- * @link     http://status.net/
  */
 class RsdAction extends Action
 {
