@@ -24,11 +24,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category  PrivateAttachments
- * @package   StatusNet
+ * @package   postActiv
  * @author    Jeffery To <jeffery.to@gmail.com>
- * @copyright 2009 StatusNet, Inc.
+ * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
+ * @copyright 2009-2011 StatusNet, Inc.
+ * @copyright 2009-2016 Free Software Foundation, Inc.
+ * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
- * @link      http://status.net/
+ * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
 if (!defined('GNUSOCIAL')) { exit(1); }
@@ -38,13 +41,6 @@ if (!defined('GNUSOCIAL')) { exit(1); }
  *
  * The StatusNet system will do an implicit user check if the site is
  * private before allowing this to continue
- *
- * @category  PrivateAttachments
- * @package   StatusNet
- * @author    Jeffery To <jeffery.to@gmail.com>
- * @copyright 2009 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
- * @link      http://status.net/
  */
 class GetfileAction extends Action
 {

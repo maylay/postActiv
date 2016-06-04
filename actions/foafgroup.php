@@ -20,12 +20,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category  Mail
- * @package   StatusNet
+ * @package   postActiv
  * @author    Evan Prodromou <evan@status.net>
  * @author    Toby Inkster <mail@tobyinkster.co.uk>
- * @copyright 2009 StatusNet, Inc.
+ * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
+ * @copyright 2009-2011 StatusNet, Inc.
+ * @copyright 2009-2016 Free Software Foundation, Inc.
+ * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link      http://status.net/
+ * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
 if (!defined('STATUSNET') && !defined('LACONICA')) { exit(1); }

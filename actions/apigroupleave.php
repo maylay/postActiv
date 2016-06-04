@@ -43,15 +43,6 @@ if (!defined('STATUSNET')) {
 
 /**
  * Removes the authenticated user from the group specified by ID
- *
- * @category API
- * @package  StatusNet
- * @author   Craig Andrews <candrews@integralblue.com>
- * @author   Evan Prodromou <evan@status.net>
- * @author   Jeffery To <jeffery.to@gmail.com>
- * @author   Zach Copley <zach@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
  */
 class ApiGroupLeaveAction extends ApiAuthAction
 {

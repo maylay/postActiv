@@ -28,7 +28,7 @@
  * @author    Shashi Gowda <connect2shashi@gmail.com>
  * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
  * @copyright 2008-2011 StatusNet, Inc.
- * @copyright 2015 Free Software Foundation, Inc.
+ * @copyright 2009-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
  * @link      https://git.gnu.io/maiyannah/postActiv

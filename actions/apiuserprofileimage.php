@@ -24,11 +24,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category  API
- * @package   StatusNet
+ * @package   postActiv
  * @author    Brion Vibber <brion@status.net>
- * @copyright 2010 StatusNet, Inc.
+ * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
+ * @copyright 2010-2011 StatusNet, Inc.
+ * @copyright 2010-2016 Free Software Foundation, Inc.
+ * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link      http://status.net/
+ * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
 if (!defined('STATUSNET')) {
@@ -38,12 +41,6 @@ if (!defined('STATUSNET')) {
 /**
  * Ouputs avatar URL for a user, specified by screen name.
  * Unlike most API endpoints, this returns an HTTP redirect rather than direct data.
- *
- * @category API
- * @package  StatusNet
- * @author   Brion Vibber <brion@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
  */
 class ApiUserProfileImageAction extends ApiPrivateAuthAction
 {

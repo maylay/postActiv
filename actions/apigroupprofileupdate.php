@@ -26,9 +26,9 @@
  * @category  API
  * @package   postActiv
  * @author    Zach Copley <zach@status.net>
- * @author    Maiyannah Bishop
+ * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
  * @copyright 2008-2011 StatusNet, Inc.
- * @copyright 2015 Free Software Foundation, Inc.
+ * @copyright 2009-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
  * @link      https://git.gnu.io/maiyannah/postActiv
@@ -40,12 +40,6 @@ if (!defined('STATUSNET')) {
 
 /**
  * API analog to the group edit page
- *
- * @category API
- * @package  StatusNet
- * @author   Zach Copley <zach@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
  */
 class ApiGroupProfileUpdateAction extends ApiAuthAction
 {
@@ -77,7 +71,7 @@ class ApiGroupProfileUpdateAction extends ApiAuthAction
     }
 
     /**
-     * Handle the request
+     * Handlex the request
      *
      * See which request params have been set, and update the profile
      *

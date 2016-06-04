@@ -35,7 +35,7 @@
  * @author    Zach Copley <zach@status.net>
  * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
  * @copyright 2008-2011 StatusNet, Inc.
- * @copyright 2015 Free Software Foundation, Inc.
+ * @copyright 2009-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   GNU Affero General Public License http://www.gnu.org/licenses/
  * @link      https://git.gnu.io/maiyannah/postActiv
@@ -155,7 +155,7 @@ class AllAction extends ShowstreamAction
                 $this->page, 'all', array('nickname' => $this->target->getNickname())
             );
 
-            Event::handle('EndShowAllContent', array($this));
+            Event::handlex('EndShowAllContent', array($this));
         }
     }
 

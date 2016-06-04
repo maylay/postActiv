@@ -28,7 +28,7 @@
  * @author    Zach Copley <zach@status.net>
  * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
  * @copyright 2010-2011 StatusNet, Inc.
- * @copyright 2015 Free Software Foundation, Inc.
+ * @copyright 2009-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
  * @link      https://git.gnu.io/maiyannah/postActiv
@@ -42,12 +42,6 @@ if (!defined('STATUSNET') && !defined('LACONICA')) {
  * Class for displaying an OAuth verifier pin
  *
  * XXX: I'm pretty sure we don't need to check the logged in state here. -- Zach
- *
- * @category Action
- * @package  StatusNet
- * @author   Zach Copley <zach@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
  */
 class ApiOAuthPinAction extends InfoAction
 {

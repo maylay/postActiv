@@ -32,7 +32,7 @@
  * @author    Hannes Mannerheim <h@nnesmannerhe.im>
  * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
  * @copyright 2008-2011 StatusNet, Inc.
- * @copyright 2009-2015 Free Software Foundation, Inc
+ * @copyright 2009-2016 Free Software Foundation, Inc
  * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
  * @link      https://git.gnu.io/maiyannah/postActiv
@@ -44,16 +44,6 @@ if (!defined('GNUSOCIAL')) {
 
 /**
  * List 20 newest admins of the group specified by name or ID.
- *
- * @category API
- * @package  GNUsocial
- * @author   Craig Andrews <candrews@integralblue.com>
- * @author   Evan Prodromou <evan@status.net>
- * @author   Jeffery To <jeffery.to@gmail.com>
- * @author   Zach Copley <zach@status.net>
- * @author   Hannes Mannerheim <h@nnesmannerhe.im> 
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://www.gnu.org/software/social/
  */
 class ApiGroupAdminsAction extends ApiPrivateAuthAction
 {

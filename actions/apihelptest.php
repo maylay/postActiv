@@ -27,8 +27,9 @@
  * @package   postActiv
  * @author    Evan Prodromou <evan@status.net>
  * @author    Zach Copley <zach@status.net>
+ * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
  * @copyright 2008-2011 StatusNet, Inc.
- * @copyright 2015 Free Software Foundation, Inc.
+ * @copyright 2009-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
  * @link      https://git.gnu.io/maiyannah/postActiv
@@ -38,13 +39,6 @@ if (!defined('GNUSOCIAL')) { exit(1); }
 
 /**
  * Returns the string "ok" in the requested format with a 200 OK HTTP status code.
- *
- * @category API
- * @package  StatusNet
- * @author   Evan Prodromou <evan@status.net>
- * @author   Zach Copley <zach@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
  */
 class ApiHelpTestAction extends ApiPrivateAuthAction
 {
