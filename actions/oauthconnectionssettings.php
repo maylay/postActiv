@@ -24,25 +24,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category  Settings
- * @package   StatusNet
+ * @package   postActiv
  * @author    Zach Copley <zach@status.net>
- * @copyright 2008-2010 StatusNet, Inc.
+ * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
+ * @copyright 2008-2011 StatusNet, Inc.
+ * @copyright 2013-2016 Free Software Foundation, Inc.
+ * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link      http://status.net/
+ * @link      https://git.gnu.io/maiyannah/postActiv
+ *
+ * @see       SettingsAction
  */
 
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 /**
  * Show connected OAuth applications
- *
- * @category Settings
- * @package  StatusNet
- * @author   Zach Copley <zach@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
- *
- * @see      SettingsAction
  */
 class OauthconnectionssettingsAction extends SettingsAction
 {
