@@ -1,8 +1,11 @@
 #!/usr/bin/env php
 <?php
-/*
- * StatusNet - a distributed open-source microblogging tool
- * Copyright (C) 2008-2011 StatusNet, Inc.
+/***
+ * postActiv - a fork of the GNU Social microblogging software
+ * Copyright (C) 2016, Maiyannah Bishop <maiyannah@member.fsf.org>
+ * Derived from code copyright various sources:
+ *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -16,9 +19,22 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @category  Scripts
+ * @package   postActiv
+ * @author    Evan Prodromou <evan@prodromou.name>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
+ * @author    Bhuvan Krishna <bhuvan@swecha.net>
+ * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
+ * @copyright 2011 StatusNet, Inc.
+ * @copyright 2013-2016 Free Software Foundation, Inc.
+ * @copyright 2016 Maiyannah Bishop
+ * @license   GNU Affero General Public License http://www.gnu.org/licenses/
+ * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
 define('INSTALLDIR', realpath(dirname(__FILE__) . '/..'));
+define('POSTACTIV', true);
 
 $shortoptions = 'x::';
 $longoptions = array('extensions=');
@@ -566,3 +582,4 @@ function migrateProfilePrefs()
 }
 
 main();
+?>
