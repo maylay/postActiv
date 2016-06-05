@@ -28,8 +28,10 @@
  * @category  API
  * @package   postActiv
  * @author    Hannes Mannerheim <h@nnesmannerhe.im>
- * @author    Maiyannah Bishop <maiyannah@member.fsf.org<
- * @copyright 2015-2016 Hannes Mannerheim
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
+ * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
+ * @copyright 2013-2016 Hannes Mannerheim
+ * @copyright 2013-2016 Free Software Foundation, Inc
  * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
  * @link      https://git.gnu.io/maiyannah/postActiv

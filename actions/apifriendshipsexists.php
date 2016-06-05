@@ -25,11 +25,14 @@
  *
  * @category  API
  * @package   postActiv
- * @author    Dan Moore <dan@moore.cx>
- * @author    Evan Prodromou <evan@status.net>
  * @author    Zach Copley <zach@status.net>
+ * @author    Evan Prodromou <evan@prodromou.name>
+ * @author    Robin Millette <robin@millette.info>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
+ * @author    Hannes Mannerheim <h@nnesmannerhe.im>
  * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
- * @copyright 2008-2011 StatusNet, Inc.
+ * @copyright 2009-2011 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
