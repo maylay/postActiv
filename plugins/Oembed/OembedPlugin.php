@@ -400,6 +400,22 @@ class OembedPlugin extends Plugin
       }
    }
 
+   // returns true if the remote URL is an image
+   // false otherwise
+   private function isRemoteImage($url) {
+      $curl = curl_init($url);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($curl, CURLOPT_HEADER, TRUE);
+      curl_setopt($ch, CURLOPT_NOBODY, TRUE);
+      $headers = curl_exec($curl);
+      $type    = curl_getinfo($curl, CURLINFO_CONTENT_TYPE);
+      if (strpos($type, 'image') !== false) {
+         return true;
+      } else {
+         return false;
+      }
+   }
+
    // patch to parse PHP upload limit into something machine-usable -mb
    // returns size or false if unsuccessful
    private function getPHPUploadLimit() {  
@@ -419,6 +435,7 @@ class OembedPlugin extends Plugin
          $size *= 1024;
          break;
       }
+      return $size;
    }
 
     protected function storeRemoteFileThumbnail(File_thumbnail $thumbnail)
@@ -432,11 +449,14 @@ class OembedPlugin extends Plugin
 
         // patch: abort if the remote image exceeds the php upload limit -mb
         try {
-           $max_size  = $this->getPHPUploadLimit();
-           $file_size = $this->getRemoteFileSize($url);
-           if (($file_size!=false) & ($file_size > $max_size)) {
-              common_debug("Went to store remote thumbnail of size " . $file_size . " but the upload limit is " . $max_size . " so we aborted.");
-              return false;
+           $isImage = $this->isRemoteImage($url);
+           if ($isImage==true) {
+              $max_size  = $this->getPHPUploadLimit();
+              $file_size = $this->getRemoteFileSize($url);
+              if (($file_size!=false) & ($file_size > $max_size)) {
+                 common_debug("Went to store remote thumbnail of size " . $file_size . " but the upload limit is " . $max_size . " so we aborted.");
+                 return false;
+              }
            }
         } catch (Exception $err) {
            common_debug("Could not determine size of remote image, aborted local storage.");
