@@ -26,8 +26,13 @@
  * @category  Search
  * @package   postActiv
  * @author    Zach Copley <zach@status.net>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Brion Vibber <brion@pobox.com>
+ * @author    Evan Prodromou <evan@prodromou.name>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
+ * @author    Hannes Mannerheim <h@nnesmannerhe.im>
  * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
- * @copyright 2008-2010 StatusNet, Inc.
+ * @copyright 2010-2011 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0

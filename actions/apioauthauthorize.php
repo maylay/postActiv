@@ -26,6 +26,11 @@
  * @category  API
  * @package   postActiv
  * @author    Zach Copley <zach@status.net>
+ * @author    Sarven Capadisli <csarven@status.net>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Evan Prodromou <evan@prodromou.name> 
+ * @author    Brion Vibber <brion@pobox.com>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
  * @copyright 2010-2011 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc
@@ -40,12 +45,6 @@ if (!defined('STATUSNET')) {
 
 /**
  * Authorize an OAuth request token
- *
- * @category API
- * @package  StatusNet
- * @author   Zach Copley <zach@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
  */
 class ApiOAuthAuthorizeAction extends ApiOAuthAction
 {
