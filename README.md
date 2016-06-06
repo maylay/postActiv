@@ -1,5 +1,5 @@
 # postActiv 1.0
-(c) 2016 Maiyannah Lysander
+(c) 2016 Maiyannah Bishop
 
 Derived from code copyright various sources:
  * GNU Social (C) 2013-2016, Free Software Foundation, Inc
