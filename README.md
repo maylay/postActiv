@@ -158,7 +158,7 @@ The following is a list of developers who've contributed to postActiv:
 
 ## Lead Maintainer / Developer
 
-* Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+* Maiyannah Bishop - <maiyannah.bishop@postactiv.com>
 
 ## Contributors
 * Neil E Hodges
