@@ -7,6 +7,8 @@
  *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
  * Table Definition for local_group
+ *
+ * @author Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  */
 
 class Local_group extends Managed_DataObject

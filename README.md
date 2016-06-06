@@ -1,8 +1,8 @@
 # postActiv 1.0
-(c) 2016 Maiyannah Lysander <maiyannah@member.fsf.org>
+(c) 2016 Maiyannah Lysander
 
 Derived from code copyright various sources:
- * GNU Social (C) 2015, Free Software Foundation, Inc
+ * GNU Social (C) 2013-2016, Free Software Foundation, Inc
  * StatusNet (C) 2008-2011, StatusNet, Inc
 
 This is the README file for postActiv, a fork of the free software networking
@@ -20,7 +20,8 @@ Some other files to review:
 
 Information on using GNU social can be found in the "doc" subdirectory or in
 the "help" section on-line, or you can contact maiyannah on the fediverse at
-@maiyannah@community.highlandarrow.com
+@maiyannah@community.highlandarrow.com or her email at 
+<maiyannah.bishop@postactiv.com>
 
 ## About
 
@@ -145,10 +146,10 @@ There are several ways to get more information about GNU social.
 * Following us on the Fediverse -- 
 <https://community.highlandarrow.com/postActiv>
 
-* GNU social has a bug tracker for any defects you may find, or ideas for
+* psotActiv has a bug tracker for any defects you may find, or ideas for
   making things better. <https://git.gnu.io/maiyannah/postActiv/issues/>
 * Patches are welcome, preferrably to our repository on git.gnu.io. 
-<https://git.gnu.io/maiyannah/postActiv>
+  <https://git.gnu.io/maiyannah/postActiv>
 
 Credits
 =======
@@ -157,7 +158,7 @@ The following is a list of developers who've contributed to postActiv:
 
 ## Lead Maintainer / Developer
 
-* Maiyannah Bishop
+* Maiyannah Bishop <maiyannah.bishop@postactiv.com>
 
 ## Contributors
 * Neil E Hodges

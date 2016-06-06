@@ -1,7 +1,7 @@
 <?php
 /***
  * postActiv - a fork of the gnuSocial microblogging software
- * Copyright (C) 2016, Maiyannah Bishop <maiyannah@member.fsf.org>
+ * Copyright (C) 2016, Maiyannah Bishop
  * Derived from code copyright various sources:
  *   gnuSocial (C) 2015, Free Software Foundation, Inc
  *   StatusNet (C) 2008-2011, StatusNet, Inc
@@ -19,26 +19,28 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @category StatusNet
- * @package  StatusNet
- * @author   Brenda Wallace <shiny@cpan.org>
- * @author   Brion Vibber <brion@pobox.com>
- * @author   Christopher Vollick <psycotica0@gmail.com>
- * @author   CiaranG <ciaran@ciarang.com>
- * @author   Craig Andrews <candrews@integralblue.com>
- * @author   Evan Prodromou <evan@controlezvous.ca>
- * @author   Gina Haeussge <osd@foosel.net>
- * @author   James Walker <walkah@walkah.net>
- * @author   Jeffery To <jeffery.to@gmail.com>
- * @author   Mike Cochrane <mikec@mikenz.geek.nz>
- * @author   Robin Millette <millette@controlyourself.ca>
- * @author   Sarven Capadisli <csarven@controlyourself.ca>
- * @author   Tom Adams <tom@holizz.com>
- * @author   Zach Copley <zach@status.net>
- * @author   Maiyannah Bishop <maiyannah@member.fsf.org>
- * @copyright 2009 Free Software Foundation, Inc http://www.fsf.org
- *
- * @license  GNU Affero General Public License http://www.gnu.org/licenses/
+ * @category  Main
+ * @package   postActiv
+ * @author    Brenda Wallace <shiny@cpan.org>
+ * @author    Brion Vibber <brion@pobox.com>
+ * @author    Christopher Vollick <psycotica0@gmail.com>
+ * @author    CiaranG <ciaran@ciarang.com>
+ * @author    Craig Andrews <candrews@integralblue.com>
+ * @author    Evan Prodromou <evan@controlezvous.ca>
+ * @author    Gina Haeussge <osd@foosel.net>
+ * @author    James Walker <walkah@walkah.net>
+ * @author    Jeffery To <jeffery.to@gmail.com>
+ * @author    Mike Cochrane <mikec@mikenz.geek.nz>
+ * @author    Robin Millette <millette@controlyourself.ca>
+ * @author    Sarven Capadisli <csarven@controlyourself.ca>
+ * @author    Tom Adams <tom@holizz.com>
+ * @author    Zach Copley <zach@status.net>
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ * @copyright 2008-2011 StatusNet, Inc.
+ * @copyright 2013-2016 Free Software Foundation, Inc.
+ * @copyright 2016 Maiyannah Bishop
+ * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
+ * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
 $_startTime = microtime(true);

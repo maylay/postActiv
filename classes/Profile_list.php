@@ -22,6 +22,7 @@
  * @category Notices
  * @package  StatusNet
  * @author   Shashi Gowda <connect2shashi@gmail.com>
+ * @author   Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  * @license  GNU Affero General Public License http://www.gnu.org/licenses/
  */
 

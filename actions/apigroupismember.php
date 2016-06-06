@@ -1,7 +1,7 @@
 <?php
 /***
  * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop <maiyannah@member.fsf.org>
+ * Copyright (C) 2016, Maiyannah Bishop
  * Derived from code copyright various sources:
  *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
  *   StatusNet (C) 2008-2011, StatusNet, Inc
@@ -30,7 +30,7 @@
  * @author    Eric Helgeson <erichelgeson@gmail.com>
  * @author    Craig Andrews <candrews@integralblue.com>
  * @author    Mikael Nordfeldth <mmn@hethane.se>
- * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  * @copyright 2008-2011 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc http://www.fsf.org
  * @copyright 2016 Maiyannah Bishop
