@@ -1,5 +1,6 @@
 <?php
 
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 // FIXME: To support remote video/whatever files, this plugin needs reworking.
@@ -42,6 +43,22 @@ class StoreRemoteMediaPlugin extends Plugin
          return $size; // return formatted size
       } catch (Exception $err) {
          common_log(LOG_ERR, __CLASS__.': getRemoteFileSize on URL : '._ve($file->getUrl()).' threw exception: '.$err->getMessage());
+         return false;
+      }
+   }
+   
+   // returns true if the remote URL is an image
+   // false otherwise
+   private function isRemoteImage($url) {
+      $curl = curl_init($url);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($curl, CURLOPT_HEADER, TRUE);
+      curl_setopt($ch, CURLOPT_NOBODY, TRUE);
+      $headers = curl_exec($curl);
+      $type    = curl_getinfo($curl, CURLINFO_CONTENT_TYPE);
+      if (strpos($type, 'image') !== false) {
+         return true;
+      } else {
          return false;
       }
    }
