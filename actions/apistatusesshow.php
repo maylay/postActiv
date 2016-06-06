@@ -25,13 +25,13 @@
  *
  * @category  API
  * @package   postActiv
- * @author    Craig Andrews <candrews@integralblue.com>
- * @author    Evan Prodromou <evan@status.net>
- * @author    Jeffery To <jeffery.to@gmail.com>
- * @author    Tom Blankenship <mac65@mac65.com>
- * @author    Mike Cochrane <mikec@mikenz.geek.nz>
- * @author    Robin Millette <robin@millette.info>
  * @author    Zach Copley <zach@status.net>
+ * @author    Evan Prodromou <evan@prodromou.name>
+ * @author    Robin Millette <robin@millette.info>
+ * @author    Craig Andrews <candrews@integralblue.com>
+ * @author    Brion Vibber <brion@pobox.com>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
  * @copyright 2009-2011 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc http://www.fsf.org

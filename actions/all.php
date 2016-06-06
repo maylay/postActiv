@@ -25,7 +25,7 @@
  * @author    Mike Cochrane <mikec@mikenz.geek.nz>
  * @author    Sarven Capadisli <csarven@status.net>
  * @author    Adrian Lang <mail@adrianlang.de>
- * @author    Zach Copley <zach@status.net>
+ * @author    Zach Copley <zcopley@danube.local>
  * @author    Meitar Moscovitz <meitarm@gmail.com>
  * @author    Robin Millette <millette@controlyourself.ca>
  * @auhtor    Jeffery To <jeffery.to@gmail.com>
@@ -39,7 +39,7 @@
  * @copyright 2008-2011 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
- * @license   GNU Affero General Public License http://www.gnu.org/licenses/
+ * @license   GNU Affero General Public License
  * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
