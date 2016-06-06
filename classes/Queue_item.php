@@ -7,6 +7,8 @@
  *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
  * Table Definition for queue_item
+ *
+ * @author Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  */
 require_once INSTALLDIR.'/classes/Memcached_DataObject.php';
 

@@ -7,6 +7,8 @@
  *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
  * Table Definition for foreign_service
+ *
+ * @author Maiyannah Bishop <maiyannah.bishop@postactiv.net>
  */
 require_once INSTALLDIR.'/classes/Memcached_DataObject.php';
 

@@ -7,6 +7,8 @@
  *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
  * Table Definition for group_member
+ *
+ * @author Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  */
 
 class Group_member extends Managed_DataObject
