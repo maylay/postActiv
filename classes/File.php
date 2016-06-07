@@ -26,6 +26,9 @@
 
 if (!defined('GNUSOCIAL')) { exit(1); }
 
+/**
+ * Table Definition for file
+ */
 class File extends Managed_DataObject
 {
     public $__table = 'file';                            // table name
