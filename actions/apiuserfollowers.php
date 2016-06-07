@@ -25,14 +25,16 @@
  *
  * @category  API
  * @package   postActiv
- * @author    Dan Moore <dan@moore.cx>
- * @author    Evan Prodromou <evan@status.net>
- * @author    Zach Copley <zach@status.net>
+ * @author    Zach Copley <zcopley@danube.local>
+ * @author    Evan Prodromou <evan@prodromou.name>
+ * @author    Robin Millette <robin@millette.info>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  * @copyright 2009-2011 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
+ * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
  * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
@@ -42,14 +44,6 @@ if (!defined('GNUSOCIAL')) { exit(1); }
  * Ouputs the authenticating user's followers (subscribers), each with
  * current Twitter-style status inline.  They are ordered by the order
  * in which they subscribed to the user, 100 at a time.
- *
- * @category API
- * @package  StatusNet
- * @author   Dan Moore <dan@moore.cx>
- * @author   Evan Prodromou <evan@status.net>
- * @author   Zach Copley <zach@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
  */
 class ApiUserFollowersAction extends ApiSubscriptionsAction
 {

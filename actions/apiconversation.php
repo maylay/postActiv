@@ -32,7 +32,7 @@
  * @copyright 2011 StatusNet, Inc.
  * @copyright 2011-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
+ * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
  * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
@@ -44,13 +44,6 @@ if (!defined('STATUSNET')) {
 
 /**
  * Show a stream of notices in a particular conversation
- *
- * @category  API
- * @package   StatusNet
- * @author    Evan Prodromou <evan@status.net>
- * @copyright 2011 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
- * @link      http://status.net/
  */
 class ApiconversationAction extends ApiAuthAction
 {

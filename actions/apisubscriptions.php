@@ -32,7 +32,7 @@
  * @copyright 2009-2011 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
+ * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
  * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
@@ -44,14 +44,6 @@ if (!defined('STATUSNET')) {
  * This class outputs a list of profiles as Twitter-style user and status objects.
  * It is used by the API methods /api/statuses/(friends|followers). To support the
  * social graph methods it also can output a simple list of IDs.
- *
- * @category API
- * @package  StatusNet
- * @author   Dan Moore <dan@moore.cx>
- * @author   Evan Prodromou <evan@status.net>
- * @author   Zach Copley <zach@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
  */
 abstract class ApiSubscriptionsAction extends ApiBareAuthAction
 {
