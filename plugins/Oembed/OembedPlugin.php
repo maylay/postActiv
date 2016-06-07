@@ -595,7 +595,7 @@ class OembedPlugin extends Plugin
          if (!file_exists($fullpath) && file_put_contents($fullpath, $imgData) === false) {
             throw new ServerException(_('Could not write downloaded file to disk.'));
          }
-      } catch {
+      } catch (Exception $err) {
          common_log(LOG_ERROR, "Went to write a thumbnail to disk in OembedPlugin::storeRemoteThumbnail but encountered error: ".$err);
          return $err;
       } finally {
