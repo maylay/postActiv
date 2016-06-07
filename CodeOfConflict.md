@@ -13,9 +13,9 @@ cause the quality of submission and eventual result to ever decrease.
 
 If however, anyone feels personally abused, threatened, or otherwise
 uncomfortable due to this process, that is not acceptable.  If so, please
-contact the lead maintainer (Maiyannah Bishop) at <maiyannah@member.fsf.org>,
-or the individual members, and they will work to resolve the issue to the best
-of their ability.
+contact the lead maintainer (Maiyannah Bishop) at 
+<maiyannah.bishop@postactiv.com>, and they will work to resolve the issue to the 
+best of their ability.
 
 As a reviewer of code, please strive to keep things civil and focused on the
 technical issues involved.  We are all humans, and frustrations can be high on
