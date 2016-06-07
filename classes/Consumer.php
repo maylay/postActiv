@@ -25,7 +25,7 @@
  * @package   postActiv
  * @author    Mike Cochrane <mikec@mikenz.geek.nz>
  * @author    Evan Prodromou <evan@prodromou.name>
- * @author    Zach Copley <zcopley@danube.local>
+ * @author    Zach Copley <zach@copley.name>
  * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
  * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>

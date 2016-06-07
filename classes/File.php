@@ -25,7 +25,7 @@
  * @package   postActiv
  * @author    Robin Millette <robin@millette.info>
  * @author    Evan Prodromou <evan@prodromou.name>
- * @author    Zach Copley <zcopley@danube.local>
+ * @author    Zach Copley <zach@copley.name>
  * @author    Craig Andres <candrews@integralblue.com>
  * @author    Brenda Wallace <shiny@cpan.org>
  * @author    Brett Taylor <brett@webfroot.co.nz>

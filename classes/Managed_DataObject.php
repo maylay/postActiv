@@ -22,8 +22,18 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author Brion Vibber <brion@status.net>
- * @author Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ * @category  Database
+ * @package   postActiv
+ * @author    Brion Vibber <brion@status.net>
+ * @author    Evan Prodromou <evan@prodromou.name>
+ * @author    Zach Copley <zach@copley.name>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ * @copyright 2010-2011 StatusNet, Inc.
+ * @copyright 2013-2016 Free Software Foundation, Inc.
+ * @copyright 2016 Maiyannah Bishop
+ * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
+ * @link      https://git.gnu.io/maiyannah/postActiv
  */
 abstract class Managed_DataObject extends Memcached_DataObject
 {
