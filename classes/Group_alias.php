@@ -21,7 +21,17 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ * @category  Groups
+ * @package   postActiv
+ * @author    Evan Prodromou <evan@prodromou.name>
+ * @author    Ciaran Gultnieks <ciaran@ciarang.com>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ * @copyright 2009-2011 StatusNet, Inc.
+ * @copyright 2013-2016 Free Software Foundation, Inc.
+ * @copyright 2016 Maiyannah Bishop
+ * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
+ * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
 if (!defined('STATUSNET') && !defined('LACONICA')) { exit(1); }
