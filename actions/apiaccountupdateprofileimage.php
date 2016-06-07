@@ -44,12 +44,6 @@ if (!defined('STATUSNET')) {
 /**
  * Updates the authenticating user's profile image. Note that this API method
  * expects raw multipart data, not a URL to an image.
- *
- * @category API
- * @package  StatusNet
- * @author   Zach Copley <zach@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
  */
 class ApiAccountUpdateProfileImageAction extends ApiAuthAction
 {

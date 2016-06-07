@@ -27,7 +27,7 @@
  * @author    Adrian Lang <mail@adrianlang.de>
  * @author    Zach Copley <zcopley@danube.local>
  * @author    Meitar Moscovitz <meitarm@gmail.com>
- * @author    Robin Millette <millette@controlyourself.ca>
+ * @author    Robin Millette <robin@millette.info>
  * @auhtor    Jeffery To <jeffery.to@gmail.com>
  * @author    Craig Andrews <candrews@integralblue.com>
  * @author    Brenda Wallace <shiny@cpan.org>

@@ -34,7 +34,7 @@
  * @copyright 2009-2011 StatusNet, Inc.
  * @copyright 2013-2015 Free Software Foundation, Inc
  * @copyright 2016 Maiyannah Bishop
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
+ * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
  * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
@@ -44,14 +44,6 @@ if (!defined('GNUSOCIAL')) { exit(1); }
  * Allows the authenticating users to follow (subscribe) the user specified in
  * the ID parameter.  Returns the befriended user in the requested format when
  * successful.  Returns a string describing the failure condition when unsuccessful.
- *
- * @category API
- * @package  StatusNet
- * @author   Dan Moore <dan@moore.cx>
- * @author   Evan Prodromou <evan@status.net>
- * @author   Zach Copley <zach@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
  */
 class ApiFriendshipsCreateAction extends ApiAuthAction
 {
