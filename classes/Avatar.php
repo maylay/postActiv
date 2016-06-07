@@ -27,7 +27,7 @@
  * @author    Evan Prodromou <evan@prodromou.name>
  * @author    Mike Cochrane <mikec@mikenz.geek.nz>
  * @author    Robin Millette <robin@millette.info>
- * @author    Zach Copley <zcopley@danube.local>
+ * @author    Zach Copley <zach@copley.name>
  * @author    Sean Murphy <sgmurphy@gmail.com>
  * @author    Brion Vibber <brion@pobox.com>
  * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>

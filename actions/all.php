@@ -25,7 +25,7 @@
  * @author    Mike Cochrane <mikec@mikenz.geek.nz>
  * @author    Sarven Capadisli <csarven@status.net>
  * @author    Adrian Lang <mail@adrianlang.de>
- * @author    Zach Copley <zcopley@danube.local>
+ * @author    Zach Copley <zach@copley.name>
  * @author    Meitar Moscovitz <meitarm@gmail.com>
  * @author    Robin Millette <robin@millette.info>
  * @auhtor    Jeffery To <jeffery.to@gmail.com>
