@@ -66,7 +66,7 @@ class OembedPlugin extends Plugin
       try {
          parent::initialize();
          $this->domain_whitelist = array_merge($this->domain_whitelist, $this->append_whitelist);
-      } {catch exception $err) {
+      } catch (exception $err) {
          return $err;
       }
       return true;
