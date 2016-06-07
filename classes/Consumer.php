@@ -8,7 +8,32 @@
  *
  * Table Definition for consumer
  *
- * @author Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.     See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.     If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @category  Attachments
+ * @package   postActiv
+ * @author    Mike Cochrane <mikec@mikenz.geek.nz>
+ * @author    Evan Prodromou <evan@prodromou.name>
+ * @author    Zach Copley <zcopley@danube.local>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ * @copyright 2009-2011 StatusNet, Inc.
+ * @copyright 2013-2016 Free Software Foundation, Inc.
+ * @copyright 2016 Maiyannah Bishop
+ * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
+ * @link      https://git.gnu.io/maiyannah/postActiv
  */
 require_once INSTALLDIR.'/classes/Memcached_DataObject.php';
 

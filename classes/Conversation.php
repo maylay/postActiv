@@ -23,15 +23,20 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @category  Data
- * @package   StatusNet
- * @author    Zach Copley <zach@status.net>
+ * @category  Notices
+ * @package   postActiv
+ * @author    Zach Copley <zcopley@danube.local>
+ * @author    Brion Vibber <brion@pobox.com>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Evan Prodromou <evan@prodromou.name>
  * @author    Mikael Nordfeldth <mmn@hethane.se>
+ * @author    Roland Haeder <roland@mxchange.org>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2010 StatusNet Inc.
- * @copyright 2009-2014 Free Software Foundation, Inc http://www.fsf.org
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link      http://status.net/
+ * @copyright 2010-2011 StatusNet, Inc.
+ * @copyright 2013-2016 Free Software Foundation, Inc.
+ * @copyright 2016 Maiyannah Bishop
+ * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
+ * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
 if (!defined('GNUSOCIAL')) { exit(1); }
