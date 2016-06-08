@@ -8,6 +8,8 @@
  *
  * Table Definition for sms_carrier
  *
+ * PHP version 5 
+ *
  * @author Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  */
 
