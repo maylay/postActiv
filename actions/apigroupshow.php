@@ -30,7 +30,7 @@
  * @author    Robin Millette <robin@millette.info>
  * @author    Eric Helgeson <erichelgeson@gmail.com>
  * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
- * @author    Mac No <macno@macno.org>
+ * @author    Michele Azzolari <macno@macno.org>
  * @author    Craig Andrews <candrews@integralblue.com>
  * @author    Brion Vibber <brion@pobox.com>
  * @author    Mikael Nordfeldth <mmn@hethane.se>
