@@ -19,7 +19,30 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ * @category  Accounts
+ * @package   postActiv
+ * @author    Evan Prodromou <evan@prodromou.name>
+ * @author    Mike Cochrane <mikec@mikenz.geek.nz>
+ * @author    Robin Millette <robin@millette.info>
+ * @author    Zach Copley <zach@copley.name>
+ * @author    Sean Murphy <sgmurphy@gmail.com>
+ * @author    Brenda Wallace <shiny@cpan.org>
+ * @author    Craig Andrews <candrews@integralblue.com>
+ * @author    Trever Fischer <wm161@wm161.net>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Brion Vibber <brion@pobox.com>
+ * @author    Sashi Gowda <connect2shashi@gmail.com>
+ * @author    Dan Scott <dan@coffeecode.net>
+ * @author    Joshua Wise <jwise@nvidia.com>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
+ * @author    Hannes Mannerheim <h@nnesmannerhe.im>
+ * @author    Chimo <chimo@chromic.org>
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ * @copyright 2008-2011 StatusNet, Inc.
+ * @copyright 2013-2016 Free Software Foundation, Inc.
+ * @copyright 2016 Maiyannah Bishop
+ * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
+ * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
 if (!defined('GNUSOCIAL')) { exit(1); }
