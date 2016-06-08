@@ -8,6 +8,8 @@
  *
  * A class for representing links in JSON Activities
  *
+ * PHP version 5 
+ *
  * @category Feed
  * @package  StatusNet
  * @author   Zach Copley <zach@status.net>

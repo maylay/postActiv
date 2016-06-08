@@ -8,6 +8,8 @@
  *
  * Table Definition for related_group
  *
+ * PHP version 5 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -27,7 +29,7 @@
  * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
- * @link      https://git.gnu.io/maiyannah/postActiv 
+ * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
 class Related_group extends Managed_DataObject

@@ -8,6 +8,8 @@
  *
  * Table Definition for schema_version
  *
+ * PHP version 5 
+ *
  * @author Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  */
 

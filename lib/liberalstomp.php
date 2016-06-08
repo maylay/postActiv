@@ -1,12 +1,14 @@
 <?php
 /***
  * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop <maiyannah@member.fsf.org>
+ * Copyright (C) 2016, Maiyannah Bishop
  * Derived from code copyright various sources:
  *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
  *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
  * Based on code from Stomp PHP library, working around bugs in the base class.
+ *
+ * PHP version 5
  *
  * Original code is copyright 2005-2006 The Apache Software Foundation
  * Modifications copyright 2009 StatusNet Inc by Brion Vibber <brion@status.net>
@@ -24,7 +26,7 @@
  * limitations under the License.
  */
  
-if (!defined('POSTACTIV')) { exit(1); } 
+if (!defined('POSTACTIV')) { exit(1); }
 
 class LiberalStomp extends Stomp
 {

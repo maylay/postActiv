@@ -6,6 +6,8 @@
  *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
  *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
+ * PHP version 5 
+ *
  * Wrapper for Memcached_DataObject which knows its own schema definition.
  * Builds its own damn settings from a schema definition.
  *

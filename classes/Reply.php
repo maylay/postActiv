@@ -8,6 +8,8 @@
  *
  * Table Definition for reply
  *
+ * PHP version 5 
+ *
  * @author Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  */
 require_once INSTALLDIR.'/classes/Memcached_DataObject.php';

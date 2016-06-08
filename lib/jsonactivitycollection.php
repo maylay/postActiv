@@ -1,15 +1,18 @@
 <?php
 /***
  * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop <maiyannah@member.fsf.org>
+ * Copyright (C) 2016, Maiyannah Bishop
  * Derived from code copyright various sources:
  *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
  *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
- * Collection primarily as the root of an Activity Streams doc but can be used as the value
- * of extension properties in a variety of situations.
+ * Collection primarily as the root of an Activity Streams doc but can be used
+ * as the value of extension properties in a variety of situations.
  *
- * A valid Collection object serialization MUST contain at least the url or items properties.
+ * A valid Collection object serialization MUST contain at least the url or
+ * items properties.
+ *
+ * PHP version 5
  */
 if (!defined('POSTACTIV')) { exit(1); } 
 
