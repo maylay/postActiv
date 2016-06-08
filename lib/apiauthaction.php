@@ -50,9 +50,6 @@
     they set a password with their account settings panel.
 
     @section HTTP Basic Auth
-
-
-
     @section OAuth
 
 */
@@ -61,12 +58,6 @@ if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Actions extending this class will require auth
- *
- * @category API
- * @package  StatusNet
- * @author   Zach Copley <zach@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
  */
 class ApiAuthAction extends ApiAction
 {
@@ -92,7 +83,7 @@ class ApiAuthAction extends ApiAction
         // Allow regular login session, but we have to double-check the
         // HTTP_REFERER value to avoid cross domain POSTing since the API
         // doesn't use the "token" form field.
-        if (common_logged_in() && common_local_referer()) {
+        if (common_logged_in()) {
             $this->scoped = Profile::current();
             $this->auth_user = $this->scoped->getUser();
             if (!$this->auth_user->hasRight(Right::API)) {
