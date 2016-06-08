@@ -8,9 +8,38 @@
  *
  * Table Definition for user_group
  *
- * PHP version 5 
+ * PHP version 5
  *
- * @author Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @category  Groups
+ * @package   postActiv
+ * @author    Evan Prodromou <evan@prodromou.name>
+ * @author    Adrian Lang <mail@adrianlang.de>
+ * @author    Sean Murphy <sgmurphy@gmail.com>
+ * @author    Zach Copley <zach@copley.name>
+ * @author    Brenda Wallace <shiny@cpan.org>
+ * @author    Craig Andrews <candrews@integralblue.com>
+ * @author    Eric Helgeson <erichelgeson@gmail.com>
+ * @author    Brion Vibber <brion@pobox.com>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl> 
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ * @copyright 2009-2011 StatusNet, Inc.
+ * @copyright 2013-2016 Free Software Foundation, Inc.
+ * @copyright 2016 Maiyannah Bishop
+ * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
+ * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
 class User_group extends Managed_DataObject

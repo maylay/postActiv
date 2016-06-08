@@ -29,7 +29,7 @@
  * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
  * @author    Eric Helgeson <erichelgeson@gmail.com>
  * @author    Craig Andrews <candrews@integralblue.com>
- * @author    Mac No <macno@macno.org>
+ * @author    Michele Azzolari <macno@macno.org>
  * @author    Brion Vibber <brion@pobox.com>
  * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>

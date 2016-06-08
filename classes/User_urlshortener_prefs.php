@@ -6,9 +6,11 @@
  *   GNU Social (C) 2015, Free Software Foundation, Inc
  *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
- * PHP version 5 
+ * Data class for user location preferences
  *
- * This program is free software: you can redistribute it and/or modify
+ * PHP version 5
+ *
+ * LICENCE: This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -21,7 +23,17 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ * @category  Accounts
+ * @package   PostActiv
+ * @author    Evan Prodromou <evan@status.net>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
+ * @author    Roland Haeder <roland@mxchange.org>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ * @copyright 2010-2011 StatusNet, Inc.
+ * @copyright 2013-2016 Free Software Foundation, Inc.
+ * @copyright 2016 Maiyannah Bishop
+ * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
+ * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
 if (!defined('STATUSNET') && !defined('LACONICA')) {
