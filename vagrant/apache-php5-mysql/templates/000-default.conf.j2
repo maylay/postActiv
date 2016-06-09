@@ -1,0 +1,37 @@
+<VirtualHost *:80>
+  ServerName localhost:8080 {# Keep in sync with Vagrantfile #}
+
+  ServerAdmin webmaster@localhost
+  DocumentRoot /var/www/html
+
+  # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+  # error, crit, alert, emerg.
+  # It is also possible to configure the loglevel for particular
+  # modules, e.g.
+  #LogLevel info ssl:warn
+
+  ErrorLog ${APACHE_LOG_DIR}/error.log
+  CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+  # Put the contents of the htaccess here to avoid having to write a .htaccess file in a
+  # location where it would be picked up by rsync.
+
+  <Directory "/var/www/html">
+    RewriteEngine On
+    RewriteBase /
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule (.*) index.php?p=$1 [L,QSA]
+
+    <FilesMatch "\.(ini)">
+        <IfVersion < 2.3>
+            Order allow,deny
+            Deny from all
+        </IfVersion>
+        <IfVersion >= 2.3>
+            Require all denied
+        </IfVersion>
+    </FilesMatch>
+  </Directory>
+</VirtualHost>
