@@ -1,0 +1,58 @@
+---
+- hosts: all
+  tasks:
+    - name: ensure Debian packages required for Ansible are installed
+      apt: name={{item}} state=present
+      with_items:
+        - python-mysqldb
+    - name: ensure Debian packages required for postActiv are installed
+      apt: name={{item}} state=present
+      with_items:
+        - apache2
+        - php5
+        - php5-curl
+        - php5-intl
+        - php5-gd
+        - php5-mysql
+        - mysql-server
+    - name: ensure postactiv database exists
+      mysql_db:
+        name: postactiv
+        state: present
+    - name: ensure postactiv database user exists
+      mysql_user:
+        name: postactiv
+        password: postactiv
+        state: present
+        priv: 'postactiv.*: ALL'
+    - name: enable apache2 rewrite module
+      apache2_module: name=rewrite state=present
+    - name: update apache configuration
+      template: src=templates/000-default.conf.j2 dest=/etc/apache2/sites-enabled/000-default.conf
+      notify: restart apache
+    - name: ensure /etc/gnusocial exists
+      file: name=/etc/gnusocial state=directory
+    - name: update /etc/gnusocial/config.php
+      template: src=templates/config.php.j2 dest=/etc/gnusocial/config.php
+      notify: restart apache
+    - name: create fake cloned dir for running the cli installer without config.php being overwritten by rsync-auto
+      file: name=/opt/forcli state=directory mode=0777
+    - name: create writable dirs for avatars and attachments
+      file: name=/var/postactiv/{{item}} state=directory owner=www-data group=www-data
+      with_items: [avatar, attachments]
+    - name: copy in fake cloned dir # Copy because otherwise INSTALLDIR would still point to the wrong location
+      synchronize:
+         src: /var/www/html/{{item}}/
+         dest: /opt/forcli/{{item}}/
+      delegate_to: 127.0.0.1
+      with_items:
+         - actions
+         - classes
+         - db
+         - extlib
+         - lib
+         - plugins
+         - scripts
+  handlers:
+    - name: restart apache
+      service: name=apache2 state=restarted
