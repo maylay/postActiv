@@ -57,6 +57,9 @@ It is shared with you in hope that you too make an service available to your
 users. To learn more, please see the Open Software Service Definition 1.1:
 <http://www.opendefinition.org/ossd>
 
+You can read more about postActiv at the official website:
+<http://postactiv.com>
+
 ### License
 
 This program is free software: you can redistribute it and/or modify it under
@@ -99,6 +102,24 @@ All of it is Free Software and can be distributed under liberal terms, but
 those terms may differ in detail from the AGPL's particulars. See each package's
 license file in the extlib directory for additional terms.
 
+## Requirements
+The minimum requirements to run postActiv are the following:
+
+* PHP: PHP 5 or higher is neccesary.  We recommend 5.4.  PHP 7 should work but
+  is untested so there's probably some stuff that won't work properly.
+* MariaDB: You need either a MariaDB or MySQL database available for postActiv
+  to store information in.
+* Web server: You must have either an Apache, nginx, or Litespeed web server
+  configured with PHP support to serve up postActiv.  We recommend Apache, but
+  nginx is also well-supported.
+  
+## Installation
+Detailed installation information is in INSTALLING, but in basic, you will want
+to download the branch archive of your choice, unzip it to a web-accessible
+directory, and then run the Install.php file, which will guide you through
+further setup.  You will want to have a database available for postActiv, of
+course.
+
 ## Compatibility
 Being a fork of GNU social, most plugins that work with GNU social 1.2.0-beta4,
 the version of GNU social it was forked from, should also work with postActiv.
@@ -106,8 +127,7 @@ However, if you run into porting issues with a GNU social plugin that you know
 works with GNU social but does not with postActiv, please raise an issue in the
 issue tracker and we can look into this.
 
-### Troubleshooting
-
+## Troubleshooting
 The primary output for postActiv is syslog, unless you configured a separate
 logfile. This is probably the first place to look if you're getting weird
 behaviour from postActiv.
@@ -121,7 +141,10 @@ If you're tracking the unstable version of postActiv in the git repository (see
 below), and you get a compilation error ("unexpected T_STRING") in the browser,
 check to see that you don't have any conflicts in your code.
 
-### Unstable version
+In the event you run into problems you can't fix yourself, you can ask for
+assistance on the users mailing list, at <users@postactiv.com>
+
+## Unstable version
 
 If you're adventurous or impatient, you may want to install the development
 version of GNU social. To get it, use the git version control tool
@@ -150,6 +173,7 @@ There are several ways to get more information about GNU social.
   making things better. <https://git.gnu.io/maiyannah/postActiv/issues/>
 * Patches are welcome, preferrably to our repository on git.gnu.io. 
   <https://git.gnu.io/maiyannah/postActiv>
+* There is a users mailing list at <users@postactiv.com>
 
 Credits
 =======
@@ -232,10 +256,9 @@ Thanks to all of the StatusNet developers:
 * Henry Story
 * Melvin Carvalho
 
-Thanks also to the developers of our upstream
-library code and to the thousands of people who
-have tried out GNU social, told their friends, and
-built the fediverse network to what it is today.
+Thanks also to the developers of our upstream library code and to the thousands 
+of people who have tried out GNU social, told their friends, and built the 
+fediverse network to what it is today.
 
 ### License help from
 
