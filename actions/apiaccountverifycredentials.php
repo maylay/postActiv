@@ -34,7 +34,7 @@
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
- * @link      https://git.gnu.io/maiyannah/postActiv
+ * @link      http://postactiv.com/
  */
 
 if (!defined('STATUSNET')) {
@@ -45,14 +45,6 @@ if (!defined('STATUSNET')) {
  * Check a user's credentials. Returns an HTTP 200 OK response code and a
  * representation of the requesting user if authentication was successful;
  * returns a 401 status code and an error message if not.
- *
- * @category API
- * @package  StatusNet
- * @author   Evan Prodromou <evan@status.net>
- * @author   Robin Millette <robin@millette.info>
- * @author   Zach Copley <zach@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
  */
 class ApiAccountVerifyCredentialsAction extends ApiAuthAction
 {

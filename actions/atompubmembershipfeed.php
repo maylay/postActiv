@@ -23,15 +23,18 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @category  AtomPub
+ * @category  Atom
  * @package   postActiv
- * @author    Evan Prodromou <evan@status.net>
+ * @author    Evan Prodromou <evan@prodromou.name>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Brion Vibber <brion@pobox.com>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  * @copyright 2010-2011 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
- * @link      https://git.gnu.io/maiyannah/postActiv
+ * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
+ * @link      http://postactiv.com/
  */
 
 if (!defined('GNUSOCIAL') && !defined('STATUSNET')) { exit(1); }

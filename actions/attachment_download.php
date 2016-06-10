@@ -23,14 +23,14 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @category  Personal
+ * @category  Actions
  * @package   postActiv
  * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2013-2016 Free Software Foundation
+ * @copyright 2016 Free Software Foundation
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link      https://git.gnu.io/maiyannah/postActiv
+ * @link      http://postactiv.com/
  */
 
 if (!defined('GNUSOCIAL')) { exit(1); }

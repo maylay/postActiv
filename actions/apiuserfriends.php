@@ -25,7 +25,7 @@
  *
  * @category  API
  * @package   postActiv
- * @author    Zach Copley <zcopley@danube.local>
+ * @author    Zach Copley <zach@copley.name>
  * @author    Evan Prodromou <evan@prodromou.name>
  * @author    Robin Millette <robin@millette.info>
  * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
@@ -35,7 +35,7 @@
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
- * @link      https://git.gnu.io/maiyannah/postActiv
+ * @link      http://postactiv.com/
  */
 
 if (!defined('GNUSOCIAL')) { exit(1); }
@@ -44,14 +44,6 @@ if (!defined('GNUSOCIAL')) { exit(1); }
  * Ouputs the authenticating user's friends (subscriptions), each with
  * current Twitter-style status inline.  They are ordered by the date
  * in which the user subscribed to them, 100 at a time.
- *
- * @category API
- * @package  StatusNet
- * @author   Dan Moore <dan@moore.cx>
- * @author   Evan Prodromou <evan@status.net>
- * @author   Zach Copley <zach@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
  */
 class ApiUserFriendsAction extends ApiSubscriptionsAction
 {

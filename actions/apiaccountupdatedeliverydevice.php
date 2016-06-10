@@ -25,7 +25,7 @@
  *
  * @category  API
  * @package   postActiv
- * @author    Zach Copley <zach@status.net>
+ * @author    Zach Copley <zach@copley.name>
  * @author    Craig Andrews <candrews@integralblue.com>
  * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
  * @author    Brenda Wallace <shiny@cpan.org>
@@ -36,7 +36,7 @@
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link      https://git.gnu.io/maiyannah/postActiv
+ * @link      http://postactiv.com/
  */
 
 if (!defined('STATUSNET')) {
@@ -47,12 +47,6 @@ if (!defined('STATUSNET')) {
  * Sets which channel (device) StatusNet delivers updates to for
  * the authenticating user. Sending none as the device parameter
  * will disable IM and/or SMS updates.
- *
- * @category API
- * @package  StatusNet
- * @author   Zach Copley <zach@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
  */
 class ApiAccountUpdateDeliveryDeviceAction extends ApiAuthAction
 {

@@ -23,30 +23,23 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @category  Action
+ * @category  Accounts
  * @package   postActiv
- * @author    Evan Prodromou <evan@status.net>
- * @author    Robin Millette <millette@status.net>
+ * @author    Evan Prodromou <evan@prodromou.name>
+ * @author    Mike Cochrane <mikec@mikenz.geek.nz>
+ * @author    Robin Millette <robin@millette.info>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  * @copyright 2010-2011 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl.html AGPLv3
- * @link      https://git.gnu.io/maiyannah/postActiv
+ * @link      http://postactiv.com/
  */
 
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 /**
  * Retrieve user avatar by nickname action class.
- *
- * @category Action
- * @package  GNUsocial
- * @author   Evan Prodromou <evan@status.net>
- * @author   Robin Millette <millette@status.net>
- * @author   Mikael Nordfeldth <mmn@hethane.se>
- * @license  http://www.fsf.org/licensing/licenses/agpl.html AGPLv3
- * @link     http://www.gnu.org/software/social/
  */
 class AvatarbynicknameAction extends Action
 {

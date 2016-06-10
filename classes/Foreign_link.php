@@ -8,7 +8,7 @@
  *
  * Table Definition for foreign_link
  *
- * PHP version 5 
+ * PHP version 5
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -35,7 +35,7 @@
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
- * @link      https://git.gnu.io/maiyannah/postActiv 
+ * @link      http://postactiv.com/
  */
 require_once INSTALLDIR.'/classes/Memcached_DataObject.php';
 
