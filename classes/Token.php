@@ -28,13 +28,13 @@
  * @author    Evan Prodromou <evan@prodromou.name>
  * @author    Mike Cochrane <mikec@mikenz.geek.nz>
  * @author    Zach Copley <zach@copley.name>
- * @author    Mikael Nordfeldth <mmn@hethane.se> 
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  * @copyright 2008-2011 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
- * @link      https://git.gnu.io/maiyannah/postActiv
+ * @link      http://postactiv.com/
  */
 require_once INSTALLDIR.'/classes/Memcached_DataObject.php';
 

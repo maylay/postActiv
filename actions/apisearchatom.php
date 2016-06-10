@@ -25,7 +25,7 @@
  *
  * @category  API
  * @package   postActiv
- * @author    Zach Copley <zach@status.net>
+ * @author    Zach Copley <zach@copley.name
  * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
  * @author    Brion Vibber <brion@pobox.com>
  * @author    Evan Prodromou <evan@prodromou.name>
@@ -36,7 +36,7 @@
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
- * @link      https://git.gnu.io/maiyannah/postActiv
+ * @link      http://postactiv.com/
  */
 
 if (!defined('STATUSNET') && !defined('LACONICA')) {

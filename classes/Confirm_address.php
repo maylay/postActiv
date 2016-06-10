@@ -8,7 +8,7 @@
  *
  * Table Definition for confirm_address
  *
- * PHP version 5 
+ * PHP version 5
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -33,10 +33,10 @@
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
- * @link      https://git.gnu.io/maiyannah/postActiv
+ * @link      http://postactiv.com/
  */
 
-class Confirm_address extends Managed_DataObject 
+class Confirm_address extends Managed_DataObject
 {
     public $__table = 'confirm_address';                 // table name
     public $code;                            // varchar(32)  primary_key not_null

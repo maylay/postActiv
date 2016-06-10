@@ -32,7 +32,7 @@
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
- * @link      https://git.gnu.io/maiyannah/postActiv
+ * @link      http://postactiv.com/
  */
 
 if (!defined('STATUSNET')) {
@@ -43,13 +43,6 @@ if (!defined('STATUSNET')) {
 
 /**
  * Separate table for storing UI preferences
- *
- * @category  UI
- * @package   StatusNet
- * @author    Evan Prodromou <evan@status.net>
- * @copyright 2011 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
- * @link      http://status.net/
  */
 
 class Old_school_prefs extends Managed_DataObject
