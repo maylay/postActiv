@@ -29,3 +29,4 @@ php.log
 nbproject
 *.mo
 desktop.ini
+.vagrant
