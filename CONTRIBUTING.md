@@ -81,7 +81,8 @@ requests:
 4. When describing a possible new idea and its mechanisms of operation, the key 
    words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", 
    "SHOULD NOT", "RECOMMENDED",  "MAY", and "OPTIONAL" in the issue submission 
-   are to be interpreted as described in RFC 2119.
+   are to be interpreted as described in RFC 2119. 
+   <https://tools.ietf.org/html/rfc2119>
    
 Finally, and just as a call back to the first point, realize just because we 
 might not rush to implement something, doesn't mean that we don't want to 
