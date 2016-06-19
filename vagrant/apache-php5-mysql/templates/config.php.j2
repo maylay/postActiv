@@ -1,14 +1,14 @@
 <?php
 
-$config['site']['name'] = 'PostActiv/vagrant';
-$config['site']['server'] = 'localhost:8080'; {# Keep in sync with Vagrantfile #}
+$config['site']['name'] = 'postActiv/vagrant';
+$config['site']['server'] = 'localhost:8080'; # Keep in sync with Vagrantfile
 $config['site']['path'] = '/';
 $config['site']['ssl'] = 'never';
 $config['site']['fancy'] = true;
 $config['site']['profile'] = 'public';
 
 $config['db']['database'] = 'mysql://postactiv:postactiv@127.0.0.1/postactiv';
-$config['db']['db_type'] = 'mysql';
+$config['db']['type'] = 'mysql';
 
 # Store these outside the source tree so they don't get mangled by rsync.
 $config['avatar']['dir'] = '/var/postactiv/avatar/';
