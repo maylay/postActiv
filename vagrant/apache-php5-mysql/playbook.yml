@@ -13,6 +13,7 @@
         - php5-curl
         - php5-intl
         - php5-gd
+        - php5-mbstring
         - php5-mysql
         - mysql-server
     - name: ensure postactiv database exists
@@ -53,6 +54,11 @@
          - lib
          - plugins
          - scripts
+    - name: initialize postActiv database
+      command: scripts/install_cli.php --server localhost:8080 --path / --sitename 'postActiv/vagrant' --fancy yes --dbtype mysql --host 127.0.0.1 --database postactiv --username postactiv --password postactiv --admin-nick admin --admin-pass admin  --site-profile public
+      args:
+        chdir: /opt/forcli
+        creates: /opt/forcli/config.php
   handlers:
     - name: restart apache
       service: name=apache2 state=restarted
