@@ -1,7 +1,7 @@
 # top-most EditorConfig file
 root = true
 
-[*]
+[*.php]
 end_of_line = lf
 indent_style = space
 indent_size = 3
