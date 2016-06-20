@@ -1,0 +1,112 @@
+---
+- hosts: all
+  tasks:
+    - name: ensure Debian packages required for Ansible are installed
+      apt: name={{item}} state=present
+      with_items:
+        - python-mysqldb
+    - name: ensure Debian packages required for postActiv are installed
+      apt: name={{item}} state=present
+      with_items:
+        - apache2
+        - composer
+        - php7.0
+        - php7.0-curl
+        - php7.0-dev
+        - php7.0-fpm
+        - php7.0-gd
+        - php7.0-intl
+        - php7.0-mbstring
+        - php7.0-mysql
+        - php7.0-sqlite3
+        - mariadb-server
+    - name: ensure Debian packages required for Phan are installed
+      apt: name={{item}} state=present
+      with_items:
+        - php7.0-cli
+        - php7.0-dev
+    - name: ensure postactiv database exists
+      mysql_db:
+        name: postactiv
+        state: present
+    - name: ensure postactiv database user exists
+      mysql_user:
+        name: postactiv
+        password: postactiv
+        state: present
+        priv: 'postactiv.*:ALL'
+    - name: enable apache2 rewrite module
+      apache2_module: name=rewrite state=present
+    - name: update apache configuration
+      template: src=templates/000-default.conf.j2 dest=/etc/apache2/sites-enabled/000-default.conf
+      notify: restart apache
+    - name: ensure /etc/gnusocial exists
+      file: name=/etc/gnusocial state=directory
+    - name: update /etc/gnusocial/config.php
+      template: src=templates/config.php.j2 dest=/etc/gnusocial/config.php
+      notify: restart apache
+    - name: create fake cloned dir for running the cli installer without config.php being overwritten by rsync-auto
+      file: name=/opt/forcli state=directory mode=0777
+    - name: create writable dirs for avatars and attachments
+      file: name=/var/postactiv/{{item}} state=directory owner=www-data group=www-data
+      with_items: [avatar, attachments]
+    # For some reason I can't get the synchronize action to work here, something
+    # with the configuration of the ubuntu/xenial64 box. So use rsync manually.
+    - name: copy in fake cloned dir # Copy because otherwise INSTALLDIR would still point to the wrong location
+      command: rsync -ai /var/www/html/{{item}} /opt/forcli
+      with_items:
+        - actions
+        - classes
+        - db
+        - extlib
+        - lib
+        - plugins
+        - scripts
+      register: rsync_forcli
+      changed_when: "'{{item}}/' in rsync_forcli.stdout"
+    - name: initialize postActiv database
+      command: scripts/install_cli.php --server localhost:8080 --path / --sitename 'postActiv/vagrant' --fancy yes --dbtype mysql --host 127.0.0.1 --database postactiv --username postactiv --password postactiv --admin-nick admin --admin-pass admin  --site-profile public
+      args:
+        chdir: /opt/forcli
+        creates: /opt/forcli/config.php
+    - name: clone php-ast
+      git: repo=https://github.com/nikic/php-ast dest=/home/ubuntu/php-ast
+    - name: phpize php-ast
+      command: phpize
+      args:
+        chdir: /home/ubuntu/php-ast
+        creates: /home/ubuntu/php-ast/configure
+    - name: configure php-ast
+      command: ./configure
+      args:
+        chdir: /home/ubuntu/php-ast
+        creates: /home/ubuntu/php-ast/Makefile
+    - name: make install php-ast
+      command: make install
+      args:
+        chdir: /home/ubuntu/php-ast
+        creates: /usr/lib/php/20151012/ast.so
+    - name: create extension php-ast ini file
+      copy: src=ast.ini dest=/etc/php/7.0/mods-available/ast.ini
+    - name: check if ast is already enabled
+      stat: path=/etc/php/7.0/cli/conf.d/20-ast.ini
+      register: ast_module
+      changed_when: false
+    - name: enable extension php-ast ini file
+      command: phpenmod ast
+      when: not ast_module.stat.exists
+    - name: require phan
+      composer:
+        command: require
+        arguments: etsy/phan:dev-master
+        no_dev: false
+        working_dir: /home/ubuntu
+    - name: install all required composer packages
+      composer:
+        command: install
+        working_dir: /home/ubuntu
+    - name: install runphan.sh wrapper script
+      copy: src=runphan.sh dest=/home/ubuntu/runphan.sh mode=0755
+  handlers:
+    - name: restart apache
+      service: name=apache2 state=restarted
