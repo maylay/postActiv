@@ -599,7 +599,7 @@ function common_purify($html, array $args=array())
      *
      * Source: http://microformats.org/wiki/rel
      */
-    $cfg->set('Attr.AllowedRel', ['bookmark', 'enclosure', 'nofollow', 'tag']);
+    $cfg->set('Attr.AllowedRel', ['bookmark', 'enclosure', 'nofollow', 'tag', 'noreferrer']);
     $cfg->set('HTML.ForbiddenAttributes', array('style'));  // id, on* etc. are already filtered by default
     $cfg->set('URI.AllowedSchemes', array_fill_keys(common_url_schemes(), true));
     if (isset($args['URI.Base'])) {
@@ -1145,6 +1145,15 @@ function common_linkify($url) {
         }
     }
 
+    // Whether to nofollow
+    $nf = common_config('nofollow', 'external');
+
+    if ($nf == 'never') {
+        $attrs['rel'] = 'external';
+    } else {
+        $attrs['rel'] = 'nofollow external';
+    }
+
     // Add clippy
     if ($is_attachment) {
         $attrs['class'] = 'attachment';
@@ -1152,16 +1161,7 @@ function common_linkify($url) {
             $attrs['class'] = 'attachment thumbnail';
         }
         $attrs['id'] = "attachment-{$attachment_id}";
-    }
-
-    // Whether to nofollow
-
-    $nf = common_config('nofollow', 'external');
-
-    if ($nf == 'never') {
-        $attrs['rel'] = 'external';
-    } else {
-        $attrs['rel'] = 'nofollow external';
+        $attrs['rel'] .= ' noreferrer';
     }
 
     return XMLStringer::estring('a', $attrs, $url);
