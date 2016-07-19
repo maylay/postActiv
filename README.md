@@ -120,6 +120,17 @@ directory, and then run the Install.php file, which will guide you through
 further setup.  You will want to have a database available for postActiv, of
 course.
 
+## Configuration
+The main configuration file for postActiv (excepting configurations for
+dependency software or some plugins) is config.php in your postActiv root 
+directory. If you edit any other file in the directory, like 
+lib/default.php (where most of the defaults are defined), you will lose 
+your configuration options in any upgrade, and you will wish that you had
+been more careful.
+
+You can read <CONFIGURING> to get the full summary of different options
+available to customize your postActiv install.
+
 ## Compatibility
 Being a fork of GNU social, most plugins that work with GNU social 1.2.0-beta4,
 the version of GNU social it was forked from, should also work with postActiv.
