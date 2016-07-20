@@ -15,14 +15,13 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package     Activity
+ * @maintainer  Mikael Nordfeldth <mmn@hethane.se>
  */
 
 if (!defined('GNUSOCIAL')) { exit(1); }
 
-/**
- * @package     Activity
- * @maintainer  Mikael Nordfeldth <mmn@hethane.se>
- */
 class FavoritePlugin extends ActivityVerbHandlerPlugin
 {
     protected $email_notify_fave = 1;

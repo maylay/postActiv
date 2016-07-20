@@ -1,4 +1,4 @@
-7<?php
+<?php
 /***
  * postActiv - a fork of the GNU Social microblogging software
  * Copyright (C) 2016, Maiyannah Bishop

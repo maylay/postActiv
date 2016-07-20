@@ -68,7 +68,7 @@ class GNUsocial
                            "local/{$pluginclass}.php",
                            "local/{$name}/{$pluginclass}.php",
                            "modules/{$pluginclass}.php",
-                           "modules/{$name}/{$pluginclass}.php",                           
+                           "modules/{$name}/{$pluginclass}.php",                                                      
                            "plugins/{$pluginclass}.php",
                            "plugins/{$name}/{$pluginclass}.php");
 

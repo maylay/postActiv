@@ -29,15 +29,6 @@
 
 if (!defined('GNUSOCIAL')) { exit(1); }
 
-/**
- * List of replies
- *
- * @category Personal
- * @package  StatusNet
- * @author   Evan Prodromou <evan@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
- */
 class ShowfavoritesAction extends ShowstreamAction
 {
     function title()
@@ -148,7 +139,7 @@ class ShowfavoritesAction extends ShowstreamAction
 
 class FavoritesNoticeList extends NoticeList
 {
-    function newListItem($notice)
+    function newListItem(Notice $notice)
     {
         return new FavoritesNoticeListItem($notice, $this->out);
     }
