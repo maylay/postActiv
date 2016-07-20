@@ -34,16 +34,6 @@ if (!defined('STATUSNET')) {
     exit(1);
 }
 
-/**
- * Activity plugin main class
- *
- * @category  Activity
- * @package   StatusNet
- * @author    Evan Prodromou <evan@status.net>
- * @copyright 2010 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
- * @link      http://status.net/
- */
 class ActivityPlugin extends Plugin
 {
     const VERSION = '0.1';

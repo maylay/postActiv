@@ -105,6 +105,12 @@ class Plugin
         if (!file_exists($basedir)) {
             $basedir = INSTALLDIR . '/plugins/' . mb_substr(get_called_class(), 0, -6);
         }
+        if (!file_exists($basedir)) {
+            $basedir = INSTALLDIR . '/local/modules/' . mb_substr(get_called_class(), 0, -6);
+        }
+        if (!file_exists($basedir)) {
+            $basedir = INSTALLDIR . '/modules/' . mb_substr(get_called_class(), 0, -6);
+        }
 
         $file = null;
 
