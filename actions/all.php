@@ -159,7 +159,7 @@ class AllAction extends ShowstreamAction
                 $this->page, 'all', array('nickname' => $this->target->getNickname())
             );
 
-            Event::handlex('EndShowAllContent', array($this));
+            Event::handle('EndShowAllContent', array($this));
         }
     }
 
