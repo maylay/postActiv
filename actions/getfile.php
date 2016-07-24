@@ -8,6 +8,9 @@
  *
  * Return a requested file
  *
+ * The postActiv system will do an implicit user check if the site is
+ * private before allowing this to continue
+ *
  * PHP version 5
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,23 +28,22 @@
  *
  * @category  PrivateAttachments
  * @package   postActiv
- * @author    Jeffery To <jeffery.to@gmail.com>
+ * @author    Evan Prodromou <evan@prodromou.name>
+ * @author    Craig Andrews <candrews@integralblue.com>
+ * @author    Brion Vibber <brion@pobox.com>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @authod    Zach Copley <zach@copley.name>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  * @copyright 2009-2011 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
+ * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
  * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
 if (!defined('GNUSOCIAL')) { exit(1); }
 
-/**
- * An action for returning a requested file
- *
- * The StatusNet system will do an implicit user check if the site is
- * private before allowing this to continue
- */
 class GetfileAction extends Action
 {
     /**
