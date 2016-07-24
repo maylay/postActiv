@@ -1,0 +1,3 @@
+[submodule "plugins/SensitiveContent"]
+	path = plugins/SensitiveContent
+	url = https://gitgud.io/ShitposterClub/SensitiveContent.git
