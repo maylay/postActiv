@@ -25,13 +25,18 @@
  *
  * @category  Group
  * @package   postActiv
- * @author    Evan Prodromou <evan@status.net>
+ * @author    Robin Millette <robin@millette.info>
+ * @author    Evan Prodromou <evan@prodromou.name>
  * @author    Sarven Capadisli <csarven@status.net>
+ * @author    Jeffery To <jeffery.to@gmail.com>
+ * @author    Zach Copley <zach@copley.name>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  * @copyright 2008-2011 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
+ * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
  * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
