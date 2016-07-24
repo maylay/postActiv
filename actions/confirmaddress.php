@@ -8,6 +8,10 @@
  *
  * Confirm an address
  *
+ * When users change their SMS, email, Jabber, or other addresses, we send out
+ * a confirmation code to make sure the owner of that address approves. This class
+ * accepts those codes.
+ *
  * PHP version 5
  *
  * LICENCE: This program is free software: you can redistribute it and/or modify
@@ -26,23 +30,23 @@
  * @category  Confirm
  * @package   postActiv
  * @author    Evan Prodromou <evan@status.net>
- * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com> 
- * @copyright 2008-2009 StatusNet, Inc.
+ * @author    Mike Cochrane <mikec@mikenz.geek.nz>
+ * @author    Zach Copley <zach@copley.name>
+ * @author    Jeffrey To <jeffery.to@gmail.com>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Craig Andrews <candrews@integralblue.com>
+ * @author    Brion Vibber <brion@pobox.com>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ * @copyright 2008-2011 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
+ * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
  * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
 if (!defined('GNUSOCIAL')) { exit(1); }
 
-/**
- * Confirm an address
- *
- * When users change their SMS, email, Jabber, or other addresses, we send out
- * a confirmation code to make sure the owner of that address approves. This class
- * accepts those codes.
- */
 class ConfirmaddressAction extends ManagedAction
 {
     /** type of confirmation. */

@@ -8,6 +8,10 @@ x<?php
  *
  * Delete your own account
  *
+ * Note that this is distinct from DeleteuserAction, which see. I thought
+ * that making that action do both things (delete another user and delete the
+ * current user) would open a lot of holes. I'm open to refactoring, however.
+ *
  * PHP version 5
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,6 +30,8 @@ x<?php
  * @category  Account
  * @package   postActiv
  * @author    Evan Prodromou <evan@status.net>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Brion Vibber <brion@pobox.com>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  * @copyright 2010-2011 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
@@ -40,20 +46,6 @@ if (!defined('STATUSNET')) {
     exit(1);
 }
 
-/**
- * Action to delete your own account
- *
- * Note that this is distinct from DeleteuserAction, which see. I thought
- * that making that action do both things (delete another user and delete the
- * current user) would open a lot of holes. I'm open to refactoring, however.
- *
- * @category  Account
- * @package   StatusNet
- * @author    Evan Prodromou <evan@status.net>
- * @copyright 2010 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
- * @link      http://status.net/
- */
 class DeleteaccountAction extends Action
 {
     private $_complete = false;

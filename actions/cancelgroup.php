@@ -8,6 +8,9 @@
  *
  * Leave a group
  *
+ * This is the action for leaving a group. It works more or less like the subscribe action
+ * for users.
+ *
  * PHP version 5
  *
  * LICENCE: This program is free software: you can redistribute it and/or modify
@@ -25,12 +28,14 @@
  *
  * @category  Group
  * @package   postActiv
- * @author    Evan Prodromou <evan@status.net>
+ * @author    Brion Vibber <brian@pobox.com>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2008-2009 StatusNet, Inc.
+ * @copyright 2011-2011 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
+ * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
  * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
@@ -38,18 +43,6 @@ if (!defined('STATUSNET') && !defined('LACONICA')) {
     exit(1);
 }
 
-/**
- * Leave a group
- *
- * This is the action for leaving a group. It works more or less like the subscribe action
- * for users.
- *
- * @category Group
- * @package  StatusNet
- * @author   Evan Prodromou <evan@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
- */
 class CancelgroupAction extends Action
 {
     var $group = null;
