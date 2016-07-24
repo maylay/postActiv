@@ -6,7 +6,9 @@
  *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
  *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
- * Edit an OAuth Application
+ * Edit the details of an OAuth application
+ *
+ * This is the form for editing an application
  *
  * PHP version 5
  *
@@ -25,12 +27,15 @@
  *
  * @category  Applications
  * @package   postActiv
- * @author    Zach Copley <zach@status.net>
+ * @author    Zach Copley <zach@copley.name>
+ * @author    Brion Vibber <brion@pobox.com>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2008-2011 StatusNet, Inc.
+ * @copyright 2010-2011 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
+ * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
  * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
@@ -38,11 +43,6 @@ if (!defined('STATUSNET') && !defined('LACONICA')) {
     exit(1);
 }
 
-/**
- * Edit the details of an OAuth application
- *
- * This is the form for editing an application
- */
 class EditApplicationAction extends Action
 {
     var $msg   = null;
