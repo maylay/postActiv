@@ -25,10 +25,12 @@
  *
  * @category  Personal
  * @package   postActiv
- * @author    Evan Prodromou <evan@status.net>
+ * @author    Evan Prodromou <evan@prodromou.name>
  * @author    Sarven Capadisli <csarven@status.net>
+ * @author    Meitar Moscovitz <meitarm@gmail.com>
+ * @author    Jeffery To <jeffery.to@gmail.com>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2008-2011 StatusNet, Inc.
+ * @copyright 2009-2011 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0

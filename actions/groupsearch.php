@@ -25,13 +25,17 @@
  *
  * @category  Action
  * @package   postActiv
- * @author    Evan Prodromou <evan@status.net>
  * @author    Robin Millette <millette@status.net>
+ * @author    Evan Prodromou <evan@prodromou.name>
+ * @author    Sarven Capadisli <csarven@status.net>
+ * @auhtor    Jeffery To <jeffery.to@gmail.com>
+ * @author    Craig Andrews <candrews@integralblue.com>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2008-2011 StatusNet, Inc.
+ * @copyright 2009-2011 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
- * @license   http://www.fsf.org/licensing/licenses/agpl.html AGPLv3
+ * @license   http://www.fsf.org/licensing/licenses/agpl.html
  * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
@@ -42,16 +46,6 @@ if (!defined('STATUSNET') && !defined('LACONICA')) {
 //require_once INSTALLDIR.'/lib/searchaction.php';
 //require_once INSTALLDIR.'/lib/profilelist.php';
 
-/**
- * Group search action class.
- *
- * @category Action
- * @package  StatusNet
- * @author   Evan Prodromou <evan@status.net>
- * @author   Robin Millette <millette@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl.html AGPLv3
- * @link     http://status.net/
- */
 class GroupsearchAction extends SearchAction
 {
     function getInstructions()
