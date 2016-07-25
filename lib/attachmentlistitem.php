@@ -67,7 +67,7 @@ class AttachmentListItem extends Widget
     }
 
     function title() {
-        return $this->attachment->getTitle();
+        return $this->attachment->getTitle() ?: _('Untitled attachment');
     }
 
     function linkTitle() {
@@ -145,7 +145,13 @@ class AttachmentListItem extends Widget
                     if ($thumb instanceof File_thumbnail) {
                         $this->out->element('img', $thumb->getHtmlAttrs(['class'=>'u-photo', 'alt' => '']));
                     } else {
-                        $this->out->element('img', array('class'=>'u-photo', 'src' => $this->attachment->getUrl(), 'alt' => $this->attachment->getTitle()));
+                        try {
+                            // getUrl(true) because we don't want to hotlink, could be made configurable
+                            $this->out->element('img', ['class'=>'u-photo', 'src'=>$this->attachment->getUrl(true), 'alt' => $this->attachment->getTitle()]);
+                        } catch (FileNotStoredLocallyException $e) {
+                            $url = $e->file->getUrl(false);
+                            $this->out->element('a', ['href'=>$url, 'rel'=>'external'], $url);
+                        }
                     }
                     unset($thumb);  // there's no need carrying this along after this
                     break;
@@ -172,7 +178,7 @@ class AttachmentListItem extends Widget
 
                 default:
                     unset($thumb);  // there's no need carrying this along
-                    switch ($this->attachment->mimetype) {
+                    switch (common_bare_mime($this->attachment->mimetype)) {
                     case 'text/plain':
                         $this->element('div', ['class'=>'e-content plaintext'], file_get_contents($this->attachment->getPath()));
                         break;
