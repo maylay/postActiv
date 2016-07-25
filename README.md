@@ -120,13 +120,20 @@ directory, and then run the Install.php file, which will guide you through
 further setup.  You will want to have a database available for postActiv, of
 course.
 
+The postActiv repository also contains MoonMan's SensitiveContent as a 
+submodule, which allows users to block the display of attachments on posts
+that are tagged "NSFW".  If you wish to install this plugin, you will have to
+download the branch of your choice, and then in /plugins/SensitiveContent
+execute git submodule init and git submodule update.  This will require git, of
+course.
+
 ## Configuration
 The main configuration file for postActiv (excepting configurations for
 dependency software or some plugins) is config.php in your postActiv root 
 directory. If you edit any other file in the directory, like 
 lib/default.php (where most of the defaults are defined), you will lose 
-your configuration options in any upgrade, and you will wish that you had
-been more careful.
+your configuration options in any upgrade, so you will want to make changes
+in the config.php file.
 
 You can read <CONFIGURING> to get the full summary of different options
 available to customize your postActiv install.
