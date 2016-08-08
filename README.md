@@ -11,12 +11,12 @@ features. It includes general information about the software and the project.
 
 Some other files to review:
 
-- INSTALL: instructions on how to install the software.
-- UPGRADE: upgrading from earlier versions
-- CONFIGURE: configuration options in gruesome detail.
+- INSTALL.md: instructions on how to install the software.
+- UPGRADE:.md upgrading from earlier versions
+- CONFIGURE.md: configuration options in gruesome detail.
 - PLUGINS.txt: how to install and configure plugins.
 - EVENTS.txt: events supported by the plugin system
-- COPYING: full text of the software license
+- COPYING.md: full text of the software license
 
 Information on using GNU social can be found in the "doc" subdirectory or in
 the "help" section on-line, or you can contact maiyannah on the fediverse at
@@ -114,8 +114,8 @@ The minimum requirements to run postActiv are the following:
   nginx is also well-supported.
   
 ## Installation
-Detailed installation information is in INSTALLING, but in basic, you will want
-to download the branch archive of your choice, unzip it to a web-accessible
+Detailed installation information is in INSTALLING.md, but in basic, you will 
+want to download the branch archive of your choice, unzip it to a web-accessible
 directory, and then run the Install.php file, which will guide you through
 further setup.  You will want to have a database available for postActiv, of
 course.
@@ -135,7 +135,7 @@ lib/default.php (where most of the defaults are defined), you will lose
 your configuration options in any upgrade, so you will want to make changes
 in the config.php file.
 
-You can read <CONFIGURING> to get the full summary of different options
+You can read <CONFIGURING.md> to get the full summary of different options
 available to customize your postActiv install.
 
 ## Compatibility
@@ -205,6 +205,7 @@ The following is a list of developers who've contributed to postActiv:
 ## Contributors
 * Verius - <verius@postactiv.com>
 * Neil E Hodges
+* Moonman
 
 Acknowledgements
 ================
