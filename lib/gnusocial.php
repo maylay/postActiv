@@ -394,7 +394,9 @@ class GNUsocial
             $config_files = array($conffile);
         } else {
             $config_files = array('/etc/gnusocial/config.php',
-                                  '/etc/gnusocial/config.d/'.$_server.'.php');
+                                  '/etc/gnusocial/config.d/'.$_server.'.php',
+                                  '/etc/postactiv/config.php',
+                                  '/etc/postactiv/config.d/'.$_server.'.php');
 
             if (strlen($_path) > 0) {
                 $config_files[] = '/etc/gnusocial/config.d/'.$_server.'_'.$_path.'.php';
