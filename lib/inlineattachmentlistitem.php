@@ -35,11 +35,6 @@ if (!defined('POSTACTIV')) { exit(1); }
 
 class InlineAttachmentListItem extends AttachmentListItem
 {
-    function showLink() {
-        $this->out->element('a', $this->linkAttr(), $this->title());
-        $this->showRepresentation();
-    }
-
     /**
      * start a single notice.
      *
@@ -49,7 +44,10 @@ class InlineAttachmentListItem extends AttachmentListItem
     {
         // XXX: RDFa
         // TODO: add notice_type class e.g., notice_video, notice_image
-        $this->out->elementStart('li', array('class' => 'inline-attachment'));
+        $this->out->elementStart('li',
+                    array('class' => 'inline-attachment',
+                          'id' => 'attachment-' . $this->attachment->getID(),
+                ));
     }
 
     /**
