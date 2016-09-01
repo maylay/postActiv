@@ -40,7 +40,7 @@
  * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
-if (!defined('GNUSOCIAL)') { exit(1); }
+if (!defined('GNUSOCIAL)')) { exit(1); }
 
 /**
  * List of group members
