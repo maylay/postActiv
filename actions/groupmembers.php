@@ -40,12 +40,7 @@
  * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
-if (!defined('STATUSNET') && !defined('LACONICA')) {
-    exit(1);
-}
-
-require_once(INSTALLDIR.'/lib/profilelist.php');
-require_once INSTALLDIR.'/lib/publicgroupnav.php';
+if (!defined('GNUSOCIAL)') { exit(1); }
 
 /**
  * List of group members
@@ -62,15 +57,6 @@ class GroupmembersAction extends GroupAction
 
     function isReadOnly($args)
     {
-        return true;
-    }
-
-    protected function prepare(array $args=array())
-    {
-        parent::prepare($args);
-
-        $this->page = ($this->arg('page')) ? ($this->arg('page')+0) : 1;
-
         return true;
     }
 
