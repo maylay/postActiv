@@ -44,7 +44,7 @@ if (!defined('GNUSOCIAL')) { exit(1); }
  * The group nickname can change, but not the group ID. So we use
  * an URL with the ID in it as the permanent identifier.
  */
-class GroupbyidAction extends ManagedAction
+class GroupbyidAction extends ShowgroupAction
 {
     /** group we're viewing. */
     protected $group = null;
@@ -57,11 +57,11 @@ class GroupbyidAction extends ManagedAction
     protected function doPreparation()
     {
         $this->group = User_group::getByID($this->arg('id'));
-    }
+        $this->target = $this->group->getProfile();
 
-    public function showPage()
-    {
-        common_redirect($this->group->homeUrl(), 303);
+        if ($this->target->isLocal()) {
+            common_redirect($this->target->getUrl());
+        }
     }
 }
 ?>
