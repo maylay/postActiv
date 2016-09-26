@@ -20,7 +20,7 @@ class TranslatePlugin extends Plugin {
    function onPluginVersion(array &$versions)
    {
       $versions[] = array('name' => 'Translate',
-         'version' => '0.1',
+         'version' => '0.1.1',
          'author' => 'Maiyannah Bishop',
          'homepage' => 'https://www.postactiv.com',
          'rawdescription' => _m('Provides machine translation on demand for postActiv notices using an Apertium-APy server.'));
