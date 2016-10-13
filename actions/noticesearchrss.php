@@ -23,8 +23,14 @@
  *
  * @category  Action
  * @package   postActiv
- * @author    Evan Prodromou <evan@status.net>
- * @author    Robin Millette <millette@status.net>
+ * @author    Evan Prodromou <evan@prodromou.name>
+ * @author    Mike Cochrane <mikec@mikenz.geek.nz>
+ * @author    Ciaran Gultneiks <ciaran@ciarang.com>
+ * @author    Robin Millette <robin@millette.name>
+ * @author    Jeffrey To <jeffery.to@gmail.com>
+ * @author    Brion Vibber <brion@pobox.com>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  * @copyright 2008-2011 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.

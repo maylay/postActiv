@@ -24,8 +24,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package   postActiv
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2010-2011 StatusNet, Inc.
  * @copyright 2013-2016 Free Sofware Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0

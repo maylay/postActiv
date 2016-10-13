@@ -161,6 +161,7 @@ class ApiStatusesUpdateAction extends ApiAuthAction
         parent::prepare($args);
 
         $this->status = $this->trimmed('status');
+        $this->source = $this->trimmed('source');
         $this->lat    = $this->trimmed('lat');
         $this->lon    = $this->trimmed('long');
         $matches = array();
@@ -289,6 +290,7 @@ class ApiStatusesUpdateAction extends ApiAuthAction
 
 
             $content = html_entity_decode($status_shortened, ENT_NOQUOTES, 'UTF-8');
+            $source = html_entity_decode($this->source, ENT_NOQUOTES, 'UTF-8');
 
             $options = array('reply_to' => $reply_to);
 

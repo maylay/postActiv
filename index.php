@@ -60,6 +60,11 @@ define('STATUSNET', true);  // compatibility
 $user = null;
 $action = null;
 
+if (file_exists(INSTALLDIR . '/install.php') & file_exists(INSTALLDIR . '/config.php'))
+{
+   die("Installation script present on a live install.  Please remove the installation script.");
+}
+
 function getPath($req)
 {
     $p = null;

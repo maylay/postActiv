@@ -232,6 +232,10 @@ class Plugin
             // XXX: extra stat().
             if (@file_exists(INSTALLDIR.'/local/plugins/'.$plugin.'/'.$relative)) {
                 $path = common_config('site', 'path') . '/local/plugins/';
+            } elseif (@file_exists(INSTALLDIR.'/local/modules/'.$plugin.'/'.$relative)) {
+                $path = common_config('site', 'path') . '/local/modules/';
+            } elseif (@file_exists(INSTALLDIR.'/modules/'.$plugin.'/'.$relative)) {
+                $path = common_config('site', 'path') . '/modules/';
             } else {
                 $path = common_config('site', 'path') . '/plugins/';
             }
