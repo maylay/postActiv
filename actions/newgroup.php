@@ -25,8 +25,13 @@
  *
  * @category  Group
  * @package   postActiv
- * @author    Evan Prodromou <evan@status.net>
- * @author    Sarven Capadisli <csarven@status.net>
+ * @author    Evan Prodromou <evan@prodromou.name>
+ * @author    Robin Millette <robin@millette.name>
+ * @author    Eric Helgeson <erichelgeson@gmail.com>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Brion Vibber <brion@pobox.com>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
+ * @author    Roland Haeder <roland@mxchange.org>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  * @copyright 2008-2009 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
