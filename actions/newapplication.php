@@ -25,7 +25,11 @@
  *
  * @category  Applications
  * @package   postActiv
- * @author    Zach Copley <zach@status.net>
+ * @author    Zach Copley <zach@copley.name>
+ * @author    Brion Vibber <brion@pobox.com>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Evan Prodromou <evan@prodromou.name>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  * @copyright 2008-2011 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
