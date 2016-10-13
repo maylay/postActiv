@@ -473,10 +473,10 @@ class OembedPlugin extends Plugin
    // reliable enough for our purposes.  Returns the file size if it succeeds
    // or the exception if it fails.
    private function getRemoteFileSize($url) {
-      if (!$url) {
-         return false;
-      }
       try {
+         if (empty($url)) {
+            return false;
+         }
          stream_context_set_default(array('http' => array('method' => 'HEAD')));
          $head = @get_headers($url,1);
          if (gettype($head)=="array") {
@@ -504,16 +504,24 @@ class OembedPlugin extends Plugin
    // FIXME: We should probably sanity-check the input to make sure it's a 
    // valid URL.
    private function isRemoteImage($url) {
-      $curl = curl_init($url);
-      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-      curl_setopt($curl, CURLOPT_HEADER, TRUE);
-      curl_setopt($ch, CURLOPT_NOBODY, TRUE);
-      $headers = curl_exec($curl);
-      $type    = curl_getinfo($curl, CURLINFO_CONTENT_TYPE);
-      if (strpos($type, 'image') !== false) {
-         return true;
-      } else {
-         return false;
+      if ($url==null) {
+         common_log(LOG_ERR,"URL not specified in OEmbed::isRemoteImage()");
+         return -1;
+      }
+      try {
+         $curl = curl_init($url);
+         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+         curl_setopt($curl, CURLOPT_HEADER, TRUE);
+         curl_setopt($curl, CURLOPT_NOBODY, TRUE);
+         $headers = curl_exec($curl);
+         $type    = curl_getinfo($curl, CURLINFO_CONTENT_TYPE);
+         if (strpos($type, 'image') !== false) {
+            return true;
+         } else {
+            return false;
+         }
+      } finally {
+         return -1;
       }
    }
 
