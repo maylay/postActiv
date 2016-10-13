@@ -232,8 +232,10 @@ class NoticeListItem extends Widget
             if ($this->notice->scope != 0 && $this->notice->scope != 1) {
                 $class .= ' limited-scope';
             }
-            if (!empty($this->notice->source)) {
-                $class .= ' notice-source-'.$this->notice->source;
+            try {
+                $class .= ' notice-source-'.common_to_alphanumeric($this->notice->source);
+            } catch (Exception $e) {
+                // either source or what we filtered out was a zero-length string
             }
             $id_prefix = (strlen($this->id_prefix) ? $this->id_prefix . '-' : '');
             $this->out->elementStart($this->item_tag, array('class' => $class,
@@ -287,7 +289,7 @@ class NoticeListItem extends Widget
             $this->out->elementStart('ul', 'addressees');
             $first = true;
             foreach ($pa as $addr) {
-                $this->out->elementStart('li', 'h-card');
+                $this->out->elementStart('li');
                 $text = $addr['text'];
                 unset($addr['text']);
                 $this->out->element('a', $addr, $text);
@@ -305,12 +307,12 @@ class NoticeListItem extends Widget
         $attentions = $this->getAttentionProfiles();
 
         foreach ($attentions as $attn) {
-            $class = $attn->isGroup() ? 'group' : 'account';
-            $profileurl = $attn->getUri();
-            if (common_valid_http_url($profileurl)) {
-                $class .= ' u-uid';
+            if ($attn->isGroup()) {
+                $class = 'group';
+                $profileurl = common_local_url('groupbyid', array('id' => $attn->getGroup()->getID()));
             } else {
-                $profileurl = $attn->getUrl();
+                $class = 'account';
+                $profileurl = common_local_url('userbyid', array('id' => $attn->getID()));
             }
             $this->pa[] = array('href' => $profileurl,
                                 'title' => $attn->getNickname(),

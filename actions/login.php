@@ -25,8 +25,17 @@
  *
  * @category  Login
  * @package   postActiv
- * @author    Evan Prodromou <evan@status.net>
+ * @author    Evan Prodromou <evan@prodromou.name>
+ * @author    Mike Cochrane <mikec@mikenz.geek.nz>
+ * @author    Zach Copley <zach@copley.name>
  * @author    Sarven Capadisli <csarven@status.net>
+ * @author    Sean Murphy <sgmurphy@gmail.com>
+ * @author    Jeffrey To <jeffery.to@gmail.com>
+ * @author    Eric Helgeson <erichelgeson@gmail.com>
+ * @author    Brion Vibber <brion@pobox.com>
+ * @author    Craig Andrews <candrews@integralblue.com>
+ * @author    Sam Nicholls <msn@central.aber.ac.uk>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
  * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  * @copyright 2008-2009 StatusNet, Inc.

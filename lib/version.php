@@ -1,0 +1,278 @@
+<?php
+/***
+ * postActiv - a fork of the GNU Social microblogging software
+ * Copyright (C) 2016, Maiyannah Bishop
+ * Derived from code copyright various sources:
+ *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ *   StatusNet (C) 2008-2011, StatusNet, Inc
+ *
+ * Show version information for this software and plugins
+ *
+ * PHP version 5
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @category  Info
+ * @package   postActiv
+ * @author    Evan Prodromou <evan@status.net>
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ * @copyright 2008-2011 SatusNet, Inc
+ * @copyright 2013-2016 Free Software Foundation, Inc
+ * @copyright 2016 Maiyannah Bishop
+ * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPLv3
+ * @link      https://git.gnu.io/maiyannah/postActiv
+ */
+
+if (!defined('GNUSOCIAL')) { exit(1); }
+
+/**
+ * Version info page
+ *
+ * A page that shows version information for this site. Helpful for
+ * debugging, for giving credit to authors, and for linking to more
+ * complete documentation for admins.
+ */
+class VersionAction extends Action
+{
+    var $pluginVersions = array();
+
+    /**
+     * Return true since we're read-only.
+     *
+     * @param array $args other arguments
+     *
+     * @return boolean is read only action?
+     */
+    function isReadOnly($args)
+    {
+        return true;
+    }
+
+    /**
+     * Returns the page title
+     *
+     * @return string page title
+     */
+    function title()
+    {
+        // TRANS: Title for version page. %1$s is the engine name, %2$s is the engine version.
+        return sprintf(_('%1$s %2$s'), GNUSOCIAL_ENGINE, GNUSOCIAL_VERSION);
+    }
+
+    /**
+     * Prepare to run
+     *
+     * Fire off an event to let plugins report their
+     * versions.
+     *
+     * @param array $args array misc. arguments
+     *
+     * @return boolean true
+     */
+    protected function prepare(array $args=array())
+    {
+        parent::prepare($args);
+
+        Event::handle('PluginVersion', array(&$this->pluginVersions));
+
+        return true;
+    }
+
+    /**
+     * Execute the action
+     *
+     * Shows a page with the version information in the
+     * content area.
+     *
+     * @param array $args ignored.
+     *
+     * @return void
+     */
+    protected function handle()
+    {
+        parent::handle();
+        $this->showPage();
+    }
+
+
+    /*
+    * Override to add h-entry, and content-inner classes
+    *
+    * @return void
+    */
+    function showContentBlock()
+     {
+         $this->elementStart('div', array('id' => 'content', 'class' => 'h-entry'));
+         $this->showPageTitle();
+         $this->showPageNoticeBlock();
+         $this->elementStart('div', array('id' => 'content_inner',
+                                          'class' => 'e-content'));
+         // show the actual content (forms, lists, whatever)
+         $this->showContent();
+         $this->elementEnd('div');
+         $this->elementEnd('div');
+     }
+
+    /*
+    * Overrride to add entry-title class
+    *
+    * @return void
+    */
+    function showPageTitle() {
+        $this->element('h1', array('class' => 'entry-title'), $this->title());
+    }
+
+
+    /**
+     * Show version information
+     *
+     * @return void
+     */
+    function showContent()
+    {
+        $this->elementStart('p');
+
+        // TRANS: Content part of engine version page.
+        // TRANS: %1$s is the engine name (GNU social) and %2$s is the GNU social version.
+        $this->raw(sprintf(_('This site is powered by %1$s version %2$s, '.
+                             'Copyright 2008-2013 StatusNet, Inc., 2013-2016 Free Software Foundation, and 2016 Maiyannah Bishop, as well as other contributors.'),
+                           XMLStringer::estring('a', array('href' => GNUSOCIAL_ENGINE_URL),
+                                                // TRANS: Engine name.
+                                                GNUSOCIAL_ENGINE),
+                           GNUSOCIAL_VERSION));
+        $this->elementEnd('p');
+
+        // TRANS: Header for engine software contributors section on the version page.
+        $this->element('h2', null, _('Contributors'));
+
+        sort($this->contributors);
+        $this->element('p', null, implode(', ', $this->contributors));
+
+        // TRANS: Header for engine software license section on the version page.
+        $this->element('h2', null, _('License'));
+
+        $this->element('p', null,
+                       // TRANS: Content part of engine software version page. %1s is engine name
+                       sprintf(_('%1$s is free software: you can redistribute it and/or modify '.
+                         'it under the terms of the GNU Affero General Public License as published by '.
+                         'the Free Software Foundation, either version 3 of the License, or '.
+                         '(at your option) any later version.'), GNUSOCIAL_ENGINE));
+
+        $this->element('p', null,
+                       // TRANS: Content part of engine software version page.
+                       _('This program is distributed in the hope that it will be useful, '.
+                         'but WITHOUT ANY WARRANTY; without even the implied warranty of '.
+                         'MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the '.
+                         'GNU Affero General Public License for more details.'));
+
+        $this->elementStart('p');
+        // TRANS: Content part of engine version page.
+        // TRANS: %s is a link to the AGPL license with link description "http://www.gnu.org/licenses/agpl.html".
+        $this->raw(sprintf(_('You should have received a copy of the GNU Affero General Public License '.
+                             'along with this program.  If not, see %s.'),
+                           XMLStringer::estring('a', array('href' => 'http://www.gnu.org/licenses/agpl.html'),
+                                                'http://www.gnu.org/licenses/agpl.html')));
+        $this->elementEnd('p');
+
+        // XXX: Theme information?
+
+      if (count($this->pluginVersions)) {
+         // TRANS: Header for engine plugins section on the version page.
+         $this->element('h2', null, _('Plugins'));
+
+         $this->elementStart('table', array('id' => 'plugins_enabled'));
+
+         $this->elementStart('thead');
+         $this->elementStart('tr');
+         // TRANS: Column header for plugins table on version page.
+         $this->element('th', array('id' => 'plugin_name'), _m('HEADER','Name'));
+         // TRANS: Column header for plugins table on version page.
+         $this->element('th', array('id' => 'plugin_version'), _m('HEADER','Version'));
+         // TRANS: Column header for plugins table on version page.
+         $this->element('th', array('id' => 'plugin_authors'), _m('HEADER','Author(s)'));
+         // TRANS: Column header for plugins table on version page.
+         $this->element('th', array('id' => 'plugin_description'), _m('HEADER','Description'));
+         $this->elementEnd('tr');
+         $this->elementEnd('thead');
+
+         $this->elementStart('tbody');
+         foreach ($this->pluginVersions as $plugin) {
+            $dir = preg_replace('/\s+/', '', $plugin['name']);
+            // Is this a plugin or a module? -mb
+            if (@file_exists(INSTALLDIR.'/local/plugins/'.$dir.'/')) {
+               $module = false;
+            } elseif (@file_exists(INSTALLDIR.'/local/modules/'.$dir.'/')) {
+               $module = true;
+            } elseif (@file_exists(INSTALLDIR.'/modules/'.$dir.'/')) {
+               $module = true;
+            } else {
+               $module = false;
+            }
+
+            if ($module==false) {
+               $this->elementStart('tr');
+               if (array_key_exists('homepage', $plugin)) {
+                  $this->elementStart('th');
+                  $this->element('a', array('href' => $plugin['homepage']),
+                                   $plugin['name']);
+                  $this->elementEnd('th');
+               } else {
+                  $this->element('th', null, $plugin['name']);
+               }
+
+               $this->element('td', null, $plugin['version']);
+
+               if (array_key_exists('author', $plugin)) {
+                  $this->element('td', null, $plugin['author']);
+               }
+
+               if (array_key_exists('rawdescription', $plugin)) {
+                    $this->elementStart('td');
+                    $this->raw($plugin['rawdescription']);
+                    $this->elementEnd('td');
+               } else if (array_key_exists('description', $plugin)) {
+                    $this->element('td', null, $plugin['description']);
+               }
+               $this->elementEnd('tr');
+            }
+         }
+         $this->elementEnd('tbody');
+         $this->elementEnd('table');
+         }
+    }
+
+    var $contributors = array('Maiyannah Bishop (postActiv)',
+                              'Neil Hodges (postActiv)',
+                              'Verius (postActiv)',
+                              'Moonman (postActiv)',
+                              'Mikael Nordfeldth (GNU social)',
+                              'Hannes Mannerheim (GNU social)',
+                              'Evan Prodromou (StatusNet)',
+                              'Zach Copley (StatusNet)',
+                              'Earle Martin (StatusNet)',
+                              'Marie-Claude Doyon (StatusNet)',
+                              'Sarven Capadisli (StatusNet)',
+                              'Robin Millette (StatusNet)',
+                              'Ciaran Gultnieks (StatusNet)',
+                              'Michael Landers (StatusNet)',
+                              'Mike Cochrane (StatusNet)',
+                              'Matthew Gregg (StatusNet)',
+                              'Florian Biree (StatusNet)',
+                              'Craig Andrews (StatusNet)',
+                              'Brion Vibber (StatusNet)',
+                              'Siebrand Mazeland (StatusNet)',
+                              'Samantha Doherty (StatusNet)',
+                              'and many others!');
+}
+?>

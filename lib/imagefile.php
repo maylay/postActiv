@@ -317,11 +317,12 @@ class ImageFile
 
         $image_dest = imagecreatetruecolor($box['width'], $box['height']);
 
-        if ($this->type == IMAGETYPE_GIF || $this->type == IMAGETYPE_PNG || $this->type == IMAGETYPE_BMP) {
+        // removed $this->type == IMAGETYPE_GIF from this if - gifs don't support alpha transparency as we know it. -mb
+        if ($this->type == IMAGETYPE_PNG || $this->type == IMAGETYPE_BMP) {
 
             $transparent_idx = imagecolortransparent($image_src);
 
-            if ($transparent_idx >= 0) {
+            if ($transparent_idx >= 0 && $transparent_idx < 255) {
 
                 $transparent_color = imagecolorsforindex($image_src, $transparent_idx);
                 $transparent_idx = imagecolorallocate($image_dest, $transparent_color['red'], $transparent_color['green'], $transparent_color['blue']);
