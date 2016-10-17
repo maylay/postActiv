@@ -1,28 +1,28 @@
 Configuration options
-=====================
+================================================================================
 
-The main configuration file for StatusNet (excepting configurations for
-dependency software) is config.php in your StatusNet directory. If you
-edit any other file in the directory, like lib/default.php (where most
-of the defaults are defined), you will lose your configuration options
-in any upgrade, and you will wish that you had been more careful.
+The main configuration file for StatusNet (excepting configurations for 
+dependency software) is config.php in your postActiv directory. If you edit any
+other file in the directory, like lib/default.php (where most of the defaults 
+are defined), you will lose your configuration options in any upgrade, and you 
+will wish that you had been more careful.
 
-Starting with version 0.9.0, a Web based configuration panel has been
-added to StatusNet. The preferred method for changing config options is
-to use this panel.
+Starting with version 0.9.0, a Web based configuration panel has been added to 
+postActiv. The preferred method for changing config options is to use this 
+panel.
 
-A command-line script, setconfig.php, can be used to set individual
+A command-line script, setconfig.php, can be used to set individual 
 configuration options. It's in the scripts/ directory.
 
-Starting with version 0.7.1, you can put config files in the
-/etc/statusnet/ directory on your server, if it exists. Config files
-will be included in this order:
+Starting with version 0.7.1, you can put config files in the /etc/postActiv/ 
+directory on your server, if it exists. Config files will be included in this 
+order:
 
-* /etc/statusnet/statusnet.php - server-wide config
+* /etc/postActiv/statusnet.php - server-wide config
 
-* /etc/statusnet/<servername>.php - for a virtual host
+* /etc/postActiv/<servername>.php - for a virtual host
 
-* /etc/statusnet/<servername>_<pathname>.php - for a path
+* /etc/postActiv/<servername>_<pathname>.php - for a path
 
 * INSTALLDIR/config.php - for a particular implementation
 
@@ -37,143 +37,142 @@ option.
 
 
 site
-----
+-------------------------------------------------------------------------------
 
 This section is a catch-all for site-wide variables.
 
-* name: the name of your site, like 'YourCompany Microblog'.
+* name (string, required, default "Another postActiv Instance"): the name of 
+    your site, like 'YourCompany Microblog'.
 
-* server: the server part of your site's URLs, like 'example.net'.
+* server (string, required, default null): the server part of your site's URLs,
+    like 'example.net'.
 
-* path: The path part of your site's URLs, like 'statusnet' or ''
-    (installed in root).
+* path (string, required, default ''): The path part of your site's URLs, like
+    'statusnet' or '' (installed in root).
 
-* fancy: whether or not your site uses fancy URLs (see Fancy URLs
-    section above). Default is false.
+* fancy (string, default false): whether or not your site uses fancy URLs (see Fancy URLs
+    section above).
 
-* logfile: full path to a file for StatusNet to save logging
-    information to. You may want to use this if you don't have
-    access to syslog.
+* logfile (string, default './'): full path to a file for StatusNet to save 
+    logging information to. You may want to use this if you don't have access 
+    to syslog.
 
-* logdebug: whether to log additional debug info like backtraces on
-    hard errors. Default false.
+* logdebug (boolean, default false): whether to log additional debug info like 
+    backtraces on hard errors.
 
-* locale_path: full path to the directory for locale data. Unless you
-    store all your locale data in one place, you probably
+* locale_path (string, default null): full path to the directory for locale 
+    data. Unless you store all your locale data in one place, you probably
     don't need to use this.
 
-* language: default language for your site. Defaults to US English.
-    Note that this is overridden if a user is logged in and has
-    selected a different language. It is also overridden if the
-    user is NOT logged in, but their browser requests a different
-    langauge. Since pretty much everybody's browser requests a
-    language, that means that changing this setting has little or
-    no effect in practice.
+* language (string, default "en_us"): default language for your site. Defaults 
+    to US English. Note that this is overridden if a user is logged in and has
+    selected a different language. It is also overridden if the user is NOT 
+    logged in, but their browser requests a different langauge. Since pretty 
+    much everybody's browser requests a language, that means that changing 
+    this setting has little or no effect in practice.
 
-* languages: A list of languages supported on your site. Typically you'd
-    only change this if you wanted to disable support for one
-    or another language:
+* languages (array, default null): A list of languages supported on your site. 
+    Typically you'd only change this if you wanted to disable support for one or
+    another language:
+    
     "unset($config['site']['languages']['de'])" will disable
     support for German.
 
-* theme: Theme for your site (see Theme section). Two themes are
-    provided by default: 'default' and 'stoica' (the one used by
-    Identi.ca). It's appreciated if you don't use the 'stoica' theme
-    except as the basis for your own.
+* theme (string, default 'default'): Theme for your site (see Theme section). 
+    Two themes are provided by default: 'default' and 'stoica' (the one used by
+    Identi.ca). It's appreciated if you don't use the 'stoica' theme except as 
+    the basis for your own.
 
-* email: contact email address for your site. By default, it's extracted
-    from your Web server environment; you may want to customize it.
+* email (string, required): contact email address for your site. By default, 
+    it's extracted from your Web server environment; you may want to customize it.
 
-* broughtbyurl: name of an organization or individual who provides the
-    service. Each page will include a link to this name in the
-    footer. A good way to link to the blog, forum, wiki,
-    corporate portal, or whoever is making the service available.
+* broughtbyurl (string, default null): name of an organization or individual 
+    who provides the service. Each page will include a link to this name in the 
+    footer. A good way to link to the blog, forum, wiki, corporate portal, or 
+    whoever is making the service available.
 
-* broughtby: text used for the "brought by" link.
+* broughtby (string, default null): text used for the "brought by" link.
 
-* timezone: default timezone for message display. Users can set their
-    own time zone. Defaults to 'UTC', which is a pretty good default.
+* timezone (string, default 'UTC'): default timezone for message display. Users 
+    can set their own time zone. Defaults to 'UTC', which is a pretty good 
+    default.
 
-* closed: If set to 'true', will disallow registration on your site.
-    This is a cheap way to restrict accounts to only one
-    individual or group; just register the accounts you want on
-    the service, *then* set this variable to 'true'.
+* closed (boolean, default false): If set to 'true', will disallow registration 
+    on your site.  This is a cheap way to restrict accounts to only one
+    individual or group; just register the accounts you want on the service, 
+    *then* set this variable to 'true'.
 
-* inviteonly: If set to 'true', will only allow registration if the user
-    was invited by an existing user.
+* inviteonly (boolean, default false): If set to 'true', will only allow
+    registration if the user was invited by an existing user.
 
-* private: If set to 'true', anonymous users will be redirected to the
-    'login' page. Also, API methods that normally require no
-    authentication will require it. Note that this does not turn
-    off registration; use 'closed' or 'inviteonly' for the
-    behaviour you want.
+* private (boolean, default false): If set to 'true', anonymous users will be 
+    redirected to the 'login' page. Also, API methods that normally require no 
+    authentication will require it. Note that this does not turn off 
+    registration; use 'closed' or 'inviteonly' for the behaviour you want.
 
-* notice: A plain string that will appear on every page. A good place
-    to put introductory information about your service, or info about
-    upgrades and outages, or other community info. Any HTML will
-    be escaped.
+* notice (string, default null): A plain string that will appear on every 
+    page. A good place to put introductory information about your service, or 
+    info about upgrades and outages, or other community info. Any HTML will be 
+    escaped.
 
-* logo: URL of an image file to use as the logo for the site. Overrides
-    the logo in the theme, if any.
+* logo (string, default null): URL of an image file to use as the logo for the 
+    site. Overrides the logo in the theme, if any.
 
-* ssllogo: URL of an image file to use as the logo on SSL pages. If unset,
-    theme logo is used instead.
+* ssllogo (string, default null): URL of an image file to use as the logo on 
+    SSL pages. If unset, theme logo is used instead.
 
-* ssl: Whether to use SSL and https:// URLs for some or all pages.
-    Possible values are 'always' (use it for all pages), 'never'
-    (don't use it for any pages), or 'sometimes' (use it for
-    sensitive pages that include passwords like login and registration,
-    but not for regular pages). Default to 'never'.
+* ssl (enum['always','sometimes','never'], default 'never'): Whether to use SSL 
+    and https:// URLs for some or all pages.
 
-* sslproxy: Whether to force GNUsocial to think it is HTTPS when the
-    server gives no such information. I.e. when you're using a reverse
-    proxy that adds the encryption layer but the webserver that runs PHP
-    isn't configured with a key and certificate.
+    Possible values are 'always' (use it for all pages), 'never' (don't use it
+    for any pages), or 'sometimes' (use it for sensitive pages that include
+    passwords like login and registration, but not for regular pages).
 
-* sslserver: use an alternate server name for SSL URLs, like
-    'secure.example.org'. You should be careful to set cookie
-    parameters correctly so that both the SSL server and the
-    "normal" server can access the session cookie and
-    preferably other cookies as well.
+* sslproxy (boolean, default false): Whether to force GNUsocial to think it 
+    is HTTPS when the server gives no such information. I.e. when you're using 
+    a reverse proxy that adds the encryption layer but the webserver that runs 
+    PHP isn't configured with a key and certificate.
 
-* shorturllength: ignored. See 'url' section below.
+* sslserver (string, default null): use an alternate server name for SSL URLs, 
+    like 'secure.example.org'. You should be careful to set cookie parameters 
+    correctly so that both the SSL server and the "normal" server can access 
+    the session cookie and preferably other cookies as well.
 
-* dupelimit: minimum time allowed for one person to say the same thing
-    twice. Default 60s. Anything lower is considered a user
-    or UI error.
+* dupelimit (integer, default 60): minimum time allowed for one person to say 
+    the same thing twice. Default 60s. Anything lower is considered a user or 
+    UI error.
 
-* textlimit: default max size for texts in the site. Defaults to 0 (no limit).
-    Can be fine-tuned for notices, messages, profile bios and group descriptions.
+* textlimit (integer, default 0): default max size for texts in the site. Can 
+    be fine-tuned for notices, messages, profile bios and group descriptions.
+    Zero indicates no limit.
 
 
 db
---
+-------------------------------------------------------------------------------
 
 This section is a reference to the configuration options for
 DB_DataObject (see
 <http://pear.php.net/manual/en/package.database.db-dataobject.intro-configuration.php>).
 The ones that you may want to set are listed below for clarity.
 
-* database: a DSN (Data Source Name) for your StatusNet database. This is
-    in the format 'protocol://username:password@hostname/databasename',
-    where 'protocol' is 'mysql' or 'mysqli' (or possibly 'postgresql', if you
-    really know what you're doing), 'username' is the username,
-    'password' is the password, and etc.
+* database (string, required, default null): a DSN (Data Source Name) for your 
+    postActiv database. This is in the format 
+    'protocol://username:password@hostname/databasename', where 'protocol' is '
+    mysql' or 'mysqli' (or possibly 'postgresql', if you really know what 
+    you're doing), 'username' is the username, 'password' is the password, 
+    and etc.
 
-* ini_yourdbname: if your database is not named 'statusnet', you'll need
-    to set this to point to the location of the
-    statusnet.ini file. Note that the real name of your database
-    should go in there, not literally 'yourdbname'.
+* ini_yourdbname (string, default null): if your database is not named 'statusnet', 
+    you'll need to set this to point to the location of the statusnet.ini file. 
+    Note that the real name of your database should go in there, not literally 
+    'yourdbname'.
 
-* db_driver: You can try changing this to 'MDB2' to use the other driver
-    type for DB_DataObject, but note that it breaks the OpenID
-    libraries, which only support PEAR::DB.
+* db_driver(enum['DB','MDB2'], default null): You can try changing this to 
+    'MDB2' to use the other driver type for DB_DataObject, but note that it 
+    breaks the OpenID libraries, which only support PEAR::DB.
 
-* debug: On a database error, you may get a message saying to set this
-    value to 5 to see debug messages in the browser. This breaks
-    just about all pages, and will also expose the username and
-    password
-* quote_identifiers: Set this to true if you're using postgresql.
+* quote_identifiers(boolean, default false): Set this to true if you're using 
+    postgresql.
 
 * type: either 'mysql' or 'postgresql' (used for some bits of
     database-type-specific SQL in the code). Defaults to mysql.
@@ -203,7 +202,7 @@ The ones that you may want to set are listed below for clarity.
 
 
 syslog
-------
+-------------------------------------------------------------------------------
 
 By default, StatusNet sites log error messages to the syslog facility.
 (You can override this using the 'logfile' parameter described above).
@@ -221,7 +220,7 @@ By default, StatusNet sites log error messages to the syslog facility.
 
 
 queue
------
+-------------------------------------------------------------------------------
 
 You can configure the software to queue time-consuming tasks, like
 sending out SMS email or XMPP messages, for off-line processing. See
@@ -310,7 +309,7 @@ sending out SMS email or XMPP messages, for off-line processing. See
 
 
 license
--------
+-------------------------------------------------------------------------------
 
 The default license to use for your users notices. The default is the
 Creative Commons Attribution 3.0 license, which is probably the right
@@ -333,7 +332,7 @@ accept notices if you apply a stricter license than this.
 
 
 mail
-----
+-------------------------------------------------------------------------------
 
 This is for configuring out-going email. We use PEAR's Mail module,
 see: http://pear.php.net/manual/en/package.mail.mail.factory.php
@@ -346,7 +345,7 @@ see: http://pear.php.net/manual/en/package.mail.mail.factory.php
 
 
 nickname
---------
+-------------------------------------------------------------------------------
 
 This is for configuring nicknames in the service.
 
@@ -363,7 +362,7 @@ This is for configuring nicknames in the service.
 
 
 avatar
-------
+-------------------------------------------------------------------------------
 
 For configuring avatar access.
 
@@ -389,7 +388,7 @@ For configuring avatar access.
 
 
 public
-------
+-------------------------------------------------------------------------------
 
 For configuring the public stream.
 
@@ -406,7 +405,7 @@ For configuring the public stream.
 
 
 theme
------
+-------------------------------------------------------------------------------
 
 * server: Like avatars, you can speed up page loading by pointing the
     theme file lookup to another server (virtual or real).
@@ -432,7 +431,7 @@ theme
 
 
 javascript
-----------
+-------------------------------------------------------------------------------
 
 * server: You can speed up page loading by pointing the
     theme file lookup to another server (virtual or real).
@@ -454,7 +453,7 @@ javascript
 	    to true.
 
 xmpp
-----
+-------------------------------------------------------------------------------
 
 For configuring the XMPP sub-system.
 
@@ -493,7 +492,7 @@ For configuring the XMPP sub-system.
 
 
 invite
-------
+-------------------------------------------------------------------------------
 
 For configuring invites.
 
@@ -501,7 +500,7 @@ For configuring invites.
 
 
 tag
----
+-------------------------------------------------------------------------------
 
 Miscellaneous tagging stuff.
 
@@ -511,7 +510,7 @@ Miscellaneous tagging stuff.
 
 
 popular
--------
+-------------------------------------------------------------------------------
 
 Settings for the "popular" section of the site.
 
@@ -521,7 +520,7 @@ Settings for the "popular" section of the site.
 
 
 daemon
-------
+-------------------------------------------------------------------------------
 
 For daemon processes.
 
@@ -539,7 +538,7 @@ For daemon processes.
 
 
 emailpost
----------
+-------------------------------------------------------------------------------
 
 For post-by-email.
 
@@ -548,7 +547,7 @@ For post-by-email.
 
 
 sms
----
+-------------------------------------------------------------------------------
 
 For SMS integration.
 
@@ -557,7 +556,7 @@ For SMS integration.
 
 
 integration
------------
+-------------------------------------------------------------------------------
 
 A catch-all for integration with other systems.
 
@@ -565,7 +564,7 @@ A catch-all for integration with other systems.
 
 
 inboxes
--------
+-------------------------------------------------------------------------------
 
 For notice inboxes.
 
@@ -574,7 +573,7 @@ For notice inboxes.
 
 
 throttle
---------
+-------------------------------------------------------------------------------
 
 For notice-posting throttles.
 
@@ -588,7 +587,7 @@ For notice-posting throttles.
 
 
 profile
--------
+-------------------------------------------------------------------------------
 
 Profile management.
 
@@ -607,7 +606,7 @@ Profile management.
 
 
 newuser
--------
+-------------------------------------------------------------------------------
 
 Options with new users.
 
@@ -626,7 +625,7 @@ be created before the configuration is updated.
 
 
 attachments
------------
+-------------------------------------------------------------------------------
 
 The software lets users upload files with their notices. You can configure
 the types of accepted files by mime types and a trio of quota options:
@@ -692,7 +691,7 @@ set too low (it's optional, so it may not be there at all).
 
 
 group
------
+-------------------------------------------------------------------------------
 
 Options for group functionality.
 
@@ -708,7 +707,7 @@ Options for group functionality.
 
 
 search
-------
+-------------------------------------------------------------------------------
 
 Some stuff for search.
 
@@ -721,7 +720,7 @@ Some stuff for search.
 
 
 sessions
---------
+-------------------------------------------------------------------------------
 
 Session handling.
 
@@ -735,7 +734,7 @@ Session handling.
 
 
 ping
-----
+-------------------------------------------------------------------------------
 
 Using the "XML-RPC Ping" method initiated by weblogs.com, the site can
 notify third-party servers of updates.
@@ -745,7 +744,7 @@ notify third-party servers of updates.
 
 
 notice
-------
+-------------------------------------------------------------------------------
 
 Configuration options specific to notices.
 
@@ -759,7 +758,7 @@ Configuration options specific to notices.
 
 
 message
--------
+-------------------------------------------------------------------------------
 
 Configuration options specific to messages.
 
@@ -769,7 +768,7 @@ Configuration options specific to messages.
 
 
 logincommand
-------------
+-------------------------------------------------------------------------------
 
 Configuration options for the login command.
 
@@ -785,19 +784,19 @@ Configuration options for the login command.
 
 
 singleuser
-----------
+-------------------------------------------------------------------------------
 
 If an installation has only one user, this can simplify a lot of the
 interface. It also makes the user's profile the root URL.
 
-* enabled: Whether to run in "single user mode". Default false.
+* enabled (boolean, default true): Whether to run in "single user mode".
 
-* nickname: nickname of the single user. If no nickname is specified,
-          the site owner account will be used (if present).
+* nickname (string, default null): nickname of the single user. If no nickname is
+  specified, the site owner account will be used (if present).
 
 
 robotstxt
----------
+-------------------------------------------------------------------------------
 
 We put out a default robots.txt file to guide the processing of
 Web crawlers. See http://www.robotstxt.org/ for more information
