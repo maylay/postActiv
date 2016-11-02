@@ -39,7 +39,7 @@
  * @link      http://postactiv.com/
  */
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Allows the authenticating users to unfollow (unsubscribe) the user specified in

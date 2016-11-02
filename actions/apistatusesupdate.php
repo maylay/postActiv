@@ -132,9 +132,7 @@
     @endverbatim
 */
 
-if (!defined('STATUSNET')) {
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Updates the authenticating user's status (posts a notice).

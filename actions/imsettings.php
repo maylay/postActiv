@@ -44,7 +44,7 @@
  * @see       SettingsAction
  */
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Settings for Jabber/XMPP integration

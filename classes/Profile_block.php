@@ -33,7 +33,7 @@
  * @link      http://postactiv.com/
  */
 
-if (!defined('STATUSNET') && !defined('LACONICA')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Table Definition for profile_block

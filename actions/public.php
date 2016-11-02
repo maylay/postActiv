@@ -36,7 +36,7 @@
  * @see       PublicrssAction
  */
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Action for displaying the public stream

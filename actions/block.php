@@ -39,9 +39,7 @@
  * @link      http://postactiv.com/
  */
 
-if (!defined('STATUSNET') && !defined('LACONICA')) {
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Block a user action class.

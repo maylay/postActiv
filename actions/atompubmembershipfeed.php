@@ -37,7 +37,7 @@
  * @link      http://postactiv.com/
  */
 
-if (!defined('GNUSOCIAL') && !defined('STATUSNET')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Feed of group memberships for a user, in ActivityStreams format
