@@ -174,49 +174,45 @@ The ones that you may want to set are listed below for clarity.
 * quote_identifiers(boolean, default false): Set this to true if you're using 
     postgresql.
 
-* type: either 'mysql' or 'postgresql' (used for some bits of
-    database-type-specific SQL in the code). Defaults to mysql.
+* type (enum["mysql", "postgresql"], default 'mysql'): Used for certain
+    database-specific optimization code.  Assumes mysql if not set.  MySQL also
+    covers MySQLi and MariaDB.
 
-* mirror: you can set this to an array of DSNs, like the above
-    'database' value. If it's set, certain read-only actions will
-    use a random value out of this array for the database, rather
-    than the one in 'database' (actually, 'database' is overwritten).
-    You can offload a busy DB server by setting up MySQL replication
-    and adding the slaves to this array. Note that if you want some
-    requests to go to the 'database' (master) server, you'll need
-    to include it in this array, too.
+* mirror (array, default null): you can set this to an array of DSNs, in the
+    format of the above 'database' value. If it's set, certain read-only 
+    actions will use a random value out of this array for the database, rather 
+    than the one in 'database' (actually, 'database' is overwritten). You can 
+    offload a busy DB server by setting up MySQL replication and adding the 
+    slaves to this array. Note that if you want some requests to go to the 
+    'database' (master) server, you'll need to include it in this array, too.
 
-* utf8: whether to talk to the database in UTF-8 mode. This is the default
-    with new installations, but older sites may want to turn it off
-    until they get their databases fixed up. See "UTF-8 database"
-    above for details.
+* utf8 (boolean, true): whether to talk to the database in UTF-8 mode. This is 
+    the default with new installations, but older sites may want to turn it off 
+    until they get their databases fixed up. See "UTF-8 database" above for 
+    details.
 
-* schemacheck: when to let plugins check the database schema to add
-    tables or update them. Values can be 'runtime' (default)
-    or 'script'. 'runtime' can be costly (plugins check the
-    schema on every hit, adding potentially several db
-    queries, some quite long), but not everyone knows how to
-    run a script. If you can, set this to 'script' and run
-    scripts/checkschema.php whenever you install or upgrade a
-    plugin.
+* schemacheck (enum["runtime", "script"], default "runtime"): when to let
+    plugins check the database schema to add tables or update them. 'runtime'
+    can be costly (plugins check the schema on every hit, adding potentially
+    several db queries, some quite long), but not everyone knows how to run a
+    script or has the access in their hosting environment to do so. If you can,
+    set this to 'script' and run scripts/checkschema.php whenever you install
+    or upgrade a plugin.
 
 
 syslog
 -------------------------------------------------------------------------------
 
-By default, StatusNet sites log error messages to the syslog facility.
+By default, postActiv sites log error messages to the syslog facility.
 (You can override this using the 'logfile' parameter described above).
 
-* appname: The name that StatusNet uses to log messages. By default it's
-    "statusnet", but if you have more than one installation on the
-    server, you may want to change the name for each instance so
-    you can track log messages more easily.
+* appname (string, default 'postActiv'): The name that postActiv uses to log
+    messages. By default it's "postActiv", but if you have more than one 
+    installation on the server, you may want to change the name for each 
+    instance so you can track log messages more easily.
 
-* priority: level to log at. Currently ignored.
-
-* facility: what syslog facility to used. Defaults to LOG_USER, only
-    reset if you know what syslog is and have a good reason
-    to change it.
+* facility (string, default 'LOG_USER'): what syslog facility to use. Only set
+    this if you know what syslog is and have a good reason to change it.
 
 
 queue
@@ -226,66 +222,64 @@ You can configure the software to queue time-consuming tasks, like
 sending out SMS email or XMPP messages, for off-line processing. See
 'Queues and daemons' above for how to set this up.
 
-* enabled: Whether to uses queues. Defaults to false.
+* enabled (boolean, default false): Whether to uses queues.
 
-* daemon: Wather to use queuedaemon. Defaults to false, which means
+* daemon (boolean, default false): Wather to use queuedaemon. False means 
     you'll use OpportunisticQM plugin.
 
-* subsystem: Which kind of queueserver to use. Values include "db" for
-    our hacked-together database queuing (no other server
-    required) and "stomp" for a stomp server.
+* subsystem (enum["db", "stomp"], default 'db'): Which kind of queueserver to
+    use. Values include "db" for our hacked-together database queuing (no
+    other server required) and "stomp" for a stomp server.
 
-* stomp_server: "broker URI" for stomp server. Something like
-    "tcp://hostname:61613". More complicated ones are
-    possible; see your stomp server's documentation for
-    details.
+* stomp_server (string, default null): "broker URI" for stomp server.
+    Something like "tcp://hostname:61613". More complicated ones are possible;
+    see your stomp server's documentation for details.
 
-* queue_basename: a root name to use for queues (stomp only). Typically
-    something like '/queue/sitename/' makes sense. If running
-    multiple instances on the same server, make sure that
-    either this setting or $config['site']['nickname'] are
-    unique for each site to keep them separate.
+* queue_basename (string, default null): a root name to use for queues (stomp 
+    only). Typically something like '/queue/sitename/' makes sense. If running 
+    multiple instances on the same server, make sure that either this setting 
+    or $config['site']['nickname'] are unique for each site to keep them
+    separate.
 
-* stomp_username: username for connecting to the stomp server; defaults
-    to null.
+* stomp_username (string, default null): username for connecting to the stomp 
+    server.
 
-* stomp_password: password for connecting to the stomp server; defaults
-    to null.
+* stomp_password (string, default null): password for connecting to the stomp 
+    server.
 
-* stomp_persistent: keep items across queue server restart, if enabled.
-    Under ActiveMQ, the server configuration determines if and how
-    persistent storage is actually saved.
+* stomp_persistent (boolean, default true): Keep items across queue server
+    restart, if enabled.  Note: Under ActiveMQ, the server configuration
+    determines if and how persistent storage is actually saved.
 
     If using a message queue server other than ActiveMQ, you may
     need to disable this if it does not support persistence.
 
-* stomp_transactions: use transactions to aid in error detection.
-    A broken transaction will be seen quickly, allowing a message
-    to be redelivered immediately if a daemon crashes.
+* stomp_transactions (boolean, default true): use transactions to aid in error 
+    detection. A broken transaction will be seen quickly, allowing a message to 
+    be redelivered immediately if a daemon crashes.
 
-    If using a message queue server other than ActiveMQ, you may
-    need to disable this if it does not support transactions.
+    If using a message queue server other than ActiveMQ, you may need to 
+    disable this if it does not support transactions.
 
-* stomp_acks: send acknowledgements to aid in flow control.
-    An acknowledgement of successful processing tells the server
-    we're ready for more and can help keep things moving smoothly.
+* stomp_acks (boolean, default true): send acknowledgements to aid in flow 
+    control. An acknowledgement of successful processing tells the server we're
+    ready for more and can help keep things moving smoothly.
 
-    This should *not* be turned off when running with ActiveMQ, but
-    if using another message queue server that does not support
+    This should *not* be turned off when running with ActiveMQ, (it breaks if 
+    you do), but if using another message queue server that does not support 
     acknowledgements you might need to disable this.
 
-* softlimit: an absolute or relative "soft memory limit"; daemons will
-    restart themselves gracefully when they find they've hit
-    this amount of memory usage. Defaults to 90% of PHP's global
-    memory_limit setting.
+* softlimit (integer): an absolute or relative "soft memory limit"; daemons 
+    will restart themselves gracefully when they find they've hit this amount 
+    of memory usage. Defaults to 90% of PHP's global memory_limit setting.
 
-* inboxes: delivery of messages to receiver's inboxes can be delayed to
-    queue time for best interactive performance on the sender.
-    This may however be annoyingly slow when using the DB queues,
-    so you can set this to false if it's causing trouble.
+* inboxes (boolean, default true): delivery of messages to receiver's inboxes 
+    can be delayed to queue time for best interactive performance on the 
+    sender. This may however be annoyingly slow when using the DB queues, so 
+    you can set this to false if it's causing trouble.
 
-* breakout: for stomp, individual queues are by default grouped up for
-    best scalability. If some need to be run by separate daemons,
+* breakout (array, default null): for stomp, individual queues are by default 
+    grouped up for best scalability. If some need to be run by separate daemons, 
     etc they can be manually adjusted here.
 
         Default will share all queues for all sites within each group.
@@ -295,17 +289,19 @@ sending out SMS email or XMPP messages, for off-line processing. See
         'main/distrib' separate "distrib" queue covering all sites
         'xmpp/xmppout/mysite' separate "xmppout" queue covering just 'mysite'
 
-* max_retries: for stomp, drop messages after N failed attempts to process.
-    Defaults to 10.
+* max_retries (integer, default 10): for stomp, drop messages after N failed 
+    attempts to process.
 
-* dead_letter_dir: for stomp, optional directory to dump data on failed
-    queue processing events after discarding them.
+* dead_letter_dir (string, default null): for stomp, optional directory to dump 
+    data on failed queue processing events after discarding them.
 
-* stomp_no_transactions: for stomp, the server does not support transactions,
-    so do not try to user them. This is needed for http://www.morbidq.com/.
+* stomp_no_transactions (boolean, default false): for stomp, the server does 
+    not support transactions, so do not try to user them. This is needed for 
+    http://www.morbidq.com/
 
-* stomp_no_acks: for stomp, the server does not support acknowledgements.
-    so do not try to user them. This is needed for http://www.morbidq.com/.
+* stomp_no_acks (boolean, default false): for stomp, the server does not 
+    support acknowledgements so do not try to user them. This is needed for 
+    http://www.morbidq.com/.
 
 
 license
@@ -316,19 +312,23 @@ Creative Commons Attribution 3.0 license, which is probably the right
 choice for any public site. Note that some other servers will not
 accept notices if you apply a stricter license than this.
 
-* type: one of 'cc' (for Creative Commons licenses), 'allrightsreserved'
-    (default copyright), or 'private' (for private and confidential
-    information).
+As of 2016, this is largely disregarded in the Fediverse -mb
 
-* owner: for 'allrightsreserved' or 'private', an assigned copyright
-    holder (for example, an employer for a private site). If
-    not specified, will be attributed to 'contributors'.
+* type (enum["cc", "allrightsreserved", "private"], default 'cc'): one of 
+    'cc' (for Creative Commons licenses), 'allrightsreserved' (default 
+    copyright), or 'private' (for private and confidential information).
 
-* url: URL of the license, used for links.
+* owner (string, default 'contributors'): for 'allrightsreserved' or 
+    'private', an assigned copyright holder (for example, an employer for a 
+    private site).
 
-* title: Title for the license, like 'Creative Commons Attribution 3.0'.
+* url (string, default null): URL of the license, used for links.
 
-* image: A button shown on each page for the license.
+* title (string, default null): Title for the license, like 'Creative Commons
+    Attribution 3.0'.
+
+* image (string, default null): URL of a button shown on each page for the 
+    license.
 
 
 mail
@@ -337,11 +337,13 @@ mail
 This is for configuring out-going email. We use PEAR's Mail module,
 see: http://pear.php.net/manual/en/package.mail.mail.factory.php
 
-* backend: the backend to use for mail, one of 'mail', 'sendmail', and
-    'smtp'. Defaults to PEAR's default, 'mail'.
+* backend (enum["mail", "sendmail", "smtp"], default 'mail'): The backend to 
+   use for mail.  While this defaults to PEAR mail, we recommend SMTP where your
+   setup supports it as it is of the three the more difficult one for script
+   exploits to abuse (relatively speaking - they all have potential problems.)
 
-* params: if the mail backend requires any parameters, you can provide
-    them in an associative array.
+* params (array, default null): if the mail backend requires any parameters, 
+    you can provide them in an associative array.
 
 
 nickname
@@ -349,15 +351,14 @@ nickname
 
 This is for configuring nicknames in the service.
 
-* blacklist: an array of strings for usernames that may not be
-    registered. A default array exists for strings that are
-    used by StatusNet (e.g. 'doc', 'main', 'avatar', 'theme')
-    but you may want to add others if you have other software
-    installed in a subdirectory of StatusNet or if you just
-    don't want certain words used as usernames.
+* blacklist (array, default null): an array of strings for usernames that 
+    may not be registered. A hard-coded default array exists for strings that 
+    are used by postActiv (e.g. 'doc', 'main', 'avatar', 'theme') but you may 
+    want to add others if you have other software installed in a subdirectory 
+    of postActiv or if you just don't want certain words used as usernames.
 
-* featured: an array of nicknames of 'featured' users of the site.
-    Can be useful to draw attention to well-known users, or
+* featured (array, default null): an array of nicknames of 'featured' users of 
+    the site. Can be useful to draw attention to well-known users, or 
     interesting people, or whatever.
 
 
@@ -366,25 +367,25 @@ avatar
 
 For configuring avatar access.
 
-* dir: Directory to look for avatar files and to put them into.
-    Defaults to avatar subdirectory of install directory; if
+* dir (string, default './avatar'): Directory to look for avatar files and to 
+    put them into. Defaults to avatar subdirectory of install directory; if
     you change it, make sure to change path, too.
 
-* path: Path to avatars. Defaults to path for avatar subdirectory,
-    but you can change it if you wish. Note that this will
+* path (string, 'default './avatar'): Path to avatars. Defaults to path for
+    avatar subdirectory, but you can change it if you wish. Note that this will
     be included with the avatar server, too.
 
-* server: If set, defines another server where avatars are stored in the
-    root directory. Note that the 'avatar' subdir still has to be
-    writeable. You'd typically use this to split HTTP requests on
-    the client to speed up page loading, either with another
-    virtual server or with an NFS or SAMBA share. Clients
-    typically only make 2 connections to a single server at a
-    time <https://www.w3.org/Protocols/rfc2616/rfc2616-sec8.html#sec8.1.4>,
-    so this can parallelize the job. Defaults to null.
+* server (string, default null): If set, defines another server where avatars 
+    are stored in the root directory. Note that the 'avatar' subdir still has 
+    to be writeable. You'd typically use this to split HTTP requests on the 
+    client to speed up page loading, either with another virtual server or 
+    with an NFS or SAMBA share. Clients typically only make 2 connections to a 
+    single server at a time 
+    <https://www.w3.org/Protocols/rfc2616/rfc2616-sec8.html#sec8.1.4>,
+    so this can parallelize the job.
 
-* ssl: Whether to access avatars using HTTPS. Defaults to null, meaning
-    to guess based on site-wide SSL settings.
+* ssl (boolean, default null): Whether to access avatars using HTTPS. Defaults 
+    to null, meaning to guess based on site-wide SSL settings.
 
 
 public
@@ -392,80 +393,82 @@ public
 
 For configuring the public stream.
 
-* localonly: If set to true, only messages posted by users of this
-    service (rather than other services, filtered through OStatus)
-    are shown in the public stream. Default true.
+* localonly (boolean, default true): If set to true, only messages posted by
+    users of this service (rather than other services, filtered through
+    OStatus) are shown in the public stream. Default true.
 
-* blacklist: An array of IDs of users to hide from the public stream.
-    Useful if you have someone making excessive Twitterfeed posts
-    to the site, other kinds of automated posts, testing bots, etc.
+* blacklist (array, default null): An array of IDs of users to hide from the 
+    public stream. Useful if you have someone making excessive Twitterfeed 
+    posts to the site, other kinds of automated posts, testing bots, etc.
 
-* autosource: Sources of notices that are from automatic posters, and thus
-    should be kept off the public timeline. Default empty.
+* autosource (array, default null): Sources of notices that are from automatic
+    posters, and thus should be kept off the public timeline.
 
 
 theme
 -------------------------------------------------------------------------------
 
-* server: Like avatars, you can speed up page loading by pointing the
-    theme file lookup to another server (virtual or real).
-    Defaults to NULL, meaning to use the site server.
+* server (string, default null): Like avatars, you can speed up page loading 
+    by pointing the theme file lookup to another server (virtual or real).
+    The default of null will use the same server as PA.
 
-* dir: Directory where theme files are stored. Used to determine
-    whether to show parts of a theme file. Defaults to the theme
-    subdirectory of the install directory.
+* dir (string, default "./themes"): Directory where theme files are stored.
+    Used to determine whether to show parts of a theme file. Defaults to the
+    theme subdirectory of the install directory.
 
-* path: Path part of theme URLs, before the theme name. Relative to the
+* path (string, default null): Path part of theme URLs, before the theme name. Relative to the
     theme server. It may make sense to change this path when upgrading,
     (using version numbers as the path) to make sure that all files are
     reloaded by caching clients or proxies. Defaults to null,
     which means to use the site path + '/theme'.
 
-* ssl: Whether to use SSL for theme elements. Default is null, which means
-    guess based on site SSL settings.
+* ssl (boolean, default null): Whether to use SSL for theme elements. Default 
+    is null, which means guess based on site SSL settings.
 
-* sslserver: SSL server to use when page is HTTPS-encrypted. If
-    unspecified, site ssl server and so on will be used.
+* sslserver (string, default null): SSL server to use when page is
+    HTTPS-encrypted. If unspecified, site ssl server and so on will be used.
 
-* sslpath: If sslserver if defined, path to use when page is HTTPS-encrypted.
+* sslpath (string, default null): If sslserver if defined, path to use when
+    page is HTTPS-encrypted.
 
 
 javascript
 -------------------------------------------------------------------------------
 
-* server: You can speed up page loading by pointing the
-    theme file lookup to another server (virtual or real).
-    Defaults to NULL, meaning to use the site server.
+* server (string, default null): You can speed up page loading by pointing the
+    theme file lookup to another server (virtual or real). Defaults to NULL,
+    meaning to use the site server.
 
-* path: Path part of Javascript URLs. Defaults to null,
+* path (string default null): Path part of Javascript URLs. Defaults to null,
     which means to use the site path + '/js/'.
 
-* ssl: Whether to use SSL for JavaScript files. Default is null, which means
-    guess based on site SSL settings.
+* ssl (boolean, default null): Whether to use SSL for JavaScript files. 
+    Default is null, which means guess based on site SSL settings.
 
-* sslserver: SSL server to use when page is HTTPS-encrypted. If
-    unspecified, site ssl server and so on will be used.
+* sslserver (string, default null): SSL server to use when page is HTTPS-
+    encrypted. If unspecified, site ssl server and so on will be used.
 
-* sslpath: If sslserver if defined, path to use when page is HTTPS-encrypted.
+* sslpath (string, default null): If sslserver if defined, path to use when 
+    page is HTTPS-encrypted.
 
-* bustframes: If true, all web pages will break out of framesets. If false,
-	    can comfortably live in a frame or iframe... probably. Default
-	    to true.
+* bustframes (boolean, default true): If true, all web pages will break out of 
+    framesets. If false, can comfortably live in a frame or iframe... probably.
+
 
 xmpp
 -------------------------------------------------------------------------------
 
 For configuring the XMPP sub-system.
 
-* enabled: Whether to accept and send messages by XMPP. Default false.
+* enabled (boolean, default false): Whether to accept and send messages by 
+    XMPP. Default false.
 
-* server: server part of XMPP ID for update user.
+* server (string, default null): Server part of XMPP ID for update user.
 
-* port: connection port for clients. Default 5222, which you probably
-    shouldn't need to change.
+* port (integer, default 5222): Connection port for clients.
 
-* user: username for the client connection. Users will receive messages
-    from 'user'@'server'.
+* user (string, default null): Username for the client connection. Users will 
+    receive messages from 'user'@'server'.
 
 * resource: a unique identifier for the connection to the server. This
     is actually used as a prefix for each XMPP component in the system.
