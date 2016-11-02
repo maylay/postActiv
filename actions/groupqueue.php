@@ -38,9 +38,7 @@
  * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
-if (!defined('STATUSNET') && !defined('LACONICA')) {
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 require_once(INSTALLDIR.'/lib/profilelist.php');
 require_once INSTALLDIR.'/lib/publicgroupnav.php';

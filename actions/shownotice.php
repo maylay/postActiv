@@ -34,7 +34,7 @@
  * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 require_once INSTALLDIR.'/lib/noticelist.php';
 

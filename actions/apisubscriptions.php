@@ -36,9 +36,7 @@
  * @link      http://postactiv.com/
  */
 
-if (!defined('STATUSNET')) {
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * This class outputs a list of profiles as Twitter-style user and status objects.

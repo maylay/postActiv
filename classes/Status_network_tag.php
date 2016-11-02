@@ -36,7 +36,7 @@
  * @link      http://postactiv.com/
  */
 
-if (!defined('STATUSNET')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 class Status_network_tag extends Safe_DataObject
 {

@@ -41,9 +41,7 @@
  * @link      http://postactiv.com/
  */
 
-if (!defined('STATUSNET')) {
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * List 20 newest members of the group specified by name or ID.

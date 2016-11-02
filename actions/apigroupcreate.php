@@ -40,9 +40,7 @@
  * @link      http://postactiv.com/
  */
 
-if (!defined('STATUSNET')) {
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Make a new group. Sets the authenticated user as the administrator of the group.

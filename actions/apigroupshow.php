@@ -43,9 +43,7 @@
  * @link      http://postactiv.com/
  */
 
-if (!defined('STATUSNET')) {
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Outputs detailed information about the group specified by ID

@@ -34,7 +34,7 @@
  * @link      http://postactiv.com/
  */
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Extended DB_DataObject to improve a few things:

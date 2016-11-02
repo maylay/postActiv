@@ -40,7 +40,7 @@
  * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 define('MEMBERS_PER_SECTION', 27);
 

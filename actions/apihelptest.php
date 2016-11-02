@@ -38,7 +38,7 @@
  * @link      http://postactiv.com/
  */
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Returns the string "ok" in the requested format with a 200 OK HTTP status code.

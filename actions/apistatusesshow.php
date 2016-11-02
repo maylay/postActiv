@@ -40,7 +40,7 @@
  * @link      http://postactiv.com/
  */
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Returns the notice specified by id as a Twitter-style status and inline user

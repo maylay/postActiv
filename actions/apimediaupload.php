@@ -36,7 +36,7 @@
  * @link      http://postactiv.com/
  */
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Upload an image via the API.  Returns a shortened URL for the image

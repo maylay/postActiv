@@ -41,9 +41,7 @@
  * @link      http://postactiv.com/
  */
 
-if (!defined('STATUSNET')) {
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Returns the 20 most recent notices tagged by a given tag

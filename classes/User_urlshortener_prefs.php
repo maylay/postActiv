@@ -36,9 +36,7 @@
  * @link      http://postactiv.com/
  */
 
-if (!defined('STATUSNET') && !defined('LACONICA')) {
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 class User_urlshortener_prefs extends Managed_DataObject
 {

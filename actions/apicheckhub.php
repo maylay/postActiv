@@ -35,7 +35,7 @@
  * @link      http://postactiv.com/
  */
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Check if a url have a push-hub, i.e. if it is possible to subscribe

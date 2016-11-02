@@ -20,7 +20,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Queue handler for letting plugins handle stuff.
@@ -36,8 +36,6 @@ if (!defined('GNUSOCIAL')) { exit(1); }
  * event with their own class, in which case they must ensure that
  * their notices get enqueued when they need them.
  */
-
-if (!defined('POSTACTIV')) { exit(1); } 
 
 class PluginQueueHandler extends QueueHandler
 {

@@ -41,7 +41,7 @@
  * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 // @todo FIXME: documentation needed.
 class DeletenoticeAction extends FormAction

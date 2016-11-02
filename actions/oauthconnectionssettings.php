@@ -36,7 +36,7 @@
  * @see       SettingsAction
  */
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Show connected OAuth applications

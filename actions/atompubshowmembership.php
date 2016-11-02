@@ -37,7 +37,7 @@
  * @link      http://postactiv.com/
  */
 
-if (!defined('GNUSOCIAL') && !defined('STATUSNET')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Show (or delete) a single membership event as an ActivityStreams entry

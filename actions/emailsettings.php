@@ -45,7 +45,7 @@
  * @see       Widget
  */
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Settings for email

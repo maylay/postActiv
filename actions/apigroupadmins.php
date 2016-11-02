@@ -35,9 +35,7 @@
  * @link      http://postactiv.com/
  */
 
-if (!defined('GNUSOCIAL')) {
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * List 20 newest admins of the group specified by name or ID.

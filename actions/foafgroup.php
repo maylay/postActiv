@@ -37,7 +37,7 @@
  * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
-if (!defined('STATUSNET') && !defined('LACONICA')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 // @todo XXX: Documentation missing.
 class FoafGroupAction extends Action

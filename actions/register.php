@@ -34,7 +34,7 @@
  * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
-if (!defined('GNUSOCIAL') && !defined('STATUSNET')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * An action for registering a new user account

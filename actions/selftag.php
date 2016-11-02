@@ -35,9 +35,7 @@
  * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
-if (!defined('STATUSNET') && !defined('LACONICA')) {
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * This class outputs a paginated list of profiles self-tagged with a given tag

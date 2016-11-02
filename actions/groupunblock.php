@@ -36,9 +36,7 @@
  * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
-if (!defined('STATUSNET') && !defined('LACONICA')) {
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Unblock a user from a group

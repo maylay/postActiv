@@ -39,9 +39,7 @@
  * @see       ApiAction
  */
 
-if (!defined('STATUSNET') && !defined('LACONICA')) {
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  *  Returns the top ten queries that are currently trending
