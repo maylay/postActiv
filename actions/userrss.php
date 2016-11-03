@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * PHP version 5 
+ * PHP version 5
  *
  * Code to handle serving up user RSS feeds.
  *
@@ -29,7 +29,7 @@
  * @copyright 2008-2011 StatusNet, Inc
  * @copyright 2013-2016 Free Software Foundation, Inc
  * @copyright 2016 Maiyannah Bishop
- * @link      https://git.gnu.io/maiyannah/postActiv
+ * @link      http://www.postactiv.com
  */
 
 if (!defined('POSTACTIV')) { exit(1); }

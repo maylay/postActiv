@@ -34,20 +34,13 @@
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
- * @link      http://postactiv.com/
+ * @link      http://www.postactiv.com
  */
 
 if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Show (or delete) a single membership event as an ActivityStreams entry
- *
- * @category  AtomPub
- * @package   StatusNet
- * @author    Evan Prodromou <evan@status.net>
- * @copyright 2010 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
- * @link      http://status.net/
  */
 class AtompubshowmembershipAction extends AtompubAction
 {

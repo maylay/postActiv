@@ -40,7 +40,7 @@
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link      https://git.gnu.io/maiyannah/postActiv
+ * @link      http://www.postactiv.com
  *
  * @see       Widget
  */
