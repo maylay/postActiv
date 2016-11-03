@@ -4,15 +4,7 @@ x<?php
  * Copyright (C) 2016, Maiyannah Bishop
  * Derived from code copyright various sources:
  *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
- *
- * Delete your own account
- *
- * Note that this is distinct from DeleteuserAction, which see. I thought
- * that making that action do both things (delete another user and delete the
- * current user) would open a lot of holes. I'm open to refactoring, however.
- *
- * PHP version 5
+ *   StatusNet (C) 2008-2012, StatusNet, Inc
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +18,14 @@ x<?php
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * PHP version 5
+ *
+ * Delete your own account
+ *
+ * Note that this is distinct from DeleteuserAction, which see. I thought
+ * that making that action do both things (delete another user and delete the
+ * current user) would open a lot of holes. I'm open to refactoring, however.
  *
  * @category  Account
  * @package   postActiv
