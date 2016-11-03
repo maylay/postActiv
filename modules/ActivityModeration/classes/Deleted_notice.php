@@ -13,11 +13,24 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.     See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.     If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * PHP version 5
+ *
+ * Class which holds information for a deleted notice
+ * 
+ * @package   postActiv
+ * @category  ActivityVerb
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ * @copyright 2013-2016 Free Software Foundation, Inc.
+ * @copyright 2016 Maiyannah Bishop
+ * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
+ * @link      http://www.postactiv.com/
  */
 
 if (!defined('GNUSOCIAL')) { exit(1); }
