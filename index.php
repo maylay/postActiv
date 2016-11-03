@@ -25,20 +25,22 @@
  *
  * @category  Main
  * @package   postActiv
- * @author    Brenda Wallace <shiny@cpan.org>
- * @author    Brion Vibber <brion@pobox.com>
- * @author    Christopher Vollick <psycotica0@gmail.com>
- * @author    CiaranG <ciaran@ciarang.com>
- * @author    Craig Andrews <candrews@integralblue.com>
- * @author    Evan Prodromou <evan@controlezvous.ca>
+ * @author    Evan Prodromou <evan@prodromou.name>
  * @author    Gina Haeussge <osd@foosel.net>
- * @author    James Walker <walkah@walkah.net>
- * @author    Jeffery To <jeffery.to@gmail.com>
  * @author    Mike Cochrane <mikec@mikenz.geek.nz>
- * @author    Robin Millette <millette@controlyourself.ca>
- * @author    Sarven Capadisli <csarven@controlyourself.ca>
+ * @author    Ciaran Gultneiks <ciaran@ciarang.com>
+ * @author    Robin Millette <robin@millette.name>
+ * @author    Sarven Capadisli <sarven@capadisli.name>
+ * @author    Jeffery To <jeffery.to@gmail.com>
  * @author    Tom Adams <tom@holizz.com>
- * @author    Zach Copley <zach@status.net>
+ * @author    Christopher Vollick <psycotica0@gmail.com>
+ * @author    Craig Andrews <candrews@integralblue.com>
+ * @author    Brenda Wallace <shiny@cpan.org>
+ * @author    Zach Copley <zach@copley.name>
+ * @author    Brion Vibber <brion@pobox.com>
+ * @author    James Walker <walkah@walkah.net>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  * @copyright 2008-2012 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
