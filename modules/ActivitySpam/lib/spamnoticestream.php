@@ -4,11 +4,7 @@
  * Copyright (C) 2016, Maiyannah Bishop
  * Derived from code copyright various sources:
  *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
- *
- * Spam notice stream
- * 
- * PHP version 5
+ *   StatusNet (C) 2008-2012, StatusNet, Inc
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -23,12 +19,19 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ * PHP version 5
+ *
+ * Spam notice stream
+ *
  * @category  Spam
- * @package   StatusNet
- * @author    Evan Prodromou <evan@status.net>
+ * @package   postActiv
+ * @author    Evan Prodromou <evan@prodromou.name>
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  * @copyright 2012 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
- * @link      http://status.net/
+ * @copyright 2013-2016 Free Software Foundation, Inc.
+ * @copyright 2016 Maiyannah Bishop
+ * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
+ * @link      http://www.postactiv.com/
  */
 
 if (!defined('GNUSOCIAL')) { exit(1); }
