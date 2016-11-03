@@ -1,10 +1,10 @@
 <?php
 /***
- * postActiv - a fork of the gnuSocial microblogging software
+ * postActiv - a fork of the GNU Social microblogging software
  * Copyright (C) 2016, Maiyannah Bishop
  * Derived from code copyright various sources:
- *   gnuSocial (C) 2015, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
+ *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ *   StatusNet (C) 2008-2012, StatusNet, Inc
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -18,6 +18,10 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * PHP version 5
+ *
+ * Main postActiv entry point
  *
  * @category  Main
  * @package   postActiv
@@ -36,11 +40,11 @@
  * @author    Tom Adams <tom@holizz.com>
  * @author    Zach Copley <zach@status.net>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2008-2011 StatusNet, Inc.
+ * @copyright 2008-2012 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
- * @link      https://git.gnu.io/maiyannah/postActiv
+ * @link      http://www.postactiv.com/
  */
 
 $_startTime = microtime(true);
