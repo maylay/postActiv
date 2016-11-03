@@ -34,7 +34,7 @@
 
 if (!defined('POSTACTIV')) { exit(1); }
 
-$aeternum = new Template;
+$aeternum = new SmartyTheme;
 $aeternum->mapCompileDir(AETERNUM_PATH . "/templates_c/");
 $aeternum->mapTemplate("single_notice", AETERNUM_PATH . "/templates/notice.tpl");
 ?>
