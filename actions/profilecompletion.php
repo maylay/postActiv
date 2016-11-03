@@ -4,11 +4,7 @@
  * Copyright (C) 2016, Maiyannah Bishop
  * Derived from code copyright various sources:
  *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
- *
- * Subscription action.
- *
- * PHP version 5
+ *   StatusNet (C) 2008-2012, StatusNet, Inc
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -23,6 +19,10 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ * PHP version 5
+ *
+ * Subscription action.
+ *
  * @category  Action
  * @package   postActiv
  * @author    Shashi Gowda <connect2shashi@gmail.com>
@@ -30,7 +30,7 @@
  * @copyright 2008-2011 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPLv3
+ * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
  * @link      https://git.gnu.io/maiyannah/postActiv
  */
 
