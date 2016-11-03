@@ -34,7 +34,15 @@
 
 if (!defined('POSTACTIV')) { exit(1); }
 
+define('AETERNUM_PATH', dirname(__FILE__));
+
 $aeternum = new SmartyTheme;
 $aeternum->mapCompileDir(AETERNUM_PATH . "/templates_c/");
+$aeternum->addStylesheet(AETERNUM_PATH . "/media/css/styles.css");
+$aeternum->addScript(AETERNUM_PATH . "/media/js/scripts.js");
+$aeternum->mapTemplate("general_header", AETERNUM_PATH . "./templates/header.tpl");
+$aeternum->mapTemplate("user_profile", AETERNUM_PATH . "./templates/profile.tpl");
 $aeternum->mapTemplate("single_notice", AETERNUM_PATH . "/templates/notice.tpl");
+$aeternum->mapTemplate("timeline", AETERNUM_PATH . "/templates/timeline.tpl");
+$aeternum->mapTemplate("general_footer", AETERNUM_PATH . "./templates/footer.tpl");
 ?>
