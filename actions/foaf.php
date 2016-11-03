@@ -37,7 +37,7 @@
  * @copyright 2009-2011 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
- * @link      https://git.gnu.io/maiyannah/postActiv
+ * @link      http://www.postactiv.com
  */
 
 if (!defined('POSTACTIV')) { exit(1); }

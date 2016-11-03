@@ -32,22 +32,15 @@
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
- * @link      https://git.gnu.io/maiyannah/postActiv
+ * @link      http://www.postactiv.com
+ *
+ * @see action
  */
 
 if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * This class outputs a paginated list of profiles self-tagged with a given tag
- *
- * @category Output
- * @package  StatusNet
- * @author   Evan Prodromou <evan@status.net>
- * @author   Zach Copley <zach@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
- *
- * @see      Action
  */
 class SelftagAction extends Action
 {

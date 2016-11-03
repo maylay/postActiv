@@ -30,7 +30,7 @@
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   http://www.fsf.org/licensing/licenses/agpl.html
- * @link      https://git.gnu.io/maiyannah/postActiv
+ * @link      http://www.postactiv.com
  */
 
 if (!defined('POSTACTIV')) { exit(1); }
@@ -40,13 +40,6 @@ require_once INSTALLDIR.'/lib/profilelist.php';
 
 /**
  * People search action class.
- *
- * @category Action
- * @package  StatusNet
- * @author   Evan Prodromou <evan@status.net>
- * @author   Robin Millette <millette@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl.html AGPLv3
- * @link     http://status.net/
  */
 class PeoplesearchAction extends SearchAction
 {
