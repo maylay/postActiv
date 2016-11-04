@@ -16,7 +16,7 @@
  * @author   Craig Andrews <candrews@integralblue.com>
  * @author   Robin Millette <millette@status.net>
  * @copyright 2009 Free Software Foundation, Inc http://www.fsf.org
- * @license  http://www.fsf.org/licensing/licenses/agpl.html AGPLv3
+ * @license   https://www.gnu.org/licenses/agpl.html
  * @link     http://status.net/
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,15 +39,6 @@ require_once __DIR__.'/../openid.php';
 
 /**
  * Public XRDS
- *
- * @category Action
- * @package  StatusNet
- * @author   Evan Prodromou <evan@status.net>
- * @author   Robin Millette <millette@status.net>
- * @author   Craig Andrews <candrews@integralblue.com>
- * @copyright 2009 Free Software Foundation, Inc http://www.fsf.org
- * @license  http://www.fsf.org/licensing/licenses/agpl.html AGPLv3
- * @link     http://status.net/
  */
 class PublicxrdsAction extends Action
 {

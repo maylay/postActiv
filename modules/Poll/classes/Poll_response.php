@@ -13,7 +13,7 @@
  * @category PollPlugin
  * @package  StatusNet
  * @author   Brion Vibber <brion@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl.html AGPLv3
+ * @license   https://www.gnu.org/licenses/agpl.html
  * @link     http://status.net/
  *
  * This program is free software: you can redistribute it and/or modify

@@ -33,7 +33,7 @@
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
+ * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://www.postactiv.com
  */
 

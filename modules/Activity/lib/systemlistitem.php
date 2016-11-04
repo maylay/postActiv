@@ -30,7 +30,7 @@
  * @copyright 2011 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
+ * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://www.postactiv.com
  */
 
@@ -42,13 +42,6 @@ if (!defined('STATUSNET')) {
 
 /**
  * NoticeListItemAdapter for system activities
- *
- * @category  General
- * @package   StatusNet
- * @author    Evan Prodromou <evan@status.net>
- * @copyright 2011 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
- * @link      http://status.net/
  */
 class SystemListItem extends NoticeListItemAdapter
 {

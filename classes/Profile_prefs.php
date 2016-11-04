@@ -30,8 +30,8 @@
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
- * @link      http://postactiv.com/
+ * @license   https://www.gnu.org/licenses/agpl.html
+ * @link      http://www.postactiv.com
  */
 
 class Profile_prefs extends Managed_DataObject

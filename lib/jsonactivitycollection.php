@@ -13,6 +13,8 @@
  * items properties.
  *
  * PHP version 5
+ *
+ * @license   https://www.gnu.org/licenses/agpl.html
  */
 if (!defined('POSTACTIV')) { exit(1); } 
 

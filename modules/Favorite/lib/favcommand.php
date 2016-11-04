@@ -1,7 +1,10 @@
 <?php
+/****
+ * @license   https://www.gnu.org/licenses/agpl.html
+ */
 
-class FavCommand extends Command 
-{ 
+class FavCommand extends Command
+{
     var $other = null; 
  
     function __construct($user, $other) 

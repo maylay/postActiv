@@ -7,7 +7,7 @@
  *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
  * Returns a pre-filled bookmark form for a given URL
- * 
+ *
  * PHP version 5
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@
  * @package   StatusNet
  * @author    Evan Prodromou <evan@status.net>
  * @copyright 2011 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
+ * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://status.net/
  */
 

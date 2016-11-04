@@ -26,7 +26,7 @@
  * @category  Widget
  * @package   StatusNet
  * @author    Shashi Gowda <connect2shashi@gmail.com>
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
+ * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://status.net/
  */
 
@@ -34,12 +34,6 @@ if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * List a user has is in
- *
- * @category Widget
- * @package  StatusNet
- * @author   Shashi Gowda <connect2shashi@gmail.com>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
  */
 class PeopletagsForUserSection extends PeopletagSection
 {

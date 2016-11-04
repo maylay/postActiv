@@ -7,6 +7,8 @@
  *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
  * PHP version 5
+ *
+ * @license   https://www.gnu.org/licenses/agpl.html 
  */
 
 if (!defined('POSTACTIV')) { exit(1); }
@@ -15,12 +17,6 @@ if (!defined('POSTACTIV')) { exit(1); }
  * Class for configuration exceptions
  *
  * Subclass of ServerException for when the site's configuration is malformed.
- *
- * @category Exception
- * @package  GNUsocial
- * @author   Mikael Nordfeldth <mmn@hethane.se>
- * @license  https://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     https://gnu.io/social
  */
 
 class ConfigException extends ServerException

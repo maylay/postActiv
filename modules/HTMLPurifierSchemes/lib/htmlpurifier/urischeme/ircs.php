@@ -1,8 +1,10 @@
 <?php
-
-/**
+/****
  * Validates irc
+ *
+ * @license   https://www.gnu.org/licenses/agpl.html
  */
+
 class HTMLPurifier_URIScheme_ircs extends HTMLPurifier_URIScheme
 {
     /**

@@ -22,7 +22,7 @@
  * along with this program.     If not, see <http://www.gnu.org/licenses/>.
  *
  * @category  Notices
- * @package   StatusNet
+ * @package   postActiv
  * @author    Evan Prodromou <evan@prodromou.name>
  * @author    Mike Cochrane <mikec@mikenz.geek.nz>
  * @author    Zach Copley <zach@copley.name>
@@ -51,8 +51,8 @@
  * @copyright 2008-2011 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
- * @link      http://postactiv.com/
+ * @license   https://www.gnu.org/licenses/agpl.html
+ * @link      http://www.postactiv.com
  */
 
 if (!defined('POSTACTIV')) { exit(1); }

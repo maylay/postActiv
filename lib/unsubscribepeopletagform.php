@@ -27,7 +27,7 @@
  * @package   StatusNet
  * @author    Evan Prodromou <evan@status.net>
  * @author    Shashi Gowda <connect2shashi@gmail.com>
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
+ * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://status.net/
  */
 
@@ -37,12 +37,6 @@ require_once INSTALLDIR.'/lib/form.php';
 
 /**
  * Form for unsubscribing to a peopletag
- *
- * @category Form
- * @package  StatusNet
- * @author   Shashi Gowda <connect2shashi@gmail.com>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
  *
  * @see      UnunsubscribeForm
  */

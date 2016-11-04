@@ -1,6 +1,8 @@
 <?php
 /**
  * Table Definition for user_openid_trustroot
+ *
+ * @license   https://www.gnu.org/licenses/agpl.html 
  */
 
 if (!defined('STATUSNET')) {

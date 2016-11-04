@@ -9,6 +9,8 @@
  * Class for notice streams that does not filter anything out.
  *
  * PHP version 5
+ *
+ * @license   https://www.gnu.org/licenses/agpl.html 
  */
 
 

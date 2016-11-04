@@ -21,6 +21,7 @@
  *
  * @package     Activity
  * @maintainer  Mikael Nordfeldth <mmn@hethane.se>
+ * @license   https://www.gnu.org/licenses/agpl.html 
  */
 
 if (!defined('GNUSOCIAL')) { exit(1); }
