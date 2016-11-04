@@ -20,6 +20,12 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @category Exception
+ * @package  GNUsocial
+ * @author   Mikael Nordfeldth <mmn@hethane.se>
+ * @license   https://www.gnu.org/licenses/agpl.html
+ * @link     http://gnu.io/
  */
 
 if (!defined('POSTACTIV')) { exit(1); }
@@ -34,12 +40,6 @@ if (!defined('POSTACTIV')) { exit(1); }
  *
  * This exception is usually caught in a manner that lets the execution
  * continue _as if_ the desired action did what it was supposed to do.
- *
- * @category Exception
- * @package  GNUsocial
- * @author   Mikael Nordfeldth <mmn@hethane.se>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPLv3
- * @link     http://gnu.io/
  */
 
 class AlreadyFulfilledException extends ServerException

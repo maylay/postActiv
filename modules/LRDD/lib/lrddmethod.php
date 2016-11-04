@@ -16,7 +16,7 @@
  * @package   StatusNet
  * @author    James Walker <james@status.net>
  * @copyright 2010 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
+ * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://status.net/
  */
 abstract class LRDDMethod

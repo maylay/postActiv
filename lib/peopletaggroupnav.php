@@ -28,7 +28,7 @@
  * @author    Evan Prodromou <evan@status.net>
  * @author    Sarven Capadisli <csarven@status.net>
  * @copyright 2008 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
+ * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://status.net/
  */
 
@@ -44,13 +44,6 @@ require_once INSTALLDIR.'/lib/widget.php';
  *
  * Actions are responsible for extracting and validating parameters; using
  * model classes to read and write to the database; and doing ouput.
- *
- * @category Output
- * @package  StatusNet
- * @author   Evan Prodromou <evan@status.net>
- * @author   Sarven Capadisli <csarven@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
  *
  * @see      HTMLOutputter
  */

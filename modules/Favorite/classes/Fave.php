@@ -1,6 +1,8 @@
 <?php
-/**
+/****
  * Table Definition for fave
+ *
+ * @license   https://www.gnu.org/licenses/agpl.html
  */
 
 class Fave extends Managed_DataObject

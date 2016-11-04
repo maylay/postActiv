@@ -28,7 +28,7 @@
  * @package  StatusNet
  * @author   Evan Prodromou <evan@status.net>
  * @author   Zach Copley <zach@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl.html AGPLv3
+ * @license   https://www.gnu.org/licenses/agpl.html
  * @link     http://status.net/
  */
 

@@ -6,8 +6,6 @@
  *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
  *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
- * GNU social - a federating social network
- *
  * Plugin that produces some of the default layouts of a GNU social site.
  *
  * PHP version 5
@@ -29,7 +27,7 @@
  * @package   GNUsocial
  * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @copyright 2014 Free Software Foundation http://fsf.org
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
+ * @license   https://www.gnu.org/licenses/agpl.html
  * @link      https://www.gnu.org/software/social/
  */
 

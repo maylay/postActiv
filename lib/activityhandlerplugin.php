@@ -20,19 +20,20 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *
+ * @category  Activity
+ * @package   GNUsocial
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
+ * @copyright 2014 Free Software Foundation, Inc.
+ * @license   https://www.gnu.org/licenses/agpl.html
+ * @link      http://gnu.io/social
  */
 
 if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Superclass for plugins which add Activity types and such
- *
- * @category  Activity
- * @package   GNUsocial
- * @author    Mikael Nordfeldth <mmn@hethane.se>
- * @copyright 2014 Free Software Foundation, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
- * @link      http://gnu.io/social
  */
 abstract class ActivityHandlerPlugin extends Plugin
 {

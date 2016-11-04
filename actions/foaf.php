@@ -37,6 +37,7 @@
  * @copyright 2009-2011 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
+ * @license   https://www.gnu.org/licenses/agpl.html 
  * @link      http://www.postactiv.com
  */
 

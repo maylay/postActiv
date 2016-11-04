@@ -28,7 +28,7 @@
  * @author    Evan Prodromou <evan@status.net>
  * @author    Sarven Capadisli <csarven@status.net>
  * @copyright 2008-2009 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
+ * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://status.net/
  */
 
@@ -36,12 +36,6 @@ if (!defined('GNUSOCIAL')) { exit(1); }
 
 /**
  * A list of the user's subscriptions
- *
- * @category Social
- * @package  StatusNet
- * @author   Evan Prodromou <evan@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
  */
 class SearchSubsAction extends GalleryAction
 {

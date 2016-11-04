@@ -28,6 +28,7 @@
  *
  * @package QueueHandler
  * @maintainer Brion Vibber <brion@status.net>
+ * @license   https://www.gnu.org/licenses/agpl.html
  */
 
 if (!defined('POSTACTIV')) { exit(1); }

@@ -1,6 +1,6 @@
 #!/usr/bin/env php
 <?php
-/*
+/****
  * postActiv - a fork of the GNU Social microblogging software
  * Copyright (C) 2016, Maiyannah Bishop
  * Derived from code copyright various sources:
@@ -19,6 +19,8 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @license   https://www.gnu.org/licenses/agpl.html
  */
 
 define('INSTALLDIR', realpath(dirname(__FILE__) . '/../../..'));

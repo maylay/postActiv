@@ -28,7 +28,7 @@
  * @package  StatusNet
  * @author   Evan Prodromou <evan@status.net>
  * @author   Brion Vibber <brion@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl.html AGPLv3
+ * @license   https://www.gnu.org/licenses/agpl.html
  * @link     http://status.net/
  */
 
@@ -36,13 +36,6 @@ if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Superclass for actions that redirect to a given return-to page on completion.
- *
- * @category Action
- * @package  StatusNet
- * @author   Evan Prodromou <evan@status.net>
- * @author   Brion Vibber <brion@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl.html AGPLv3
- * @link     http://status.net/
  */
 class RedirectingAction extends Action
 {
