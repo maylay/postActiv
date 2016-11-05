@@ -29,6 +29,9 @@
  * @copyright 2010 StatusNet, Inc.
  * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://status.net/
+ *
+ * @see      NoticeList
+ * @see      ProfileNoticeListItem
  */
 
 if (!defined('POSTACTIV')) { exit(1); }
@@ -41,14 +44,6 @@ if (!defined('POSTACTIV')) { exit(1); }
  * that calls all the other show*() methods to build up a single notice. The
  * ProfileNoticeListItem subclass, for example, overrides showAuthor() to skip
  * author info (since that's implicit by the data in the page).
- *
- * @category UI
- * @package  StatusNet
- * @author   Evan Prodromou <evan@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
- * @see      NoticeList
- * @see      ProfileNoticeListItem
  */
 class NoticeListItem extends Widget
 {
@@ -142,63 +137,130 @@ class NoticeListItem extends Widget
     function showNotice()
     {
         if (Event::handle('StartShowNoticeItemNotice', array($this))) {
-            $this->showNoticeHeaders();
-            $this->showContent();
-            $this->showNoticeFooter();
+            global $aeternum;
+            $nameClass = $this->notice->getTitle(false) ? 'p-name ' : '';
+            $aeternum->assignVariable("notice->nameClass",$nameClass);
+            $aeternum->assignVariable("notice->content",$this->notice->content);
+            $this->exposeNoticeHeaders();
+            $this->exposeNoticeContent();
+            $this->exposeNoticeFooters();
+            $aeternum->displayTemplate("single_notice");
             Event::handle('EndShowNoticeItemNotice', array($this));
         }
     }
 
-    function showNoticeHeaders()
-    {
-        $this->elementStart('section', array('class'=>'notice-headers'));
-        $this->showNoticeTitle();
-        $this->showAuthor();
+   // !GLUE - this is here to prevent bother from widgets looking for this 
+   // function - to properly address it we should remove the call
+   public function showNoticeHeaders()
+   {
+      $this->exposeNoticeHeaders();
+   }
 
-        if (!empty($this->notice->reply_to) || count($this->getProfileAddressees()) > 0) {
-            $this->elementStart('div', array('class' => 'parents'));
-            try {
-                $this->showParent();
-            } catch (NoParentNoticeException $e) {
-                // no parent notice
-            } catch (InvalidUrlException $e) {
-                // parent had an invalid URL so we can't show it
-            }
-            if ($this->addressees) { $this->showAddressees(); }
-            $this->elementEnd('div');
-        }
-        $this->elementEnd('section');
-    }
+   // ------------------------------------------------------------------------
+   // PRIVATE: exposeNoticeHeaders()
+   //    Expose the information from this notice to Smarty, ensuring to trip
+   //    the relevant existing Events so we don't break plugins.
+   private function exposeNoticeHeaders()
+   {
+      global $aeternum;
+      if (Event::handle('StartShowNoticeTitle', array($this)))
+      {
+         $aeternum->assignVariable("title->link->url",$this->notice->getUri());
+         $aeternum->assignVariable("title->content",$this->notice->getTitle());
+         Event::handle('EndShowNoticeTitle', array($this));
+      }
+      $attrs = array('href' => $this->profile->profileurl,
+                     'class' => 'h-card',
+                     'title' => $this->profile->getNickname());
+      if(empty($this->repeat)) { $attrs['class'] .= ' p-author'; }
+      if (Event::handle('StartShowNoticeItemAuthor', array($this->profile, $this->out, &$attrs)))
+      {
+         $aeternum->assignVariable("poster->link_attrs", $attrs);
+         $aeternum->assignVariable("poster->nickname", $attrs["title"]);
+         $aeternum->assignVariable("poster->profileLink", $attrs["href"]);
+         $aeternum->assignVariable("poster->profileLinkClass", $attrs["class"]);
+         $aeternum->assignVariable("poster->avatar", $this->profile->avatarUrl(AVATAR_PROFILE_SIZE));
+         $aeternum->assignVariable("poster->name", $this->profile->getStreamName());
+         Event::handle('EndShowNoticeItemAuthor', array($this->profile, $this->out));
+      }
 
-    function showNoticeFooter()
-    {
-        $this->elementStart('footer');
-        $this->showNoticeInfo();
-        if ($this->options) { $this->showNoticeOptions(); }
-        if ($this->attachments) { $this->showNoticeAttachments(); }
-        $this->elementEnd('footer');
-    }
+      if (!empty($this->notice->reply_to) || count($this->getProfileAddressees()) > 0)
+      {
+         try
+         {
+            $aeternum->assignVariable("notice->hasParents", true);
+            $aeternum->assignVariable("notice->parent->url", $this->notice->getParent()->getUrl());
+         }
+         catch (NoParentNoticeException $e)
+         {
+            // no parent notice
+         }
+         catch (InvalidUrlException $e)
+         {
+            // parent had an invalid URL so we can't show it
+         }
+         if ($this->addressees) { $pa = $this->getProfileAddressees(); }
+         if (!empty($pa)) { $aeternum->assignVariable("notice->parents", $pa); }
+      }
+   }
 
-    function showNoticeTitle()
-    {
-        if (Event::handle('StartShowNoticeTitle', array($this))) {
-            $nameClass = $this->notice->getTitle(false) ? 'p-name ' : '';
-            $this->element('a', array('href' => $this->notice->getUri(),
-                                      'class' => $nameClass . 'u-uid'),
-                           $this->notice->getTitle());
-            Event::handle('EndShowNoticeTitle', array($this));
-        }
-    }
+   // !GLUE - this is here to prevent bother from widgets looking for this
+   // function - to properly address it we should remove the call
+   public function showContent()
+   {
+      $this->exposeNoticeContent();
+   }
 
-    function showNoticeInfo()
-    {
-        if (Event::handle('StartShowNoticeInfo', array($this))) {
-            $this->showContextLink();
-            $this->showNoticeLink();
-            $this->showNoticeSource();
-            $this->showNoticeLocation();
-            $this->showPermalink();
-            Event::handle('EndShowNoticeInfo', array($this));
+   // --------------------------------------------------------------------------
+   // PRIVATE: exposeNoticeContent()
+   //    Expose the notice's actual body to the theme.
+   private function exposeNoticeContent()
+   {
+      $nameClass = $this->notice->getTitle(false) ? '' : 'p-name ';
+      global $aeternum;
+      $aeternum->assignVariable("notice->nameClass", $nameClass);
+      $aeternum->assignVariable("notice->content", $this->notice->content);
+   }
+
+   // !GLUE - this is here to prevent bother from widgets looking for this
+   // function - to properly address it we should remove the call
+   public function showNoticeFooter()
+   {
+      $this->exposeNoticeFooters();
+   }
+
+   // --------------------------------------------------------------------------
+   // PRIVATE: exposeNoticeContent()
+   //    Expose the notice's footers (permalink, attachments, etc) to the theme.
+   private function exposeNoticeFooters()
+   {
+      $this->elementStart('footer');
+      if (Event::handle('StartShowNoticeInfo', array($this)))
+      {
+         global $aeternum;
+         $aeternum->assignVariable("convesation->href",Conversation::getUrlFromNotice($this->notice));
+         $aeternum->assignVariable("dt->iso",common_date_iso8601($this->notice->created));
+         $aeternum->assignVariable("dt->exact",common_exact_date($this->notice->created));
+         $aeternum->assignVariable("dt->approximate",common_date_string($this->notice->created));
+         $this->showNoticeSource();
+         $this->showNoticeLocation();
+         $this->showPermalink();
+         Event::handle('EndShowNoticeInfo', array($this));
+      }
+      if ($this->options) { 
+         $this->showNoticeOptions();
+      }
+      if ($this->attachments)
+      {
+         $this->showNoticeAttachments();
+      }
+      $this->elementEnd('footer');
+   }
+
+    function showNoticeAttachments() {
+        if (common_config('attachments', 'show_thumbs')) {
+            $al = new InlineAttachmentList($this->notice, $this->out);
+            $al->show();
         }
     }
 
@@ -242,43 +304,6 @@ class NoticeListItem extends Widget
                                                  'id' => "${id_prefix}notice-${id}"));
             Event::handle('EndOpenNoticeListItemElement', array($this));
         }
-    }
-
-    /**
-     * show the author of a notice
-     *
-     * By default, this shows the avatar and (linked) nickname of the author.
-     *
-     * @return void
-     */
-
-    function showAuthor()
-    {
-        $attrs = array('href' => $this->profile->profileurl,
-                       'class' => 'h-card',
-                       'title' => $this->profile->getNickname());
-        if(empty($this->repeat)) { $attrs['class'] .= ' p-author'; }
-
-        if (Event::handle('StartShowNoticeItemAuthor', array($this->profile, $this->out, &$attrs))) {
-            $this->out->elementStart('a', $attrs);
-            $this->showAvatar($this->profile);
-            $this->out->text($this->profile->getStreamName());
-            $this->out->elementEnd('a');
-            Event::handle('EndShowNoticeItemAuthor', array($this->profile, $this->out));
-        }
-    }
-
-    function showParent()
-    {
-        $this->out->element(
-            'a',
-            array(
-                'href' => $this->notice->getParent()->getUrl(),
-                'class' => 'u-in-reply-to',
-                'rel' => 'in-reply-to'
-            ),
-            'in reply to'
-        );
     }
 
     function showAddressees()
@@ -340,53 +365,6 @@ class NoticeListItem extends Widget
         $this->out->raw('<span class="p-name">' .
                         htmlspecialchars($this->profile->getNickname()) .
                         '</span>');
-    }
-
-    /**
-     * show the content of the notice
-     *
-     * Shows the content of the notice. This is pre-rendered for efficiency
-     * at save time. Some very old notices might not be pre-rendered, so
-     * they're rendered on the spot.
-     *
-     * @return void
-     */
-    function showContent()
-    {
-        // FIXME: URL, image, video, audio
-        $nameClass = $this->notice->getTitle(false) ? '' : 'p-name ';
-        $this->out->elementStart('article', array('class' => $nameClass . 'e-content'));
-        if (Event::handle('StartShowNoticeContent', array($this->notice, $this->out, $this->out->getScoped()))) {
-            if ($this->maxchars > 0 && mb_strlen($this->notice->content) > $this->maxchars) {
-                $this->out->text(mb_substr($this->notice->content, 0, $this->maxchars) . '[…]');
-            } else {
-                $this->out->raw($this->notice->getRendered());
-            }
-            Event::handle('EndShowNoticeContent', array($this->notice, $this->out, $this->out->getScoped()));
-        }
-        $this->out->elementEnd('article');
-    }
-
-    function showNoticeAttachments() {
-        if (common_config('attachments', 'show_thumbs')) {
-            $al = new InlineAttachmentList($this->notice, $this->out);
-            $al->show();
-        }
-    }
-
-    /**
-     * show the link to the main page for the notice
-     *
-     * Displays a local link to the rendered notice, with "relative" time.
-     *
-     * @return void
-     */
-    function showNoticeLink()
-    {
-        $this->out->element('time', array('class' => 'dt-published',
-                                          'datetime' => common_date_iso8601($this->notice->created),
-                                          'title' => common_exact_date($this->notice->created)),
-                            common_date_string($this->notice->created));
     }
 
     /**
@@ -569,18 +547,6 @@ class NoticeListItem extends Widget
         } catch (InvalidUrlException $e) {
             // no permalink available
         }
-    }
-
-    /**
-     * Show link to conversation view.
-     */
-    function showContextLink()
-    {
-        $this->out->element('a', array('rel' => 'bookmark',
-                                            'class' => 'timestamp',
-                                            'href' => Conversation::getUrlFromNotice($this->notice)),
-                            // TRANS: A link to the conversation view of a notice, on the local server.
-                            _('In conversation'));
     }
 
     /**
