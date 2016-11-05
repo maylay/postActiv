@@ -1,28 +1,21 @@
-<!-- begin single notice - id {$this->uid} -->
+<li class="h-entry notice post" id="notice-333">
+   <section class="notice-headers">
+      <a href="tag:aeternum.highlandarrow.com,2016-05-09:noticeId=333:objectType=note" class="u-uid">Aeternum Style System (aeternum@aeternum.highlandarrow.com)'s status on Monday, 09-May-2016 18:41:10 EDT</a>
+      <a href="https://aeternum.highlandarrow.com/aeternum" class="h-card p-author" title="aeternum">
+      <img src="https://aeternum.highlandarrow.com/avatar/1-48-20160508041458.jpeg" class="avatar u-photo" width="48" height="48" alt="Aeternum Style System"/>
+Aeternum Style System</a>
+   </section>
 
-<div class="notice" id="stream-item-{$this->uid}" data-uri="{$this->uri}" data-source="{$this->source}" data-conversation-id="{$this->conversation-id}" data-in-reply-to-screen-name="{$this->in-reply-to-screen-name}" data-reply-to-profile-url="{$this->in-reply-to-profile-url}" data-in-reply-to-status-id="{$this->in-reply-to-status-id}" data-in-reply-to-ostatus-uri="{$this->in-reply-to-ostatus-uri}" data-user-screen-name="{$this->user-screen-name}" data-user-ostatus-uri="$this->user-ostatus-uri}" data-user-profile-url="{$this->data-user-profile-url}">
-   <script class="attachment-json" type="application/json">{$this->attachment-json}</script>
-   <script class="attentions-json" type="application/json">{$this->attentions-json}</script>
-   <img class="avatar notice-size" id="notice-avatar-{$this->notice-id}" src="{$this->avatar_url}"/>
+   <article class="p-name e-content">So, Aeternum has been reorganized a bit in terms of the repository.  TLDR: Do not use version control to download Aeternum, unless you know what you're doing.  Download the package from gitlab and upload it to your GS directory.</article>
 
-   <div class="notice-header" id="notice-header-{$this->notice-id}"><p>
-   <b>{$this->user-screen-name} @{$this->user-handle}</b> posted at ${this->timestamp}{if isset($this->attentions_links)} to the attention of {$this->attentions_links}{/if}:
-   </p></div>
+   <footer>
+      <a rel="bookmark" class="timestamp" href="https://aeternum.highlandarrow.com/conversation/127#notice-333">In conversation</a>
+      <time class="dt-published" datetime="2016-05-09T18:41:10-04:00" title="Monday, 09-May-2016 18:41:10 EDT">about 6 months ago</time>
+      <span class="source">from <span class="device">web</span></span>
+      <a href="https://aeternum.highlandarrow.com/notice/333" class="permalink u-url">permalink</a>
+   </footer>
 
-   <div class="notice-content" id="notice-content-{$this->notice-id}"><p>
-   {if $template->use_markdown==true}{$this->content|markdown nofilter}{else}{$this->content}{/if}
-   </p></div>
-
-   <div class="notice-footer" id="notice-footer-{$this->notice-id}"><p>
-   {if isset($this->attachments_links)}<b>Attachments:</b> {$this->attachments_links}<br>{/if}
-   <b>Permalink:</b> {$this->uri}<br/>
-   </p></div>
-
-   <div class="notice-interactions" id="notice-interactions-{$this->notice-id}">
-   <img src="{$template->favorite-icon-url}" title="Favourite this notice" class="favourite-icon" />
-   <img src="{$template->repeat-icon-url}" title="Repeat this notice" class="repeat-icon" />
-{if ($this->is_event==true)}   <img src="{$template->rsvp-icon-url}" title="RSVP this event" class="event-rsvp-icon" />{/if}
-   </div>
-</div>
-
-<!-- end single notice - id {$this->uid} -->
+   <ul class="notices threaded-replies xoxo">
+      <li class="notice-data notice-faves"><a class="h-card" href="https://community.highlandarrow.com/maiyannah">Maiyannah Bishop</a> likes this.</li>
+   </ul>
+</li>
