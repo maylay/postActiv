@@ -23,12 +23,16 @@
  *
  * User groups information
  *
- * @category  Personal
- * @package   StatusNet
- * @author    Evan Prodromou <evan@status.net>
- * @author    Sarven Capadisli <csarven@status.net>
+ * @category  Groups
+ * @package   postActiv
+ * @author    Evan Prodromou
+ * @author    Sarven Capadisli
+ * @author    Meitar Moscovitz <meitarm@gmail.com>
+ * @author    Robin Millette <robin@millette.info>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2008-2009 StatusNet, Inc.
+ * @copyright 2009-2012 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html

@@ -21,8 +21,18 @@
  *
  * PHP version 5
  *
+ * Formatting of RSS handled by Rss10Action
+ *
+ * @category  Feeds
  * @package   postActiv
+ * @author    Evan Prodromou
+ * @author    Robin Millette <robin@millette.info>
+ * @author    Jeffrey To <jeffery.to@gmail.com>
+ * @author    Zach Copley
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ * @copyright 2008-2012 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html 
