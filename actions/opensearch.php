@@ -25,10 +25,15 @@
  *
  * @category  Action
  * @package   postActiv
- * @author    Evan Prodromou <evan@status.net>
- * @author    Robin Millette <millette@status.net>
+ * @author    Matthew Gregg <matthew.gregg@gmail.com>
+ * @author    Mike Cochrane <mikec@mikenz.geek.nz>
+ * @author    Evan Prodromou
+ * @author    Robin Millette <robin@millette.info>
+ * @author    Sarven Capadisli
+ * @author    Brion Vibber <brion@pobox.com>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2008-2011 StatusNet, Inc.
+ * @copyright 2008-2012 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html

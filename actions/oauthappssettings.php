@@ -25,29 +25,26 @@
  *
  * @category  Settings
  * @package   postActiv
- * @author    Zach Copley <zach@status.net>
- * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com> 
- * @copyright 2008-2011 StatusNet, Inc.
+ * @author    Zach Copley
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Evan Prodromou
+ * @author    Jean Baptiste Favre <statusnet@jbfavre.org>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ * @copyright 2010-2012 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://www.postactiv.com
+ *
+ * @see       SettingsAction
  */
 
 if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Show a user's registered OAuth applications
- *
- * @category Settings
- * @package  StatusNet
- * @author   Zach Copley <zach@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
- *
- * @see      SettingsAction
  */
-
 class OauthappssettingsAction extends SettingsAction
 {
     protected $page = null;
