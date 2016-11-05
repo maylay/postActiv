@@ -1,5 +1,5 @@
 This directory contains [Vagrant](https://www.vagrantup.com/) build
-instructions to make it easy to test GNU Social.
+instructions to make it easy to test postActiv.
 
 To run it should be sufficient to simply go into one of the subdirs and run
 `vagrant up`. When developing you'll probably want to run `vagrant rsync-auto`

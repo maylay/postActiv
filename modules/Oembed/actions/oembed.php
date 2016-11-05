@@ -1,6 +1,10 @@
 <?php
 /**
- * StatusNet, the distributed open-source microblogging tool
+ * postActiv - a fork of the GNU Social microblogging software
+ * Copyright (C) 2016, Maiyannah Bishop
+ * Derived from code copyright various sources:
+ *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
  * oEmbed data action for /main/oembed(.xml|.json) requests
  *
@@ -18,6 +22,8 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @license   https://www.gnu.org/licenses/agpl.html 
  */
 
 if (!defined('GNUSOCIAL')) { exit(1); }

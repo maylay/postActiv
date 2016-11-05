@@ -20,9 +20,11 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @license   https://www.gnu.org/licenses/agpl.html
  */
 
-if (!defined('STATUSNET') && !defined('LACONICA')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * IKM background connection manager for IM-using queue handlers,
@@ -39,8 +41,6 @@ if (!defined('STATUSNET') && !defined('LACONICA')) { exit(1); }
  * 4) implement send_raw_message() to send raw data that ImPlugin::enqueueOutgoingRaw
  *      enqueued
  */
- 
- if (!defined('POSTACTIV')) { exit(1); }
 
 abstract class ImManager extends IoManager
 {

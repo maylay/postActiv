@@ -1,4 +1,7 @@
 <?php
+/****
+ * @license   https://www.gnu.org/licenses/agpl.html
+ */
 
 if (isset($_SERVER) && array_key_exists('REQUEST_METHOD', $_SERVER)) {
     print "This script must be run from the command line\n";

@@ -39,8 +39,7 @@
  * @author   Zach Copley <zach@status.net>
  * @copyright 2009-2010 StatusNet, Inc http://status.net
  * @copyright 2009-2014 Free Software Foundation, Inc http://www.fsf.org
- * @license  GNU Affero General Public License http://www.gnu.org/licenses/
- * @version  1.0.x
+ * @license   https://www.gnu.org/licenses/agpl.html
  * @link     http://status.net
  */
 

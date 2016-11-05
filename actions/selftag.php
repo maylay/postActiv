@@ -4,13 +4,9 @@
  * Copyright (C) 2016, Maiyannah Bishop
  * Derived from code copyright various sources:
  *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
+ *   StatusNet (C) 2008-2012, StatusNet, Inc
  *
- * Action for showing profiles self-tagged with a given tag
- *
- * PHP version 5
- *
- * LICENCE: This program is free software: you can redistribute it and/or modify
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -23,33 +19,29 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ * PHP version 5
+ *
+ * Action for showing profiles self-tagged with a given tag
+ *
  * @category  Action
  * @package   postActiv
- * @author    Evan Prodromou <evan@status.net>
- * @author    Zach Copley <zach@status.net>
+ * @author    Sashi Gowda <connect2shashi@gmail.com>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Mikeal Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2009-2011 StatusNet, Inc.
+ * @copyright 2011-2012 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link      https://git.gnu.io/maiyannah/postActiv
+ * @license   https://www.gnu.org/licenses/agpl.html
+ * @link      http://www.postactiv.com
+ *
+ * @see action
  */
 
-if (!defined('STATUSNET') && !defined('LACONICA')) {
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * This class outputs a paginated list of profiles self-tagged with a given tag
- *
- * @category Output
- * @package  StatusNet
- * @author   Evan Prodromou <evan@status.net>
- * @author   Zach Copley <zach@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
- *
- * @see      Action
  */
 class SelftagAction extends Action
 {

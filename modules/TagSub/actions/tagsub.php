@@ -1,7 +1,10 @@
 <?php
 /**
- * StatusNet - the distributed open-source microblogging tool
- * Copyright (C) 2008-2011, StatusNet, Inc.
+ * postActiv - a fork of the GNU Social microblogging software
+ * Copyright (C) 2016, Maiyannah Bishop
+ * Derived from code copyright various sources:
+ *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
  * Tag subscription action.
  *
@@ -25,7 +28,7 @@
  * @author    Brion Vibber <brion@status.net>
  * @author    Evan Prodromou <evan@status.net>
  * @copyright 2008-2010 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPLv3
+ * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://status.net/
  */
 

@@ -36,7 +36,7 @@
  * @author    Maiyannay Bishop <maiyannah@member.fsf.net>
  * @copyright 2016 Maiyannah Bishop
  * @copyright 2008 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
+ * @license   https://www.gnu.org/licenses/agpl.html
  * @link      https://git.gnu.io/maiyannah/postActiv
  *
  * @see       HTMLOutputter

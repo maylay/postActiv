@@ -4,11 +4,7 @@
  * Copyright (C) 2016, Maiyannah Bishop
  * Derived from code copyright various sources:
  *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
- *
- * Plugin enable action.
- *
- * PHP version 5
+ *   StatusNet (C) 2008-2012, StatusNet, Inc
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -23,20 +19,24 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @category  Action
+ * PHP version 5
+ *
+ * Plugin enable action.
+ *
+ * @category  Admin
  * @package   postActiv
- * @author    Brion Vibber <brion@status.net>
- * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com> 
- * @copyright 2010-2011 StatusNet, Inc.
+ * @author    Brion Vibber <brion@pobox.com>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ * @copyright 2010-2012 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPLv3
- * @link      https://git.gnu.io/maiyannah/postActiv
+ * @license   https://www.gnu.org/licenses/agpl.html
+ * @link      http://www.postactiv.com
  */
 
-if (!defined('STATUSNET')) {
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Plugin enable action.
@@ -50,13 +50,6 @@ if (!defined('STATUSNET')) {
  *    - ajax: boolean; whether to return Ajax or full-browser results
  *
  * Only works if the current user is logged in.
- *
- * @category  Action
- * @package   StatusNet
- * @author    Brion Vibber <brion@status.net>
- * @copyright 2010 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPLv3
- * @link      http://status.net/
  */
 class PluginEnableAction extends Action
 {

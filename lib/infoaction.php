@@ -29,18 +29,14 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @license   https://www.gnu.org/licenses/agpl.html
  */
 
 if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Base class for displaying dialog box like messages to the user
- *
- * @category Action
- * @package  StatusNet
- * @author   Zach Copley <zach@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl.html AGPLv3
- * @link     http://status.net/
  *
  * @see ErrorAction
  */

@@ -1,7 +1,8 @@
 <?php
-
-/**
+/****
  * Validates gopher
+ *
+ * @license   https://www.gnu.org/licenses/agpl.html 
  */
 class HTMLPurifier_URIScheme_gopher extends HTMLPurifier_URIScheme
 {

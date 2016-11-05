@@ -1,4 +1,7 @@
 <?php
+/****
+ * @license   https://www.gnu.org/licenses/agpl.html
+ */
 
 class SearchSubTrackingCommand extends Command
 {

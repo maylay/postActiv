@@ -1,5 +1,8 @@
 #!/usr/bin/env php
 <?php
+/****
+ * @license   https://www.gnu.org/licenses/agpl.html
+ */
 
 define('INSTALLDIR', realpath(dirname(__FILE__) . '/../../..'));
 

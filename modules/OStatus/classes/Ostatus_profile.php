@@ -1,7 +1,10 @@
 <?php
 /*
- * StatusNet - the distributed open-source microblogging tool
- * Copyright (C) 2009-2010, StatusNet, Inc.
+- * postActiv - a fork of the GNU Social microblogging software
+- * Copyright (C) 2016, Maiyannah Bishop
+- * Derived from code copyright various sources:
+- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
+- *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -15,6 +18,8 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @license   https://www.gnu.org/licenses/agpl.html 
  */
 
 if (!defined('GNUSOCIAL')) { exit(1); }
@@ -1116,6 +1121,8 @@ class Ostatus_profile extends Managed_DataObject
      */
     protected static function createActivityObjectProfile(ActivityObject $object, array $hints=array())
     {
+        common_debug('Attempting to create an Ostatus_profile from an ActivityObject with ID: '._ve($object->id));
+
         $homeuri = $object->id;
         $discover = false;
 
@@ -1145,12 +1152,12 @@ class Ostatus_profile extends Managed_DataObject
             }
         }
 
-        if (array_key_exists('feedurl', $hints)) {
-            $feeduri = $hints['feedurl'];
-        } else {
+        if (!array_key_exists('feedurl', $hints)) {
             $discover = new FeedDiscovery();
-            $feeduri = $discover->discoverFromURL($homeuri);
+            $hints['feedurl'] = $discover->discoverFromURL($homeuri);
+            common_debug(__METHOD__.' did not have a "feedurl" hint, FeedDiscovery found '._ve($hints['feedurl']));
         }
+        $feeduri = $hints['feedurl'];
 
         if (array_key_exists('salmon', $hints)) {
             $salmonuri = $hints['salmon'];
@@ -1287,6 +1294,8 @@ class Ostatus_profile extends Managed_DataObject
             throw new AuthorizationException('Trying to update profile from ActivityObject with different URI.');
         }
 
+        common_debug('Updating Ostatus_profile with URI '._ve($this->getUri()).' from ActivityObject');
+
         if ($this->isGroup()) {
             $group = $this->localGroup();
             self::updateGroup($group, $object, $hints);
@@ -1368,7 +1377,8 @@ class Ostatus_profile extends Managed_DataObject
         // @todo tags from categories
 
         if ($profile->id) {
-            common_log(LOG_DEBUG, "Updating OStatus profile $profile->id from remote info $object->id: " . var_export($object, true) . var_export($hints, true));
+            //common_debug('Updating OStatus profile '._ve($profile->getID().' from remote info '._ve($object->id).': ' . _ve($object) . _ve($hints));
+            common_debug('Updating OStatus profile '._ve($profile->getID()).' from remote info '._ve($object->id).' gathered from hints: '._ve($hints));
             $profile->update($orig);
         }
     }
@@ -1392,7 +1402,8 @@ class Ostatus_profile extends Managed_DataObject
         $group->homepage = self::getActivityObjectHomepage($object, $hints);
 
         if ($group->id) {   // If no id, we haven't called insert() yet, so don't run update()
-            common_log(LOG_DEBUG, "Updating OStatus group $group->id from remote info $object->id: " . var_export($object, true) . var_export($hints, true));
+            //common_debug('Updating OStatus group '._ve($group->getID().' from remote info '._ve($object->id).': ' . _ve($object) . _ve($hints));
+            common_debug('Updating OStatus group '._ve($group->getID()).' from remote info '._ve($object->id).' gathered from hints: '._ve($hints));
             $group->update($orig);
         }
     }
@@ -1413,7 +1424,8 @@ class Ostatus_profile extends Managed_DataObject
         $tag->tagger = $tagger->profile_id;
 
         if ($tag->id) {
-            common_log(LOG_DEBUG, "Updating OStatus peopletag $tag->id from remote info $object->id: " . var_export($object, true) . var_export($hints, true));
+            //common_debug('Updating OStatus peopletag '._ve($tag->getID().' from remote info '._ve($object->id).': ' . _ve($object) . _ve($hints));
+            common_debug('Updating OStatus peopletag '._ve($tag->getID()).' from remote info '._ve($object->id).' gathered from hints: '._ve($hints));
             $tag->update($orig);
         }
     }

@@ -1,8 +1,9 @@
 <?php
-
-/**
+/****
  * Validates magnet (BitTorrent hash links)
  * @todo require xt= GET parameter
+ *
+ * @license   https://www.gnu.org/licenses/agpl.html
  */
 
 class HTMLPurifier_URIScheme_magnet extends HTMLPurifier_URIScheme
