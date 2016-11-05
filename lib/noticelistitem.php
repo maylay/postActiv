@@ -140,7 +140,6 @@ class NoticeListItem extends Widget
             global $aeternum;
             $nameClass = $this->notice->getTitle(false) ? 'p-name ' : '';
             $aeternum->assignVariable("notice->nameClass",$nameClass);
-            $aeternum->assignVariable("notice->content",$this->notice->content);
             $this->exposeNoticeHeaders();
             $this->exposeNoticeContent();
             $this->exposeNoticeFooters();
@@ -238,7 +237,7 @@ class NoticeListItem extends Widget
       if (Event::handle('StartShowNoticeInfo', array($this)))
       {
          global $aeternum;
-         $aeternum->assignVariable("convesation->href",Conversation::getUrlFromNotice($this->notice));
+         $aeternum->assignVariable("conversation->href",Conversation::getUrlFromNotice($this->notice));
          $aeternum->assignVariable("dt->iso",common_date_iso8601($this->notice->created));
          $aeternum->assignVariable("dt->exact",common_exact_date($this->notice->created));
          $aeternum->assignVariable("dt->approximate",common_date_string($this->notice->created));
