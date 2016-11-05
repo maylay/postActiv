@@ -207,4 +207,18 @@ function PEAR_ErrorToPEAR_Exception(PEAR_Error $err)
     }
     throw new PEAR_Exception($err->getMessage());
 }
+
+// Bootstrap themes
+// TODO: Directory is "templates" for now until we supercede themes - mb
+require_once(INSTALLDIR . '/classes/SmartyTheme.php');
+$theme_dirs = glob(INSTALLDIR . '/templates/*' , GLOB_ONLYDIR);
+foreach ($theme_dirs as $dir)
+{
+   $manifest = $dir . "/manifest.php";
+   if (file_exists($manifest))
+   {
+      include_once($manifest);
+   }
+}
+
 ?>
