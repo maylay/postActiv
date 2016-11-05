@@ -36,6 +36,7 @@ if (!defined('POSTACTIV')) { exit(1); }
 
 define('AETERNUM_PATH', dirname(__FILE__));
 
+global $aeternum;
 $aeternum = new SmartyTheme("aeternum");
 $aeternum->mapTemplatesDir(AETERNUM_PATH . "/templates");
 $aeternum->mapCompileDir(AETERNUM_PATH . "/templates_c");
