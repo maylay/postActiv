@@ -1,7 +1,10 @@
 <?php
 /**
- * StatusNet - the distributed open-source microblogging tool
- * Copyright (C) 2010, StatusNet, Inc.
+ * postActiv - a fork of the GNU Social microblogging software
+ * Copyright (C) 2016, Maiyannah Bishop
+ * Derived from code copyright various sources:
+ *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
  * This class performs lookups based on methods implemented in separate
  * classes, where a resource uri is given. Examples are WebFinger (RFC7033)
@@ -28,7 +31,7 @@
  * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @copyright 2010 StatusNet, Inc.
  * @copyright 2013 Free Software Foundation, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
+ * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://www.gnu.org/software/social/
  */
 

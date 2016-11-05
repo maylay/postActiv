@@ -1,4 +1,7 @@
 <?php
+/****
+ * @license   https://www.gnu.org/licenses/agpl.html
+ */
 
 if (!defined('GNUSOCIAL')) { exit(1); }
 

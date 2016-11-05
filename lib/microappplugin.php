@@ -27,7 +27,7 @@
  * @package   StatusNet
  * @author    Evan Prodromou <evan@status.net>
  * @copyright 2011 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
+ * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://status.net/
  */
 
@@ -39,13 +39,6 @@ if (!defined('POSTACTIV')) { exit(1); }
  * This class lets you define micro-applications with different kinds of activities.
  *
  * The applications work more-or-less like other
- *
- * @category  Microapp
- * @package   StatusNet
- * @author    Evan Prodromou <evan@status.net>
- * @copyright 2011 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
- * @link      http://status.net/
  */
 abstract class MicroAppPlugin extends ActivityHandlerPlugin
 {

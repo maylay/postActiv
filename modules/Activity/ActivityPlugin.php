@@ -1,11 +1,10 @@
 <?php
-/**
- * StatusNet - the distributed open-source microblogging tool
- * Copyright (C) 2010, StatusNet, Inc.
- *
- * Shows social activities in the output feed
- *
- * PHP version 5
+/****
+ * postActiv - a fork of the GNU Social microblogging software
+ * Copyright (C) 2016, Maiyannah Bishop
+ * Derived from code copyright various sources:
+ *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ *   StatusNet (C) 2008-2012, StatusNet, Inc
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -20,12 +19,72 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ * PHP version 5
+ *
+ * Shows social activities in the output feed
+ *
  * @category  Activity
- * @package   StatusNet
- * @author    Evan Prodromou <evan@status.net>
- * @copyright 2010 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
- * @link      http://status.net/
+ * @package   postActiv
+ * @author    Evan Prodromou <evan@prodromou.name>
+ * @author    Eric Helgeson <erichelgeson@gmail.com>
+ * @author    Brenda Wallace <shiny@cpan.org>
+ * @author    Sean Corbett <sean@gnu.org>
+ * @author    James Walker <walkah@walkah.net>
+ * @author    Jeroen De Dauw <jeroendedauw@gmail.com>
+ * @author    Max Shinn <trombonechamp@gmail.com>
+ * @author    Craig Andrews <candrews@integralblue.com>
+ * @author    Ian Denhardt <ian@zenhack.net>
+ * @author    flyingmana <flyingmana@googlemail.com>
+ * @author    Sashi Gowda <connect2shashi@gmail.com>
+ * @author    Jordan Conway <jordan@conway.name>
+ * @author    Dan Scott <dan@coffeecode.net>
+ * @author    Antonin Kral <a.kral@bobek.cz>
+ * @author    Luke Fitzegerald <lw.fitzgerald@googlemail.com>
+ * @author    Scott Sweeny <ssweeny@gmail.com>
+ * @author    Samantha Doherty <samantha@doherty.name>
+ * @author    Zach Copley <zach@copley.name>
+ * @author    Brion Vibber <brion@pobox.com>
+ * @author    Michele Azzolari <macno@macno.org>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Joshua Wise <jwise@nvidia.com>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
+ * @author    Thomas Johnson <NTmatter@gmail.com>
+ * @author    Emily O'leary <emily@oleary.name>
+ * @author    Brian Tegtmeier <btegtmeier@gmail.com>
+ * @author    Florian Schmaus <flo@geekplace.eu>
+ * @author    Jean Baptiste Favre <github@jbfavre.org>
+ * @author    Florian Hülsmann <fh@cbix.de>
+ * @author    Vinilox <vinilox@vinilox.eu>
+ * @author    Marcel van der Boom <marcel@hsdev.com>
+ * @author    Rob Myers <rob@robmyers.org>
+ * @author    Matt Lee <mattl@creativecommons.org>
+ * @author    Mats Sjöberg <mats@sjoberg.fi>
+ * @author    Aqeel Zafar <aqeel@aqeeliz.com>
+ * @author    Jeremy Malcolm <jeremy@ciroap.org>
+ * @author    Stanislav N. <pztrn@pztrn.name>
+ * @author    Joshua Judson Rosen <rozzin@geekspace.com>
+ * @author    Antonio Roquentin <antonio.roquentin@sfr.fr>
+ * @author    Adam Moore <laemeur@sdf.org>
+ * @author    Chris Buttle <chris@gatopaleo.org>
+ * @author    abjectio <abjectio@kollektivet0x242.no>
+ * @author    chimo <chimo@chromic.org>
+ * @author    Marcus Moeller <marcus.moeller@gmx.ch>
+ * @author    Bhuvan Krishna <bhuvan@swecha.net>
+ * @author    Hannes Mannerheim <h@nnesmannerhe.im>
+ * @author    digital-dreamer <digitaldreamer@email.>
+ * @author    Stephen Paul Weber <singpolyma@singpolyma.net>
+ * @author    Matthias Fritzsche <txt.file@txtfile.eu>
+ * @author    Akio Nishimura <akio@akionux.net>
+ * @author    Guillaume Hayot <postblue+git@postblue.info>
+ * @author    Roland Haeder <roland@mxchange.net>
+ * @author    Carlos Sanbu <carsanbu@entramado.net>
+ * @author    Bob Mottram <bob@robotics.uk.to>
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ * @copyright 2010-2012 StatusNet, Inc.
+ * @copyright 2013-2016 Free Software Foundation, Inc.
+ * @copyright 2016 Maiyannah Bishop
+ * @license   https://www.gnu.org/licenses/agpl.html
+ * @link      http://www.postactiv.com
  */
 
 if (!defined('STATUSNET')) {

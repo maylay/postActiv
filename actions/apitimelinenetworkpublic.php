@@ -29,11 +29,11 @@
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  * @copyright 2015-2016 Free Software Foundation
  * @copyright 2016 Maiyannah Bishop
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
- * @link      http://postactiv.com/
+ * @license   https://www.gnu.org/licenses/agpl.html
+ * @link      http://www.postactiv.com
  */
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 class ApiTimelineNetworkPublicAction extends ApiTimelinePublicAction
 {

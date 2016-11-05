@@ -1,4 +1,7 @@
 <?php
+/****
+ * @license   https://www.gnu.org/licenses/agpl.html
+ */
 
 if (php_sapi_name() != 'cli') {
     die('not for web');

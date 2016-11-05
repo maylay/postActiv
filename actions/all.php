@@ -4,9 +4,7 @@
  * Copyright (C) 2016, Maiyannah Bishop
  * Derived from code copyright various sources:
  *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
- *
- * PHP version 5 
+ *   StatusNet (C) 2008-2012, StatusNet, Inc
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -20,6 +18,8 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * PHP version 5
  *
  * @category  Actions
  * @package   postActiv
@@ -41,11 +41,11 @@
  * @copyright 2008-2011 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
- * @link      http://postactiv.com/
+ * @license   https://www.gnu.org/licenses/agpl.html
+ * @link      http://www.postactiv.com
  */
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 class AllAction extends ShowstreamAction
 {

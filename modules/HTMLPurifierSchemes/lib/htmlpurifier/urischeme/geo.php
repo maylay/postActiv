@@ -1,8 +1,10 @@
 <?php
-
-/**
+/****
  * Validates geo (geographical coordinates) according to RFC 5870
+ *
  * @todo Filter allowed query parameters and their order
+ *
+ * @license   https://www.gnu.org/licenses/agpl.html 
  */
 
 class HTMLPurifier_URIScheme_geo extends HTMLPurifier_URIScheme

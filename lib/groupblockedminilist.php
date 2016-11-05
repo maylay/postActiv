@@ -7,6 +7,8 @@
  *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
  * PHP version 5
+ *
+ * @license   https://www.gnu.org/licenses/agpl.html 
  */
  
 if (!defined('POSTACTIV')) { exit(1); }

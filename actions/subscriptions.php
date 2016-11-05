@@ -4,13 +4,9 @@
  * Copyright (C) 2016, Maiyannah Bishop
  * Derived from code copyright various sources:
  *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
+ *   StatusNet (C) 2008-2012, StatusNet, Inc
  *
- * List of a user's subscriptions
- *
- * PHP version 5
- *
- * LICENCE: This program is free software: you can redistribute it and/or modify
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -23,19 +19,32 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ * PHP version 5
+ *
+ * List of a user's subscriptions
+ *
  * @category  Social
  * @package   postActiv
- * @author    Evan Prodromou <evan@status.net>
- * @author    Sarven Capadisli <csarven@status.net>
+ * @author    Evan Prodromou
+ * @author    Mike Cochrane <mikec@mikenz.geek.nz>
+ * @author    Sarven Capadisli
+ * @author    Robin Millette <robin@millette.info>
+ * @author    Meitar Moscovitz <meitarm@gmail.com>
+ * @author    Jeffery To <jeffery.to@gmail.com>
+ * @author    Brion Vibber <brion@pobox.com>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Craig Andrews <candrews@integralblue.com>
+ * @author    Zach Copley
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2008-2011 StatusNet, Inc.
+ * @copyright 2008-2012 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link      https://git.gnu.io/maiyannah/postActiv
+ * @license   https://www.gnu.org/licenses/agpl.html
+ * @link      http://www.postactiv.com
  */
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * A list of the user's subscriptions

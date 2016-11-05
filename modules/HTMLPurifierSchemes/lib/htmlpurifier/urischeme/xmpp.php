@@ -1,8 +1,9 @@
 <?php
-
-/**
+/****
  * Validates xmpp (for XMPP, so called JIDs)
  * @todo Validate the xmpp address
+ *
+ * @license   https://www.gnu.org/licenses/agpl.html 
  */
 
 class HTMLPurifier_URIScheme_xmpp extends HTMLPurifier_URIScheme

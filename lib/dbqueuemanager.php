@@ -28,7 +28,7 @@
  * @author    Evan Prodromou <evan@status.net>
  * @author    Brion Vibber <brion@status.net>
  * @copyright 2009-2010 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
+ * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://status.net/
  */
 
@@ -87,13 +87,13 @@ class DBQueueManager extends QueueManager
         try {
             $item = $this->decode($qi->frame);
         } catch (Exception $e) {
-            $this->_log(LOG_INFO, "[{$qi->transport}] Discarding: ".$e->getMessage());
+            $this->_log(LOG_INFO, "[{$qi->transport}] Discarding: "._ve($e->getMessage()));
             $this->_done($qi);
             return true;
         }
 
         $rep = $this->logrep($item);
-        $this->_log(LOG_DEBUG, "Got {$rep} for transport {$qi->transport}");
+        $this->_log(LOG_DEBUG, 'Got '._ve($rep).' for transport '._ve($qi->transport));
         
         try {
             $handler = $this->getHandler($qi->transport);

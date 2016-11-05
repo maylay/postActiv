@@ -1,5 +1,5 @@
 <?php
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Class for unknown extension MIME type exception
@@ -9,7 +9,7 @@ if (!defined('GNUSOCIAL')) { exit(1); }
  * @category Exception
  * @package  GNUsocial
  * @author   Mikael Nordfeldth <mmn@hethane.se>
- * @license  https://www.gnu.org/licenses/agpl-3.0.html
+ * @license   https://www.gnu.org/licenses/agpl.html
  * @link     https://gnu.io/social
  */
 

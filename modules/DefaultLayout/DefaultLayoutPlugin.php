@@ -1,6 +1,10 @@
 <?php
 /**
- * GNU social - a federating social network
+ * postActiv - a fork of the GNU Social microblogging software
+ * Copyright (C) 2016, Maiyannah Bishop
+ * Derived from code copyright various sources:
+ *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
  * Plugin that produces some of the default layouts of a GNU social site.
  *
@@ -23,7 +27,7 @@
  * @package   GNUsocial
  * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @copyright 2014 Free Software Foundation http://fsf.org
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
+ * @license   https://www.gnu.org/licenses/agpl.html
  * @link      https://www.gnu.org/software/social/
  */
 

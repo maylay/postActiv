@@ -1,8 +1,10 @@
 <?php
-
-/**
+/****
  * Validates bitcoin (Bitcoin addresses)
+ *
  * @todo validate address length and stuff
+ *
+ * @license   https://www.gnu.org/licenses/agpl.html 
  */
 
 class HTMLPurifier_URIScheme_bitcoin extends HTMLPurifier_URIScheme

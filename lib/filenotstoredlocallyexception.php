@@ -1,6 +1,10 @@
 <?php
+/****
+ *
+ * @license   https://www.gnu.org/licenses/agpl.html
+ */ 
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 class FileNotStoredLocallyException extends ServerException
 {
@@ -13,3 +17,4 @@ class FileNotStoredLocallyException extends ServerException
         parent::__construct(_('Requested local URL for a file that is not stored locally.'));
     }
 }
+?>

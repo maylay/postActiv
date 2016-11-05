@@ -1,7 +1,10 @@
 <?php
 /**
- * StatusNet - the distributed open-source microblogging tool
- * Copyright (C) 2011, StatusNet, Inc.
+ * postActiv - a fork of the GNU Social microblogging software
+ * Copyright (C) 2016, Maiyannah Bishop
+ * Derived from code copyright various sources:
+ *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
  * Answer a question
  *
@@ -24,9 +27,10 @@
  * @package   StatusNet
  * @author    Zach Copley <zach@status.net>
  * @copyright 2011 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
+ * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://status.net/
  */
+ 
 if (!defined('STATUSNET')) {
     // This check helps protect against security problems;
     // your code file can't be executed directly from the web.

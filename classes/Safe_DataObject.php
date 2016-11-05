@@ -30,11 +30,11 @@
  * @copyright 2010-2011 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
- * @link      http://postactiv.com/
+ * @license   https://www.gnu.org/licenses/agpl.html
+ * @link      http://www.postactiv.com
  */
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Extended DB_DataObject to improve a few things:

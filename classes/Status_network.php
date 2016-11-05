@@ -34,11 +34,11 @@
  * @copyright 2008-2011 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
- * @link      http://postactiv.com/ 
+ * @license   https://www.gnu.org/licenses/agpl.html
+ * @link      http://www.postactiv.com
  */
 
-if (!defined('STATUSNET') && !defined('LACONICA')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 class Status_network extends Safe_DataObject
 {

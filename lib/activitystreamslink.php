@@ -13,7 +13,7 @@
  * @category Feed
  * @package  StatusNet
  * @author   Zach Copley <zach@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
+ * @license   https://www.gnu.org/licenses/agpl.html
  * @link     http://status.net/
  */
 

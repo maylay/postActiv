@@ -11,7 +11,7 @@
  * @category Exception
  * @package  GNUsocial
  * @author   Mikael Nordfeldth <mmn@hethane.se>
- * @license  https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
+ * @license   https://www.gnu.org/licenses/agpl.html
  * @link     https://gnu.io/social
  */
 
