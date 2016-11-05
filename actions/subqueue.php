@@ -21,13 +21,14 @@
  *
  * PHP version 5
  *
- * List of group members
+ * Queue of people waiting to be approved for subscription
  *
  * @category  Group
  * @package   postActiv
- * @author    Evan Prodromou <evan@status.net>
+ * @author    Brion Vibber <brion@pobox.com>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2008-2011 StatusNet, Inc.
+ * @copyright 2011-2012 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
@@ -38,12 +39,6 @@ if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * List of group members
- *
- * @category Group
- * @package  StatusNet
- * @author   Evan Prodromou <evan@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
  */
 class SubqueueAction extends GalleryAction
 {

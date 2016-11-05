@@ -25,9 +25,21 @@
  *
  * @category  Personal
  * @package   postActiv
- * @author    Evan Prodromou <evan@status.net>
+ * @author    Matthew Gregg <matthew.gregg@gmail.com>
+ * @author    Evan Prodromou
+ * @author    Mike Cochrane <mikec@mikenz.geek.nz>
+ * @author    Sarven Capadisli
+ * @author    Robin Millette <robin@millette.info>
+ * @author    Zach Copley
+ * @author    Meitar Moscovitz <meitarm@gmail.com>
+ * @author    Adrian Lang <mail@adrianlang.de>
+ * @author    Jeffery To <jeffery.to@gmail.com>
+ * @author    Craig Andrews <candrews@integralblue.com>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Eric Helgeson <erichelgeson@gmail.com>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2008-2011 StatusNet, Inc.
+ * @copyright 2008-2012 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
@@ -38,12 +50,6 @@ if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * List of replies
- *
- * @category Personal
- * @package  StatusNet
- * @author   Evan Prodromou <evan@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
  */
 class RepliesAction extends ShowstreamAction
 {
