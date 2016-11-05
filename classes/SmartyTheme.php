@@ -49,7 +49,6 @@ class SmartyTheme {
          require_once(INSTALLDIR . "/extlib/Smarty/Smarty.class.php");
          $this->Smarty = new Smarty();
          $this->Smarty->setCacheDir(INSTALLDIR . '/extlib/Smarty/cache');
-         $this->Smarty->setConfigDir(INSTALLDIR . '/extlib/Smarty/configs');
          $this->Name = $name;
 
          // Populate the "Templates" array with system short_aliases
@@ -60,8 +59,7 @@ class SmartyTheme {
       }
       catch (exception $error)
       {
-         common_debug("Error constructing SmartyTheme class for " . $name . ": " . $error . PHP_EOL);
-         return FALSE;
+         die("Error constructing SmartyTheme class for " . $name . ": " . $error . PHP_EOL);
       }
    }
 
