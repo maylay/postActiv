@@ -129,7 +129,7 @@ function _have_config()
     return GNUsocial::haveConfig();
 }
 
-function GNUsocial_class_autoload($cls)
+function postActiv_class_autoload($cls)
 {
     if (file_exists(INSTALLDIR.'/classes/' . $cls . '.php')) {
         require_once(INSTALLDIR.'/classes/' . $cls . '.php');
@@ -146,7 +146,7 @@ function GNUsocial_class_autoload($cls)
 }
 
 // Autoload function queue, starting with our own discovery method
-spl_autoload_register('GNUsocial_class_autoload');
+spl_autoload_register('postActiv_class_autoload');
 
 /**
  * Extlibs with namespaces (or directly in extlib/)
