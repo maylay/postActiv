@@ -6,8 +6,6 @@
  *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
  *   StatusNet (C) 2008-2011, StatusNet, Inc
  *
- * PHP version 5 
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -21,10 +19,18 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ * PHP version 5
+ *
+ * Show a given peopletag on a profile
+ *
  * @category  Actions
  * @package   postActiv
+ * @author    Sashi Gowda <connect2shashi@gmail.com>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Evan Prodromou
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2010-2011 StatusNet, Inc.
+ * @copyright 2011-2012 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html

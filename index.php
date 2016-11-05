@@ -25,18 +25,18 @@
  *
  * @category  Main
  * @package   postActiv
- * @author    Evan Prodromou <evan@prodromou.name>
+ * @author    Evan Prodromou
  * @author    Gina Haeussge <osd@foosel.net>
  * @author    Mike Cochrane <mikec@mikenz.geek.nz>
  * @author    Ciaran Gultneiks <ciaran@ciarang.com>
- * @author    Robin Millette <robin@millette.name>
- * @author    Sarven Capadisli <sarven@capadisli.name>
+ * @author    Robin Millette <robin@millette.info>
+ * @author    Sarven Capadisli
  * @author    Jeffery To <jeffery.to@gmail.com>
  * @author    Tom Adams <tom@holizz.com>
  * @author    Christopher Vollick <psycotica0@gmail.com>
  * @author    Craig Andrews <candrews@integralblue.com>
  * @author    Brenda Wallace <shiny@cpan.org>
- * @author    Zach Copley <zach@copley.name>
+ * @author    Zach Copley
  * @author    Brion Vibber <brion@pobox.com>
  * @author    James Walker <walkah@walkah.net>
  * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>

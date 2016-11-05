@@ -25,9 +25,20 @@
  *
  * @category  Login
  * @package   postActiv
- * @author    Evan Prodromou <evan@status.net>
+ * @author    Evan Prodromou
+ * @author    Mike Cochrane <mikec@mikenz.geek.nz>
+ * @author    Zach Copley
+ * @author    Garret Buell <terragb@gmail.com>
+ * @author    Ciaran Gultneiks <ciaran@ciarang.com>
+ * @author    Sarven Capadisli
+ * @author    Robin Millette <robin@millette.org>
+ * @author    Jeffery To <jeffery.to@gmail.com>
+ * @author    Craig Andrews <candrews@integralblue.com>
+ * @author    Brion Vibber <brion@pobox.com>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2008-2011 StatusNet, Inc.
+ * @copyright 2008-2012 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html

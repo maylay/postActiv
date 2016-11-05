@@ -25,10 +25,11 @@
  *
  * @category  Action
  * @package   postActiv
- * @author    Evan Prodromou <evan@status.net>
- * @author    Zach Copley <zach@status.net>
+ * @author    Sashi Gowda <connect2shashi@gmail.com>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Mikeal Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2009-2011 StatusNet, Inc.
+ * @copyright 2011-2012 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html

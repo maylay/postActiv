@@ -21,10 +21,16 @@
  *
  * PHP version 5
  *
+ * A SUP action to product correct SUP json output
+ *
  * @category  Actions
  * @package   postActiv
+ * @author    Evan Prodromou
+ * @author    Ciaran Gultneiks <ciaran@ciarang.com>
+ * @author    Brion Vibber <brion@pobox.com>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2008-2011 StatusNet, Inc.
+ * @copyright 2008-2012 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
