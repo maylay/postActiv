@@ -26,7 +26,8 @@
  *
  * @category  Widget
  * @package   postActiv
- * @author    Evan Prodromou <evan@status.net>
+ * @author    Evan Prodromou
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  * @copyright 2009-2012 StatusNet, Inc.
  * @copyright 2012-2016 Free Software Foundation, Inc
  * @copyright 2016 Maiyannah Bishop

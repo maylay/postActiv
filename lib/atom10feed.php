@@ -24,11 +24,14 @@
  * PHP version 5
  *
  * @category  Feed
- * @package   StatusNet
- * @author    Zach Copley <zach@status.net>
- * @copyright 2010 StatusNet, Inc.
+ * @package   postActiv
+ * @author    Zach Copley
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ * @copyright 2010-2012 StatusNet, Inc.
+ * @copyright 2012-2016 Free Software Foundation, Inc
+ * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://status.net/
+ * @link      http://www.postactiv.com/
  */
 
 if (!defined('POSTACTIV')) { exit(1); }

@@ -21,11 +21,15 @@
  *
  * PHP version 5
  *
- * @category Exception
- * @package  GNUsocial
- * @author   Mikael Nordfeldth <mmn@hethane.se>
+ * @category  Exception
+ * @package   postActiv
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com> 
+ * @copyright 2012-2012 StatusNet, Inc.
+ * @copyright 2012-2016 Free Software Foundation, Inc
+ * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
- * @link     http://gnu.io/
+ * @link      http://www.postactiv.com/
  */
 
 if (!defined('POSTACTIV')) { exit(1); }

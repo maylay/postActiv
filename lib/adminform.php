@@ -19,16 +19,19 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Base class for administrative forms
- *
  * PHP version 5
  *
+ * Base class for administrative forms
+ *
  * @category  Widget
- * @package   StatusNet
- * @author    Zach Copley <zach@status.net>
- * @copyright 2009 StatusNet, Inc.
+ * @package   postActiv
+ * @author    Zach Copley
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com> 
+ * @copyright 2009-2012 StatusNet, Inc.
+ * @copyright 2012-2016 Free Software Foundation, Inc
+ * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://status.net/
+ * @link      http://www.postactiv.com/
  */
 
 if (!defined('POSTACTIV')) { exit(1); }

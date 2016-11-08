@@ -19,14 +19,15 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * widget for displaying a list of notice attachments
- *
  * PHP version 5
+ *
+ * widget for displaying a list of notice attachments
  *
  * @category  UI
  * @package   postActiv
- * @author    Evan Prodromou <evan@status.net>
- * @author    Sarven Capadisli <csarven@status.net>
+ * @author    Evan Prodromou
+ * @author    Sarven Capadisli
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com> 
  * @copyright 2008-2012 StatusNet, Inc.
  * @copyright 2012-2016 Free Software Foundation, Inc
  * @copyright 2016 Maiyannah Bishop

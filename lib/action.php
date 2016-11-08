@@ -24,12 +24,17 @@
  * PHP version 5
  *
  * @category  Action
- * @package   StatusNet
- * @author    Evan Prodromou <evan@status.net>
- * @author    Sarven Capadisli <csarven@status.net>
- * @copyright 2008 StatusNet, Inc.
+ * @package   postActiv
+ * @author    Evan Prodromou
+ * @author    Sarven Capadisli
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com> 
+ * @copyright 2008-2012 StatusNet, Inc.
+ * @copyright 2012-2016 Free Software Foundation, Inc
+ * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://status.net/
+ * @link      http://www.postactiv.com/
+ *
+ * @see      HTMLOutputter
  */
 
 if (!defined('POSTACTIV')) { exit(1); }
@@ -42,15 +47,6 @@ if (!defined('POSTACTIV')) { exit(1); }
  *
  * Actions are responsible for extracting and validating parameters; using
  * model classes to read and write to the database; and doing ouput.
- *
- * @category Output
- * @package  StatusNet
- * @author   Evan Prodromou <evan@status.net>
- * @author   Sarven Capadisli <csarven@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
- *
- * @see      HTMLOutputter
  */
 class Action extends HTMLOutputter // lawsuit
 {
