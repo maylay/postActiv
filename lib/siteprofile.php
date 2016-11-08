@@ -147,7 +147,6 @@ class PrivateSite extends SiteProfileSettings
                 'default' => array_merge(self::defaultPlugins(), array(
                     'ExtendedProfile'         => array(),
                     'EmailRegistration'       => array(),
-                    'MobileProfile'           => array(),
                 )),
                 'disable-OStatus' => 1,
                 'disable-WebFinger' => 1,
@@ -233,7 +232,6 @@ class SingleuserSite extends SiteProfileSettings
             'plugins' => array(
                 'core'    => self::corePlugins(),
                 'default' => array_merge(self::defaultPlugins(), array(
-                    'MobileProfile'           => array(),
                 )),
                 'disable-Directory' => 1,
             ),
