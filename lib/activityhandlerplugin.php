@@ -24,11 +24,13 @@
  * Superclass for plugins which add Activity types and such
  *
  * @category  Activity
- * @package   GNUsocial
+ * @package   postActiv
  * @author    Mikael Nordfeldth <mmn@hethane.se>
- * @copyright 2014 Free Software Foundation, Inc.
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com> 
+ * @copyright 2014-2016 Free Software Foundation, Inc
+ * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://gnu.io/social
+ * @link      http://www.postactiv.com/
  */
 
 if (!defined('POSTACTIV')) { exit(1); }

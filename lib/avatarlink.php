@@ -25,8 +25,9 @@
  *
  * @category  Feed
  * @package   postActiv
- * @author    Evan Prodromou <evan@status.net>
- * @author    Zach Copley <zach@status.net>
+ * @author    Evan Prodromou
+ * @author    Zach Copley
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  * @copyright 2010-2012 StatusNet, Inc.
  * @copyright 2012-2016 Free Software Foundation, Inc
  * @copyright 2016 Maiyannah Bishop

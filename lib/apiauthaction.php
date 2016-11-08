@@ -19,24 +19,26 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Base class for API actions that require authentication
- *
  * PHP version 5
  *
+ * Base class for API actions that require authentication
+ *
  * @category  API
- * @package   StatusNet
+ * @package   postActiv
  * @author    Adrian Lang <mail@adrianlang.de>
  * @author    Brenda Wallace <shiny@cpan.org>
  * @author    Craig Andrews <candrews@integralblue.com>
  * @author    Dan Moore <dan@moore.cx>
- * @author    Evan Prodromou <evan@status.net>
+ * @author    Evan Prodromou
  * @author    mEDI <medi@milaro.net>
- * @author    Sarven Capadisli <csarven@status.net>
- * @author    Zach Copley <zach@status.net>
- * @copyright 2009-2010 StatusNet, Inc.
- * @copyright 2009 Free Software Foundation, Inc http://www.fsf.org
+ * @author    Sarven Capadisli
+ * @author    Zach Copley
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com> 
+ * @copyright 2009-2012 StatusNet, Inc.
+ * @copyright 2012-2016 Free Software Foundation, Inc
+ * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://status.net/
+ * @link      http://www.postactiv.com/
  */
 
 /* External API usage documentation. Please update when you change how this method works. */

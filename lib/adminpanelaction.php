@@ -24,11 +24,14 @@
  * PHP version 5
  *
  * @category  UI
- * @package   StatusNet
+ * @package   postActiv
  * @author    Evan Prodromou <evan@status.net>
- * @copyright 2009 StatusNet, Inc.
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ * @copyright 2009-2012 StatusNet, Inc.
+ * @copyright 2013-2016 Free Software Foundation, Inc.
+ * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://status.net/
+ * @link      http://www.postactiv.com/
  */
 
 if (!defined('POSTACTIV')) { exit(1); }

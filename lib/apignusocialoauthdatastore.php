@@ -21,7 +21,14 @@
  *
  * PHP version 5
  *
- * @license   https://www.gnu.org/licenses/agpl.html 
+ * @category  OAuth
+ * @package   PostActiv
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com> 
+ * @copyright 2009-2012 StatusNet, Inc.
+ * @copyright 2012-2016 Free Software Foundation, Inc
+ * @copyright 2016 Maiyannah Bishop
+ * @license   https://www.gnu.org/licenses/agpl.html
+ * @link      http://www.postactiv.com/
  */
 
 if (!defined('POSTACTIV')) { exit(1); }

@@ -19,16 +19,19 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Widget to show a list of OAuth applications
- *
  * PHP version 5
  *
- * @category  Application
- * @package   StatusNet
- * @author    Zach Copley <zach@status.net>
- * @copyright 2008-2010 StatusNet, Inc.
+ * Widget to show a list of OAuth applications
+ *
+ * @category  OAuth
+ * @package   postActiv
+ * @author    Zach Copley
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com> 
+ * @copyright 2008-2012 StatusNet, Inc.
+ * @copyright 2012-2016 Free Software Foundation, Inc
+ * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://status.net/
+ * @link      http://www.postactiv.com/
  */
 
 if (!defined('POSTACTIV')) { exit(1); }

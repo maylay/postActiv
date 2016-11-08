@@ -21,20 +21,20 @@
  *
  * Base API action
  *
- * PHP version 5
- *
  * @category  API
- * @package   StatusNet
+ * @package   postActiv
  * @author    Craig Andrews <candrews@integralblue.com>
  * @author    Dan Moore <dan@moore.cx>
  * @author    Evan Prodromou <evan@status.net>
  * @author    Jeffery To <jeffery.to@gmail.com>
  * @author    Toby Inkster <mail@tobyinkster.co.uk>
- * @author    Zach Copley <zach@status.net>
- * @copyright 2009-2010 StatusNet, Inc.
- * @copyright 2009 Free Software Foundation, Inc http://www.fsf.org
+ * @author    Zach Copley
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com> 
+ * @copyright 2009-2012 StatusNet, Inc.
+ * @copyright 2012-2016 Free Software Foundation, Inc
+ * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://status.net/
+ * @link      http://www.postactiv.com/
  */
 
 /* External API usage documentation. Please update when you change how the API works. */
@@ -104,17 +104,6 @@ class ApiValidationException extends Exception { }
 
 /**
  * Contains most of the Twitter-compatible API output functions.
- *
- * @category API
- * @package  StatusNet
- * @author   Craig Andrews <candrews@integralblue.com>
- * @author   Dan Moore <dan@moore.cx>
- * @author   Evan Prodromou <evan@status.net>
- * @author   Jeffery To <jeffery.to@gmail.com>
- * @author   Toby Inkster <mail@tobyinkster.co.uk>
- * @author   Zach Copley <zach@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
  */
 class ApiAction extends Action
 {

@@ -19,6 +19,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ * PHP version 5
+ *
  * An activity
  *
  * Utilities for turning DOMish things into Activityish things
@@ -27,15 +29,16 @@
  * into some kind of reasonable superclass, so just dumped here. Might
  * be useful to have an ActivityObject parent class or something.
  *
- * PHP version 5
- *
- * @category  Feed
+ * @category  ActivityStreams
  * @package   StatusNet
- * @author    Evan Prodromou <evan@status.net>
- * @author    Zach Copley <zach@status.net>
- * @copyright 2010 StatusNet, Inc.
+ * @author    Evan Prodromou
+ * @author    Zach Copley
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com> 
+ * @copyright 2009-2012 StatusNet, Inc.
+ * @copyright 2012-2016 Free Software Foundation, Inc
+ * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://status.net/
+ * @link      http://www.postactiv.com/
  */
 
 if (!defined('POSTACTIV')) { exit(1); }

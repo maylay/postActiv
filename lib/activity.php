@@ -19,6 +19,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ * PHP version 5
+ *
  * An activity verb in class form, and the related scaffolding.
  *
  * This file also now consolidates the ActivityContext, ActivityImporter,
@@ -47,17 +49,16 @@
  *     name, and I'm propagating it. *sigh*
  * It's large enough that I've left it seperate in activityobject.php
  *
- *
- * PHP version 5
- *
  * @category  OStatus
  * @package   postActiv
- * @author    Evan Prodromou <evan@status.net>
- * @author    Zach Copley <zach@status.net>
- * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
- * @copyright 2010 StatusNet, Inc.
+ * @author    Evan Prodromou
+ * @author    Zach Copley
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ * @copyright 2010-2012 StatusNet, Inc.
+ * @copyright 2012-2016 Free Software Foundation, Inc
+ * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://status.net/
+ * @link      http://www.postactiv.com/
  */
 
 if (!defined('POSTACTIV')) { exit(1); }

@@ -26,6 +26,7 @@
  * @category  Feed
  * @package   postActiv
  * @author    Zach Copley <zach@status.net>
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com> 
  * @copyright 2010-2012 StatusNet, Inc.
  * @copyright 2012-2016 Free Software Foundation, Inc
  * @copyright 2016 Maiyannah Bishop
@@ -38,12 +39,6 @@ if (!defined('POSTACTIV')) { exit(1); }
 /**
  * Class for creating a feed that represents a collection of notices. Builds the
  * feed in memory. Get the feed as a string with AtomNoticeFeed::getString().
- *
- * @category Feed
- * @package  StatusNet
- * @author   Zach Copley <zach@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
  */
 class AtomNoticeFeed extends Atom10Feed
 {
