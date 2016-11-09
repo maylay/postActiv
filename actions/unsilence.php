@@ -23,15 +23,16 @@
  *
  * Action class to unsilence a user
  *
- * @category  Action
+ * @category  Permissions
  * @package   postActiv
- * @author    Evan Prodromou <evan@status.net>
+ * @author    Evan Prodromou
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2008-2011 StatusNet, Inc.
+ * @copyright 2008-2012 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://www.postactiv.com
+ * ============================================================================
  */
 
 if (!defined('POSTACTIV')) { exit(1); }

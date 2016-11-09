@@ -25,11 +25,11 @@
  *
  * @category  Action
  * @package   postActiv
- * @author    Evan Prodromou <evan@prodromou.name>
+ * @author    Evan Prodromou
  * @author    Mike Cochrane <mikec@mikenz.geek.nz>
  * @author    Robin Millette <millette@controlyourself.ca>
  * @author    Adrian Lang <mail@adrianlang.de>
- * @author    Zach Copley <zach@copley.name>
+ * @author    Zach Copley
  * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
  * @author    Brion Vibber <brion@pobox.com>
  * @author    Mikael Nordfeldth <mmn@hethane.se>
@@ -39,6 +39,7 @@
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://www.postactiv.com
+ * ============================================================================
  */
 
 if (!defined('POSTACTIV')) { exit(1); }

@@ -23,7 +23,7 @@
  *
  * List a user's OAuth connected applications
  *
- * @category  Settings
+ * @category  OAuth
  * @package   postActiv
  * @author    Zach Copley
  * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
@@ -38,6 +38,7 @@
  * @link      http://www.postactiv.com
  *
  * @see       SettingsAction
+ * ============================================================================ 
  */
 
 if (!defined('POSTACTIV')) { exit(1); }

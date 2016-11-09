@@ -47,6 +47,7 @@
  * @link      http://www.postactiv.com
  *
  * @see       PublicrssAction
+ * ============================================================================ 
  */
 
 if (!defined('POSTACTIV')) { exit(1); }

@@ -21,16 +21,16 @@
  * ----------------------------------------------------------------------------
  * PHP version 5
  *
- * Upload an avatar
+ * Upload an avatar for a group
  *
- * @category  Settings
+ * @category  Group
  * @package   postActiv
- * @author    Evan Prodromou <evan@prodromou.name>
- * @author    Sarven Capadisli <csarven@status.net>
+ * @author    Evan Prodromou
+ * @author    Sarven Capadisli
  * @author    Meitar Moscovitz <meitarm@gmail.com>
  * @author    Sean Murphy <sgmurphy@gmail.com>
  * @author    Adrian Lang <mail@adrianlang.de>
- * @author    Zach Copley <zach@copley.name>
+ * @author    Zach Copley
  * @author    Craig Andrews <candrews@integralblue.com>
  * @author    Jeffery To <jeffery.to@gmail.com>
  * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
@@ -38,11 +38,12 @@
  * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Akio Nishimura <akio@akionux.net>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2009-2011 StatusNet, Inc.
+ * @copyright 2009-2012 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://www.postactiv.com
+ * ============================================================================ 
  */
 
 if (!defined('POSTACTIV')) { exit(1); }

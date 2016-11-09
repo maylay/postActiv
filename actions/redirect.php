@@ -23,7 +23,7 @@
  *
  * Site access administration panel
  *
- * @category  Action
+ * @category  Admin
  * @package   postActiv
  * @author    Craig Andrews <candrews@integralblue.com>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
@@ -32,6 +32,7 @@
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://www.postactiv.com
+ * ============================================================================
  */
 
 if (!defined('POSTACTIV')) { exit(1); }
