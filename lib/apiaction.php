@@ -1,16 +1,12 @@
 <?php
-/***
+/* ============================================================================
  * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop <maiyannah@member.fsf.org>
+ * Copyright (C) 2016, Maiyannah Bishop
  * Derived from code copyright various sources:
  *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
- *
- * Base API action
- *
- * PHP version 5
- *
- * LICENCE: This program is free software: you can redistribute it and/or modify
+ *   StatusNet (C) 2008-2012, StatusNet, Inc
+ * ----------------------------------------------------------------------------
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -22,19 +18,23 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * ----------------------------------------------------------------------------
+ * Base API action
  *
  * @category  API
- * @package   StatusNet
+ * @package   postActiv
  * @author    Craig Andrews <candrews@integralblue.com>
  * @author    Dan Moore <dan@moore.cx>
  * @author    Evan Prodromou <evan@status.net>
  * @author    Jeffery To <jeffery.to@gmail.com>
  * @author    Toby Inkster <mail@tobyinkster.co.uk>
- * @author    Zach Copley <zach@status.net>
- * @copyright 2009-2010 StatusNet, Inc.
- * @copyright 2009 Free Software Foundation, Inc http://www.fsf.org
+ * @author    Zach Copley
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ * @copyright 2009-2012 StatusNet, Inc.
+ * @copyright 2012-2016 Free Software Foundation, Inc
+ * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://status.net/
+ * @link      http://www.postactiv.com/
  */
 
 /* External API usage documentation. Please update when you change how the API works. */
@@ -104,17 +104,6 @@ class ApiValidationException extends Exception { }
 
 /**
  * Contains most of the Twitter-compatible API output functions.
- *
- * @category API
- * @package  StatusNet
- * @author   Craig Andrews <candrews@integralblue.com>
- * @author   Dan Moore <dan@moore.cx>
- * @author   Evan Prodromou <evan@status.net>
- * @author   Jeffery To <jeffery.to@gmail.com>
- * @author   Toby Inkster <mail@tobyinkster.co.uk>
- * @author   Zach Copley <zach@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl-3.0.html GNU Affero General Public License version 3.0
- * @link     http://status.net/
  */
 class ApiAction extends Action
 {

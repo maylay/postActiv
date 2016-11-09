@@ -1,11 +1,11 @@
 <?php
-/***
+/* ============================================================================
  * postActiv - a fork of the GNU Social microblogging software
  * Copyright (C) 2016, Maiyannah Bishop
  * Derived from code copyright various sources:
  *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
  *   StatusNet (C) 2008-2012, StatusNet, Inc
- *
+ * ----------------------------------------------------------------------------
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -18,18 +18,18 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * ----------------------------------------------------------------------------
  * PHP version 5
  *
  * Settings for email
  *
  * @category  Settings
  * @package   postActiv
- * @author    Evan Prodromou <evan@prodromou.name>
- * @author    Zach Copley <zach@copley.name>
+ * @author    Evan Prodromou
+ * @author    Zach Copley
  * @author    Mike Cochrane <mikec@mikenz.geek.nz>
  * @author    Robin Millette <robin@millette.info>
- * @author    Sarven Capadisli <csarven@status.net>
+ * @author    Sarven Capadisli
  * @author    Jeffery To <jeffery.to@gmail.com>
  * @author    Craig Andrews <candrews@integralblue.com>
  * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
@@ -43,6 +43,7 @@
  * @link      http://www.postactiv.com
  *
  * @see       Widget
+ * ============================================================================
  */
 
 if (!defined('POSTACTIV')) { exit(1); }
