@@ -38,6 +38,7 @@
  * @link      http://www.postactiv.com
  *
  * @see       SettingsAction
+ * ============================================================================ 
  */
 
 if (!defined('POSTACTIV')) { exit(1); }

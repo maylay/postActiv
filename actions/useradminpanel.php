@@ -23,17 +23,18 @@
  *
  * User administration panel
  *
- * @category  Settings
+ * @category  Admin
  * @package   postActiv
- * @author    Evan Prodromou <evan@status.net>
- * @author    Zach Copley <zach@status.net>
- * @author    Sarven Capadisli <csarven@status.net>
+ * @author    Evan Prodromou
+ * @author    Zach Copley
+ * @author    Sarven Capadisli
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2008-2010 StatusNet, Inc.
+ * @copyright 2008-2012 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://www.postactiv.com
+ * ============================================================================
  */
 
 if (!defined('POSTACTIV')) { exit(1); }

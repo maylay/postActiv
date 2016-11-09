@@ -23,7 +23,7 @@
  *
  * Action class to sandbox an abusive user
  *
- * @category  Action
+ * @category  Permissions
  * @package   postActiv
  * @author    Brion Vibber <brion@pobox.com>
  * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
@@ -34,6 +34,7 @@
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://www.postactiv.com
+ * ============================================================================
  */
 
 if (!defined('POSTACTIV')) { exit(1); }

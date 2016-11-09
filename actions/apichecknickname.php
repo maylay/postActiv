@@ -21,7 +21,8 @@
  * ----------------------------------------------------------------------------
  * PHP version 5
  *
- * Returns 1 if nickname is available on this instance, 0 if not. Error if site is private.
+ * Returns 1 if nickname is available on this instance, 0 if not.
+ * Error if site is private.
  *
  * @category  API
  * @package   postActiv
@@ -33,6 +34,7 @@
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://www.postactiv.com
+ * ============================================================================
  */
 
 if (!defined('POSTACTIV')) { exit(1); }

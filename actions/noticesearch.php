@@ -23,12 +23,12 @@
  *
  * @category  Action
  * @package   postActiv
- * @author    Evan Prodromou <evan@prodromou.name>
+ * @author    Evan Prodromou
  * @author    Mike Cochrane <mikec@mikenz.geek.nz>
  * @author    Ciaran Gultneiks <ciaran@ciarang.com>
- * @author    Zach Copley <zach@copley.name>
- * @author    Robin Millette <robin@millette.name>
- * @author    Sarven Capadisli <sarven@capadisli.name>
+ * @author    Zach Copley
+ * @author    Robin Millette <robin@millette.info>
+ * @author    Sarven Capadisli
  * @author    Adrian Lang <mail@adrianlang.de>
  * @author    Fil <fil@rezo.net>
  * @author    Jeffrey To <jeffery.to@gmail.com>
@@ -37,11 +37,12 @@
  * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
  * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2008-2011 StatusNet, Inc.
+ * @copyright 2008-2012 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://www.postactiv.com
+ * ============================================================================
  */
 
 if (!defined('POSTACTIV')) { exit(1); }

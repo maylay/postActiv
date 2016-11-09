@@ -21,7 +21,7 @@
  * ----------------------------------------------------------------------------
  * PHP version 5
  *
- * @category  RSS
+ * @category  Feed
  * @package   postActiv
  * @author    Evan Prodromou
  * @author    Mike Cochrane <mikec@mikenz.geek.nz>
@@ -37,6 +37,7 @@
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://www.postactiv.com
+ * ============================================================================
  */
 
 if (!defined('POSTACTIV')) { exit(1); }

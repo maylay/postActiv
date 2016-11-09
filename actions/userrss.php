@@ -31,6 +31,7 @@
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://www.postactiv.com
+ * ============================================================================ 
  */
 
 if (!defined('POSTACTIV')) { exit(1); }

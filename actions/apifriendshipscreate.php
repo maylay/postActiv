@@ -25,17 +25,18 @@
  *
  * @category  API
  * @package   postActiv
- * @author    Zach Copley <zach@status.net>
- * @author    Evan Prodromou <evan@prodromou.name>
+ * @author    Zach Copley
+ * @author    Evan Prodromou
  * @author    Robin Millette <robin@millette.info>
  * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
  * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2009-2011 StatusNet, Inc.
- * @copyright 2013-2015 Free Software Foundation, Inc
+ * @copyright 2009-2012 StatusNet, Inc.
+ * @copyright 2013-2016 Free Software Foundation, Inc
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://www.postactiv.com
+ * ============================================================================
  */
 
 if (!defined('POSTACTIV')) { exit(1); }

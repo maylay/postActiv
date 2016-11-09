@@ -36,6 +36,7 @@
  * @link      http://www.postactiv.com
  *
  * @see action
+ * ============================================================================ 
  */
 
 if (!defined('POSTACTIV')) { exit(1); }
