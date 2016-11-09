@@ -1,18 +1,11 @@
 <?php
-/***
+/* ============================================================================
  * postActiv - a fork of the GNU Social microblogging software
  * Copyright (C) 2016, Maiyannah Bishop
  * Derived from code copyright various sources:
  *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
- *
- * Background job to delete prolific users without disrupting front-end too much.
- *
- * Up to 50 messages are deleted on each run through; when all messages are gone,
- * the actual account is deleted.
- *
- * PHP version 5
- *
+ *   StatusNet (C) 2008-2012, StatusNet, Inc
+ * ----------------------------------------------------------------------------
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -25,9 +18,17 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * ----------------------------------------------------------------------------
+ * PHP version 5
  *
- * @package QueueHandler
- * @maintainer Brion Vibber <brion@status.net>
+ * Background job to delete prolific users without disrupting front-end too much.
+ *
+ * Up to 50 messages are deleted on each run through; when all messages are gone,
+ * the actual account is deleted.
+ *
+ * #category  Queue
+ * @package   postActiv
+ * @author    Brion Vibber <brion@pobox.com>
  * @license   https://www.gnu.org/licenses/agpl.html
  */
 

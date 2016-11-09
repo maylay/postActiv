@@ -1,15 +1,11 @@
 <?php
-/**
+/* ============================================================================
  * postActiv - a fork of the GNU Social microblogging software
  * Copyright (C) 2016, Maiyannah Bishop
  * Derived from code copyright various sources:
  *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
- *
- * Error action.
- *
- * PHP version 5
- *
+ *   StatusNet (C) 2008-2012, StatusNet, Inc
+ * ----------------------------------------------------------------------------
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -22,6 +18,10 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * ----------------------------------------------------------------------------
+ * PHP version 5
+ *
+ * Error action.
  *
  * @category Action
  * @package  StatusNet
@@ -35,12 +35,6 @@ if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Base class for displaying HTTP errors
- *
- * @category Action
- * @package  StatusNet
- * @author   Zach Copley <zach@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl.html AGPLv3
- * @link     http://status.net/
  */
 class ErrorAction extends InfoAction
 {
