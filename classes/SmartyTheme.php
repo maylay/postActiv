@@ -29,12 +29,17 @@
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://www.postactiv.com
+ * ============================================================================
  */
-
 
 // For now, since I'm doing this as a proof of concept back port
 // I'm mostly concerned with seeing that this actually works.
 // As such a lot is missing and a lot is hardcoded
+
+// ----------------------------------------------------------------------------
+// class SmartyTheme
+//    Contains the runtime abstraction and interface to a smarty-based PA theme.
+//    It will also contain a protected smarty instance for rendering.
 public class SmartyTheme {
    protected Smarty;   // Smarty template system class object
    var Name;           // Name of template we're using
@@ -43,8 +48,7 @@ public class SmartyTheme {
    var Scripts;        // Array to hold scripts
 
    public function __construct($name) {
-      try
-      {
+      try {
          require_once(INSTALL_DIR . "/extlib/Smarty/Autoloader.php");
          $this->Smarty = new Smarty();
 
@@ -54,9 +58,7 @@ public class SmartyTheme {
          $this->Name = $name;
          require(INSTALL_DIR . "/templates/" . $this->Name . "/manifest.php");
          return TRUE;
-      }
-      catch (exception $error)
-      {
+      } catch (exception $error) {
          common_log("Error constructing SmartyTheme class for " . $name . ": " . $error . PHP_EOL);
          return FALSE;
       }
@@ -68,12 +70,9 @@ public class SmartyTheme {
    //    pulling templates from.
    public function mapTemplatesDir($url)
    {
-      try
-      {
+      try {
          $this->Smarty->setTemplatesDir($url);
-      }
-      catch (exception $error)
-      {
+      } catch (exception $error) {
          common_log("Error setting the Smarty template dir: " . $error . PHP_EOL);
       }
    }
@@ -84,12 +83,9 @@ public class SmartyTheme {
    //    compiling templates to.
    public function mapCompileDir($url)
    {
-      try
-      {
+      try {
          $this->Smarty->setCompileDir($url);
-      }
-      catch (exception $error)
-      {
+      } catch (exception $error) {
          common_log("Error setting the Smarty compile dir: " . $error . PHP_EOL);
       }
    }
@@ -101,13 +97,10 @@ public class SmartyTheme {
    //    Returns TRUE on success, FALSE on failure.
    public function mapTemplate($short_alias, $url)
    {
-      try
-      {
+      try {
          $this->Templates[$short_alias] = $url;
          return TRUE;
-      }
-      catch (exception $error)
-      {
+      } catch (exception $error) {
          common_log("Error mapping Template in SmartyTheme::mapTemplate(" . $short_alias . "," . $url . "): " . $error . PHP_EOL);
          return FALSE;
       }
@@ -127,9 +120,7 @@ public class SmartyTheme {
          if (array_key_exists($short_alias, $this->Templates))
          {
             return $this->Templates[$short_alias];
-         }
-         else
-         {
+         } else {
             return FALSE;
          }
       }
@@ -150,13 +141,10 @@ public class SmartyTheme {
    {
       try
       {
-         if (array_key_exists($short_alias, $this->Templates))
-         {
+         if (array_key_exists($short_alias, $this->Templates)) {
             $this->Smarty->display($this->Templates[$short_alias]);
             return TRUE;
-         }
-         else
-         {
+         } else {
             return FALSE;
          }
       }
@@ -174,13 +162,10 @@ public class SmartyTheme {
    //    Returns TRUE if successful, FALSE if not.
    public function assignVariable($var, $value)
    {
-      try
-      {
+      try {
          $this->Smarty->assign($var,$value);
          return TRUE;
-      }
-      catch
-      {
+      } catch {
          common_log("Error assigning Smarty variables in SmartyTheme::assignVariable(" . $var . "," . $value . "): " . $error . PHP_EOL);
          return FALSE;
       }
