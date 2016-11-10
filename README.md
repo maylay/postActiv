@@ -168,7 +168,7 @@ If you're adventurous or impatient, you may want to install the development
 version of GNU social. To get it, use the git version control tool
 <http://git-scm.com/> like so:
 
-    git clone git@git.gnu.io:maiyannah/postActiv.git
+    git clone git@git.postactiv.com:postActiv/postActiv.git
 
 In the current phase of development it is probably recommended to use git as a
 means to stay up to date with the source code. You can choose between these
