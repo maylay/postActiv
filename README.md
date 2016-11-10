@@ -188,9 +188,9 @@ There are several ways to get more information about GNU social.
 <https://community.highlandarrow.com/postActiv>
 
 * psotActiv has a bug tracker for any defects you may find, or ideas for
-  making things better. <https://git.gnu.io/maiyannah/postActiv/issues/>
-* Patches are welcome, preferrably to our repository on git.gnu.io. 
-  <https://git.gnu.io/maiyannah/postActiv>
+  making things better. <https://git.postactiv.com/postActiv/postActiv/issues>
+* Patches are welcome, preferrably to our repository on git.postactiv.com.
+  <https://git.postactiv.com/postActiv/postActiv/>
 * There is a users mailing list at <users@postactiv.com>
 
 Credits
