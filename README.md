@@ -107,7 +107,7 @@ The minimum requirements to run postActiv are the following:
 
 * PHP: PHP 5 or higher is neccesary.  We recommend 5.4.  PHP 7 should work but
   is untested so there's probably some stuff that won't work properly.
-* MariaDB: You need either a MariaDB or MySQL database available for postActiv
+* MySQL: You need either a MariaDB or MySQL database available for postActiv
   to store information in.
 * Web server: You must have either an Apache, nginx, or Litespeed web server
   configured with PHP support to serve up postActiv.  We recommend Apache, but
