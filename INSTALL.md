@@ -1,4 +1,4 @@
-TABLE OF CONTENTS
+INSTALLING POSTACTIV
 =================
 * Prerequisites
     - PHP modules
@@ -29,9 +29,9 @@ run correctly.
 - PHP 5.5+      For newer versions, some functions that are used may be
                 disabled by default, such as the pcntl_* family. See the
                 section on 'Queues and daemons' for more information.
-- MariaDB 5+    GNU Social uses, by default, a MariaDB server for data
-                storage. Versions 5.x and 10.x have both reportedly
-                worked well. It is also possible to run MySQL 5.5+.
+- MySQL 5+      postActiv supports MySQL 5.5+ by default.  MariaDB should
+                also work in theory but can run into some obscure errors.
+                postgreSQL support is currently in development
 - Web server    Apache, lighttpd and nginx will all work. CGI mode is
                 recommended and also some variant of 'suexec' (or a
                 proper setup php-fpm pool)
@@ -93,15 +93,20 @@ Installation
 Getting it up and running
 -------------------------
 
-Installing the basic GNU Social web component is relatively easy,
-especially if you've previously installed PHP/MariaDB packages.
+Installing the basic postActiv web component is relatively easy,
+especially if you've previously installed PHP/MySQL packages.
 
+There's two methods to installing the software on your server:
+using the archive bundles, or using git-scm version control.
+
+Installing from the Archive Bundle
+----------------------------------
 1. Unpack the tarball you downloaded on your Web server. Usually a
    command like this will work:
 
-       tar zxf gnusocial-*.tar.gz
+       tar zxf postactiv-*.tar.gz
 
-   ...which will make a gnusocial-x.y.z subdirectory in your current
+   ...which will make a postactiv-x.y.z subdirectory in your current
    directory. (If you don't have shell access on your Web server, you
    may have to unpack the tarball on your local computer and FTP the
    files to the server.)
@@ -109,9 +114,9 @@ especially if you've previously installed PHP/MariaDB packages.
 2. Move the tarball to a directory of your choosing in your Web root
    directory. Usually something like this will work:
 
-       mv gnusocial-x.y.z /var/www/gnusocial
+       mv postactiv-x.y.z /var/www/postactiv
 
-   This will often make your GNU Social instance available in the gnusocial
+   This will often make your postActiv instance available in the postactiv
    path of your server, like "http://example.net/gnusocial". "social" or
    "blog" might also be good path names. If you know how to configure 
    virtual hosts on your web server, you can try setting up
@@ -126,23 +131,23 @@ especially if you've previously installed PHP/MariaDB packages.
    however that 'a+w' will give _all_ users write access and securing the
    webserver is not within the scope of this document.
 
-       chmod a+w /var/www/gnusocial/
+       chmod a+w /var/www/postactiv/
 
    On some systems, this will work as a more secure alternative:
 
-       chgrp www-data /var/www/gnusocial/
-       chmod g+w /var/www/gnusocial/
+       chgrp www-data /var/www/postactiv/
+       chmod g+w /var/www/postactiv/
 
    If your Web server runs as another user besides "www-data", try
    that user's default group instead. As a last resort, you can create
-   a new group like "gnusocial" and add the Web server's user to the group.
+   a new group like "postactiv" and add the Web server's user to the group.
 
 4. You should also take this moment to make your 'avatar' and 'file' sub-
    directories writeable by the Web server. The _insecure_ way to do
    this is:
 
-       chmod a+w /var/www/gnusocial/avatar
-       chmod a+w /var/www/gnusocial/file
+       chmod a+w /var/www/postactiv/avatar
+       chmod a+w /var/www/postactiv/file
 
    You can also make the avatar, and file directories just writable by
    the Web server group, as noted above.
@@ -152,27 +157,27 @@ especially if you've previously installed PHP/MariaDB packages.
 
        mysqladmin -u "root" -p create social
 
-   Note that GNU Social should have its own database; you should not share
+   Note that postActiv should have its own database; you should not share
    the database with another program. You can name it whatever you want,
    though.
 
    (If you don't have shell access to your server, you may need to use
    a tool like phpMyAdmin to create a database. Check your hosting
-   service's documentation for how to create a new MariaDB database.)
+   service's documentation for how to create a new MySQL database.)
 
-6. Create a new database account that GNU Social will use to access the
+6. Create a new database account that postActiv will use to access the
    database. If you have shell access, this will probably work from the
-   MariaDB shell:
+   MySQL shell:
 
        GRANT ALL on social.*
        TO 'social'@'localhost'
-       IDENTIFIED BY 'agoodpassword';
+       IDENTIFIED BY 'anexcellentpassword';
 
    You should change the user identifier 'social' and 'agoodpassword'
    to your preferred new database username and password. You may want to
-   test logging in to MariaDB as this new user.
+   test logging in to MySQL as this new user.
 
-7. In a browser, navigate to the GNU Social install script; something like:
+7. In a browser, navigate to the postActiv install script; something like:
 
        https://social.example.net/install.php
 
@@ -183,11 +188,107 @@ especially if you've previously installed PHP/MariaDB packages.
 8. You should now be able to navigate to your social site's main directory
    and see the "Public Timeline", which will probably be empty. You can
    now register new user, post some notices, edit your profile, etc.
+   
+Installing using git-scm
+------------------------
+Using git-scm to install the software will allow you to keep much more easily
+up to date with the latest version, since you can just use git to retrieve
+the most recent version of the branch you want to run and it will handle the
+rest.
+
+It should go without saying, this method requires git installed to use.
+
+1. Download the public access key from the repository, which will allow
+   git read-only access to the repository.  This allows you to download the
+   repository but not push or commit changes to it.  You can find it here:
+
+   https://git.postactiv.com/postActiv/postActiv/raw/master/pa-public-access.ppk
+
+2. Add the public access key to your SSH keyring.  How to do so will depend
+   on your SSH client.  In Windows using PuTTY, just add the key to pageant.
+   In Linux using openssh-client, copy the sections labelled public and
+   private into the appropriate sections in your SSH configuration.
+
+3. With the key loaded, make switch to the directory that you want to install
+   postActiv into.  For example, /var/www/postactiv
+   
+4. Clone the git repository into this directory with the following command:
+
+   git clone git@git.postactiv.com:postActiv/postActiv.git
+
+   This will take a moment and download all the files that comprise the
+   postActiv installation.  If you get an error that you're not authenticated,
+   it likely means you do not have the public access key in your keyring.
+   Ensure you do and check again.
+
+5. Make your target directory writeable by the Web server, please note
+   however that 'a+w' will give _all_ users write access and securing the
+   webserver is not within the scope of this document.
+
+       chmod a+w /var/www/postactiv/
+
+   On some systems, this will work as a more secure alternative:
+
+       chgrp www-data /var/www/postactiv/
+       chmod g+w /var/www/postactiv/
+
+   If your Web server runs as another user besides "www-data", try
+   that user's default group instead. As a last resort, you can create
+   a new group like "postactiv" and add the Web server's user to the group.
+
+6. You should also take this moment to make your 'avatar' and 'file' sub-
+   directories writeable by the Web server. The _insecure_ way to do
+   this is:
+
+       chmod a+w /var/www/postactiv/avatar
+       chmod a+w /var/www/postactiv/file
+
+   You can also make the avatar, and file directories just writable by
+   the Web server group, as noted above.
+
+7. Create a database to hold your site data. Something like this
+   should work (you will be prompted for your database password):
+
+       mysqladmin -u "root" -p create social
+
+   Note that postActiv should have its own database; you should not share
+   the database with another program. You can name it whatever you want,
+   though.
+
+   (If you don't have shell access to your server, you may need to use
+   a tool like phpMyAdmin to create a database. Check your hosting
+   service's documentation for how to create a new MariaDB database.)
+
+8. Create a new database account that postActiv will use to access the
+   database. If you have shell access, this will probably work from the
+   MySQL shell:
+
+       GRANT ALL on social.*
+       TO 'social'@'localhost'
+       IDENTIFIED BY 'anexcellentpassword';
+
+   You should change the user identifier 'social' and 'agoodpassword'
+   to your preferred new database username and password. You may want to
+   test logging in to MySQL as this new user.
+
+9. In a browser, navigate to the postActiv install script; something like:
+
+       https://social.example.net/install.php
+
+   Enter the database connection information and your site name. The
+   install program will configure your site and install the initial,
+   almost-empty database.
+
+10. You should now be able to navigate to your social site's main directory
+   and see the "Public Timeline", which will probably be empty. You can
+   now register new user, post some notices, edit your profile, etc.
+
+
 
 Fancy URLs
 ----------
 
-By default, GNU Social will use URLs that include the main PHP program's
+By default, postActiv will use URLs that include the main PHP program's
 name in them. For example, a user's home profile might be found at either
 of these URLS depending on the webserver's configuration and capabilities:
 
