@@ -21,10 +21,25 @@
  * ----------------------------------------------------------------------------
  * PHP version 5
  *
- * @category  Actions
+ * Action class to contain Tag actions.
+ *
+ * @category  Tags
  * @package   postActiv
+ * @author    Mike Cochrane <mikec@mikenz.geek.nz>
+ * @author    Evan Prodromou
+ * @author    Ciaran Gultneiks <ciaran@ciarang.com>
+ * @author    Zach Copley
+ * @author    Sarven Capadisli
+ * @author    Adrian Lang <mail@adrianlang.de>
+ * @author    Meitar Moscovitz <meitarm@gmail.com>
+ * @author    Robin Millette <robin@millette.info>
+ * @author    Craig Andrews <candrews@integralblue.com>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Julien C <chaumond@gmail.com>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2015-2016 Free Software Foundation, Inc.
+ * @copyright 2008-2012 StatusNet, Inc.
+ * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://www.postactiv.com

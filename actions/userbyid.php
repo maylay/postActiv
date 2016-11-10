@@ -26,14 +26,14 @@
  * @category  Action
  * @package   postActiv
  * @author    Evan Prodromou
- * @author    Robin Millette <millette@status.net>
+ * @author    Robin Millette <robin@millette.info>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  * @copyright 2008-2012 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://www.postactiv.com
- * ============================================================================ 
+ * ============================================================================
  */
 
 if (!defined('POSTACTIV')) { exit(1); }
