@@ -24,9 +24,9 @@
  * User groups information
  *
  * @category  Personal
- * @package   StatusNet
- * @author    Evan Prodromou <evan@status.net>
- * @author    Sarven Capadisli <csarven@status.net>
+ * @package   postActiv
+ * @author    Evan Prodromou
+ * @author    Sarven Capadisli
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  * @copyright 2008-2012 StatusNet, Inc.
  * @copyright 2013-2016 Free Software Foundation, Inc.

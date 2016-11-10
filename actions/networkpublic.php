@@ -26,11 +26,11 @@
  * @package   postActiv
  * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2013-2016 Free Sofware Foundation, Inc.
+ * @copyright 2015-2016 Free Sofware Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://www.postactiv.com
- * ============================================================================ 
+ * ============================================================================
  */
 
 if (!defined('POSTACTIV')) { exit(1); }

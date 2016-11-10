@@ -23,7 +23,7 @@
  *
  * Issue temporary OAuth credentials (a request token)
  *
- * @category  API
+ * @category  OAuth
  * @package   postActiv
  * @author    Zach Copley
  * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>

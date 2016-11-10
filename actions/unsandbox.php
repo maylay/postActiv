@@ -23,7 +23,7 @@
  *
  * Action class to unsandbox a user
  *
- * @category  Action
+ * @category  Permissions
  * @package   postActiv
  * @author    Evan Prodromou
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
@@ -32,7 +32,7 @@
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://www.postactiv.com
- * ============================================================================ 
+ * ============================================================================
  */
 
 if (!defined('POSTACTIV')) { exit(1); }
