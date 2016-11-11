@@ -107,7 +107,7 @@ The minimum requirements to run postActiv are the following:
 
 * PHP: PHP 5 or higher is neccesary.  We recommend 5.4.  PHP 7 should work but
   is untested so there's probably some stuff that won't work properly.
-* MariaDB: You need either a MariaDB or MySQL database available for postActiv
+* MySQL: You need either a MariaDB or MySQL database available for postActiv
   to store information in.
 * Web server: You must have either an Apache, nginx, or Litespeed web server
   configured with PHP support to serve up postActiv.  We recommend Apache, but
@@ -168,7 +168,7 @@ If you're adventurous or impatient, you may want to install the development
 version of GNU social. To get it, use the git version control tool
 <http://git-scm.com/> like so:
 
-    git clone git@git.gnu.io:maiyannah/postActiv.git
+    git clone git@git.postactiv.com:postActiv/postActiv.git
 
 In the current phase of development it is probably recommended to use git as a
 means to stay up to date with the source code. You can choose between these
@@ -188,9 +188,9 @@ There are several ways to get more information about GNU social.
 <https://community.highlandarrow.com/postActiv>
 
 * psotActiv has a bug tracker for any defects you may find, or ideas for
-  making things better. <https://git.gnu.io/maiyannah/postActiv/issues/>
-* Patches are welcome, preferrably to our repository on git.gnu.io. 
-  <https://git.gnu.io/maiyannah/postActiv>
+  making things better. <https://git.postactiv.com/postActiv/postActiv/issues>
+* Patches are welcome, preferrably to our repository on git.postactiv.com.
+  <https://git.postactiv.com/postActiv/postActiv/>
 * There is a users mailing list at <users@postactiv.com>
 
 Credits

@@ -20,3 +20,9 @@ at the following locations:
 * [Plugin Development](doc/Plugin_development.md)
 * [Community Plugins](http://www.skilledtests.com/wiki/GNU_social_plugins)
 
+You can find postActiv's own repository of user plugins at:
+https://git.postactiv.com/explore/projects?group=&scope=&sort=&tag=postactiv-plugin&visibility_level=
+
+If you wish access to the gitlab install for purpose of creating your own
+plugin project, we'd love that!  Just email <users@postactiv.com> to ask and
+one of the administrators will create an account for you.

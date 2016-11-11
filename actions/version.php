@@ -26,8 +26,14 @@
  * @category  Info
  * @package   postActiv
  * @author    Evan Prodromou
+ * @author    Sarven Capadisli
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Craig Andrews <candrews@integralblue.com>
+ * @author    Zach Copley
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  * @copyright 2008-2012 SatusNet, Inc
+ * @copyright 2012-2016 Free Software Foundation, Inc.
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://www.postactiv.com
