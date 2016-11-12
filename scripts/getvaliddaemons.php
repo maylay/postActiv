@@ -26,6 +26,8 @@
  */
 
 define('INSTALLDIR', realpath(dirname(__FILE__) . '/..'));
+define('POSTACTIV',true);
+require_once(INSTALLDIR . "/modules/ActivityVerb/lib/activityverbhandlerplugin\.php");
 
 $helptext = <<<ENDOFHELP
 getvaliddaemons.php - print out a list of valid daemons that should be started
