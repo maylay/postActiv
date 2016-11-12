@@ -26,7 +26,6 @@
  */
 
 define('INSTALLDIR', realpath(dirname(__FILE__) . '/..'));
-define('POSTACTIV',true);
 require_once(INSTALLDIR . "/modules/ActivityVerb/lib/activityverbhandlerplugin\.php");
 
 $helptext = <<<ENDOFHELP
