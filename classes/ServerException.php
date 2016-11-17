@@ -53,6 +53,19 @@ define("SERVER_EXCEPTION_UNKNOWN_MIME_EXTENSION", 500);
 define("SERVER_EXCEPTION_UNKNOWN_EXTENSION", 416);
 define("SERVER_EXCEPTION_FILE_NOT_HERE", 410);
 define("SERVER_EXCEPTION_FILE_NOT_FOUND", 404);
+define("SERVER_EXCEPTION_NO_RESULT_FOUND", 404);
+define("SERVER_EXCEPTION_USER_NOT_FOUND", 404);
+define("SERVER_EXCEPTION_GROUP_NOT_FOUND", 404);
+define("SERVER_EXCEPTION_NO_HANDLER_FOR_TRANSPORT", 500);
+define("SERVER_EXCEPTION_PROFILE_NOT_FOUND", 404);
+define("SERVER_EXCEPTION_PARENT_NOTICE_NOT_FOUND", 404);
+define("SERVER_EXCEPTION_NO_OBJECT_TYPE", 422);
+define("SERVER_EXCEPTION_CANT_FIND_ROUTE", 404);
+define("SERVER_EXCEPTION_METHOD_NOT_IMPLEMENTED", 415);
+define("SERVER_EXCEPTION_ACCT_WITH_NO_URI", 500);
+define("SERVER_EXCEPTION_MALFORMED_CONFIG", 500);
+define("SERVER_EXCEPTION_INVALID_FILENAME", 500);
+define("SERVER_EXCEPTION_INVALID_URI", 404);
 
 /* ----------------------------------------------------------------------------
  * class ServerException
@@ -61,9 +74,13 @@ define("SERVER_EXCEPTION_FILE_NOT_FOUND", 404);
  */
 class ServerException extends Exception
 {
-    public function __construct($message = null, $code = SERVER_EXCEPTION) {
+    public function __construct($message = null, $code = SERVER_EXCEPTION, Exception $previous = null, $severity = LOG_ERR) {
         parent::__construct($message, $code);
-        common_log(LOG_ERR, $message . " (" . $code .")");
+        if ($severity==LOG_DEBUG) {
+           common_debug($message . " (" . $code . ")");
+        } else {
+           common_log($severity, $message . " (" . $code .")");
+        }
     }
 
     public function __toString() {
@@ -242,6 +259,350 @@ class FileNotFoundException extends ServerException
         $msg = 'File not found exception for: '._ve($this->path);
         common_debug($msg);
         parent::__construct(_('File not found in filesystem.'), SERVER_EXCEPTION_FILE_NOT_FOUND);
+    }
+}
+
+/* ----------------------------------------------------------------------------
+ * class NoResultException
+ *    Class for an exception when a database lookup returns no results
+ */
+class NoResultException extends ServerException
+{
+    public $obj;    // The object with query that gave no results
+
+    public function __construct(Memcached_DataObject $obj)
+    {
+        $this->obj = $obj;
+        // We could log an entryhere with the search parameters
+        $msg = sprintf(_('No result found on %s lookup.'), get_class($obj));
+        parent::__construct($msg, SERVER_EXCEPTION_NO_RESULT_FOUND, null, LOG_DEBUG);
+    }
+}
+
+/* ----------------------------------------------------------------------------
+ * class NoSuchUserException
+ *    Class for a server exception caused by a user lookup which fails.
+ */
+class NoSuchUserException extends ServerException
+{
+    public $data = array();
+
+    /**
+     * constructor
+     *
+     * @param array $data user search criteria
+     */
+
+    public function __construct(array $data)
+    {
+        // filter on unique keys for local users
+        foreach(array('id', 'email', 'nickname') as $key) {
+            if (isset($data[$key]) && !empty($data[$key])) {
+                $this->data[$key] = $data[$key];
+            }
+        }
+
+        // Here we could log the failed lookup
+        $msg = _('No such user found.');
+        parent::__construct($msg, SERVER_EXCEPTION_USER_NOT_FOUND, null, LOG_DEBUG);
+    }
+}
+
+/* ----------------------------------------------------------------------------
+ * class NoSuchGroupException
+ *    Class for a server exception caused by a group lookup which fails.
+ */
+class NoSuchGroupException extends ServerException
+{
+    public $data = array();
+
+    /**
+     * constructor
+     *
+     * @param array $data User_group search criteria
+     */
+
+    public function __construct(array $data)
+    {
+        // filter on unique keys for User_group entries
+        foreach(array('id', 'profile_id') as $key) {
+            if (isset($data[$key]) && !empty($data[$key])) {
+                $this->data[$key] = $data[$key];
+            }
+        }
+
+        // Here we could log the failed lookup
+        $msg = _('No such group found.');
+        parent::__construct($msg, SERVER_EXCEPTION_GROUP_NOT_FOUND, null, LOG_DEBUG);
+    }
+}
+
+/* ----------------------------------------------------------------------------
+ * class NoQueueHandlerException
+ *    Class for a server exception caused by finding no queue handler for a 
+ *    given transport.  This likely is a misconfiguration.
+ */
+class NoQueueHandlerException extends ServerException
+{
+    public $transport;    // The object with query that gave no results
+
+    public function __construct($transport)
+    {
+        $this->transport = $transport;
+        $msg = sprintf(_('No queue handler found for transport %s.'), _ve($this->transport));
+        parent::__construct($msg, SERVER_EXCEPTION_NO_HANDLER_FOR_TRANSPORT, null, LOG_ERR);
+    }
+}
+/* -----------------------------------------------------------------------------
+ * class NoProfileException
+ *    Parent class for an exception when a profile is missing.
+ */
+class NoProfileException extends ServerException
+{
+    public $profile_id = null;
+
+    public function __construct($profile_id, $msg=null)
+    {
+        $this->profile_id = $profile_id;
+
+        if ($msg === null) {
+            // TRANS: Exception text shown when no profile can be found for a user.
+            // TRANS: %u is a profile ID (number).
+            $msg = sprintf(_('There is no profile with id==%u'), $this->profile_id);
+        }
+
+        parent::__construct($msg, SERVER_EXCEPTION_PROFILE_NOT_FOUND, null, LOG_INFO);
+    }
+}
+
+/* ----------------------------------------------------------------------------
+ * class UserNoProfileException
+ *    Class for an exception when the user profile is missing
+ */
+class UserNoProfileException extends NoProfileException
+{
+    protected $user = null;
+
+   /**
+    * constructor
+    *
+    * @param User $user User that's missing a profile
+    */
+   public function __construct(User $user)
+   {
+      $this->user = $user;
+
+      // TRANS: Exception text shown when no profile can be found for a user.
+      // TRANS: %1$s is a user nickname, $2$d is a user ID (number).
+      $msg = sprintf(_('User %1$s (%2$d) has no profile record.'),
+                       $user->nickname, $user->id);
+
+      parent::__construct($user->id, $msg);
+   }
+
+   /**
+    * Accessor for user
+    *
+    * @return User the user that triggered this exception
+    */
+   protected function getUser() {
+      return $this->user;
+   }
+}
+
+/* ----------------------------------------------------------------------------
+ * class GroupNoProfileException
+ *    Basically UserNoProfileException, but for groups
+ */
+class GroupNoProfileException extends NoProfileException
+{
+   protected $group = null;
+
+   /**
+    * constructor
+    *
+    * @param User_group $user User_group that's missing a profile
+    */
+   public function __construct(User_group $group)
+   {
+      $this->group = $group;
+
+      // TRANS: Exception text shown when no profile can be found for a group.
+      // TRANS: %1$s is a group nickname, $2$d is a group profile_id (number).
+      $message = sprintf(_('Group "%1$s" (%2$d) has no profile record.'),
+                           $group->nickname, $group->getID());
+
+      parent::__construct($group->profile_id, $message);
+   }
+
+   /**
+    * Accessor for user
+    *
+    * @return User_group the group that triggered this exception
+    */
+   protected function getGroup()
+   {
+       return $this->group;
+   }
+}
+
+/* ----------------------------------------------------------------------------
+ * class NoParentNoticeException
+ *    Class for a server exception caused by a notice not having a parent.
+ *    This happens a lot, since many notices are not part of an existing convo,
+ *    so I have put it in LOG_DEBUG severity level.
+ */
+class NoParentNoticeException extends ServerException
+{
+    public $notice;    // The notice which has no parent
+
+    public function __construct(Notice $notice)
+    {
+        $this->notice = $notice;
+        $msg = sprintf(_('No parent for notice with ID "%s".'), $this->notice->id);
+        parent::__construct($msg, SERVER_EXCEPTION_PARENT_NOTICE_NOT_FOUND, null, LOG_DEBUG);
+    }
+}
+
+/* ----------------------------------------------------------------------------
+ * class NoAvatarException
+ *    Class for a server exception caused by not being able to find the avatar
+ *    for a given user.  A user might not have set one, so I put this at 
+ *    LOG_DEBUG severity since it can happen during normal operation.
+ */
+class NoAvatarException extends NoResultException
+{
+    public $target;
+
+    public function __construct(Profile $target, Avatar $obj)
+    {
+        $this->target = $target;
+        parent::__construct($obj);
+    }
+}
+
+/* ----------------------------------------------------------------------------
+ * class NoObjectTypeException
+ *    Class for a server exception caused by a notice having no given type;
+ *    most often this will happen because of an unrecognized activity verb.
+ *    Since this is not neccesarialy an error, but rather a federation
+ *    incompatability, I have put it in LOG_WARNING severity.
+ */
+class NoObjectTypeException extends ServerException
+{
+    public $stored;    // The object with query that gave no results
+
+    public function __construct(Notice $stored)
+    {
+        $this->stored = $stored;
+        $msg =
+        parent::__construct($msg, SERVER_EXCEPTION_NO_OBJECT_TYPE, null, LOG_WARNING);
+    }
+}
+
+/* ----------------------------------------------------------------------------
+ * class NoRouteMapException
+ *    Class for a server exception caused by not finding a route map to the 
+ *    given location.  This happens in normal operation with 404 errors but can
+ *    also happen with malfunctioning or misprogrammed plugins, so I have given
+ *    it LOG_DEBUG severity.
+ */
+class NoRouteMapException extends ServerException
+{
+    public $path;    // The object with query that gave no results
+
+    public function __construct($path)
+    {
+        $this->path = $path;
+        $msg = sprintf(_('Could not find a handler for the given path %s.'), _ve($this->path));
+        parent::__construct($msg, SERVER_EXCEPTION_CANT_FIND_ROUTE, null, LOG_DEBUG);
+    }
+}
+
+/* -----------------------------------------------------------------------------
+ * class MethodNotImplementedException
+ *    Class for a server exception caused when we recognize what the client is
+ *    attempting to request, but postActiv does not currently support it.  This
+ *    is caused internally by malfunctioning plugins, usually, so I have assigned
+ *    it LOG_WARNING severity.
+ */
+class MethodNotImplementedException extends ServerException
+{
+   public function __construct($method)
+   {
+      $msg = sprintf(_('Method %s not implemented'), $method);
+      parent::__construct($msg, SERVER_EXCEPTION_METHOD_NOT_IMPLEMENTED, null, LOG_WARNING);
+   }
+}
+
+/* ----------------------------------------------------------------------------
+ * class ProfileNoAcctUriException
+ *    Class for a server exception caused by finding no URI associated with an
+ *    account.  This represents a malformed DB entry, usually.
+ */
+class ProfileNoAcctUriException extends ServerException
+{
+    public $profile = null;
+
+    public function __construct(Profile $profile, $msg=null)
+    {
+        $this->profile = $profile;
+
+        if ($msg === null) {
+            // TRANS: Exception text shown when no profile can be found for a user.
+            // TRANS: %1$s is a user nickname, $2$d is a user ID (number).
+            $msg = sprintf(_('Could not get an acct: URI for profile with id==%u'), $this->profile->id);
+        }
+
+        parent::__construct($msg, SERVER_EXCEPTION_ACCT_WITH_NO_URI);
+    }
+}
+
+/* ----------------------------------------------------------------------------
+ * class ConfigException
+ *    Class for a server exception caused by a malformed config.php
+ */
+class ConfigException extends ServerException
+{
+    public function __construct($message=null) {
+        parent::__construct($message, SERVER_EXCEPTION_MALFORMED_CONFIG);
+    }
+}
+
+/* ----------------------------------------------------------------------------
+ * class InvalidFilenameException
+ *    Class for a server exception caused by passing an illegal filename as a
+ *    parameter.  This represents likely a failure to save something, so I have
+ *    assigned it a LOG_WARNING severity.
+ */
+class InvalidFilenameException extends ServerException
+{
+    public $filename = null;
+
+    public function __construct($filename)
+    {
+        $this->filename = $filename;
+        // TODO: We could log an entry here with the search parameters
+        $msg = _('Invalid filename.');
+        parent::__construct($msg, SERVER_EXCEPTION_INVALID_FILENAME, null, LOG_WARNING);
+    }
+}
+
+/* ----------------------------------------------------------------------------
+ * class InvalidUriException
+ *    Class for an exception when a URL is invalid.  I put this in LOG_INFO 
+ *    since it can be useful to find federation errors in normal operation.
+ */
+class InvalidUrlException extends ServerException
+{
+    public $url = null;
+
+    public function __construct($url)
+    {
+        $this->url = $url;
+        // TODO: We could log an entry here with the search parameters
+        $msg = _('Invalid URL.');
+        parent::__construct($msg, SERVER_EXCEPTION_INVALID_URI, null, LOG_INFO);
     }
 }
 ?>
