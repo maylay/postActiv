@@ -23,6 +23,9 @@
  *
  * ServerException and descendant classes as well as the canonical error 
  * definitions
+ *
+ * These classes represent various internal server errors that ususally are not
+ * fixable by the end user.
  * ----------------------------------------------------------------------------
  * @category  Exception
  * @package   postActiv
@@ -90,7 +93,7 @@ class ServerException extends Exception
 
 /* ----------------------------------------------------------------------------
  * class AlreadyFulfilledException
- *    Class for an exception when trying to do something that was probably 
+ *    Class for an exception when trying to do something that was probably
  *    already done.
  *
  *    This is a common case for example when remote sites are not up to date
