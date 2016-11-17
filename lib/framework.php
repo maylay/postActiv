@@ -27,9 +27,9 @@
 if (!defined('POSTACTIV')) { exit(1); }
 
 define('GNUSOCIAL_ENGINE', 'postActiv');
-define('GNUSOCIAL_ENGINE_URL', 'https://git.gnu.io/maiyannah/postActiv');
+define('GNUSOCIAL_ENGINE_URL', 'https://www.postactiv.com/');
 
-define('GNUSOCIAL_BASE_VERSION', '1.0.0');
+define('GNUSOCIAL_BASE_VERSION', '1.0.1');
 define('GNUSOCIAL_LIFECYCLE', 'dev'); // 'dev', 'alpha[0-9]+', 'beta[0-9]+', 'rc[0-9]+', 'release'
 
 define('GNUSOCIAL_VERSION', GNUSOCIAL_BASE_VERSION . '-' . GNUSOCIAL_LIFECYCLE);
@@ -207,4 +207,8 @@ function PEAR_ErrorToPEAR_Exception(PEAR_Error $err)
     }
     throw new PEAR_Exception($err->getMessage());
 }
+
+// New exception handling locations/classes
+require_once INSTALLDIR.'/classes/ServerException.php';
+
 ?>
