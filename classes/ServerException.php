@@ -69,6 +69,7 @@ define("SERVER_EXCEPTION_ACCT_WITH_NO_URI", 500);
 define("SERVER_EXCEPTION_MALFORMED_CONFIG", 500);
 define("SERVER_EXCEPTION_INVALID_FILENAME", 500);
 define("SERVER_EXCEPTION_INVALID_URI", 404);
+define("SERVER_EXCEPTION_CANT_HASH", 500);
 
 /* ----------------------------------------------------------------------------
  * class ServerException
@@ -619,7 +620,7 @@ class PasswordHashException extends ServerException
 {
     public $obj;    // The object with query that gave no results
 
-    public function __construct($msg=null, $code=500)
+    public function __construct($msg=null, $code=SERVER_EXCEPTION_CANT_HASH)
     {
         if ($msg === null) {
             $msg = _('Password hashing failed.');
