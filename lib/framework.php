@@ -210,5 +210,6 @@ function PEAR_ErrorToPEAR_Exception(PEAR_Error $err)
 
 // New exception handling locations/classes
 require_once INSTALLDIR.'/classes/ServerException.php';
+require_once INSTALLDIR.'/classes/ClientException.php';
 
 ?>
