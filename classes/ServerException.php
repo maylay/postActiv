@@ -72,6 +72,7 @@ define("SERVER_EXCEPTION_INVALID_URI", 404);
 define("SERVER_EXCEPTION_CANT_HASH", 500);
 define("SERVER_EXCEPTION_FEED_SUB_FAILURE", 416);
 define("SERVER_EXCEPTION_OSTATUS_SHADOW_FOUND", 500);
+define("SERVER_EXCEPTION_WEBFINGER_FAILED", 500);
 
 /* ----------------------------------------------------------------------------
  * class ServerException
@@ -676,6 +677,26 @@ class OStatusShadowException extends Exception
     function __construct(Profile $profile, $message) {
         $this->profile = $profile;
         parent::__construct($message, SERVER_EXCEPTION_OSTATUS_SHADOW_FOUND, null, LOG_INFO);
+    }
+}
+
+/* ----------------------------------------------------------------------------
+ * class WebFingerReconstructionException
+ *    Class for a server exception cause when a WebFinger acct: URI can not be
+ *    constructed using the data we have in a Profile.
+ */
+
+class WebFingerReconstructionException extends ServerException
+{
+    public $target = null;
+
+    public function __construct(Profile $target)
+    {
+        $this->target = $target;
+
+        // We could log an entry here with the search parameters
+        $msg = _('WebFinger URI generation failed.');
+        parent::__construct($msg, SERVER_EXCEPTION_WEBFINGER_FAILED, null, LOG_INFO);
     }
 }
 
