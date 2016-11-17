@@ -49,6 +49,8 @@
 define("CLIENT_EXCEPTION", 400);
 define("CLIENT_EXCEPTION_UNAUTHORIZED", 403);
 define("CLIENT_EXCEPTION_EMPTY_POST", 400);
+define("CLIENT_EXCEPTION_PRIVATE_STREAM_NO_AUTH", 401);
+define("CLIENT_EXCEPTION_PRIVATE_STREAM_UNAUTHORIZED", 403);
 
 /* ----------------------------------------------------------------------------
  * class ClientException
@@ -88,6 +90,31 @@ class AuthorizationException extends ClientException
     public function __construct($message=null)
     {
         parent::__construct($message, CLIENT_EXCEPTION_UNAUTHORIZED);
+    }
+}
+
+/* ----------------------------------------------------------------------------
+ * class PrivateStreamException
+ *    A class for client exceptions caused by trying to access a notice stream
+ *    which is private in nature.
+ */
+class PrivateStreamException extends AuthorizationException
+{
+    var $owner = null;  // owner of the private stream
+    var $reader = null; // reader, may be null if not logged in
+
+    public function __construct(Profile $owner, Profile $reader=null)
+    {
+        $this->owner = $owner;
+        $this->reader = $reader;
+
+        // TRANS: Message when a private stream attemps to be read by unauthorized third party.
+        $msg = sprintf(_m('This stream is protected and only authorized subscribers may see its contents.'));
+
+        // If $reader is a profile, authentication has been made but still not accepted (403),
+        // otherwise authentication may give access to this resource (401).
+        parent::__construct($msg, ($reader instanceof Profile ? 
+           CLIENT_EXCEPTION_PRIVATE_STREAM_UNAUTHORIZED : CLIENT_EXCEPTION_PRIVATE_STREAM_NO_AUTH));
     }
 }
 
