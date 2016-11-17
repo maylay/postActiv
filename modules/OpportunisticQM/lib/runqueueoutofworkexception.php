@@ -35,8 +35,9 @@ if (!defined('GNUSOCIAL')) { exit(1); }
 
 class RunQueueOutOfWorkException extends ServerException
 {
-    public function __construct()
-    {
-        parent::__construct(_('Opportunistic queue manager is out of work (no more items).'));
-    }
+   public function __construct()
+   {
+      $msg = _('Opportunistic queue manager is out of work (no more items).');
+      parent::__construct($msg,0,null,LOG_DEBUG);
+   }
 }
