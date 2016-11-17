@@ -221,4 +221,7 @@ foreach ($theme_dirs as $dir)
    }
 }
 
+// New exception handling locations/classes
+require_once INSTALLDIR.'/classes/ServerException.php';
+
 ?>
