@@ -61,9 +61,9 @@ define("SERVER_EXCEPTION_FILE_NOT_FOUND", 404);
  */
 class ServerException extends Exception
 {
-    public function __construct($message = null, $code = SERVER_EXCEPTION) {
+    public function __construct($message = null, $code = SERVER_EXCEPTION, $severity = "LOG_ERR") {
         parent::__construct($message, $code);
-        common_log(LOG_ERR, $message . " (" . $code .")");
+        common_log($severity, $message . " (" . $code .")");
     }
 
     public function __toString() {
