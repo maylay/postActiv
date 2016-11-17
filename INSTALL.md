@@ -284,6 +284,23 @@ It should go without saying, this method requires git installed to use.
    now register new user, post some notices, edit your profile, etc.
 
 
+Log Filtering
+-------------
+By default, all of the various log messages are enabled in your postActiv log
+location.  This allows you to identify any install problems very easily, since
+the output is quite verbose by default to aid in troubleshooting installs gone
+wrong.  Once you know your site is running properly however, most of this 
+information is probably superfluous.  You can use the LogFilter module to filter
+out the LOG_DEBUG and LOG_INFO level messages so you only see errors in the
+postActiv log by adding the following near the bottom of config.php:
+
+addPlugin('LogFilter', array(
+    'priority' => array(LOG_DEBUG => false,LOG_INFO==>false)
+));
+
+More information about this module is in its README, if you wish to customise
+this filtering more closely, such as using RegEx patterns.
+
 
 Fancy URLs
 ----------
