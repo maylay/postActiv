@@ -64,6 +64,8 @@ define("SERVER_EXCEPTION_CANT_FIND_ROUTE", 404);
 define("SERVER_EXCEPTION_METHOD_NOT_IMPLEMENTED", 415);
 define("SERVER_EXCEPTION_ACCT_WITH_NO_URI", 500);
 define("SERVER_EXCEPTION_MALFORMED_CONFIG", 500);
+define("SERVER_EXCEPTION_INVALID_FILENAME", 500);
+define("SERVER_EXCEPTION_INVALID_URI", 404);
 
 /* ----------------------------------------------------------------------------
  * class ServerException
@@ -374,7 +376,7 @@ class NoProfileException extends ServerException
 }
 
 /* ----------------------------------------------------------------------------
- * class NoProfileException
+ * class UserNoProfileException
  *    Class for an exception when the user profile is missing
  */
 class UserNoProfileException extends NoProfileException
@@ -409,8 +411,44 @@ class UserNoProfileException extends NoProfileException
 }
 
 /* ----------------------------------------------------------------------------
+ * class GroupNoProfileException
+ *    Basically UserNoProfileException, but for groups
+ */
+class GroupNoProfileException extends NoProfileException
+{
+   protected $group = null;
+
+   /**
+    * constructor
+    *
+    * @param User_group $user User_group that's missing a profile
+    */
+   public function __construct(User_group $group)
+   {
+      $this->group = $group;
+
+      // TRANS: Exception text shown when no profile can be found for a group.
+      // TRANS: %1$s is a group nickname, $2$d is a group profile_id (number).
+      $message = sprintf(_('Group "%1$s" (%2$d) has no profile record.'),
+                           $group->nickname, $group->getID());
+
+      parent::__construct($group->profile_id, $message);
+   }
+
+   /**
+    * Accessor for user
+    *
+    * @return User_group the group that triggered this exception
+    */
+   protected function getGroup()
+   {
+       return $this->group;
+   }
+}
+
+/* ----------------------------------------------------------------------------
  * class NoParentNoticeException
- *    Class for a server exception caused by a notice not having a parent.  
+ *    Class for a server exception caused by a notice not having a parent.
  *    This happens a lot, since many notices are not part of an existing convo,
  *    so I have put it in LOG_DEBUG severity level.
  */
@@ -528,6 +566,43 @@ class ConfigException extends ServerException
 {
     public function __construct($message=null) {
         parent::__construct($message, SERVER_EXCEPTION_MALFORMED_CONFIG);
+    }
+}
+
+/* ----------------------------------------------------------------------------
+ * class InvalidFilenameException
+ *    Class for a server exception caused by passing an illegal filename as a
+ *    parameter.  This represents likely a failure to save something, so I have
+ *    assigned it a LOG_WARNING severity.
+ */
+class InvalidFilenameException extends ServerException
+{
+    public $filename = null;
+
+    public function __construct($filename)
+    {
+        $this->filename = $filename;
+        // TODO: We could log an entry here with the search parameters
+        $msg = _('Invalid filename.');
+        parent::__construct($msg, SERVER_EXCEPTION_INVALID_FILENAME, null, LOG_WARNING);
+    }
+}
+
+/* ----------------------------------------------------------------------------
+ * class InvalidUriException
+ *    Class for an exception when a URL is invalid.  I put this in LOG_INFO 
+ *    since it can be useful to find federation errors in normal operation.
+ */
+class InvalidUrlException extends ServerException
+{
+    public $url = null;
+
+    public function __construct($url)
+    {
+        $this->url = $url;
+        // TODO: We could log an entry here with the search parameters
+        $msg = _('Invalid URL.');
+        parent::__construct($msg, SERVER_EXCEPTION_INVALID_URI, null, LOG_INFO);
     }
 }
 ?>
