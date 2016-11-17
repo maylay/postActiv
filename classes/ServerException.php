@@ -70,6 +70,8 @@ define("SERVER_EXCEPTION_MALFORMED_CONFIG", 500);
 define("SERVER_EXCEPTION_INVALID_FILENAME", 500);
 define("SERVER_EXCEPTION_INVALID_URI", 404);
 define("SERVER_EXCEPTION_CANT_HASH", 500);
+define("SERVER_EXCEPTION_FEED_SUB_FAILURE", 416);
+define("SERVER_EXCEPTION_OSTATUS_SHADOW_FOUND", 500);
 
 /* ----------------------------------------------------------------------------
  * class ServerException
@@ -629,4 +631,52 @@ class PasswordHashException extends ServerException
         parent::__construct($msg, $code, null, LOG_CRITICAL);
     }
 }
+
+/* ----------------------------------------------------------------------------
+ * class FeedSubException
+ *   Class for a server exception caused by the server being unable to process
+ *   a feedsub properly.  This is probably fairly integral, but doesn't usually
+ *   stop execution, so LOG_WARNING it is.  It will usually only happen when we 
+ *   have got the sub content, but it's malformed in some way, so not an error
+ *   per se, but definitely worth a warning.
+ */
+class FeedSubException extends ServerException
+{
+    function __construct($msg=null)
+    {
+        $type = get_class($this);
+        if ($msg) {
+            parent::__construct("$type: $msg", SERVER_EXCEPTION_FEED_SUB_FAILURE, null, LOG_WARNING);
+        } else {
+            parent::__construct($type, SERVER_EXCEPTION_FEED_SUB_FAILURE, null, LOG_WARNING);
+        }
+    }
+} 
+
+/* ----------------------------------------------------------------------------
+ * class OStatusShadowException
+ *    Exception indicating we've got a remote reference to a local user,
+ *    not a remote user!
+ *
+ *    If we can ue a local profile after all, it's available as $e->profile.
+ *    -mmn
+ *
+ *    Most of the time this can happen entirely innocently, especially with
+ *    older versions of GNU social or StatusNet, but it is worth noting, so I
+ *    have assigned it LOG_INFO severity. -mb
+ */
+class OStatusShadowException extends Exception
+{
+    public $profile;
+
+    /**
+     * @param Profile $profile
+     * @param string $message
+     */
+    function __construct(Profile $profile, $message) {
+        $this->profile = $profile;
+        parent::__construct($message, SERVER_EXCEPTION_OSTATUS_SHADOW_FOUND, null, LOG_INFO);
+    }
+}
+
 ?>
