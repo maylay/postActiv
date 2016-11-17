@@ -608,4 +608,24 @@ class InvalidUrlException extends ServerException
         parent::__construct($msg, SERVER_EXCEPTION_INVALID_URI, null, LOG_INFO);
     }
 }
+
+/* ----------------------------------------------------------------------------
+ * class PasswordHashException
+ *    Class for a server exception caused by password hashing to fail.  Since
+ *    this compromises the security of client accounts, I have assigned this
+ *    LOG_CRITICAL severity.
+ */
+class PasswordHashException extends ServerException
+{
+    public $obj;    // The object with query that gave no results
+
+    public function __construct($msg=null, $code=500)
+    {
+        if ($msg === null) {
+            $msg = _('Password hashing failed.');
+        }
+
+        parent::__construct($msg, $code, null, LOG_CRITICAL);
+    }
+}
 ?>
