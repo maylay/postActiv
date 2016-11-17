@@ -51,6 +51,7 @@ define("CLIENT_EXCEPTION_UNAUTHORIZED", 403);
 define("CLIENT_EXCEPTION_EMPTY_POST", 400);
 define("CLIENT_EXCEPTION_PRIVATE_STREAM_NO_AUTH", 401);
 define("CLIENT_EXCEPTION_PRIVATE_STREAM_UNAUTHORIZED", 403);
+define("CLIENT_EXCEPTION_BAD_QUEUE_MANAGER_KEY", 403);
 
 /* ----------------------------------------------------------------------------
  * class ClientException
@@ -120,7 +121,7 @@ class PrivateStreamException extends AuthorizationException
 
 /* ----------------------------------------------------------------------------
  * class NoUploadedMediaException
- *    Class for a client exception caused when a POST upload does not contain a 
+ *    Class for a client exception caused when a POST upload does not contain a
  *    file.
  */
 class NoUploadedMediaException extends ClientException
@@ -139,5 +140,36 @@ class NoUploadedMediaException extends ClientException
 
         parent::__construct($msg, CLIENT_EXCEPTION_EMPTY_POST);
     }
+}
+
+/* ----------------------------------------------------------------------------
+ * class RunQueueBadKeyException
+ *    Class for a client exception caused by an interfacing queue software not
+ *    presenting a valid manager key.
+ */
+class RunQueueBadKeyException extends ClientException
+{
+    public $qmkey;
+
+    public function __construct($qmkey)
+    {
+        $this->qmkey = $qmkey;
+        $msg = _('Bad queue manager key was used.');
+        parent::__construct($msg, CLIENT_EXCEPTION_BAD_QUEUE_MANAGER_KEY);
+    }
+}
+
+/* ----------------------------------------------------------------------------
+ * class RunQueueOutOfWorkException
+ *    Class for a client exception caused by the queue running out of queue
+ *    items.  This is not normally an error state.
+ */
+class RunQueueOutOfWorkException extends ServerException
+{
+   public function __construct()
+   {
+      $msg = _('Opportunistic queue manager is out of work (no more items).');
+      parent::__construct($msg,0,null,LOG_DEBUG);
+   }
 }
 ?>
