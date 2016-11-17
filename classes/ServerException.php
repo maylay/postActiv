@@ -63,6 +63,7 @@ class ServerException extends Exception
 {
     public function __construct($message = null, $code = SERVER_EXCEPTION) {
         parent::__construct($message, $code);
+        common_log(LOG_ERR, $message . " (" . $code .")");
     }
 
     public function __toString() {
