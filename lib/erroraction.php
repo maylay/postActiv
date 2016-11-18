@@ -50,7 +50,7 @@ class ErrorAction extends InfoAction
 
         $this->code = $code;
         $this->message = $message;
-        $this->minimal = GNUsocial::isApi();
+        $this->minimal = postActiv::isApi();
 
         // XXX: hack alert: usually we aren't going to
         // call this page directly, but because it's
@@ -60,7 +60,7 @@ class ErrorAction extends InfoAction
 
     function showPage()
     {
-        if (GNUsocial::isAjax()) {
+        if (postActiv::isAjax()) {
             $this->extraHeaders();
             $this->ajaxErrorMsg();
             exit();

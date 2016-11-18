@@ -22,9 +22,7 @@
  * @license   https://www.gnu.org/licenses/agpl.html 
  */
 
-if (!defined('STATUSNET')) {
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Renew an expiring feedsub

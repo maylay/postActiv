@@ -367,7 +367,7 @@ function common_set_cookie($key, $value, $expiration=0)
                      $expiration,
                      $cookiepath,
                      $server,
-                     GNUsocial::useHTTPS());
+                     postActiv::useHTTPS());
 }
 
 define('REMEMBERME', 'rememberme');
@@ -1382,7 +1382,7 @@ function common_local_url($action, $args=null, $params=null, $fragment=null, $ad
         $r = Router::get();
         $path = $r->build($action, $args, $params, $fragment);
 
-        $ssl = GNUsocial::useHTTPS();
+        $ssl = postActiv::useHTTPS();
 
         if (common_config('site','fancy')) {
             $url = common_path($path, $ssl, $addSession);
@@ -1402,7 +1402,7 @@ function common_path($relative, $ssl=false, $addSession=true)
 {
     $pathpart = (common_config('site', 'path')) ? common_config('site', 'path')."/" : '';
 
-    if ($ssl && GNUsocial::useHTTPS()) {
+    if ($ssl && postActiv::useHTTPS()) {
         $proto = 'https';
         if (is_string(common_config('site', 'sslserver')) &&
             mb_strlen(common_config('site', 'sslserver')) > 0) {
@@ -1712,7 +1712,7 @@ function common_profile_url($nickname)
 function common_root_url($tls=null)
 {
     if (is_null($tls)) {
-        $tls = GNUsocial::useHTTPS();
+        $tls = postActiv::useHTTPS();
     }
     $url = common_path('', $tls, false);
     $i = strpos($url, '?');

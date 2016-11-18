@@ -27,15 +27,13 @@
  * @maintainer Brion Vibber <brion@status.net>
  */
 
-if (!defined('STATUSNET')) {
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 class PushCallbackAction extends Action
 {
     protected function handle()
     {
-        GNUsocial::setApi(true); // Minimize error messages to aid in debugging
+        postActiv::setApi(true); // Minimize error messages to aid in debugging
         parent::handle();
         if ($this->isPost()) {
             return $this->handlePost();

@@ -287,7 +287,7 @@ $default =
         'thumbnail' => [
               'dir' => null,    // falls back to File::path('thumb') (equivalent to ['attachments']['dir'] .  '/thumb/')
               'path' => null,   // falls back to generating a URL with File::url('thumb/$filename') (equivalent to ['attachments']['path'] . '/thumb/')
-              'server' => null, // Only used if ['thumbnail']['path'] is NOT empty, and then it falls back to ['site']['server'], schema is decided from GNUsocial::useHTTPS()
+              'server' => null, // Only used if ['thumbnail']['path'] is NOT empty, and then it falls back to ['site']['server'], schema is decided from postActiv::useHTTPS()
 
               'crop' => false,      // overridden to true if thumb height === null
               'maxsize' => 1000,     // thumbs with an edge larger than this will not be generated

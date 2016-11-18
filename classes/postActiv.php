@@ -41,7 +41,7 @@ global $config, $_server, $_path;
 /**
  * Global configuration setup and management.
  */
-class GNUsocial
+class postActiv
 {
     protected static $config_files = array();
     protected static $have_config;
