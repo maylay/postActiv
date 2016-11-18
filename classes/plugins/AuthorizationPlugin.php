@@ -22,16 +22,18 @@
  * PHP version 5
  *
  * Superclass for plugins that do authorization
- *
+ * ----------------------------------------------------------------------------
  * @category  Plugin
  * @package   postActiv
  * @author    Craig Andrews <candrews@integralblue.com>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2009-2012 StatusNet, Inc.
+ * @copyright 2010-2012 StatusNet, Inc.
  * @copyright 2012-2016 Free Software Foundation, Inc
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://www.postactiv.com/
+ * ============================================================================
  */
 
 if (!defined('POSTACTIV')) { exit(1); }

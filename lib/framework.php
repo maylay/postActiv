@@ -116,7 +116,7 @@ require_once(INSTALLDIR.'/lib/language.php');
 // can use it
 
 require_once(INSTALLDIR.'/lib/event.php');
-require_once(INSTALLDIR.'/lib/plugin.php');
+require_once(INSTALLDIR.'/classes/plugins/Plugin.php');
 require_once(INSTALLDIR.'/lib/xml.php');
 
 function addPlugin($name, array $attrs=array())
@@ -129,20 +129,25 @@ function _have_config()
     return postActiv::haveConfig();
 }
 
+// ----------------------------------------------------------------------------
+// function postActiv_class_autoload
+//    If a class isn't already in memory, look in some common locations for it.
 function postActiv_class_autoload($cls)
 {
-    if (file_exists(INSTALLDIR.'/classes/' . $cls . '.php')) {
-        require_once(INSTALLDIR.'/classes/' . $cls . '.php');
-    } else if (file_exists(INSTALLDIR.'/lib/' . strtolower($cls) . '.php')) {
-        require_once(INSTALLDIR.'/lib/' . strtolower($cls) . '.php');
-    } else if (mb_substr($cls, -6) == 'Action' &&
-               file_exists(INSTALLDIR.'/actions/' . strtolower(mb_substr($cls, 0, -6)) . '.php')) {
-        require_once(INSTALLDIR.'/actions/' . strtolower(mb_substr($cls, 0, -6)) . '.php');
-    } else if ($cls === 'OAuthRequest' || $cls === 'OAuthException') {
-        require_once('OAuth.php');
-    } else {
-        Event::handle('Autoload', array(&$cls));
-    }
+   if (file_exists(INSTALLDIR.'/classes/' . $cls . '.php')) {
+      require_once(INSTALLDIR.'/classes/' . $cls . '.php');
+   } else if (file_exists(INSTALLDIR.'/classes/plugins/' . $cls . '.php')) {
+      require_once(INSTALLDIR.'/classes/plugins/' . $cls . '.php');
+   } else if (file_exists(INSTALLDIR.'/lib/' . strtolower($cls) . '.php')) {
+      require_once(INSTALLDIR.'/lib/' . strtolower($cls) . '.php');
+   } else if (mb_substr($cls, -6) == 'Action' &&
+              file_exists(INSTALLDIR.'/actions/' . strtolower(mb_substr($cls, 0, -6)) . '.php')) {
+      require_once(INSTALLDIR.'/actions/' . strtolower(mb_substr($cls, 0, -6)) . '.php');
+   } else if ($cls === 'OAuthRequest' || $cls === 'OAuthException') {
+      require_once('OAuth.php');
+   } else {
+      Event::handle('Autoload', array(&$cls));
+   }
 }
 
 // Autoload function queue, starting with our own discovery method
@@ -213,7 +218,7 @@ require_once INSTALLDIR.'/classes/ServerException.php';
 require_once INSTALLDIR.'/classes/ClientException.php';
 
 // Find all our plugin classes
-foreach (glob(ISNTALLDIR."/classes/plugins/*.php") as $filename)
+foreach (glob(INSTALLDIR."/classes/plugins/*.php") as $filename)
 {
     require_once $filename;
 }
