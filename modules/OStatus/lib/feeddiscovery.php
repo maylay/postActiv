@@ -27,9 +27,7 @@
  * @maintainer Brion Vibber <brion@status.net>
  */
 
-if (!defined('STATUSNET')) {
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 class FeedSubBadURLException extends FeedSubException
 {

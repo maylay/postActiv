@@ -27,7 +27,7 @@
  * @maintainer Brion Vibber <brion@status.net>
  */
 
-if (!defined('GNUSOCIAL') && !defined('STATUSNET')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Key UI methods:

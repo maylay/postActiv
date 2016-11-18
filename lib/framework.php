@@ -121,12 +121,12 @@ require_once(INSTALLDIR.'/lib/xml.php');
 
 function addPlugin($name, array $attrs=array())
 {
-    return GNUsocial::addPlugin($name, $attrs);
+    return postActiv::addPlugin($name, $attrs);
 }
 
 function _have_config()
 {
-    return GNUsocial::haveConfig();
+    return postActiv::haveConfig();
 }
 
 function postActiv_class_autoload($cls)
@@ -223,5 +223,6 @@ foreach ($theme_dirs as $dir)
 
 // New exception handling locations/classes
 require_once INSTALLDIR.'/classes/ServerException.php';
+require_once INSTALLDIR.'/classes/ClientException.php';
 
 ?>

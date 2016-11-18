@@ -27,7 +27,7 @@
  * @maintainer James Walker <james@status.net>
  */
 
-if (!defined('STATUSNET') && !defined('LACONICA')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 
 class OStatusTagAction extends OStatusInitAction

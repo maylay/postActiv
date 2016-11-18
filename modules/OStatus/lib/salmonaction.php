@@ -27,7 +27,7 @@
  * @author James Walker <james@status.net>
  */
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 class SalmonAction extends Action
 {
@@ -44,7 +44,7 @@ class SalmonAction extends Action
 
     protected function prepare(array $args=array())
     {
-        GNUsocial::setApi(true); // Send smaller error pages
+        postActiv::setApi(true); // Send smaller error pages
 
         parent::prepare($args);
 

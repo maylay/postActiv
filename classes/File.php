@@ -417,7 +417,7 @@ class File extends Managed_DataObject
 
         }
 
-        if (GNUsocial::useHTTPS()) {
+        if (postActiv::useHTTPS()) {
 
             $sslserver = common_config('attachments', 'sslserver');
 
@@ -660,7 +660,7 @@ class File extends Managed_DataObject
     function noticeCount()
     {
         $cacheKey = sprintf('file:notice-count:%d', $this->id);
-        
+
         $count = self::cacheGet($cacheKey);
 
         if ($count === false) {
@@ -672,7 +672,7 @@ class File extends Managed_DataObject
             $count = $f2p->count();
 
             self::cacheSet($cacheKey, $count);
-        } 
+        }
 
         return $count;
     }

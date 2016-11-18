@@ -135,7 +135,7 @@ class ApiAction extends Action
      */
     protected function prepare(array $args=array())
     {
-        GNUsocial::setApi(true); // reduce exception reports to aid in debugging
+        postActiv::setApi(true); // reduce exception reports to aid in debugging
         parent::prepare($args);
 
         $this->format   = $this->arg('format');

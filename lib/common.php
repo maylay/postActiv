@@ -29,9 +29,10 @@ if (!defined('POSTACTIV')) { exit(1); }
 // All the fun stuff to actually initialize StatusNet's framework code,
 // without loading up a site configuration.
 require_once INSTALLDIR . '/lib/framework.php';
+require_once INSTALLDIR . '/classes/postActiv.php';
 
 try {
-    GNUsocial::init(@$server, @$path, @$conffile);
+    postActiv::init(@$server, @$path, @$conffile);
 } catch (NoConfigException $e) {
     // XXX: Throw a conniption if database not installed
     // XXX: Find a way to use htmlwriter for this instead of handcoded markup

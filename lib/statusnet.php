@@ -19,12 +19,12 @@ class StatusNet
 {
     public static function getActivePlugins()
     {
-        return GNUsocial::getActivePlugins();
+        return postActiv::getActivePlugins();
     }
 
     public static function isHTTPS()
     {
-        return GNUsocial::isHTTPS();
+        return postActiv::isHTTPS();
     }
 }
 ?>

@@ -23,6 +23,9 @@
  *
  * ServerException and descendant classes as well as the canonical error 
  * definitions
+ *
+ * These classes represent various internal server errors that ususally are not
+ * fixable by the end user.
  * ----------------------------------------------------------------------------
  * @category  Exception
  * @package   postActiv
@@ -66,6 +69,10 @@ define("SERVER_EXCEPTION_ACCT_WITH_NO_URI", 500);
 define("SERVER_EXCEPTION_MALFORMED_CONFIG", 500);
 define("SERVER_EXCEPTION_INVALID_FILENAME", 500);
 define("SERVER_EXCEPTION_INVALID_URI", 404);
+define("SERVER_EXCEPTION_CANT_HASH", 500);
+define("SERVER_EXCEPTION_FEED_SUB_FAILURE", 416);
+define("SERVER_EXCEPTION_OSTATUS_SHADOW_FOUND", 500);
+define("SERVER_EXCEPTION_WEBFINGER_FAILED", 500);
 
 /* ----------------------------------------------------------------------------
  * class ServerException
@@ -90,7 +97,7 @@ class ServerException extends Exception
 
 /* ----------------------------------------------------------------------------
  * class AlreadyFulfilledException
- *    Class for an exception when trying to do something that was probably 
+ *    Class for an exception when trying to do something that was probably
  *    already done.
  *
  *    This is a common case for example when remote sites are not up to date
@@ -605,4 +612,92 @@ class InvalidUrlException extends ServerException
         parent::__construct($msg, SERVER_EXCEPTION_INVALID_URI, null, LOG_INFO);
     }
 }
+
+/* ----------------------------------------------------------------------------
+ * class PasswordHashException
+ *    Class for a server exception caused by password hashing to fail.  Since
+ *    this compromises the security of client accounts, I have assigned this
+ *    LOG_CRITICAL severity.
+ */
+class PasswordHashException extends ServerException
+{
+    public $obj;    // The object with query that gave no results
+
+    public function __construct($msg=null, $code=SERVER_EXCEPTION_CANT_HASH)
+    {
+        if ($msg === null) {
+            $msg = _('Password hashing failed.');
+        }
+
+        parent::__construct($msg, $code, null, LOG_CRITICAL);
+    }
+}
+
+/* ----------------------------------------------------------------------------
+ * class FeedSubException
+ *   Class for a server exception caused by the server being unable to process
+ *   a feedsub properly.  This is probably fairly integral, but doesn't usually
+ *   stop execution, so LOG_WARNING it is.  It will usually only happen when we 
+ *   have got the sub content, but it's malformed in some way, so not an error
+ *   per se, but definitely worth a warning.
+ */
+class FeedSubException extends ServerException
+{
+    function __construct($msg=null)
+    {
+        $type = get_class($this);
+        if ($msg) {
+            parent::__construct("$type: $msg", SERVER_EXCEPTION_FEED_SUB_FAILURE, null, LOG_WARNING);
+        } else {
+            parent::__construct($type, SERVER_EXCEPTION_FEED_SUB_FAILURE, null, LOG_WARNING);
+        }
+    }
+} 
+
+/* ----------------------------------------------------------------------------
+ * class OStatusShadowException
+ *    Exception indicating we've got a remote reference to a local user,
+ *    not a remote user!
+ *
+ *    If we can ue a local profile after all, it's available as $e->profile.
+ *    -mmn
+ *
+ *    Most of the time this can happen entirely innocently, especially with
+ *    older versions of GNU social or StatusNet, but it is worth noting, so I
+ *    have assigned it LOG_INFO severity. -mb
+ */
+class OStatusShadowException extends Exception
+{
+    public $profile;
+
+    /**
+     * @param Profile $profile
+     * @param string $message
+     */
+    function __construct(Profile $profile, $message) {
+        $this->profile = $profile;
+        parent::__construct($message, SERVER_EXCEPTION_OSTATUS_SHADOW_FOUND, null, LOG_INFO);
+    }
+}
+
+/* ----------------------------------------------------------------------------
+ * class WebFingerReconstructionException
+ *    Class for a server exception cause when a WebFinger acct: URI can not be
+ *    constructed using the data we have in a Profile.
+ */
+
+class WebFingerReconstructionException extends ServerException
+{
+    public $target = null;
+
+    public function __construct(Profile $target)
+    {
+        $this->target = $target;
+
+        // We could log an entry here with the search parameters
+        $msg = _('WebFinger URI generation failed.');
+        parent::__construct($msg, SERVER_EXCEPTION_WEBFINGER_FAILED, null, LOG_INFO);
+    }
+}
+
 ?>
