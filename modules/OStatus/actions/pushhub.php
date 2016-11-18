@@ -28,9 +28,7 @@
  * @maintainer Brion Vibber <brion@status.net>
  */
 
-if (!defined('STATUSNET')) {
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Things to consider...
@@ -54,7 +52,7 @@ class PushHubAction extends Action
 
     protected function prepare(array $args=array())
     {
-        GNUsocial::setApi(true); // reduce exception reports to aid in debugging
+        postActiv::setApi(true); // reduce exception reports to aid in debugging
         return parent::prepare($args);
     }
 

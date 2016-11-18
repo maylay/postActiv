@@ -286,7 +286,7 @@ function main()
     $args = $r->map($path);
 
     // If the request is HTTP and it should be HTTPS...
-    if (GNUsocial::useHTTPS() && !GNUsocial::isHTTPS()) {
+    if (postActiv::useHTTPS() && !postActiv::isHTTPS()) {
         common_redirect(common_local_url($args['action'], $args));
     }
 

@@ -170,8 +170,8 @@ class Action extends HTMLOutputter // lawsuit
         $this->action = strtolower($this->trimmed('action'));
 
         if ($this->ajax || $this->boolean('ajax')) {
-            // check with GNUsocial::isAjax()
-            GNUsocial::setAjax(true);
+            // check with postActiv::isAjax()
+            postActiv::setAjax(true);
         }
 
         if ($this->needLogin) {
@@ -220,7 +220,7 @@ class Action extends HTMLOutputter // lawsuit
      */
     public function showPage()
     {
-        if (GNUsocial::isAjax()) {
+        if (postActiv::isAjax()) {
             self::showAjax();
             return;
         }
@@ -340,7 +340,7 @@ class Action extends HTMLOutputter // lawsuit
         } else {
             // favicon.ico should be HTTPS if the rest of the page is
             $this->element('link', array('rel' => 'shortcut icon',
-                                         'href' => common_path('favicon.ico', GNUsocial::isHTTPS())));
+                                         'href' => common_path('favicon.ico', postActiv::isHTTPS())));
         }
 
         if (common_config('site', 'mobile')) {
@@ -655,7 +655,7 @@ class Action extends HTMLOutputter // lawsuit
             $this->elementStart('a', array('class' => 'home bookmark',
                                            'href' => $url));
 
-            if (GNUsocial::isHTTPS()) {
+            if (postActiv::isHTTPS()) {
                 $logoUrl = common_config('site', 'ssllogo');
                 if (empty($logoUrl)) {
                     // if logo is an uploaded file, try to fall back to HTTPS file URL
@@ -1165,7 +1165,7 @@ class Action extends HTMLOutputter // lawsuit
                 $image    = common_config('license', 'image');
                 $sslimage = common_config('license', 'sslimage');
 
-                if (GNUsocial::isHTTPS()) {
+                if (postActiv::isHTTPS()) {
                     if (!empty($sslimage)) {
                         $url = $sslimage;
                     } else if (preg_match('#^http://i.creativecommons.org/#', $image)) {

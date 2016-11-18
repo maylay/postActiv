@@ -408,11 +408,11 @@ class HTMLOutputter extends XMLOutputter
 
                 if (strpos($src, 'plugins/') === 0 || strpos($src, 'local/') === 0) {
 
-                    $src = common_path($src, GNUsocial::isHTTPS()) . '?version=' . GNUSOCIAL_VERSION;
+                    $src = common_path($src, postActiv::isHTTPS()) . '?version=' . GNUSOCIAL_VERSION;
 
                 } else {
 
-                    if (GNUsocial::isHTTPS()) {
+                    if (postActiv::isHTTPS()) {
 
                         $sslserver = common_config('javascript', 'sslserver');
 
@@ -515,7 +515,7 @@ class HTMLOutputter extends XMLOutputter
                 if(file_exists(Theme::file($src,$theme))){
                    $src = Theme::path($src, $theme);
                 }else{
-                    $src = common_path($src, GNUsocial::isHTTPS());
+                    $src = common_path($src, postActiv::isHTTPS());
                 }
                 $src.= '?version=' . GNUSOCIAL_VERSION;
             }

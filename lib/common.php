@@ -32,7 +32,7 @@ require_once INSTALLDIR . '/lib/framework.php';
 require_once INSTALLDIR . '/classes/postActiv.php';
 
 try {
-    GNUsocial::init(@$server, @$path, @$conffile);
+    postActiv::init(@$server, @$path, @$conffile);
 } catch (NoConfigException $e) {
     // XXX: Throw a conniption if database not installed
     // XXX: Find a way to use htmlwriter for this instead of handcoded markup

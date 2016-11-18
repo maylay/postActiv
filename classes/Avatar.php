@@ -224,7 +224,7 @@ class Avatar extends Managed_DataObject
             $server = common_config('site', 'server');
         }
 
-        $ssl = (common_config('avatar', 'ssl') || GNUsocial::useHTTPS());
+        $ssl = (common_config('avatar', 'ssl') || postActiv::useHTTPS());
 
         $protocol = ($ssl) ? 'https' : 'http';
 

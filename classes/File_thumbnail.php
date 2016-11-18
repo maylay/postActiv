@@ -171,7 +171,7 @@ class File_thumbnail extends Managed_DataObject
             return File::url('thumb')."/{$filename}";
         }
 
-        $protocol = (GNUsocial::useHTTPS() ? 'https' : 'http');
+        $protocol = (postActiv::useHTTPS() ? 'https' : 'http');
         $server = common_config('thumbnail', 'server') ?: common_config('site', 'server');
 
         if ($path[mb_strlen($path)-1] != '/') {
