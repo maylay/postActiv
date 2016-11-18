@@ -22,15 +22,16 @@
  * PHP version 5
  *
  * Superclass for plugins which add Activity types and such
- *
+ * ----------------------------------------------------------------------------
  * @category  Activity
  * @package   postActiv
  * @author    Mikael Nordfeldth <mmn@hethane.se>
- * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com> 
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  * @copyright 2014-2016 Free Software Foundation, Inc
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://www.postactiv.com/
+ * ============================================================================
  */
 
 if (!defined('POSTACTIV')) { exit(1); }
