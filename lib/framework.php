@@ -212,4 +212,10 @@ function PEAR_ErrorToPEAR_Exception(PEAR_Error $err)
 require_once INSTALLDIR.'/classes/ServerException.php';
 require_once INSTALLDIR.'/classes/ClientException.php';
 
+// Find all our plugin classes
+foreach (glob(ISNTALLDIR."/classes/plugins/*.php") as $filename)
+{
+    require_once $filename;
+}
+
 ?>
