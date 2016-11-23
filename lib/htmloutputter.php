@@ -423,7 +423,7 @@ class HTMLOutputter extends XMLOutputter
                             } else if (common_config('site', 'server')) {
                                 $server = common_config('site', 'server');
                             }
-                            $path   = common_config('site', 'path') . '/js/';
+                            $path   = common_config('site', 'path') . '/media/js/';
                         } else {
                             $server = $sslserver;
                             $path   = common_config('javascript', 'sslpath');
@@ -439,7 +439,7 @@ class HTMLOutputter extends XMLOutputter
                         $path = common_config('javascript', 'path');
 
                         if (empty($path)) {
-                            $path = common_config('site', 'path') . '/js/';
+                            $path = common_config('site', 'path') . '/media/js/';
                         }
 
                         $server = common_config('javascript', 'server');
