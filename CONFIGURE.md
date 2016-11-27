@@ -227,9 +227,10 @@ sending out SMS email or XMPP messages, for off-line processing. See
 * daemon (boolean, default false): Wather to use queuedaemon. False means 
     you'll use OpportunisticQM plugin.
 
-* subsystem (enum["db", "stomp"], default 'db'): Which kind of queueserver to
+* subsystem (enum["db", "stomp", "redis"], default 'db'): Which kind of queueserver to
     use. Values include "db" for our hacked-together database queuing (no
-    other server required) and "stomp" for a stomp server.
+    other server required), "stomp" for a stomp server, and "redis" for a Redis
+	server.
 
 * stomp_server (string, default null): "broker URI" for stomp server.
     Something like "tcp://hostname:61613". More complicated ones are possible;
@@ -268,6 +269,21 @@ sending out SMS email or XMPP messages, for off-line processing. See
     This should *not* be turned off when running with ActiveMQ, (it breaks if 
     you do), but if using another message queue server that does not support 
     acknowledgements you might need to disable this.
+
+* redis_socket_location (string, default null): Unix domain socket location for
+	Redis.  If specified, the TCP settings below  be disabled.
+
+* redis_host (string, default null): Hostname for Redis host.
+
+* redis_port (integer, default 6379): Port number for Redis daemon.
+
+* redis_namespace (string, default null): Prefix namespace for all Redis entries.
+
+* redis_retries (integer, default 10): How many times a queue item will be handled
+	before being dropped.
+
+* redis_expiration (integer, seconds, default: 86400/1 day): How long a queue item
+	will sit in Redis before being dropped.
 
 * softlimit (integer): an absolute or relative "soft memory limit"; daemons 
     will restart themselves gracefully when they find they've hit this amount 

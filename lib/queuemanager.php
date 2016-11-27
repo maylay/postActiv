@@ -78,6 +78,9 @@ abstract class QueueManager extends IoManager
                      case 'stomp':
                         self::$qm = new StompQueueManager();
                         break;
+                     case 'redis':
+                        self::$qm = new RedisQueueManager();
+                        break;
                      default:
                         throw new ServerException("No queue manager class for type '$type'");
                     }
