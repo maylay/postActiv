@@ -185,6 +185,7 @@ class RedisQueueManager extends QueueManager {
 		} catch (Exception $e) {
             $this->_log(LOG_WARNING, "[$transport] Discarding bad frame: "._ve($e->getMessage()));
 			$this->_done($queue_item, $transport);
+			return true;
 		}
 
         $rep = $this->logrep($item);
@@ -223,6 +224,13 @@ class RedisQueueManager extends QueueManager {
 
     protected function _done($queue_item, $transport) {
 		try {
+			$this->_connect();
+		} catch (Exception $e) {
+			$this->_log(LOG_ERR, "Failed to connect to Redis: {$e->getMessage()}; unable to mark item complete");
+			return false;
+		}
+
+		try {
 			return $this->connection->markComplete($queue_item->id);
 		} catch (Exception $e) {
 			$this->_log(LOG_ERR, "Failed to mark item done: {$e->getMessage()}");
@@ -236,6 +244,13 @@ class RedisQueueManager extends QueueManager {
     }
 
     protected function _fail($queue_item, $transport) {
+		try {
+			$this->_connect();
+		} catch (Exception $e) {
+			$this->_log(LOG_ERR, "Failed to connect to Redis: {$e->getMessage()}; unable to mark item failed");
+			return false;
+		}
+
 		try {
 			if ($queue_item->tries >= $this->retries) {
 				$this->_log(LOG_WARN, "Discarding item $queue_item->id after $queue_item->tries out of allowed $this->retries.");
