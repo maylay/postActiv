@@ -75,7 +75,7 @@ class RedisQueueManager extends QueueManager {
 
 		# Config is in seconds, but Redis wants milliseconds.
         $this->expiration      = intval(common_config('queue', 'redis_expiration')) * 1000;
-		if ($this->expiration < 3600)
+		if ($this->expiration < 3600000)
 			throw new UnexpectedValueException('Expiration must be at least an hour (3600 seconds)');
 
 	}
