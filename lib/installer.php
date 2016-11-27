@@ -21,26 +21,27 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @category Installation
- * @package  Installation
- *
- * @author   Adrian Lang <mail@adrianlang.de>
- * @author   Brenda Wallace <shiny@cpan.org>
- * @author   Brett Taylor <brett@webfroot.co.nz>
- * @author   Brion Vibber <brion@pobox.com>
- * @author   CiaranG <ciaran@ciarang.com>
- * @author   Craig Andrews <candrews@integralblue.com>
- * @author   Eric Helgeson <helfire@Erics-MBP.local>
- * @author   Evan Prodromou <evan@status.net>
- * @author   Mikael Nordfeldth <mmn@hethane.se>
- * @author   Robin Millette <millette@controlyourself.ca>
- * @author   Sarven Capadisli <csarven@status.net>
- * @author   Tom Adams <tom@holizz.com>
- * @author   Zach Copley <zach@status.net>
- * @copyright 2009-2010 StatusNet, Inc http://status.net
- * @copyright 2009-2014 Free Software Foundation, Inc http://www.fsf.org
+ * @category  Installation
+ * @package   postActiv
+ * @author    Adrian Lang <mail@adrianlang.de>
+ * @author    Brenda Wallace <shiny@cpan.org>
+ * @author    Brett Taylor <brett@webfroot.co.nz>
+ * @author    Brion Vibber <brion@pobox.com>
+ * @author    CiaranG <ciaran@ciarang.com>
+ * @author    Craig Andrews <candrews@integralblue.com>
+ * @author    Eric Helgeson <helfire@Erics-MBP.local>
+ * @author    Evan Prodromou <evan@status.net>
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
+ * @author    Robin Millette <millette@controlyourself.ca>
+ * @author    Sarven Capadisli <csarven@status.net>
+ * @author    Tom Adams <tom@holizz.com>
+ * @author    Zach Copley <zach@status.net>
+ * @copyright 2009-2012 StatusNet, Inc http://status.net
+ * @copyright 2013-2016 Free Software Foundation, Inc http://www.fsf.org
+ * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
- * @link     http://status.net
+ * @link      http://status.net
+ /* ============================================================================
  */
 
 abstract class Installer
@@ -567,7 +568,7 @@ abstract class Installer
         }
 
         require_once INSTALLDIR . '/lib/framework.php';
-        GNUsocial::initDefaults($this->server, $this->path);
+        postActiv::initDefaults($this->server, $this->path);
 
         if ($this->siteProfile == "singleuser") {
             // Until we use ['site']['profile']==='singleuser' everywhere

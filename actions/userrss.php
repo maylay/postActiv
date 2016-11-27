@@ -23,7 +23,7 @@
  *
  * Code to handle serving up user RSS feeds.
  *
- * @category  Feeds
+ * @category  Personal
  * @package   postActiv
  * @author    Evan Prodromou
  * @author    Mike Cochrane <mikec@mikenz.geek.nz>
