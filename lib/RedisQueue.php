@@ -141,9 +141,20 @@ class RedisQueue {
 				table.insert(to_repush, item_id)
 			end
 		end
+
+		-- Push items that have not been completed back to item_ids
 		for key, value in ipairs(to_repush) do
 			redis.log(redis.LOG_VERBOSE, "Repushing: " .. value)
 			redis.call("LPUSH", KEYS[1], value)
+		end
+
+		-- Remove completed item IDs that have been orphaned
+		local completed_ids = redis.call("SMEMBERS", KEYS[2])
+		for key, item_id in ipairs(completed_ids) do
+			if redis.call("EXISTS", ARGV[1] .. "." .. item_id) == 0 then
+				redis.log(redis.LOG_VERBOSE, "Removing orphan: " .. item_id)
+				redis.call("SREM", KEYS[2], item_id)
+			end
 		end
 
 		return flush_count';

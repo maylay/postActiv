@@ -174,7 +174,7 @@ class RedisQueueManager extends QueueManager {
 			$this->checkSync($e->processing_id_count);
 			return true;
 		} catch (Exception $e) {
-			$this->_log(LOG_ERR, "Failed to get item from Redis {$e->getMessage()}");
+			$this->_log(LOG_ERR, "Failed to get item from Redis: {$e->getMessage()}");
 			$this->_disconnect();
 			return false;
 		}
