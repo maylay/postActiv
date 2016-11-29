@@ -59,18 +59,23 @@ class RedisLock {
 		$this->nonce = null;
 	}
 
-	function lock($expiration, $retries = 1) {
+	function lock($expiration, $timeout = 1) {
+		if ($timeout <= 0)
+			throw new UnexpectedValueException('Timeout must be greater than zero.');
+
+		$end_time = time() + $timeout;
 		$this->nonce = uniqid();
-		for($i = 0; $i < $retries; $i++) {
+		while(time() < $end_time) {
 			$result = $this->redis->set($this->name, $this->nonce, ['NX', 'PX' => $expiration]);
 			if ($result)
 				return true;
+			usleep(50000); // 0.05 second sleep so it's not a hard spin.
 		}
 		return false;
 	}
 
 	function unlock() {
-		return $this->redis->eval(RedisLock::REDLOCK_UNLOCK, [$this->name, $this->nonce], 1);
+		return $this->redis->eval(self::REDLOCK_UNLOCK, [$this->name, $this->nonce], 1);
 	}
 }
 
@@ -117,6 +122,8 @@ class RedisQueueItem {
 }
 
 class RedisQueue {
+	const LOCK_TIMEOUT = 3; // 3 seconds
+	const LOCK_EXPIRATION = 60 * 1000; // 1 minute
 	const REDIS_SYNC = '
 		local flush_count = 0
 		local to_repush = {}
@@ -192,7 +199,7 @@ class RedisQueue {
 	public function sync($disk = false) {
 		if ($this->redis === null)
 			throw new LogicException("Connection has already been closed");
-		$result = $this->redis->eval(RedisQueue::REDIS_SYNC, ['processing_ids', 'completed_ids', 'incomplete_ids', 'item_ids', $this->namespace], 4);
+		$result = $this->redis->eval(self::REDIS_SYNC, ['processing_ids', 'completed_ids', 'incomplete_ids', 'item_ids', $this->namespace], 4);
 		$error = $this->redis->getLastError();
 
 		if ($error !== null)
@@ -221,7 +228,7 @@ class RedisQueue {
 			throw new LogicException("Connection has already been closed");
 
 		$lock = $this->nextIdLock();
-		if (!$lock->lock(60 * 1000, 10))
+		if (!$lock->lock(self::LOCK_EXPIRATION, self::LOCK_TIMEOUT))
 			throw new RuntimeException("Failed to acquire next_id lock");
 
 		$next_id = null;
@@ -303,7 +310,7 @@ class RedisQueue {
 				$tries = intval($result[1]);
 				$item = unserialize($result[2]);
 
-				$this->redis->set("$item_id.processing", 1, ['EX' => RedisQueue::PROCESSING_TIMEOUT]);
+				$this->redis->set("$item_id.processing", 1, ['EX' => self::PROCESSING_TIMEOUT]);
 
 				return new RedisQueueItem($item_id, $tries, $item->created, $item->item, $processing_id_count);
 			}
