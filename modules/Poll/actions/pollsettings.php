@@ -1,16 +1,12 @@
 <?php
-/**
+/* ============================================================================
  * postActiv - a fork of the GNU Social microblogging software
  * Copyright (C) 2016, Maiyannah Bishop
  * Derived from code copyright various sources:
  *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
- *
- * Form to set your personal poll settings
- *
- * PHP version 5
- *
- * LICENCE: This program is free software: you can redistribute it and/or modify
+ *   StatusNet (C) 2008-2012, StatusNet, Inc
+ * ----------------------------------------------------------------------------
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -22,16 +18,23 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * ----------------------------------------------------------------------------
+ * PHP version 5
  *
+ * Form to set your personal poll settings
+ * ----------------------------------------------------------------------------
  * @category  Plugins
- * @package   StatusNet
- * @author    Brion Vibber <brion@status.net>
- * @copyright 2012 StatusNet, Inc.
+ * @package   postActiv
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ * @copyright 2013-2016 Free Software Foundation, Inc
+ * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://status.net/
+ * @link      http://www.postactiv.com/
+ * ============================================================================
  */
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
 class PollSettingsAction extends SettingsAction
 {
@@ -91,3 +94,4 @@ class PollSettingsAction extends SettingsAction
         return _('Settings saved.');
     }
 }
+?>

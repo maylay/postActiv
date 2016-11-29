@@ -5,17 +5,7 @@
  * Derived from code copyright various sources:
  *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
  *   StatusNet (C) 2008-2011, StatusNet, Inc
- *
- * Data class to mark notices as bookmarks
- *
- * PHP version 5
- *
- * @category PollPlugin
- * @package  StatusNet
- * @author   Brion Vibber <brion@status.net>
- * @license   https://www.gnu.org/licenses/agpl.html
- * @link     http://status.net/
- *
+ * ----------------------------------------------------------------------------
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -28,24 +18,29 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * ----------------------------------------------------------------------------
+ * PHP version 5
+ *
+ * Data class to store a Poll
+ * ----------------------------------------------------------------------------
+ * @category  Poll
+ * @package   postActiv
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ * @copyright 2013-2016 Free Software Foundation, Inc
+ * @copyright 2016 Maiyannah Bishop
+ * @license   https://www.gnu.org/licenses/agpl.html
+ * @link      http://www.postactiv.com/
+ *
+ * @see       DB_DataObject
+ * ============================================================================
  */
 
-if (!defined('STATUSNET')) {
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * For storing the poll options and such
- *
- * @category PollPlugin
- * @package  StatusNet
- * @author   Brion Vibber <brion@status.net>
- * @license  http://www.fsf.org/licensing/licenses/agpl.html AGPLv3
- * @link     http://status.net/
- *
- * @see      DB_DataObject
  */
-
 class Poll extends Managed_DataObject
 {
     public $__table = 'poll'; // table name
@@ -232,3 +227,4 @@ class Poll extends Managed_DataObject
         return $saved;
     }
 }
+?>

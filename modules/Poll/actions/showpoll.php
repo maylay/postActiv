@@ -1,15 +1,11 @@
 <?php
-/**
+/* ============================================================================
  * postActiv - a fork of the GNU Social microblogging software
  * Copyright (C) 2016, Maiyannah Bishop
  * Derived from code copyright various sources:
  *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
- *
- * Show a single Poll
- *
- * PHP version 5
- *
+ *   StatusNet (C) 2008-2012, StatusNet, Inc
+ * ----------------------------------------------------------------------------
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -22,30 +18,26 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * ----------------------------------------------------------------------------
+ * PHP version 5
  *
- * @category  PollPlugin
- * @package   StatusNet
- * @author    Brion Vibber <brion@status.net>
- * @copyright 2011 StatusNet, Inc.
+ * Show a single Poll
+ * ----------------------------------------------------------------------------
+ * @category  Polls
+ * @package   postActiv
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ * @copyright 2013-2016 Free Software Foundation, Inc
+ * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://status.net/
+ * @link      http://www.postactiv.com/
+ * ============================================================================
  */
 
-if (!defined('STATUSNET')) {
-    // This check helps protect against security problems;
-    // your code file can't be executed directly from the web.
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Show a single Poll, with associated information
- *
- * @category  PollPlugin
- * @package   StatusNet
- * @author    Brion Vibber <brion@status.net>
- * @copyright 2011 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
- * @link      http://status.net/
  */
 class ShowPollAction extends ShownoticeAction
 {
