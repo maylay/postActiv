@@ -326,6 +326,7 @@ class RedisQueue {
 			->sAdd('completed_ids', $item_id)
 			->delete($item_id)
 			->delete("$item_id.tries")
+			->delete("$item_id.processing")
 			->exec();
 		
 		return true;
