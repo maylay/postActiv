@@ -1,11 +1,19 @@
 <?php
 /* ============================================================================
- * postActiv - a fork of the GNU Social microblogging software
+ * Title: Entry Point
+ * Main postActiv entry point
+ *
+ * postActiv:
+ * the micro-blogging software
+ *
+ * Copyright:
  * Copyright (C) 2016, Maiyannah Bishop
- * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2012, StatusNet, Inc
+ *
+ * Derived from code copyright various sources
+ * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ * o StatusNet (C) 2008-2012, StatusNet, Inc
  * ----------------------------------------------------------------------------
+ * License:
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -18,37 +26,45 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * ----------------------------------------------------------------------------
- * PHP version 5
  *
+ * <https://www.gnu.org/licenses/agpl.html>
+ * ----------------------------------------------------------------------------
+ * About:
  * Main postActiv entry point
  *
- * @category  Main
- * @package   postActiv
- * @author    Evan Prodromou
- * @author    Gina Haeussge <osd@foosel.net>
- * @author    Mike Cochrane <mikec@mikenz.geek.nz>
- * @author    Ciaran Gultneiks <ciaran@ciarang.com>
- * @author    Robin Millette <robin@millette.info>
- * @author    Sarven Capadisli
- * @author    Jeffery To <jeffery.to@gmail.com>
- * @author    Tom Adams <tom@holizz.com>
- * @author    Christopher Vollick <psycotica0@gmail.com>
- * @author    Craig Andrews <candrews@integralblue.com>
- * @author    Brenda Wallace <shiny@cpan.org>
- * @author    Zach Copley
- * @author    Brion Vibber <brion@pobox.com>
- * @author    James Walker <walkah@walkah.net>
- * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
- * @author    Mikael Nordfeldth <mmn@hethane.se>
- * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2008-2012 StatusNet, Inc.
- * @copyright 2013-2016 Free Software Foundation, Inc.
- * @copyright 2016 Maiyannah Bishop
- * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://www.postactiv.com
- * ============================================================================ 
+ * Please note that the software will not execute if the install code is present
+ * on a live install.
+ *
+ * PHP version:
+ * Tested with PHP 5.6
+ * ----------------------------------------------------------------------------
+ * File Authors:
+ *  o Evan Prodromou
+ *  o Gina Haeussge <osd@foosel.net>
+ *  o Mike Cochrane <mikec@mikenz.geek.nz>
+ *  o Ciaran Gultneiks <ciaran@ciarang.com>
+ *  o Robin Millette <robin@millette.info>
+ *  o Sarven Capadisli
+ *  o Jeffery To <jeffery.to@gmail.com>
+ *  o Tom Adams <tom@holizz.com>
+ *  o Christopher Vollick <psycotica0@gmail.com>
+ *  o Craig Andrews <candrews@integralblue.com>
+ *  o Brenda Wallace <shiny@cpan.org>
+ *  o Zach Copley
+ *  o Brion Vibber <brion@pobox.com>
+ *  o James Walker <walkah@walkah.net>
+ *  o Siebrand Mazeland <s.mazeland@xs4all.nl>
+ *  o Mikael Nordfeldth <mmn@hethane.se>
+ *  o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ *
+ * Web:
+ *  o postActiv  <http://www.postactiv.com>
+ *  o GNU social <https://www.gnu.org/s/social/>
+ * ============================================================================
  */
+ 
+// This file is formatted so that it provides useful documentation output in
+// NaturalDocs.  Please be considerate of this before changing formatting.
 
 $_startTime = microtime(true);
 $_perfCounters = array();
@@ -72,6 +88,18 @@ if (file_exists(INSTALLDIR . '/install.php') & file_exists(INSTALLDIR . '/config
    die("Installation script present on a live install.  Please remove the installation script.");
 }
 
+// =============================================================================
+// Group: Helper functions
+// Functions used to help bootstrap the application.
+// -----------------------------------------------------------------------------
+// function: getPath
+// Returns the path we are operating postActiv under.
+//
+// Parameters:
+// $req
+//
+// Returns:
+// string
 function getPath($req)
 {
     $p = null;
@@ -99,11 +127,15 @@ function getPath($req)
     return $p;
 }
 
-/**
- * logs and then displays error messages
- *
- * @return void
- */
+// -----------------------------------------------------------------------------
+// Function: handleError
+// Logs and then displays error messages
+//
+// Parameters:
+// $error - exception
+//
+// Return:
+// void
 function handleError($error)
 {
     try {
@@ -178,14 +210,17 @@ if (preg_replace("/\?.+$/", "", $_SERVER['REQUEST_URI']) === preg_replace("/^\/$
 
 require_once INSTALLDIR . '/lib/common.php';
 
-/**
- * Format a backtrace line for debug output roughly like debug_print_backtrace() does.
- * Exceptions already have this built in, but PEAR error objects just give us the array.
- *
- * @param int $n line number
- * @param array $line per-frame array item from debug_backtrace()
- * @return string
- */
+// -----------------------------------------------------------------------------
+// function: formatBacktraceLine
+// Format a backtrace line for debug output roughly like debug_print_backtrace() does.
+// Exceptions already have this built in, but PEAR error objects just give us the array.
+//
+// Parameters:
+// o $n - int line number
+// o $line - per-frame array item from debug_backtrace()
+//
+// Returns:
+// string
 function formatBacktraceLine($n, $line)
 {
     $out = "#$n ";
@@ -210,6 +245,15 @@ function formatBacktraceLine($n, $line)
     return $out;
 }
 
+// -----------------------------------------------------------------------------
+// function: setupRW
+// Sets up read/write access to the underlying database
+//
+// Parameters:
+// None
+//
+// Returns:
+// Void
 function setupRW()
 {
     global $config;
@@ -236,6 +280,19 @@ function setupRW()
     return;
 }
 
+
+// ============================================================================
+// Group: Entry points
+// ----------------------------------------------------------------------------
+// Function: isLoginAction
+// Returns true of the index is being accessed as part of a login action, false
+// if not
+//
+// Parameters:
+// $action
+//
+// Returns
+// boolean
 function isLoginAction($action)
 {
     static $loginActions =  array('login', 'recoverpassword', 'api', 'doc', 'register', 'publicxrds', 'otp', 'opensearch', 'rsd');
@@ -249,6 +306,15 @@ function isLoginAction($action)
     return $login;
 }
 
+// ----------------------------------------------------------------------------
+// Function: main
+// Main entry point for the server application
+//
+// Parameters:
+// None
+//
+// Returns:
+// Void
 function main()
 {
     global $user, $action;
@@ -342,4 +408,7 @@ main();
 // this always gets called
 
 Event::handle('CleanupPlugin');
+
+// END OF FILE
+// =============================================================================
 ?>
