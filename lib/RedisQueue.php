@@ -1,11 +1,19 @@
 <?php
 /* ============================================================================
- * postActiv - a fork of the GNU Social microblogging software
+ * Title: Redis Queue
+ * Brand shiny new queue handler using Redis
+ *
+ * postActiv:
+ * the micro-blogging software
+ *
+ * Copyright:
  * Copyright (C) 2016, Maiyannah Bishop
+ *
  * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2012, StatusNet, Inc
+ * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ * o StatusNet (C) 2008-2012, StatusNet, Inc
  * ----------------------------------------------------------------------------
+ * License:
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -18,21 +26,38 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * ----------------------------------------------------------------------------
- * PHP version 5
  *
+ * <https://www.gnu.org/licenses/agpl.html>
+ * ----------------------------------------------------------------------------
+ * About:
  * Simple-minded queue manager for storing items in the database
  *
- * @category  Queue
- * @package   postActiv
- * @author    Neil E. Hodges
- * @author    Neil E. Hodges <47hasbegun@gmail.com>
- * @copyright 2016 Neil E. Hdoges
- * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://status.net/
+ * PHP version:
+ * Tested with PHP 5.6
+ * ----------------------------------------------------------------------------
+ * File Authors:
+ * o Neil E. Hodges <47hasbegun@gmail.com>
+ * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ *
+ * File Copyright:
+ * o 2016 Neil E. Hdoges
+ *
+ * Web:
+ *  o postActiv  <http://www.postactiv.com>
+ *  o GNU social <https://www.gnu.org/s/social/>
+ * ============================================================================
  */
 
+// This file is formatted so that it provides useful documentation output in
+// NaturalDocs.  Please be considerate of this before changing formatting.
 
+// ----------------------------------------------------------------------------
+// Class: HostPort
+// Contains information about the connection used to connect to Redis
+//
+// Variables:
+// o host: IP address of host
+// o port: port of host we're connecting to
 class HostPort {
 	public $host;
 	public $port;
@@ -43,7 +68,12 @@ class HostPort {
 }
 
 
-
+// ----------------------------------------------------------------------------
+// Class: RedisLock
+// A class to abstract a redis lock
+//
+// Defines:
+// o REDLOCK_UNLOCK - redis script to remove a lock
 class RedisLock {
 	protected $redis;
 	const REDLOCK_UNLOCK = '
@@ -53,12 +83,29 @@ class RedisLock {
 			return 0
 		end';
 
+   // -------------------------------------------------------------------------
+   // Function: __construct
+   // Class constructor
+   //
+   // Parameters:
+   // o redis - redis object we are a redis lock for
+   // o name - a name to assign the lock
 	function __construct($redis, $name) {
 		$this->redis = $redis;
 		$this->name = $name;
 		$this->nonce = null;
 	}
 
+   // -------------------------------------------------------------------------
+   // Function: lock
+   // Set a redis lock with given expiration and timeout
+   //
+   // Parameters:
+   // o expiration
+   // o timeout (default 1)
+   //
+   // Error State:
+   // o if timeout <= 0 an UnexpectedValueException is raised
 	function lock($expiration, $timeout = 1) {
 		if ($timeout <= 0)
 			throw new UnexpectedValueException('Timeout must be greater than zero.');
@@ -74,13 +121,27 @@ class RedisLock {
 		return false;
 	}
 
+   // -------------------------------------------------------------------------
+   // Function: unlock
+   // Remove a redis lock if one exists
 	function unlock() {
 		return $this->redis->eval(self::REDLOCK_UNLOCK, [$this->name, $this->nonce], 1);
 	}
 }
 
+
+// ----------------------------------------------------------------------------
+// Class: RedisTimeout
+// Exception for when we time out waiting for Redis
+//
+// Variables:
+// o processing_id_count - what it says on the tin
 class RedisTimeout extends Exception {
 	public $processing_id_count;
+
+   // -------------------------------------------------------------------------
+	// Function: __construct
+	// Exception class constructor
 	public function __construct($processing_id_count) {
 		Exception::__construct("Timed out waiting for Redis.  PIDC: $processing_id_count");
 		$this->processing_id_count = $processing_id_count;
@@ -88,10 +149,25 @@ class RedisTimeout extends Exception {
 }
 
 
+// ----------------------------------------------------------------------------
+// Class: RedisContainer
+// Object to contain the queue item being passed to Redis
+//
+// Variables:
+// o item    - thing we're containing
+// o created - timestamp of when the item was created
 class RedisContainer {
 	# Only used for storing the item within Redis itself.
 	public $item;
 	public $created;
+	
+	// -------------------------------------------------------------------------
+	// Function: __construct
+	// Constructor for the class
+	//
+	// Parameters:
+	// item    - thing we're tossing in a container
+	// created - time we created the container (if null, sets to now)
 	public function __construct($item, $created = null) {
 		$this->item = $item;
 		if ($created === null)
@@ -101,12 +177,27 @@ class RedisContainer {
 	}
 }
 
+
+// ----------------------------------------------------------------------------
+// Class: RedisQueueItem
+// Class representation of a queue item as needed for Redis
+//
+// Variables:
+// id                  - uid of the item
+// tries               - how many times we've attempted to process the item
+// created             - creation timestamp
+// item                - actual item the queueitem represents (notice posted, etc)
+// processing_id_count - pidc for Redis
 class RedisQueueItem {
 	public $id;
 	public $tries;
 	public $created;
 	public $item;
 	public $processing_id_count;
+	
+	// -------------------------------------------------------------------------
+	// Function: __construct
+	// Class constructor
 	public function __construct($id, $tries, $created, $item, $processing_id_count = 0) {
 		$this->id = $id;
 		$this->tries = $tries;
@@ -114,6 +205,10 @@ class RedisQueueItem {
 		$this->item = $item;
 		$this->processing_id_count = 0;
 	}
+	
+	// -------------------------------------------------------------------------
+	// Function: age
+	// How old is this queue item?
 	public function age($now = null) {
 		if ($now === null)
 			$now = new Datetime('now', new DateTimeZone('UTC'));
@@ -121,9 +216,23 @@ class RedisQueueItem {
 	}
 }
 
+
+// ----------------------------------------------------------------------------
+// Class: RedisQueue
+// Abstraction for the actual Redis queue
+//
+// Defines:
+// o LOCK_TIMEOUT       - 3 seconds
+// o LOCK_EXPIRATION    - 1 minute
+// o PROCESSING_TIMEOUT - 5 minutes
+// o REDIS_SYNC         - Redis script to sync queue items
+// 
+// Variables:
+// o redis - object for the Redis connection
 class RedisQueue {
 	const LOCK_TIMEOUT = 3; // 3 seconds
 	const LOCK_EXPIRATION = 60 * 1000; // 1 minute
+	const PROCESSING_TIMEOUT = 300; # 5 minutes
 	const REDIS_SYNC = '
 		local flush_count = 0
 		local to_repush = {}
@@ -165,9 +274,19 @@ class RedisQueue {
 		end
 
 		return flush_count';
-	const PROCESSING_TIMEOUT = 300; # 5 minutes
 	protected $redis;
 
+   // -------------------------------------------------------------------------
+   // Function: __construct
+   // Class constructor
+   //
+   // Parameters:
+   // o address    - URI of the Redis we're connecting to
+   // o namespace  - namespace for queue items
+   // o expiration - Expiration of the queue items
+   //
+   // Error State:
+   // o Failing to connect to Redis at the given address will raise an exception
 	function __construct($address, $namespace, $expiration) {
 		$this->namespace = $namespace;
 		$this->key_regex = sprintf('/^%s\./', addslashes($namespace));
@@ -185,7 +304,13 @@ class RedisQueue {
 		$this->sync();
 	}
 
-
+   // -------------------------------------------------------------------------
+   // Function: close
+   // Close the Redis connection
+   //
+   // Parameters:
+   // o sync - whether or not to sync the queue before closing the connection
+   // (default false)
 	public function close($sync = false) {
 		if ($this->redis !== null) {
 			if ($sync)
@@ -195,7 +320,15 @@ class RedisQueue {
 		}
 	}
 
-
+   // -------------------------------------------------------------------------
+   // Function: sync
+   // Sync the Redis queue using the script
+   //
+   // Parameters:
+   // o disk - also save to disk?  t/f
+   //
+   // Error State:
+   // o will throw an exception if the connection has been closed
 	public function sync($disk = false) {
 		if ($this->redis === null)
 			throw new LogicException("Connection has already been closed");
@@ -210,19 +343,45 @@ class RedisQueue {
 		return ($result > 0);
 	}
 
+   // -------------------------------------------------------------------------
+   // Function: fromTCP
+   // Create a Redis connection and associated queue from a TCP connection
+   //
+   // Parameters:
+   // o host       - URI of the Redis host
+   // o port       - TCP port on host to connect to
+   // o namespace  - namespace of this queue's items
+   // o expiration - expiration of queue items
 	public static function fromTCP($host, $port, $namespace, $expiration) {
 		$hp = new HostPort($host, $port);
 		return new RedisQueue($hp, $namespace, $expiration);
 	}
 
+   // -------------------------------------------------------------------------
+   // Function: fromUnix
+   // Create a Redis connection and associated queue from a Unix socket
+   //
+   // Parameters:
+   // o location   - location of the Unix socket
+   // o namespace  - namespace of this queue's items
+   // o expiration - expiration of queue items
 	public static function fromUnix($location, $namespace, $expiration) {
 		return new RedisQueue($location, $namespace, $expiration);
 	}
 
+   // -------------------------------------------------------------------------
+   // Function: nextIdLock
+   // Create a Redis lock
 	protected function nextIdLock() {
 		return new RedisLock($this->redis, 'next_id_lock');
 	}
 
+   // --------------------------------------------------------------------------
+   // Function: nextId
+   // Find the next queue item (locking it while we process)
+   // 
+   // Error State:
+   // o will throw an exception if the connection has been closed
 	protected function nextId() {
 		if ($this->redis === null)
 			throw new LogicException("Connection has already been closed");
@@ -250,6 +409,16 @@ class RedisQueue {
 		return $next_id;
 	}
 
+   // -------------------------------------------------------------------------
+   // Function: put
+   // Add an item to the queue
+   //
+   // Parameter:
+   // o item - item to be added
+   //
+   // Error State:
+   // o If the function fails to add an item to the queue, it will rais an
+   // exception
 	public function put($item) {
 		$item = serialize(new RedisContainer($item));
 		$item_id = $this->nextId();
@@ -268,6 +437,18 @@ class RedisQueue {
 		return $item_id;
 	}
 
+   // -------------------------------------------------------------------------
+   // Function: get
+   // Retrieve an item from the queue
+   //
+   // Parameters:
+   // o timeout - how long to wait for retrieval before considering retrieval
+   //             to have failed
+   // o tries   - how many times have we tried to retrieve this item? (default 0)
+   //
+   // Error States:
+   // o Will throw an exception if the connection has been closed
+   // o If processing time exceeds $timeout, it will throw a timeout exception
 	public function get($timeout, $tries = 0) {
 		if ($this->redis === null)
 			throw new LogicException("Connection has already been closed");
@@ -320,6 +501,15 @@ class RedisQueue {
 		throw new RedisTimeout($processing_id_count);
 	}
 
+   // -------------------------------------------------------------------------
+   // Function: markComplete
+   // Mark a queue item as having been completed
+   //
+   // Parameter:
+   // item_id - id of the item to mark
+   //
+   // Error State:
+   // o will throw an exception if the connection has been closed
 	public function markComplete($item_id) {
 		if ($this->redis === null)
 			throw new LogicException("Connection has already been closed");
@@ -330,10 +520,19 @@ class RedisQueue {
 			->delete("$item_id.tries")
 			->delete("$item_id.processing")
 			->exec();
-		
+
 		return true;
 	}
 
+   // -------------------------------------------------------------------------
+   // Function: markIncomplete
+   // Mark a queue item as having not been yet completed.
+   //
+   // Parameter:
+   // item_id - id of the item to mark
+   //
+   // Error State:
+   // o will throw an exception if the connection has been closed
 	public function markIncomplete($item_id) {
 		if ($this->redis === null)
 			throw new LogicException("Connection has already been closed");
@@ -341,7 +540,12 @@ class RedisQueue {
 		return true;
 	}
 
-
+   // -------------------------------------------------------------------------
+   // Function: scrub
+   // Cleanup the Redis queue
+   //
+   // Error State:
+   // o will throw an exception if the connection has been closed
 	public function scrub() {
 		if ($this->redis === null)
 			throw new LogicException("Connection has already been closed");
@@ -352,12 +556,19 @@ class RedisQueue {
 		return $this->redis->delete($outkeys);
 	}
 
+   // -------------------------------------------------------------------------
+   // Function: itemsBeingProcessed
+   // Returns how many items are currently being processed.  This isn't a 
+   // precise count, but rather a metric used for determining when to call sync()
+   //
+   // Error State:
+   // o will throw an exception if the connection has been closed
 	public function itemsBeingProcessed() {
-		# This isn't a precise count, but rather a metric used for determining
-		# when to call sync().
 		if ($this->redis === null)
 			throw new LogicException("Connection has already been closed");
 		return $this->redis->lLen('processing_ids');
 	}
 }
+// END OF FILE
+// ============================================================================
 ?>
