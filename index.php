@@ -9,7 +9,7 @@
  * Copyright:
  * Copyright (C) 2016, Maiyannah Bishop
  *
- * Derived from code copyright various sources
+ * Derived from code copyright various sources:
  * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
  * o StatusNet (C) 2008-2012, StatusNet, Inc
  * ----------------------------------------------------------------------------
@@ -34,6 +34,12 @@
  *
  * Please note that the software will not execute if the install code is present
  * on a live install.
+ *
+ * Defines:
+ * o INSTALLDIR - root directory of the install where index.php is running from
+ * o POSTACTIV  - security constant
+ * o GNUSOCIAL  - legacy security constant
+ * o STATUSNET  - legacy security constant
  *
  * PHP version:
  * Tested with PHP 5.6
