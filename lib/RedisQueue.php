@@ -53,7 +53,8 @@
 
 // ----------------------------------------------------------------------------
 // Class: HostPort
-// Contains information about the connection used to connect to Redis
+// Contains information about the connection used to connect to Redis if we're
+// using a TCP connection.
 //
 // Variables:
 // o host: IP address of host
@@ -281,7 +282,9 @@ class RedisQueue {
    // Class constructor
    //
    // Parameters:
-   // o address    - URI of the Redis we're connecting to
+   // o address    - location of the Redis we're connecting to, either a string
+   //                containing the Unix socket location, or a HostPort object w/
+   //                TCP connection information
    // o namespace  - namespace for queue items
    // o expiration - Expiration of the queue items
    //
@@ -378,7 +381,7 @@ class RedisQueue {
 
    // --------------------------------------------------------------------------
    // Function: nextId
-   // Find the next queue item (locking it while we process)
+   // Find the next queue item's ID (locking it while we process)
    // 
    // Error State:
    // o will throw an exception if the connection has been closed
@@ -543,6 +546,8 @@ class RedisQueue {
    // -------------------------------------------------------------------------
    // Function: scrub
    // Cleanup the Redis queue
+   //
+   // Used for when we're testing the queue, not meant for use in production
    //
    // Error State:
    // o will throw an exception if the connection has been closed
