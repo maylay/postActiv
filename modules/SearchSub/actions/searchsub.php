@@ -70,7 +70,7 @@ class SearchsubAction extends Action
     {
         parent::prepare($args);
         if ($this->boolean('ajax')) {
-            GNUsocial::setApi(true);
+            postActiv::setApi(true);
         }
 
         // Only allow POST requests

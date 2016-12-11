@@ -42,7 +42,7 @@ if (have_option('u', 'universe')) {
     if ($sn->find()) {
         while ($sn->fetch()) {
             $server = $sn->getServerName();
-            GNUsocial::init($server);
+            postActiv::init($server);
             // Different queue manager, maybe!
             $qm = QueueManager::get();
             $qm->enqueue(1, 'sitesum');

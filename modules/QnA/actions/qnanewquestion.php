@@ -125,7 +125,7 @@ class QnanewquestionAction extends Action
     function newQuestion()
     {
         if ($this->boolean('ajax')) {
-            GNUsocial::setApi(true);
+            postActiv::setApi(true);
         }
         try {
             if (empty($this->title)) {

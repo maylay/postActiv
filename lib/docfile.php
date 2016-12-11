@@ -105,8 +105,8 @@ class DocFile
         $paths = array(INSTALLDIR.'/local/doc-src/',
                        INSTALLDIR.'/doc-src/');
 
-        $site = GNUsocial::currentSite();
-        
+        $site = postActiv::currentSite();
+
         if (!empty($site)) {
             array_unshift($paths, INSTALLDIR.'/local/doc-src/'.$site.'/');
         }
@@ -119,8 +119,8 @@ class DocFile
         $paths = array(INSTALLDIR.'/local/mail-src/',
                        INSTALLDIR.'/mail-src/');
 
-        $site = GNUsocial::currentSite();
-        
+        $site = postActiv::currentSite();
+
         if (!empty($site)) {
             array_unshift($paths, INSTALLDIR.'/local/mail-src/'.$site.'/');
         }

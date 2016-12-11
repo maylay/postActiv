@@ -436,7 +436,7 @@ class StompQueueManager extends QueueManager
             $con->subscribe($sub);
         }
     }
-    
+
     /**
      * Grab a full list of stomp-side queue subscriptions.
      * Will include:
@@ -496,7 +496,7 @@ class StompQueueManager extends QueueManager
 
         if ($this->isDeadletter($frame, $message)) {
             $this->stats('deadletter', $queue);
-	        return false;
+            return false;
         }
 
         // @fixme detect failing site switches
@@ -550,28 +550,28 @@ class StompQueueManager extends QueueManager
     protected function isDeadLetter($frame, $message)
     {
         if (isset($frame->headers['redelivered']) && $frame->headers['redelivered'] == 'true') {
-	        // Message was redelivered, possibly indicating a previous failure.
+            // Message was redelivered, possibly indicating a previous failure.
             $msgId = $frame->headers['message-id'];
             $site = $message['site'];
             $queue = $message['handler'];
-	        $msgInfo = "message $msgId for $site in queue $queue";
+            $msgInfo = "message $msgId for $site in queue $queue";
 
-	        $deliveries = $this->incDeliveryCount($msgId);
-	        if ($deliveries > common_config('queue', 'max_retries')) {
-		        $info = "DEAD-LETTER FILE: Gave up after retry $deliveries on $msgInfo";
+            $deliveries = $this->incDeliveryCount($msgId);
+            if ($deliveries > common_config('queue', 'max_retries')) {
+                $info = "DEAD-LETTER FILE: Gave up after retry $deliveries on $msgInfo";
 
-		        $outdir = common_config('queue', 'dead_letter_dir');
-		        if ($outdir) {
-    		        $filename = $outdir . "/$site-$queue-" . rawurlencode($msgId);
-    		        $info .= ": dumping to $filename";
-    		        file_put_contents($filename, $message['payload']);
-		        }
+                $outdir = common_config('queue', 'dead_letter_dir');
+                if ($outdir) {
+                    $filename = $outdir . "/$site-$queue-" . rawurlencode($msgId);
+                    $info .= ": dumping to $filename";
+                    file_put_contents($filename, $message['payload']);
+                }
 
-		        common_log(LOG_ERR, $info);
-		        return true;
-	        } else {
-	            common_log(LOG_INFO, "retry $deliveries on $msgInfo");
-	        }
+                common_log(LOG_ERR, $info);
+                return true;
+            } else {
+                common_log(LOG_INFO, "retry $deliveries on $msgInfo");
+            }
         }
         return false;
     }
@@ -587,18 +587,18 @@ class StompQueueManager extends QueueManager
      */
     function incDeliveryCount($msgId)
     {
-	    $count = 0;
-	    $cache = Cache::instance();
-	    if ($cache) {
-		    $key = 'statusnet:stomp:message-retries:' . $msgId;
-		    $count = $cache->increment($key);
-		    if (!$count) {
-			    $count = 1;
-			    $cache->set($key, $count, null, 3600);
-			    $got = $cache->get($key);
-		    }
-	    }
-	    return $count;
+        $count = 0;
+        $cache = Cache::instance();
+        if ($cache) {
+            $key = 'statusnet:stomp:message-retries:' . $msgId;
+            $count = $cache->increment($key);
+            if (!$count) {
+                $count = 1;
+                $cache->set($key, $count, null, 3600);
+                $got = $cache->get($key);
+            }
+        }
+        return $count;
     }
 
     /**
@@ -640,9 +640,9 @@ class StompQueueManager extends QueueManager
      */
     function switchSite($site)
     {
-        if ($site != GNUsocial::currentSite()) {
+        if ($site != postActiv::currentSite()) {
             $this->stats('switch');
-            GNUsocial::switchSite($site);
+            postActiv::switchSite($site);
             $this->initialize();
         }
     }
@@ -685,7 +685,7 @@ class StompQueueManager extends QueueManager
     protected function queueName($queue)
     {
         $group = $this->queueGroup($queue);
-        $site = GNUsocial::currentSite();
+        $site = postActiv::currentSite();
 
         $specs = array("$group/$queue/$site",
                        "$group/$queue");
