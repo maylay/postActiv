@@ -100,7 +100,7 @@ if (have_option('u', 'universe')) {
             while ($sn->fetch()) {
                 try {
                     $server = $sn->getServerName();
-                    GNUsocial::init($server);
+                    postActiv::init($server);
                     // Different queue manager, maybe!
                     $qm = QueueManager::get();
                     foreach ($reminders as $reminder) {

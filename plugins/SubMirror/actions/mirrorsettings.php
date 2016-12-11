@@ -63,7 +63,7 @@ class MirrorSettingsAction extends SettingsAction
     function showContent()
     {
         $provider = $this->trimmed('provider');
-        if (!empty($provider) || GNUsocial::isAjax()) {
+        if (!empty($provider) || postActiv::isAjax()) {
             $this->showAddFeedForm($provider);
         } else {
             $this->elementStart('div', array('id' => 'add-mirror'));
