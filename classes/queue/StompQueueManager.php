@@ -1,4 +1,4 @@
-<?php
+/* <?php
 /* ============================================================================
  * Title: Stomp Queue Manager
  * Queue manager class for the STOMP-based queue.
@@ -50,7 +50,7 @@
  */
 
 // This file is formatted so that it provides useful documentation output in
-// NaturalDocs.  Please be considerate of this before changing formatting.
+// NaturalDocs.  Please be considerate of this before changing formatting. */
 
 require_once 'Stomp.php';
 require_once 'Stomp/Exception.php';
