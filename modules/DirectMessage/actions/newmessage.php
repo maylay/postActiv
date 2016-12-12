@@ -135,7 +135,7 @@ class NewmessageAction extends FormAction
         $message = Message::saveNew($this->scoped->id, $this->other->id, $this->content, 'web');
         $message->notify();
 
-        if (GNUsocial::isAjax()) {
+        if (postActiv::isAjax()) {
             // TRANS: Confirmation text after sending a direct message.
             // TRANS: %s is the direct message recipient.
             return sprintf(_('Direct message to %s sent.'), $this->other->getNickname());

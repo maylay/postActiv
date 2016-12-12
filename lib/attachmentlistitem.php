@@ -185,7 +185,7 @@ class AttachmentListItem extends Widget
                         break;
                     case 'text/html':
                         if (!empty($this->attachment->filename)
-                                && (GNUsocial::isAjax() || common_config('attachments', 'show_html'))) {
+                                && (postActiv::isAjax() || common_config('attachments', 'show_html'))) {
                             // Locally-uploaded HTML. Scrub and display inline.
                             $this->showHtmlFile($this->attachment);
                             break;

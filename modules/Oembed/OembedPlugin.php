@@ -166,7 +166,7 @@ class OembedPlugin extends Plugin
          if($metadata->thumbnail_url == 'https://s0.wp.com/i/blank.jpg') {
             unset($metadata->thumbnail_url);
          }
-         
+
          // FIXME: this is also true of locally-installed wordpress so we should watch out for that.
       }
       return true;
@@ -387,7 +387,7 @@ class OembedPlugin extends Plugin
         case 'video':
         case 'link':
             if (!empty($oembed->html)
-                    && (GNUsocial::isAjax() || common_config('attachments', 'show_html'))) {
+                    && (postActiv::isAjax() || common_config('attachments', 'show_html'))) {
                 require_once INSTALLDIR.'/extlib/HTMLPurifier/HTMLPurifier.auto.php';
                 $purifier = new HTMLPurifier();
                 // FIXME: do we allow <object> and <embed> here? we did that when we used htmLawed, but I'm not sure anymore...
@@ -407,7 +407,7 @@ class OembedPlugin extends Plugin
    //         $imgPath = the path to the created thumbnail
    //         $media = media type the thumbnail was created for
    // Man that name is a mouthful.
-   // This event executes when postActiv is creating a file thumbnail entry in 
+   // This event executes when postActiv is creating a file thumbnail entry in
    // the database.  We glom onto this to create proper information for oEmbed
    // object thumbnails.  Returns true if it succeeds (including non-action
    // states where it isn't oEmbed data, so it doesn't mess up the event handle
@@ -499,9 +499,9 @@ class OembedPlugin extends Plugin
    // -------------------------------------------------------------------------
    // OembedPlugin::isRemoteImage($url) private function.
    // A private helper function that uses a CURL lookup to check the mime type
-   // of a remote URL to see it it's an image.  Returns true if the remote URL 
+   // of a remote URL to see it it's an image.  Returns true if the remote URL
    // is an image, or false otherwise.
-   // FIXME: We should probably sanity-check the input to make sure it's a 
+   // FIXME: We should probably sanity-check the input to make sure it's a
    // valid URL.
    private function isRemoteImage($url) {
       if ($url==null) {
@@ -530,7 +530,7 @@ class OembedPlugin extends Plugin
    // An internal helper function that parses the php.ini file size limit from
    // the 'human-readable' shorthand into something we can use to test against
    // in conditionals.
-   // Returns the php.ini upload limit in machine-readable format, or the 
+   // Returns the php.ini upload limit in machine-readable format, or the
    // exception if it fails.
    // FIXME: We could probably move this to a public utility library.
    private function getPHPUploadLimit() {

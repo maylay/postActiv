@@ -78,7 +78,7 @@ class Qnavote extends Action
     {
         parent::prepare($args);
         if ($this->boolean('ajax')) {
-            GNUsocial::setApi(true);
+            postActiv::setApi(true);
         }
 
         $this->user = common_current_user();

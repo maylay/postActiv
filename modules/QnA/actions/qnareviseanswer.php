@@ -30,7 +30,7 @@
  * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://status.net/
  */
- 
+
 if (!defined('STATUSNET')) {
     // This check helps protect against security problems;
     // your code file can't be executed directly from the web.
@@ -77,7 +77,7 @@ class QnareviseanswerAction extends Action
     {
         parent::prepare($args);
         if ($this->boolean('ajax')) {
-            GNUsocial::setApi(true);
+            postActiv::setApi(true);
         }
 
         $this->user = common_current_user();
