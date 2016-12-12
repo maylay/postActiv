@@ -47,11 +47,13 @@
  * Tested with PHP 5.6
  * ----------------------------------------------------------------------------
  * File Authors:
- * o Neil E. Hodges <47hasbegun@gmail.com>
+ * o Evan Prodromou
+ * o Federico Marani <federico.marani@ymail.com>
+ * o Zach Copley
+ * o Brion Vibber <brion@pobox.com>
+ * o Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * o Craig Andrews <candrews@integralblue.com>
  * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- *
- * File Copyright:
- * o 2016 Neil E. Hodges
  *
  * Web:
  *  o postActiv  <http://www.postactiv.com>
