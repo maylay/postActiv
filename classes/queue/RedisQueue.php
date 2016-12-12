@@ -40,7 +40,7 @@
  * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  *
  * File Copyright:
- * o 2016 Neil E. Hdoges
+ * o 2016 Neil E. Hodges
  *
  * Web:
  *  o postActiv  <http://www.postactiv.com>
