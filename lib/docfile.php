@@ -102,7 +102,8 @@ class DocFile
 
     static function defaultPaths()
     {
-        $paths = array(INSTALLDIR.'/local/doc-src/',
+        $paths = array(INSTALLDIR.'/media/doc-src/',
+                       INSTALLDIR.'/local/doc-src/',
                        INSTALLDIR.'/doc-src/');
 
         $site = postActiv::currentSite();
