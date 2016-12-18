@@ -1,6 +1,6 @@
 <?php
 /* ============================================================================
- * Title: Location Preferences
+ * Title: User Location Preferences
  * Class to hold a user's location preferences
  *
  * postActiv:

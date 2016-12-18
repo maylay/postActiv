@@ -1,6 +1,6 @@
 <?php
 /* ============================================================================
- * Title: Location Preferences
+ * Title: User IM Preferences
  * Class to hold a user's instant messaging preferences
  *
  * postActiv:
