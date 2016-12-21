@@ -136,8 +136,10 @@ function postActiv_class_autoload($cls)
 {
    if (file_exists(INSTALLDIR.'/classes/' . $cls . '.php')) {
       require_once(INSTALLDIR.'/classes/' . $cls . '.php');
+   } else if (file_exists(INSTALLDIR.'/classes/activity/' . $cls . '.php')) {
+      require_once(INSTALLDIR.'/classes/activity/' . $cls . '.php');
    } else if (file_exists(INSTALLDIR.'/classes/plugins/' . $cls . '.php')) {
-      require_once(INSTALLDIR.'/classes/plugins/' . $cls . '.php');
+      require_once(INSTALLDIR.'/classes/plugins/' . $cls . '.php');      
    } else if (file_exists(INSTALLDIR.'/classes/queue/' . $cls . '.php')) {
       require_once(INSTALLDIR.'/classes/queue/' . $cls . '.php');
    } else if (file_exists(INSTALLDIR.'/lib/' . strtolower($cls) . '.php')) {
