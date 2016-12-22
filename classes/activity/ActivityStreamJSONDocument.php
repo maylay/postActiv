@@ -181,7 +181,7 @@ class ActivityStreamJSONDocument extends JSONActivityCollection
    // Returns:
    // o string encoded JSON output
    function asString() {
-      $this->doc['generator'] = 'GNU social ' . GNUSOCIAL_VERSION; // extension
+      $this->doc['generator'] = 'postActiv ' . GNUSOCIAL_VERSION; // extension
       $this->doc['title'] = $this->title;
       $this->doc['url']   = $this->url;
       $this->doc['totalItems'] = $this->count;
