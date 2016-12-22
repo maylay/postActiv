@@ -50,26 +50,38 @@
 
 if (!defined('POSTACTIV')) { exit(1); }
 
+
+// ----------------------------------------------------------------------------
+// Class: ActivityStreamsLink
+// Class for links in an ActivityStreams JSON Activity.
+//
+// Variables:
+// o linkDict
 class ActivityStreamsLink
 {
-    private $linkDict;
+   private $linkDict;
 
-    function __construct($url = null, $rel = null, $mediaType = null)
-    {
-        // links MUST have a URL
-        if (empty($url)) {
-            throw new Exception('Links must have a URL.');
-        }
+   // -------------------------------------------------------------------------
+   // Function: __construct
+   // Class constructor
+   function __construct($url = null, $rel = null, $mediaType = null) {
+      // links MUST have a URL
+      if (empty($url)) {
+         throw new Exception('Links must have a URL.');
+      }
 
-        $this->linkDict = array(
-            'url'   => $url,
-            'rel'   => $rel,      // extension
-            'type'  => $mediaType // extension
-        );
-    }
+      $this->linkDict = array(
+         'url'   => $url,
+         'rel'   => $rel,      // extension
+         'type'  => $mediaType // extension
+      );
+   }
 
-    function asArray()
-    {
+
+   // -------------------------------------------------------------------------
+   // Function: asArray
+   // Return the link dictionary as an array
+   function asArray() {
         return array_filter($this->linkDict);
     }
 }
