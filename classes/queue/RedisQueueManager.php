@@ -58,157 +58,157 @@ require_once(INSTALLDIR . '/classes/queue/RedisQueue.php');
 // ----------------------------------------------------------------------------
 // Class: TransportItem
 class TransportItem {
-	public $transport;
-	public $item;
-	function __construct($transport, $item) {
-		$this->transport = $transport;
-		$this->item = $item;
-	}
+   public $transport;
+   public $item;
+   function __construct($transport, $item) {
+      $this->transport = $transport;
+      $this->item = $item;
+   }
 }
 
 // ----------------------------------------------------------------------------
 // Class: RedisQueueManager
 class RedisQueueManager extends QueueManager {
-	protected $socket_location = null;
-	protected $host = null;
-	protected $port = null;
-	protected $namespace;
-	protected $expiration;
-	protected $connection = null;
+   protected $socket_location = null;
+   protected $host = null;
+   protected $port = null;
+   protected $namespace;
+   protected $expiration;
+   protected $connection = null;
 
-	function __construct() {
-		parent::__construct();
+   function __construct() {
+      parent::__construct();
 
-        $this->socket_location = common_config('queue', 'redis_socket_location');
-		if (!$this->socket_location) {
-			$this->host        = common_config('queue', 'redis_host');
-			$this->port        = common_config('queue', 'redis_port');
-			if (!$this->host || !$this->port)
-				throw new UnexpectedValueException('Unable to find any valid servers.');
-		}
+      $this->socket_location = common_config('queue', 'redis_socket_location');
+      if (!$this->socket_location) {
+         $this->host        = common_config('queue', 'redis_host');
+         $this->port        = common_config('queue', 'redis_port');
+         if (!$this->host || !$this->port)
+            throw new UnexpectedValueException('Unable to find any valid servers.');
+      }
 
         $this->namespace       = common_config('queue', 'redis_namespace');
-		if (!$this->namespace)
-			throw new UnexpectedValueException('Invalid Redis namespace.');
+      if (!$this->namespace)
+         throw new UnexpectedValueException('Invalid Redis namespace.');
 
         $this->retries         = intval(common_config('queue', 'redis_retries'));
-		if ($this->retries < 1)
-			throw new UnexpectedValueException('At least one retry is allowed');
+      if ($this->retries < 1)
+         throw new UnexpectedValueException('At least one retry is allowed');
 
-		# Config is in seconds, but Redis wants milliseconds.
+      # Config is in seconds, but Redis wants milliseconds.
         $this->expiration      = intval(common_config('queue', 'redis_expiration')) * 1000;
-		if ($this->expiration < 3600000)
-			throw new UnexpectedValueException('Expiration must be at least an hour (3600 seconds)');
+      if ($this->expiration < 3600000)
+         throw new UnexpectedValueException('Expiration must be at least an hour (3600 seconds)');
 
-	}
+   }
 
-	function __destruct() {
-		$this->_disconnect();
-	}
+   function __destruct() {
+      $this->_disconnect();
+   }
 
-	protected function _connect($force = false) {
-		if ($force && $this->connection !== null)
-			$this->_disconnect();
+   protected function _connect($force = false) {
+      if ($force && $this->connection !== null)
+         $this->_disconnect();
 
-		if ($this->connection === null) {
+      if ($this->connection === null) {
             $this->_log(LOG_INFO, 'Connecting to Redis');
-			if ($this->socket_location)
-				$this->connection = RedisQueue::fromUnix($this->socket_location, $this->namespace, $this->expiration);
-			else
-				$this->connection = RedisQueue::fromTCP($this->host, $this->port, $this->namespace, $this->expiration);
-		}
-	}
+         if ($this->socket_location)
+            $this->connection = RedisQueue::fromUnix($this->socket_location, $this->namespace, $this->expiration);
+         else
+            $this->connection = RedisQueue::fromTCP($this->host, $this->port, $this->namespace, $this->expiration);
+      }
+   }
 
-	protected function _disconnect() {
-		if ($this->connection !== null) {
-			$this->_log(LOG_INFO, 'Disconnecting from Redis');
-			try {
-				$this->connection->close(true);
-			} catch (Exception $e) {
-				$this->_log(LOG_WARNING, "Failed to disconnect from Redis: {$e->getMessage()}");
-			} finally {
-				$this->connection = null;
-			}
-		}
-	}
+   protected function _disconnect() {
+      if ($this->connection !== null) {
+         $this->_log(LOG_INFO, 'Disconnecting from Redis');
+         try {
+            $this->connection->close(true);
+         } catch (Exception $e) {
+            $this->_log(LOG_WARNING, "Failed to disconnect from Redis: {$e->getMessage()}");
+         } finally {
+            $this->connection = null;
+         }
+      }
+   }
 
     public function enqueue($object, $queue) {
-		# It has been observed that most uses of enqueue() involve destroying the object immediately
-		# 
-		$item = new TransportItem($queue, $this->encode($object));
+      # It has been observed that most uses of enqueue() involve destroying the object immediately
+      # 
+      $item = new TransportItem($queue, $this->encode($object));
         $rep = $this->logrep($object);
         $this->_log(LOG_DEBUG, 'Enqueuing '._ve($rep).' for transport '._ve($queue));
-		try {
-			$this->_connect();
-		} catch (Exception $e) {
-			$this->_log(LOG_ERR, "Failed to connect to Redis: {$e->getMessage()}; discarding item");
-			return false;
-		}
+      try {
+         $this->_connect();
+      } catch (Exception $e) {
+         $this->_log(LOG_ERR, "Failed to connect to Redis: {$e->getMessage()}; discarding item");
+         return false;
+      }
 
-		try {
-			$this->_log(LOG_DEBUG, "Sending item to Redis");
-			$this->connection->put($item);
-		} catch (Exception $e) {
-			$this->_log(LOG_ERR, "Failed to put item to Redis: {$e->getMessage()}; discarding item");
-			$this->_disconnect();
-			return false;
-		}
+      try {
+         $this->_log(LOG_DEBUG, "Sending item to Redis");
+         $this->connection->put($item);
+      } catch (Exception $e) {
+         $this->_log(LOG_ERR, "Failed to put item to Redis: {$e->getMessage()}; discarding item");
+         $this->_disconnect();
+         return false;
+      }
 
         $this->stats('enqueued', $queue);
-		return true;
+      return true;
     }
 
-	protected function checkSync($processing_id_count) {
-		if ($processing_id_count > 0) {
-			$this->_log(LOG_DEBUG, "Syncing database");
-			try {
-				$this->_connect();
-			} catch (Exception $e) {
-				$this->_log(LOG_ERR, "Failed to connect to Redis: {$e->getMessage()}; sync queue");
-				return false;
-			}
-			try {
-				return $this->connection->sync();
-			} catch (Exception $e) {
-				$this->_log(LOG_ERR, "Failed to sync queue: {$e->getMessage()}");
-				$this->_disconnect();
-				return false;
-			}
-		}
-	}
+   protected function checkSync($processing_id_count) {
+      if ($processing_id_count > 0) {
+         $this->_log(LOG_DEBUG, "Syncing database");
+         try {
+            $this->_connect();
+         } catch (Exception $e) {
+            $this->_log(LOG_ERR, "Failed to connect to Redis: {$e->getMessage()}; sync queue");
+            return false;
+         }
+         try {
+            return $this->connection->sync();
+         } catch (Exception $e) {
+            $this->_log(LOG_ERR, "Failed to sync queue: {$e->getMessage()}");
+            $this->_disconnect();
+            return false;
+         }
+      }
+   }
 
     public function pollInterval() {
         return 10;
     }
 
     public function poll() {
-		try {
-			$this->_connect();
-		} catch (Exception $e) {
-			$this->_log(LOG_ERR, "Failed to connect to Redis: {$e->getMessage()}; unable to get item");
-			return false;
-		}
+      try {
+         $this->_connect();
+      } catch (Exception $e) {
+         $this->_log(LOG_ERR, "Failed to connect to Redis: {$e->getMessage()}; unable to get item");
+         return false;
+      }
 
         try {
-			$queue_item = $this->connection->get(2, 10);
-		} catch (RedisTimeout $e) {
-			$this->_log(LOG_DEBUG, "No queue items were available");
-			$this->checkSync($e->processing_id_count);
-			return true;
-		} catch (Exception $e) {
-			$this->_log(LOG_ERR, "Failed to get item from Redis: {$e->getMessage()}");
-			$this->_disconnect();
-			return false;
-		}
+         $queue_item = $this->connection->get(2, 10);
+      } catch (RedisTimeout $e) {
+         $this->_log(LOG_DEBUG, "No queue items were available");
+         $this->checkSync($e->processing_id_count);
+         return true;
+      } catch (Exception $e) {
+         $this->_log(LOG_ERR, "Failed to get item from Redis: {$e->getMessage()}");
+         $this->_disconnect();
+         return false;
+      }
 
-		$transport = $queue_item->item->transport;
+      $transport = $queue_item->item->transport;
         try {
-			$item = $this->decode($queue_item->item->item);
-		} catch (Exception $e) {
+         $item = $this->decode($queue_item->item->item);
+      } catch (Exception $e) {
             $this->_log(LOG_WARNING, "[$transport] Discarding bad frame: "._ve($e->getMessage()));
-			$this->_done($queue_item, $transport);
-			return true;
-		}
+         $this->_done($queue_item, $transport);
+         return true;
+      }
 
         $rep = $this->logrep($item);
         $this->_log(LOG_DEBUG, 'Got '._ve($rep).' for transport '._ve($transport));
@@ -217,8 +217,8 @@ class RedisQueueManager extends QueueManager {
             $result = $handler->handle($item);
 
         } catch (NoQueueHandlerException $e) {
-			$this->_log(LOG_WARNING, "[$transport:{$rep}] No handler for queue $transport; discarding.");
-			return $this->_done($queue_item, $transport);
+         $this->_log(LOG_WARNING, "[$transport:{$rep}] No handler for queue $transport; discarding.");
+         return $this->_done($queue_item, $transport);
 
         } catch (NoResultException $e) {
             $this->_log(LOG_ERR, "[$transport:$rep] ".get_class($e).' thrown ('._ve($e->getMessage()).'), ignoring queue_item '._ve($queue_item->id));
@@ -235,60 +235,60 @@ class RedisQueueManager extends QueueManager {
 
         if ($result) {
             $this->_log(LOG_INFO, "[$transport:$rep] Successfully handled item");
-			$this->_done($queue_item, $transport);
+         $this->_done($queue_item, $transport);
 
         } else {
             $this->_log(LOG_INFO, "[$transport:$rep] Failed to handle item");
-			$this->_fail($queue_item, $transport);
+         $this->_fail($queue_item, $transport);
         }
         return true;
     }
 
     protected function _done($queue_item, $transport) {
-		try {
-			$this->_connect();
-		} catch (Exception $e) {
-			$this->_log(LOG_ERR, "Failed to connect to Redis: {$e->getMessage()}; unable to mark item complete");
-			return false;
-		}
+      try {
+         $this->_connect();
+      } catch (Exception $e) {
+         $this->_log(LOG_ERR, "Failed to connect to Redis: {$e->getMessage()}; unable to mark item complete");
+         return false;
+      }
 
-		try {
-			return $this->connection->markComplete($queue_item->id);
-		} catch (Exception $e) {
-			$this->_log(LOG_ERR, "Failed to mark item done: {$e->getMessage()}");
-			$this->_disconnect();
+      try {
+         return $this->connection->markComplete($queue_item->id);
+      } catch (Exception $e) {
+         $this->_log(LOG_ERR, "Failed to mark item done: {$e->getMessage()}");
+         $this->_disconnect();
             $this->stats('error', $transport);
-			return false;
-		}
+         return false;
+      }
 
         $this->stats('handled', $transport);
-		return true;
+      return true;
     }
 
     protected function _fail($queue_item, $transport) {
-		try {
-			$this->_connect();
-		} catch (Exception $e) {
-			$this->_log(LOG_ERR, "Failed to connect to Redis: {$e->getMessage()}; unable to mark item failed");
-			return false;
-		}
+      try {
+         $this->_connect();
+      } catch (Exception $e) {
+         $this->_log(LOG_ERR, "Failed to connect to Redis: {$e->getMessage()}; unable to mark item failed");
+         return false;
+      }
 
-		try {
-			if ($queue_item->tries >= $this->retries) {
-				$this->_log(LOG_WARN, "Discarding item $queue_item->id after $queue_item->tries out of allowed $this->retries.");
-				return $this->connection->markComplete($queue_item->id);
-			} else {
-				return $this->connection->markIncomplete($queue_item->id);
-			}
-		} catch (Exception $e) {
-			$this->_log(LOG_ERR, "Failed to mark item failed: {$e->getMessage()}");
-			$this->_disconnect();
+      try {
+         if ($queue_item->tries >= $this->retries) {
+            $this->_log(LOG_WARN, "Discarding item $queue_item->id after $queue_item->tries out of allowed $this->retries.");
+            return $this->connection->markComplete($queue_item->id);
+         } else {
+            return $this->connection->markIncomplete($queue_item->id);
+         }
+      } catch (Exception $e) {
+         $this->_log(LOG_ERR, "Failed to mark item failed: {$e->getMessage()}");
+         $this->_disconnect();
             $this->stats('error', $transport);
-			return false;
-		}
+         return false;
+      }
 
         $this->stats('error', $transport);
-		return true;
+      return true;
     }
 }
 
