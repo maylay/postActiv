@@ -82,6 +82,9 @@
 
 if (!defined('POSTACTIV')) { exit(1); }
 
+// ----------------------------------------------------------------------------
+// Class: ActivityMover
+// Queue handler for exporting (federating) Activities
 class ActivityMover extends QueueHandler
 {
    // -------------------------------------------------------------------------
