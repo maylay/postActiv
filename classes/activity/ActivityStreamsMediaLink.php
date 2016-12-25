@@ -50,34 +50,50 @@
 
 if (!defined('POSTACTIV')) { exit(1); }
 
+
+// ----------------------------------------------------------------------------
+// Class: ActivityStreamsMediaLink
+// Class for media links in an ActivityStreams JSON Activity.
 class ActivityStreamsMediaLink extends ActivityStreamsLink
 {
-    private $linkDict;
+   private $linkDict;
 
-    function __construct(
+
+   // ------------------------------------------------------------------------
+   // Function: __construct
+   // Class constructor
+   //
+   // Parameters:
+   // o url
+   // o width
+   // o height
+   // o mediaType
+   // o rel
+   // o duration
+   function __construct(
         $url       = null,
         $width     = null,
         $height    = null,
         $mediaType = null, // extension
         $rel       = null, // extension
-        $duration  = null
-    )
-    {
-        parent::__construct($url, $rel, $mediaType);
-        $this->linkDict = array(
-            'width'      => intval($width),
-            'height'     => intval($height),
-            'duration'   => intval($duration)
-        );
-    }
+        $duration  = null) {
+      parent::__construct($url, $rel, $mediaType);
+      $this->linkDict = array(
+         'width'      => intval($width),
+         'height'     => intval($height),
+         'duration'   => intval($duration));
+   }
 
-    function asArray()
-    {
-        return array_merge(
-            parent::asArray(),
-            array_filter($this->linkDict)
-        );
-    }
+
+   // ------------------------------------------------------------------------
+   // Function: asArray
+   // Return the class as an array suitable for JSON
+   //
+   // Returns:
+   // o array
+   function asArray() {
+      return array_merge(parent::asArray(), array_filter($this->linkDict));
+   }
 }
 
 // END OF FILE
