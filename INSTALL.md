@@ -527,8 +527,19 @@ database which is introduced by using OpprotunisticQM or the legacy queuedaemon.
 You can get Redis from https://redis.io/ and there is a Quick Install guide at
 https://redis.io/topics/quickstart that can help you get it going.
 
+In most systems, you will need three packagaes to make this work.  For example,
+in CentOS, you can install the required environment with:
+
+    yum install redis php-pecl-redis php-gmp
+
+For other distributions, the package names may change.
+
 Once Redis is set up and confirmed to be working, you will need to set the 
 following in your config.php:
+
+To enable redis queue:
+
+* queue subsystem - redis
 
 If you have Redis running on a UNIX socket:
 
@@ -550,6 +561,7 @@ There are also some optional things you can set up to tweak your queue:
 
 * redis_expiration - how long to hold a remote message in Redis before it is dropped
   (default 86400, which is 1 day)
+
 
 ### queuedaemon
 
