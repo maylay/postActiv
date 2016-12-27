@@ -82,6 +82,7 @@
 
 if (!defined('POSTACTIV')) { exit(1); }
 
+
 // ----------------------------------------------------------------------------
 // Class: Activity
 // An activity in the ActivityStrea.ms world
