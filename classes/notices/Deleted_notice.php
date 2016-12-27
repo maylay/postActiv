@@ -241,3 +241,7 @@ class Deleted_notice extends Managed_DataObject
         }
     }
 }
+
+// END OF FILE
+// ============================================================================
+?>
