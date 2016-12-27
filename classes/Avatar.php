@@ -259,6 +259,8 @@ class Avatar extends Managed_DataObject
       }
    }
 
+
+   // -------------------------------------------------------------------------
    // Function: path
    // Returns the path to the avatar based on configuration variables.
    //
