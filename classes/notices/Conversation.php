@@ -1,16 +1,20 @@
 <?php
-/**
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
- * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
- *
+/* ============================================================================
+ * Title: Conversation
  * Data class for Conversations
  *
- * PHP version 5
+ * postActiv:
+ * the micro-blogging software
  *
- * LICENCE: This program is free software: you can redistribute it and/or modify
+ * Copyright:
+ * Copyright (C) 2016, Maiyannah Bishop
+ *
+ * Derived from code copyright various sources:
+ * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ * o StatusNet (C) 2008-2012, StatusNet, Inc
+ * ----------------------------------------------------------------------------
+ * License:
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -23,23 +27,34 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @category  Notices
- * @package   postActiv
- * @author    Zach Copley <zach@copley.name>
- * @author    Brion Vibber <brion@pobox.com>
- * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
- * @author    Evan Prodromou <evan@prodromou.name>
- * @author    Mikael Nordfeldth <mmn@hethane.se>
- * @author    Roland Haeder <roland@mxchange.org>
- * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2010-2011 StatusNet, Inc.
- * @copyright 2013-2016 Free Software Foundation, Inc.
- * @copyright 2016 Maiyannah Bishop
- * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://www.postactiv.com
+ * <https://www.gnu.org/licenses/agpl.html>
+ * ----------------------------------------------------------------------------
+ * About:
+ * Data class for Conversations
+ *
+ * PHP version:
+ * Tested with PHP 5.6
+ * ----------------------------------------------------------------------------
+ * File Authors:
+ * o Zach Copley
+ * o Brion Vibber <brion@pobox.com>
+ * o Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * o Evan Prodromou
+ * o Mikael Nordfeldth <mmn@hethane.se>
+ * o Roland Haeder <roland@mxchange.org>
+ * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ *
+ * Web:
+ *  o postActiv  <http://www.postactiv.com>
+ *  o GNU social <https://www.gnu.org/s/social/>
+ * ============================================================================
  */
+ 
+// This file is formatted so that it provides useful documentation output in
+// NaturalDocs.  Please be considerate of this before changing formatting.
 
 if (!defined('POSTACTIV')) { exit(1); }
+
 
 class Conversation extends Managed_DataObject
 {
