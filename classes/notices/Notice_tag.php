@@ -121,4 +121,7 @@ class Notice_tag extends Managed_DataObject
 		return $url;
 	}
 }
+
+// END OF FILE
+// ============================================================================
 ?>
