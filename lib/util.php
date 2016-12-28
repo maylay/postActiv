@@ -1826,24 +1826,33 @@ function common_log_line($priority, $msg)
     return date('Y-m-d H:i:s') . ' ' . $syslog_priorities[$priority] . ': ' . $msg . PHP_EOL;
 }
 
+
+// ----------------------------------------------------------------------------
+// Function: common_request_id
+// Returns a string for logging that contains some common request information.
+//
+// Returns:
+// o string
 function common_request_id()
 {
-    $pid = getmypid();
-    $server = common_config('site', 'server');
-    if (php_sapi_name() == 'cli') {
-        $script = basename($_SERVER['PHP_SELF']);
-        return "$server:$script:$pid";
-    } else {
-        static $req_id = null;
-        if (!isset($req_id)) {
-            $req_id = substr(md5(mt_rand()), 0, 8);
-        }
-        if (isset($_SERVER['REQUEST_URI'])) {
-            $url = $_SERVER['REQUEST_URI'];
-        }
-        $method = $_SERVER['REQUEST_METHOD'];
-        return "$server:$pid.$req_id $method $url";
-    }
+   $pid = getmypid();
+   $server = common_config('site', 'server');
+   if (php_sapi_name() == 'cli') {
+      $script = basename($_SERVER['PHP_SELF']);
+      return "$server:$script:$pid";
+   } else {
+      static $req_id = null;
+      if (!isset($req_id)) {
+         $req_id = substr(md5(mt_rand()), 0, 8);
+      }
+      if (getenv('REQUEST_URI')) {
+         $url = getenv('REQUEST_URI');
+      } else {
+         $url = "[no url]";
+      }
+      $method = strtoupper(getenv('REQUEST_METHOD'));
+      return "$server:$pid.$req_id $method $url";
+   }
 }
 
 function common_log($priority, $msg, $filename=null)
