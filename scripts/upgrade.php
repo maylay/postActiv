@@ -34,7 +34,6 @@
  */
 
 define('INSTALLDIR', realpath(dirname(__FILE__) . '/..'));
-define('POSTACTIV', true);
 
 $shortoptions = 'x::';
 $longoptions = array('extensions=');
