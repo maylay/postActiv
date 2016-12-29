@@ -30,7 +30,7 @@ if (!defined('GNUSOCIAL')) { exit(1); }
  */
 
 // FIXME: Not sure why this doesn't seem to get picked up by autoloader
-require_once(INSTALLDIR . "/classes/plugins/ActivityVerbHandlerPlugin.php");
+require_once(INSTALLDIR . "/modules/ActivityVerb/lib/activityverbhandlerplugin.php");
 
 class ActivityVerbPostPlugin extends ActivityVerbHandlerPlugin
 {
