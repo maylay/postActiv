@@ -29,9 +29,6 @@ if (!defined('GNUSOCIAL')) { exit(1); }
  * @maintainer  Mikael Nordfeldth <mmn@hethane.se>
  */
 
-// FIXME: Not sure why this doesn't seem to get picked up by autoloader
-require_once(INSTALLDIR . "/modules/ActivityVerb/lib/activityverbhandlerplugin.php");
-
 class ActivityVerbPostPlugin extends ActivityVerbHandlerPlugin
 {
     // TODO: Implement a "fallback" feature which can handle anything _as_ an activityobject "note"
