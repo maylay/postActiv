@@ -1,11 +1,19 @@
 <?php
 /* ============================================================================
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
+ * Title: APIStatusesUpdate
+ * Post a notice (update your status) through the API
+ *
+ * postActiv:
+ * the micro-blogging software
+ *
+ * Copyright:
+ * Copyright (C) 2016-2017, Maiyannah Bishop
+ *
  * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2012, StatusNet, Inc
+ * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ * o StatusNet (C) 2008-2012, StatusNet, Inc
  * ----------------------------------------------------------------------------
+ * License:
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -18,13 +26,97 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * ----------------------------------------------------------------------------
- * PHP version 5
  *
+ * <https://www.gnu.org/licenses/agpl.html>
+ * ----------------------------------------------------------------------------
+ * About:
  * Post a notice (update your status) through the API
  *
- * @category  API
- * @package   postActiv
+ * Updates the authenticating user's status. Requires the status parameter 
+ * specified below.  Request must be a POST.
+ *
+ * URL pattern:
+ * o /api/statuses/update.:format
+ *
+ * Formats:
+ * o xml
+ * o json
+ *
+ * HTTP Method:
+ * o POST
+ *
+ * Requires Authentication:
+ * Yes
+ *
+ * o status                - (Required) The URL-encoded text of the status update.
+ * o source                - (Optional) The source application name, if using
+ *   HTTP authentication or an anonymous OAuth consumer.
+ * o in_reply_to_status_id - (Optional) The ID of an existing status that the
+ *   update is in reply to.
+ * o lat                   - (Optional) The latitude the status refers to.
+ * o long                  -  (Optional) The longitude the status refers to.
+ * o media                 - (Optional) a media upload, such as an image or movie file.
+ *
+ * Usage notes:
+ * o The URL pattern is relative to the @ref apiroot.
+ * o If the @e source parameter is not supplied the source of the status will
+ *   default to 'api'. When authenticated via a registered OAuth application,
+ *   the application's registered name and URL will always override the source
+ *   parameter.
+ * o The XML response uses <a href="http://georss.org/Main_Page">GeoRSS</a>
+ *   to encode the latitude and longitude (see example response below <georss:point>).
+ * o Data uploaded via the @e media parameter should be multipart/form-data encoded.
+ *
+ * Example usage:
+ *     curl -u username:password http://example.com/api/statuses/update.xml -d status='Howdy!' -d lat='30.468' -d long='-94.743'
+ *
+ * Example response:
+ *    <?xml version="1.0" encoding="UTF-8"?>
+ *    <status>
+ *      <text>Howdy!</text>
+ *      <truncated>false</truncated>
+ *      <created_at>Tue Mar 30 23:28:05 +0000 2010</created_at>
+ *      <in_reply_to_status_id/>
+ *      <source>api</source>
+ *      <id>26668724</id>
+ *      <in_reply_to_user_id/>
+ *      <in_reply_to_screen_name/>
+ *      <geo xmlns:georss="http://www.georss.org/georss">
+ *        <georss:point>30.468 -94.743</georss:point>
+ *      </geo>
+ *      <favorited>false</favorited>
+ *      <user>
+ *        <id>25803</id>
+ *        <name>Jed Sanders</name>
+ *        <screen_name>jedsanders</screen_name>
+ *        <location>Hoop and Holler, Texas</location>
+ *        <description>I like to think of myself as America's Favorite.</description>
+ *        <profile_image_url>http://avatar.example.com/25803-48-20080924200604.png</profile_image_url>
+ *        <url>http://jedsanders.net</url>
+ *        <protected>false</protected>
+ *        <followers_count>5</followers_count>
+ *        <profile_background_color/>
+ *        <profile_text_color/>
+ *        <profile_link_color/>
+ *        <profile_sidebar_fill_color/>
+ *        <profile_sidebar_border_color/>
+ *        <friends_count>2</friends_count>
+ *        <created_at>Wed Sep 24 20:04:00 +0000 2008</created_at>
+ *        <favourites_count>0</favourites_count>
+ *        <utc_offset>0</utc_offset>
+ *        <time_zone>UTC</time_zone>
+ *        <profile_background_image_url/>
+ *        <profile_background_tile>false</profile_background_tile>
+ *        <statuses_count>70</statuses_count>
+ *        <following>true</following>
+ *        <notifications>true</notifications>
+ *      </user>
+ *    </status>
+ *
+ * PHP version:
+ * Tested with PHP 5.6, PHP 7
+ * ----------------------------------------------------------------------------
+ * File Authors:
  * @author    Zach Copley
  * @author    Evan Prodromou
  * @author    Robin Millette <robin@millette.info>
@@ -34,106 +126,18 @@
  * @author    Jean Baptiste Favre <statusnet@jbfavre.org>
  * @author    Mikael Nordfeldth <mmn@hethane.se>
  * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2009-2012 StatusNet, Inc.
- * @copyright 2013-2016 Free Software Foundation, Inc
- * @copyright 2016 Maiyannah Bishop
- * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://www.postactiv.com
+ *
+ * Web:
+ *  o postActiv  <http://www.postactiv.com>
+ *  o GNU social <https://www.gnu.org/s/social/>
  * ============================================================================
  */
-
-/* External API usage documentation. Please update when you change how this method works. */
-
-/*! @page statusesupdate statuses/update
-
-    @section Description
-    Updates the authenticating user's status. Requires the status parameter specified below.
-    Request must be a POST.
-
-    @par URL pattern
-    /api/statuses/update.:format
-
-    @par Formats (:format)
-    xml, json
-
-    @par HTTP Method(s)
-    POST
-
-    @par Requires Authentication
-    Yes
-
-    @param status (Required) The URL-encoded text of the status update.
-    @param source (Optional) The source application name, if using HTTP authentication or an anonymous OAuth consumer.
-    @param in_reply_to_status_id (Optional) The ID of an existing status that the update is in reply to.
-    @param lat (Optional) The latitude the status refers to.
-    @param long (Optional) The longitude the status refers to.
-    @param media (Optional) a media upload, such as an image or movie file.
-
-    @sa @ref authentication
-    @sa @ref apiroot
-
-    @subsection usagenotes Usage notes
-
-    @li The URL pattern is relative to the @ref apiroot.
-    @li If the @e source parameter is not supplied the source of the status will default to 'api'. When authenticated via a registered OAuth application, the application's registered name and URL will always override the source parameter.
-    @li The XML response uses <a href="http://georss.org/Main_Page">GeoRSS</a>
-    to encode the latitude and longitude (see example response below <georss:point>).
-    @li Data uploaded via the @e media parameter should be multipart/form-data encoded.
-
-    @subsection exampleusage Example usage
-
-    @verbatim
-    curl -u username:password http://example.com/api/statuses/update.xml -d status='Howdy!' -d lat='30.468' -d long='-94.743'
-    @endverbatim
-
-    @subsection exampleresponse Example response
-
-    @verbatim
-    <?xml version="1.0" encoding="UTF-8"?>
-    <status>
-      <text>Howdy!</text>
-      <truncated>false</truncated>
-      <created_at>Tue Mar 30 23:28:05 +0000 2010</created_at>
-      <in_reply_to_status_id/>
-      <source>api</source>
-      <id>26668724</id>
-      <in_reply_to_user_id/>
-      <in_reply_to_screen_name/>
-      <geo xmlns:georss="http://www.georss.org/georss">
-        <georss:point>30.468 -94.743</georss:point>
-      </geo>
-      <favorited>false</favorited>
-      <user>
-        <id>25803</id>
-        <name>Jed Sanders</name>
-        <screen_name>jedsanders</screen_name>
-        <location>Hoop and Holler, Texas</location>
-        <description>I like to think of myself as America's Favorite.</description>
-        <profile_image_url>http://avatar.example.com/25803-48-20080924200604.png</profile_image_url>
-        <url>http://jedsanders.net</url>
-        <protected>false</protected>
-        <followers_count>5</followers_count>
-        <profile_background_color/>
-        <profile_text_color/>
-        <profile_link_color/>
-        <profile_sidebar_fill_color/>
-        <profile_sidebar_border_color/>
-        <friends_count>2</friends_count>
-        <created_at>Wed Sep 24 20:04:00 +0000 2008</created_at>
-        <favourites_count>0</favourites_count>
-        <utc_offset>0</utc_offset>
-        <time_zone>UTC</time_zone>
-        <profile_background_image_url/>
-        <profile_background_tile>false</profile_background_tile>
-        <statuses_count>70</statuses_count>
-        <following>true</following>
-        <notifications>true</notifications>
-      </user>
-    </status>
-    @endverbatim
-*/
+ 
+// This file is formatted so that it provides useful documentation output in
+// NaturalDocs.  Please be considerate of this before changing formatting.
 
 if (!defined('POSTACTIV')) { exit(1); }
+
 
 /**
  * Updates the authenticating user's status (posts a notice).
@@ -360,4 +364,7 @@ class ApiStatusesUpdateAction extends ApiAuthAction
         return $supported;
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

@@ -1,11 +1,19 @@
 <?php
 /* ============================================================================
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
+ * Title: Install
+ * Web-based installation script
+ *
+ * postActiv:
+ * the micro-blogging software
+ *
+ * Copyright:
+ * Copyright (C) 2016-2017, Maiyannah Bishop
+ *
  * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2012, StatusNet, Inc
+ * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ * o StatusNet (C) 2008-2012, StatusNet, Inc
  * ----------------------------------------------------------------------------
+ * License:
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -18,30 +26,38 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * <https://www.gnu.org/licenses/agpl.html>
  * ----------------------------------------------------------------------------
- * @category  Installation
- * @package   PostActiv
- * @author    Adrian Lang <mail@adrianlang.de>
- * @author    Brenda Wallace <shiny@cpan.org>
- * @author    Brett Taylor <brett@webfroot.co.nz>
- * @author    Brion Vibber <brion@pobox.com>
- * @author    CiaranG <ciaran@ciarang.com>
- * @author    Craig Andrews <candrews@integralblue.com>
- * @author    Eric Helgeson <helfire@Erics-MBP.local>
- * @author    Evan Prodromou <evan@status.net>
- * @author    Mikael Nordfeldth <mmn@hethane.se>
- * @author    Robin Millette <millette@controlyourself.ca>
- * @author    Sarven Capadisli <csarven@status.net>
- * @author    Tom Adams <tom@holizz.com>
- * @author    Zach Copley <zach@status.net>
- * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2008-2011 StatusNet, Inc.
- * @copyright 2013-2016 Free Software Foundation, Inc.
- * @copyright 2016 Maiyannah Bishop
- * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://www.postactiv.com
-/* ============================================================================ 
+ * About:
+ * Web installation script for postActiv
+ *
+ * PHP version:
+ * Tested with PHP 5.6, PHP 7
+ * ----------------------------------------------------------------------------
+ * File Authors:
+ * o Evan Prodromou <evan@status.net>
+ * o Adrian Lang <mail@adrianlang.de>
+ * o Brenda Wallace <shiny@cpan.org>
+ * o Brett Taylor <brett@webfroot.co.nz>
+ * o Brion Vibber <brion@pobox.com>
+ * o Ciaran Gultneiks <ciaran@ciarang.com>
+ * o Craig Andrews <candrews@integralblue.com>
+ * o Eric Helgeson
+ * o Robin Millette
+ * o Sarven Capadisli
+ * o Tom Adams <tom@holizz.com>
+ * o Zach Copley
+ * o Mikael Nordfeldth <mmn@hethane.se>
+ * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ *
+ * Web:
+ *  o postActiv  <http://www.postactiv.com>
+ *  o GNU social <https://www.gnu.org/s/social/>
+ * ============================================================================
  */
+ 
+// This file is formatted so that it provides useful documentation output in
+// NaturalDocs.  Please be considerate of this before changing formatting.
 
 define('INSTALLDIR', dirname(__FILE__));
 

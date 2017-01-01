@@ -1,13 +1,19 @@
 <?php
-/***
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
+/* ============================================================================
+ * Title: Framework
+ * Bootstrapping code to initialize the application
+ *
+ * postActiv:
+ * the micro-blogging software
+ *
+ * Copyright:
+ * Copyright (C) 2016-2017, Maiyannah Bishop
+ *
  * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
- *
- * PHP version 5
- *
+ * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ * o StatusNet (C) 2008-2012, StatusNet, Inc
+ * ----------------------------------------------------------------------------
+ * License:
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -21,13 +27,37 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @license   https://www.gnu.org/licenses/agpl.html 
+ * <https://www.gnu.org/licenses/agpl.html>
+ * ----------------------------------------------------------------------------
+ * About:
+ * Bootstrapping code to initialize the application
+ *
+ * PHP version:
+ * Tested with PHP 5.6, PHP 7
+ * ----------------------------------------------------------------------------
+ * File Authors:
+ * o Robin Millette <robin@millette.info>
+ * o Sarven Capadisli
+ * o Zach Copley
+ * o Evan Prodromou
+ * o Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * o Mikael Nordfeldth <mmn@hethane.se>
+ * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ *
+ * Web:
+ *  o postActiv  <http://www.postactiv.com>
+ *  o GNU social <https://www.gnu.org/s/social/>
+ * ============================================================================
  */
+ 
+// This file is formatted so that it provides useful documentation output in
+// NaturalDocs.  Please be considerate of this before changing formatting.
 
 if (!defined('POSTACTIV')) { exit(1); }
 
+
 define('GNUSOCIAL_ENGINE', 'postActiv');
-define('GNUSOCIAL_ENGINE_URL', 'https://www.postactiv.com/');
+define('GNUSOCIAL_ENGINE_URL', 'http://www.postactiv.com/');
 
 define('GNUSOCIAL_BASE_VERSION', '1.0.2');
 define('GNUSOCIAL_LIFECYCLE', 'dev'); // 'dev', 'alpha[0-9]+', 'beta[0-9]+', 'rc[0-9]+', 'release'
@@ -229,4 +259,6 @@ foreach (glob(INSTALLDIR."/classes/plugins/*.php") as $filename)
     require_once $filename;
 }
 
+// END OF FILE
+// ============================================================================
 ?>
