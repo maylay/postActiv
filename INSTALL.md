@@ -29,9 +29,9 @@ run correctly.
 - PHP 5.5+      For newer versions, some functions that are used may be
                 disabled by default, such as the pcntl_* family. See the
                 section on 'Queues and daemons' for more information.
-- MySQL 5+      postActiv supports MySQL 5.5+ by default.  MariaDB should
-                also work in theory but can run into some obscure errors.
-                postgreSQL support is currently in development
+- MySQL 5+      postActiv supports MySQL 5.5+ by default.  MariaDB 10+
+                should also work in theory but can run into some obscure
+                errors. postgreSQL support is currently in development
 - Web server    Apache, lighttpd and nginx will all work. CGI mode is
                 recommended and also some variant of 'suexec' (or a
                 proper setup php-fpm pool)
@@ -118,7 +118,7 @@ Installing from the Archive Bundle
 
    This will often make your postActiv instance available in the postactiv
    path of your server, like "http://example.net/gnusocial". "social" or
-   "blog" might also be good path names. If you know how to configure 
+   "blog" might also be good path names. If you know how to configure
    virtual hosts on your web server, you can try setting up
    "http://social.example.net/" or the like.
 
@@ -188,7 +188,7 @@ Installing from the Archive Bundle
 8. You should now be able to navigate to your social site's main directory
    and see the "Public Timeline", which will probably be empty. You can
    now register new user, post some notices, edit your profile, etc.
-   
+
 Installing using git-scm
 ------------------------
 Using git-scm to install the software will allow you to keep much more easily
@@ -211,7 +211,7 @@ It should go without saying, this method requires git installed to use.
 
 3. With the key loaded, make switch to the directory that you want to install
    postActiv into.  For example, /var/www/postactiv
-   
+
 4. Clone the git repository into this directory with the following command:
 
    git clone git@git.postactiv.com:postActiv/postActiv.git
@@ -289,7 +289,7 @@ Log Filtering
 By default, all of the various log messages are enabled in your postActiv log
 location.  This allows you to identify any install problems very easily, since
 the output is quite verbose by default to aid in troubleshooting installs gone
-wrong.  Once you know your site is running properly however, most of this 
+wrong.  Once you know your site is running properly however, most of this
 information is probably superfluous.  You can use the LogFilter module to filter
 out the LOG_DEBUG and LOG_INFO level messages so you only see errors in the
 postActiv log by adding the following near the bottom of config.php:
@@ -325,7 +325,7 @@ your server (like lighttpd or nginx).
 1. See the instructions for each respective webserver software:
     * For Apache, inspect the "htaccess.sample" file and save it as
         ".htaccess" after making any necessary modifications. Our sample
-        file is well commented. 
+        file is well commented.
     * For lighttpd, inspect the lighttpd.conf.example file and apply the
         appropriate changes in your virtualhost configuration for lighttpd.
     * For nginx, inspect the nginx.conf.sample file and apply the appropriate
@@ -335,7 +335,7 @@ your server (like lighttpd or nginx).
 
 2. Assuming your webserver is properly configured and have its settings
     applied (remember to reload/restart it), you can add this to your
-    GNU social's config.php file: 
+    GNU social's config.php file:
        $config['site']['fancy'] = true;
 
 You should now be able to navigate to a "fancy" URL on your server,
@@ -375,7 +375,7 @@ A GNU social node can be configured as "private", which means it will not
 federate with other nodes in the network. It is not a recommended method
 of using GNU social and we cannot at the current state of development
 guarantee that there are no leaks (what a public network sees as features,
-private sites will likely see as bugs). 
+private sites will likely see as bugs).
 
 Private nodes are however an easy way to easily setup collaboration and
 image sharing within a workgroup or a smaller community where federation
