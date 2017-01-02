@@ -29,51 +29,63 @@
  * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
  * @link      http://www.postactiv.com
- * ============================================================================
  */
+
 
 // For now, since I'm doing this as a proof of concept back port
 // I'm mostly concerned with seeing that this actually works.
 // As such a lot is missing and a lot is hardcoded
-
-// ----------------------------------------------------------------------------
-// class SmartyTheme
-//    Contains the runtime abstraction and interface to a smarty-based PA theme.
-//    It will also contain a protected smarty instance for rendering.
-public class SmartyTheme {
-   protected Smarty;   // Smarty template system class object
-   var Name;           // Name of template we're using
-   var Templates;      // Array to hold template locations
-   var Stylesheets;    // Array to hold stylesheets
-   var Scripts;        // Array to hold scripts
+class SmartyTheme {
+   protected $Smarty;   // Smarty template system class object
+   var $Name;           // Name of template we're using
+   var $Templates;      // Array to hold template locations
+   var $Stylesheets;    // Array to hold stylesheets
+   var $Scripts;        // Array to hold scripts
 
    public function __construct($name) {
-      try {
-         require_once(INSTALL_DIR . "/extlib/Smarty/Autoloader.php");
+      try
+      {
+         // Load a Smarty processor instance for this Template
+         require_once(INSTALLDIR . "/extlib/Smarty/Smarty.class.php");
          $this->Smarty = new Smarty();
-
-         $this->Smarty->setCacheDir(INSTALL_DIR . '/extlib/Smarty/cache');
-         $this->Smarty->setConfigDir(INSTALL_DIR . '/extlib/Smarty/configs');
-
+         $this->Smarty->setCacheDir(INSTALLDIR . '/extlib/Smarty/cache');
          $this->Name = $name;
-         require(INSTALL_DIR . "/templates/" . $this->Name . "/manifest.php");
+
+         // Populate the "Templates" array with system short_aliases
+         $this->instantiateTemplates();
+
+         // If we've got this far, we're good!
          return TRUE;
-      } catch (exception $error) {
-         common_log("Error constructing SmartyTheme class for " . $name . ": " . $error . PHP_EOL);
-         return FALSE;
+      }
+      catch (exception $error)
+      {
+         die("Error constructing SmartyTheme class for " . $name . ": " . $error . PHP_EOL);
       }
    }
-   
+
+   // -------------------------------------------------------------------------
+   // PRIVATE: instantiateTemplates()
+   //    Populate the Templates array of this theme with the system short_aliases
+   private function instantiateTemplates()
+   {
+      $this->Templates["single_notice"] = "";   
+   }
+
    // -------------------------------------------------------------------------
    // mapTemplatesDir($url)
    //    Public interface to set the directory the theme's Smarty instance is
    //    pulling templates from.
    public function mapTemplatesDir($url)
    {
-      try {
+      try
+      {
          $this->Smarty->setTemplatesDir($url);
-      } catch (exception $error) {
-         common_log("Error setting the Smarty template dir: " . $error . PHP_EOL);
+         return TRUE;
+      }
+      catch (exception $error)
+      {
+         common_debug("Error setting the Smarty template dir: " . $error . PHP_EOL);
+         return FALSE;
       }
    }
 
@@ -83,10 +95,15 @@ public class SmartyTheme {
    //    compiling templates to.
    public function mapCompileDir($url)
    {
-      try {
+      try
+      {
          $this->Smarty->setCompileDir($url);
-      } catch (exception $error) {
-         common_log("Error setting the Smarty compile dir: " . $error . PHP_EOL);
+         return TRUE;
+      }
+      catch (exception $error)
+      {
+         common_debug("Error setting the Smarty compile dir: " . $error . PHP_EOL);
+         return FALSE;
       }
    }
 
@@ -97,11 +114,14 @@ public class SmartyTheme {
    //    Returns TRUE on success, FALSE on failure.
    public function mapTemplate($short_alias, $url)
    {
-      try {
+      try
+      {
          $this->Templates[$short_alias] = $url;
          return TRUE;
-      } catch (exception $error) {
-         common_log("Error mapping Template in SmartyTheme::mapTemplate(" . $short_alias . "," . $url . "): " . $error . PHP_EOL);
+      }
+      catch (exception $error)
+      {
+         common_debug("Error mapping Template in SmartyTheme::mapTemplate(" . $short_alias . "," . $url . "): " . $error . PHP_EOL);
          return FALSE;
       }
    }
@@ -120,13 +140,15 @@ public class SmartyTheme {
          if (array_key_exists($short_alias, $this->Templates))
          {
             return $this->Templates[$short_alias];
-         } else {
+         }
+         else
+         {
             return FALSE;
          }
       }
       catch (exception $error)
       {
-         common_log("Error retrieving Template in SmartyTheme::retrieveTemplate(" . $short_alias . "): " . $error . PHP_EOL);
+         common_debug("Error retrieving Template in SmartyTheme::retrieveTemplate(" . $short_alias . "): " . $error . PHP_EOL);
          return FALSE;
       }
    }
@@ -141,16 +163,19 @@ public class SmartyTheme {
    {
       try
       {
-         if (array_key_exists($short_alias, $this->Templates)) {
+         if (array_key_exists($short_alias, $this->Templates))
+         {
             $this->Smarty->display($this->Templates[$short_alias]);
             return TRUE;
-         } else {
+         }
+         else
+         {
             return FALSE;
          }
       }
       catch (exception $error)
       {
-         common_log("Error displaying Template in SmartyTheme::displayTemplate(" . $short_alias . "): " . $error . PHP_EOL);
+         common_debug("Error displaying Template in SmartyTheme::displayTemplate(" . $short_alias . "): " . $error . PHP_EOL);
          return FALSE;
       }
    }
@@ -162,11 +187,14 @@ public class SmartyTheme {
    //    Returns TRUE if successful, FALSE if not.
    public function assignVariable($var, $value)
    {
-      try {
+      try
+      {
          $this->Smarty->assign($var,$value);
          return TRUE;
-      } catch {
-         common_log("Error assigning Smarty variables in SmartyTheme::assignVariable(" . $var . "," . $value . "): " . $error . PHP_EOL);
+      }
+      catch (exception $error)
+      {
+         common_debug("Error assigning Smarty variables in SmartyTheme::assignVariable(" . $var . "," . $value . "): " . $error . PHP_EOL);
          return FALSE;
       }
    }

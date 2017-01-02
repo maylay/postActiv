@@ -40,7 +40,7 @@ server {
 
   # PHP
   location ~ \.php {
-    include snippets/fastcgi-php.conf;
+    include fastcgi_params;
 
     # This should be the same value as in your (optional) /etc/php5/fpm/pool.d/$server.conf
     fastcgi_pass unix:/var/run/php5-fpm.sock;
@@ -48,6 +48,8 @@ server {
     # Remove the "fastcgi_pass" line above and uncomment
     # the one below to use TCP sockets instead of Unix sockets
     #fastcgi_pass 127.0.0.1:9000;
+    
+    fastcgi_param SCRIPT_FILENAME $document_root/$fastcgi_script_name;
   }
 
   # Location

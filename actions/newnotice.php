@@ -133,7 +133,7 @@ class NewnoticeAction extends FormAction
         $cmd = $inter->handle_command($user, $content);
 
         if ($cmd) {
-            if (GNUsocial::isAjax()) {
+            if (postActiv::isAjax()) {
                 $cmd->execute(new AjaxWebChannel($this));
             } else {
                 $cmd->execute(new WebChannel($this));
@@ -220,7 +220,7 @@ class NewnoticeAction extends FormAction
 
         Event::handle('EndSaveNewNoticeWeb', array($this, $user, &$content, &$options));
 
-        if (!GNUsocial::isAjax()) {
+        if (!postActiv::isAjax()) {
             $url = common_local_url('shownotice', array('notice' => $this->stored->id));
             common_redirect($url, 303);
         }

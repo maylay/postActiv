@@ -38,7 +38,7 @@ run correctly.
                 NOTE: mod_rewrite or its equivalent is extremely useful.
 
 Your PHP installation must include the following PHP extensions for a
-functional setup of GNU Social:
+functional setup of postActiv:
 
 - openssl       (compiled in for Debian, enabled manually in Arch Linux)
 - php5-curl     Fetching files by HTTP.
@@ -350,7 +350,7 @@ your server (like lighttpd or nginx).
 
 2. Assuming your webserver is properly configured and have its settings
     applied (remember to reload/restart it), you can add this to your
-    GNU social's config.php file:
+    postActiv install's config.php file:
        $config['site']['fancy'] = true;
 
 You should now be able to navigate to a "fancy" URL on your server,
@@ -386,9 +386,9 @@ your own directory.
 Private
 -------
 
-A GNU social node can be configured as "private", which means it will not
+A postActiv node can be configured as "private", which means it will not
 federate with other nodes in the network. It is not a recommended method
-of using GNU social and we cannot at the current state of development
+of using postActiv and we cannot at the current state of development
 guarantee that there are no leaks (what a public network sees as features,
 private sites will likely see as bugs).
 
@@ -402,18 +402,18 @@ Access to file attachments can also be restricted to logged-in users only:
 1. Add a directory outside the web root where your file uploads will be
    stored. Use this command as an initial guideline to create it:
 
-       mkdir /var/www/gnusocial-files
+       mkdir /var/www/postactiv-files
 
 2. Make the file uploads directory writeable by the web server. An
    insecure way to do this is (to do it properly, read up on UNIX file
    permissions and configure your webserver accordingly):
 
-       chmod a+x /var/www/gnusocial-files
+       chmod a+x /var/www/postactiv-files
 
 3. Tell GNU social to use this directory for file uploads. Add a line
    like this to your config.php:
 
-       $config['attachments']['dir'] = '/var/www/gnusocial-files';
+       $config['attachments']['dir'] = '/var/www/postactiv-files';
 
 Extra features
 ==============
@@ -489,7 +489,7 @@ for translations: https://www.transifex.com/projects/p/gnu-social/
 
 Translations use the gettext system <http://www.gnu.org/software/gettext/>.
 If you for some reason do not wish to sign up to the Transifex service,
-you can review the files in the "locale/" sub-directory of GNU social.
+you can review the files in the "locale/" sub-directory of postActiv.
 Each plugin also has its own translation files.
 
 To get your own site to use all the translated languages, and you are
@@ -500,13 +500,15 @@ your system and then run:
 Queues and daemons
 ------------------
 
-Some activities that StatusNet needs to do, like broadcast OStatus, SMS,
+Some activities that postActiv needs to do, like broadcast OStatus, SMS,
 XMPP messages and TwitterBridge operations, can be 'queued' and done by
 off-line bots instead.
 
 Two mechanisms are available to achieve offline operations:
 
-* New embedded OpportunisticQM plugin, which is enabled by default
+* Embedded OpportunisticQM plugin, which is enabled by default
+* Redis-backed queue manager, which is the recommended option, but
+  requires a Redis server set up.
 * Legacy queuedaemon script, which can be enabled via config file.
 
 ### OpportunisticQM plugin
@@ -523,11 +525,58 @@ This is a good solution whether you:
 
 * have no access to command line (shared hosting)
 * do not want to deal with long-running PHP processes
-* run a low traffic GNU social instance
+* run a low traffic postActiv instance
 
-In other case, you really should consider enabling the queuedaemon for
-performance reasons. Background daemons are necessary anyway if you wish
-to use the Instant Messaging features such as communicating via XMPP.
+In other case, you really should consider enabling the Redis queue manager or
+queuedaemon for performance reasons.  OpprotunisticQM is essentially the slower
+option that is compatible with the most environments, but if you can run Redis
+queue manager, or the queue daemons, then it is best to do so.
+
+### Redis queue manager
+
+If you have a Redis server available, you can use our brand-spanking-new Redis
+queue manager.  This uses the in-memory storage capabilities of Redis to keep the
+queue in memory as much as possible and thus reduces a lot of strain on the
+database which is introduced by using OpprotunisticQM or the legacy queuedaemon.
+
+You can get Redis from https://redis.io/ and there is a Quick Install guide at
+https://redis.io/topics/quickstart that can help you get it going.
+
+In most systems, you will need three packagaes to make this work.  For example,
+in CentOS, you can install the required environment with:
+
+    yum install redis php-pecl-redis php-gmp
+
+For other distributions, the package names may change.
+
+Once Redis is set up and confirmed to be working, you will need to set the 
+following in your config.php:
+
+To enable redis queue:
+
+* queue subsystem - redis
+
+If you have Redis running on a UNIX socket:
+
+* redis_socket_location - the location of the UNIX socket
+
+If you have Redis running as a web service:
+
+* redis_host - the URL to the host
+
+* redis_port - the TCP port Redis is operating on
+
+There are also some optional things you can set up to tweak your queue:
+
+* redis_namespace - you can use this to set a namespace for your queue items to
+  seperate them for multiple sites, or if you use Redis for somehing else as well
+
+* redis_retries - how many times to deliver a remote message before it fails and is
+  dropped (default 10)
+
+* redis_expiration - how long to hold a remote message in Redis before it is dropped
+  (default 86400, which is 1 day)
+
 
 ### queuedaemon
 
@@ -599,7 +648,7 @@ After installation
 Backups
 -------
 
-There is no built-in system for doing backups in GNU social. You can make
+There is no built-in system for doing backups in postActiv. You can make
 backups of a working StatusNet system by backing up the database and
 the Web directory. To backup the database use mysqldump <https://mariadb.com/kb/en/mariadb/mysqldump/>
 and to backup the Web directory, try tar.
@@ -608,5 +657,5 @@ Upgrading
 ---------
 
 Upgrading is strongly recommended to stay up to date with security fixes
-and new features. For instructions on how to upgrade GNU social code,
+and new features. For instructions on how to upgrade postActiv code,
 please see the UPGRADE file.

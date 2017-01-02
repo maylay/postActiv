@@ -1,28 +1,31 @@
-<!-- begin single notice - id {$this->uid} -->
-
-<div class="notice" id="stream-item-{$this->uid}" data-uri="{$this->uri}" data-source="{$this->source}" data-conversation-id="{$this->conversation-id}" data-in-reply-to-screen-name="{$this->in-reply-to-screen-name}" data-reply-to-profile-url="{$this->in-reply-to-profile-url}" data-in-reply-to-status-id="{$this->in-reply-to-status-id}" data-in-reply-to-ostatus-uri="{$this->in-reply-to-ostatus-uri}" data-user-screen-name="{$this->user-screen-name}" data-user-ostatus-uri="$this->user-ostatus-uri}" data-user-profile-url="{$this->data-user-profile-url}">
-   <script class="attachment-json" type="application/json">{$this->attachment-json}</script>
-   <script class="attentions-json" type="application/json">{$this->attentions-json}</script>
-   <img class="avatar notice-size" id="notice-avatar-{$this->notice-id}" src="{$this->avatar_url}"/>
-
-   <div class="notice-header" id="notice-header-{$this->notice-id}"><p>
-   <b>{$this->user-screen-name} @{$this->user-handle}</b> posted at ${this->timestamp}{if isset($this->attentions_links)} to the attention of {$this->attentions_links}{/if}:
-   </p></div>
-
-   <div class="notice-content" id="notice-content-{$this->notice-id}"><p>
-   {if $template->use_markdown==true}{$this->content|markdown nofilter}{else}{$this->content}{/if}
-   </p></div>
-
-   <div class="notice-footer" id="notice-footer-{$this->notice-id}"><p>
-   {if isset($this->attachments_links)}<b>Attachments:</b> {$this->attachments_links}<br>{/if}
-   <b>Permalink:</b> {$this->uri}<br/>
-   </p></div>
-
-   <div class="notice-interactions" id="notice-interactions-{$this->notice-id}">
-   <img src="{$template->favorite-icon-url}" title="Favourite this notice" class="favourite-icon" />
-   <img src="{$template->repeat-icon-url}" title="Repeat this notice" class="repeat-icon" />
-{if ($this->is_event==true)}   <img src="{$template->rsvp-icon-url}" title="RSVP this event" class="event-rsvp-icon" />{/if}
-   </div>
-</div>
-
-<!-- end single notice - id {$this->uid} -->
+<li class="h-entry notice post notice-source-web" id="notice-{$notice->uid}">
+   <section class="notice-headers">
+      <a href="{$title->link->url}" class="u-uid">
+      {$title->content}
+      </a>
+      <a href="{$poster->profileLink}" title="{$poster->nickname} >
+      <img src="{$poster->avatar}" title="{$poster->name}'s avatar" /> {$poster->name}
+      </a>
+      
+      {if ($notice->hasParents==true)}
+      <div class="parents">
+      in reply to <a href="$notice->parent->url" class="u-in-reply-to" rel="in-reply-to"><ul class="addressees">
+      {foreach $notice->parents as parent}
+      <li><a href="{$parent}">{$parent["text"]}</a></li>
+      {/foreach}
+      </ul></a>
+      </div>
+      {/if}
+   </section>
+   <article class="{$notice->nameClass} e-content">
+   {$notice->content}
+   </article>
+   <footer>
+      <a rel="bookmark" class="timestamp" href="{$conversation->href}">In conversation</a>
+      <time class="dt-published" datetime="{$dt->iso}" title="{$dt->exact}">{$dt->approximate}</time>
+      <span class="source">
+      from <span class="device">web</span>
+      </span>
+      <a href="https://aeternum.highlandarrow.com/notice/1" class="permalink u-url">permalink</a>
+   </footer>
+</li>

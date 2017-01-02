@@ -1,15 +1,11 @@
 <?php
-/**
+/* ============================================================================
  * postActiv - a fork of the GNU Social microblogging software
  * Copyright (C) 2016, Maiyannah Bishop
  * Derived from code copyright various sources:
  *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
- *
- * A plugin to enable social-bookmarking functionality
- *
- * PHP version 5
- *
+ *   StatusNet (C) 2008-2012, StatusNet, Inc
+ * ----------------------------------------------------------------------------
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -22,29 +18,31 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * ----------------------------------------------------------------------------
+ * PHP version 5
  *
- * @category  PollPlugin
- * @package   StatusNet
- * @author    Brion Vibber <brion@status.net>
- * @copyright 2011 StatusNet, Inc.
+ * A plugin to enable polls
+ * ----------------------------------------------------------------------------
+ * @category  Polls
+ * @package   postActiv
+ * @author    Brion Vibber <brion@pobox.com>
+ * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * @author    Evan Prodromou
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
+ * @author    chimo <chimo@chromic.org>
+ * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ * @copyright 2011-2012 StatusNet, Inc.
+ * @copyright 2013-2016 Free Software Foundation, Inc.
+ * @copyright 2016 Maiyannah Bishop
  * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://status.net/
+ * @link      http://www.postactiv.com/
+ * ============================================================================
  */
 
-if (!defined('STATUSNET')) {
-    exit(1);
-}
+if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Poll plugin main class
- *
- * @category  PollPlugin
- * @package   StatusNet
- * @author    Brion Vibber <brionv@status.net>
- * @author    Evan Prodromou <evan@status.net>
- * @copyright 2011 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
- * @link      http://status.net/
  */
 class PollPlugin extends MicroAppPlugin
 {
@@ -467,3 +465,4 @@ class PollPlugin extends MicroAppPlugin
         }
     }
 }
+?>

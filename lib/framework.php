@@ -29,7 +29,7 @@ if (!defined('POSTACTIV')) { exit(1); }
 define('GNUSOCIAL_ENGINE', 'postActiv');
 define('GNUSOCIAL_ENGINE_URL', 'https://www.postactiv.com/');
 
-define('GNUSOCIAL_BASE_VERSION', '1.0.1');
+define('GNUSOCIAL_BASE_VERSION', '1.0.2');
 define('GNUSOCIAL_LIFECYCLE', 'dev'); // 'dev', 'alpha[0-9]+', 'beta[0-9]+', 'rc[0-9]+', 'release'
 
 define('GNUSOCIAL_VERSION', GNUSOCIAL_BASE_VERSION . '-' . GNUSOCIAL_LIFECYCLE);
@@ -136,8 +136,12 @@ function postActiv_class_autoload($cls)
 {
    if (file_exists(INSTALLDIR.'/classes/' . $cls . '.php')) {
       require_once(INSTALLDIR.'/classes/' . $cls . '.php');
+   } else if (file_exists(INSTALLDIR.'/classes/activity/' . $cls . '.php')) {
+      require_once(INSTALLDIR.'/classes/activity/' . $cls . '.php');
    } else if (file_exists(INSTALLDIR.'/classes/plugins/' . $cls . '.php')) {
-      require_once(INSTALLDIR.'/classes/plugins/' . $cls . '.php');
+      require_once(INSTALLDIR.'/classes/plugins/' . $cls . '.php');      
+   } else if (file_exists(INSTALLDIR.'/classes/queue/' . $cls . '.php')) {
+      require_once(INSTALLDIR.'/classes/queue/' . $cls . '.php');
    } else if (file_exists(INSTALLDIR.'/lib/' . strtolower($cls) . '.php')) {
       require_once(INSTALLDIR.'/lib/' . strtolower($cls) . '.php');
    } else if (mb_substr($cls, -6) == 'Action' &&

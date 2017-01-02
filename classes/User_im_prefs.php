@@ -1,11 +1,19 @@
 <?php
 /* ============================================================================
- * postActiv - a fork of the GNU Social microblogging software
+ * Title: User IM Preferences
+ * Class to hold a user's instant messaging preferences
+ *
+ * postActiv:
+ * the micro-blogging software
+ *
+ * Copyright:
  * Copyright (C) 2016, Maiyannah Bishop
+ *
  * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2012, StatusNet, Inc
+ * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ * o StatusNet (C) 2008-2012, StatusNet, Inc
  * ----------------------------------------------------------------------------
+ * License:
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -18,27 +26,47 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * <https://www.gnu.org/licenses/agpl.html>
  * ----------------------------------------------------------------------------
+ * About:
  * Data class for user IM preferences
  *
- * PHP version 5
+ * PHP version:
+ * Tested with PHP 5.6
+ * ----------------------------------------------------------------------------
+ * File Authors:
+ * o Craig Andrews <candrews@integralblue.com>
+ * o Brion Vibber <brion@pobox.com>
+ * o Evan Prodromou
+ * o Mikael Nordfeldth <mmn@hethane.se>
+ * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  *
- * @category  Accounts
- * @package   postActiv
- * @author    Craig Andrews <candrews@integralblue.com>
- * @author    Brion Vibber <brion@pobox.com>
- * @author    Evan Prodromou <evan@prodromou.name>
- * @author    Mikael Nordfeldth <mmn@hethane.se>
- * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2010-2011 StatusNet, Inc.
- * @copyright 2013-2016 Free Software Foundation, Inc.
- * @copyright 2016 Maiyannah Bishop
- * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://www.postactiv.com/
+ * Web:
+ *  o postActiv  <http://www.postactiv.com>
+ *  o GNU social <https://www.gnu.org/s/social/>
+ * ============================================================================
  */
+
+// This file is formatted so that it provides useful documentation output in
+// NaturalDocs.  Please be considerate of this before changing formatting.
 
 require_once INSTALLDIR.'/classes/Memcached_DataObject.php';
 
+// -----------------------------------------------------------------------------
+// Class: User_im_prefs
+// Class to hold user IM preferences
+//
+// Variables:
+// o __table
+// o user_id
+// o screenname
+// o transport
+// o notify
+// o replies
+// o updatefrompresence
+// o created
+// o modified
 class User_im_prefs extends Managed_DataObject
 {
     ###START_AUTOCODE
@@ -57,28 +85,35 @@ class User_im_prefs extends Managed_DataObject
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
-    public static function schemaDef()
-    {
-        return array(
-            'fields' => array(
-                'user_id' => array('type' => 'int', 'not null' => true, 'description' => 'user'),
-                'screenname' => array('type' => 'varchar', 'length' => 191, 'not null' => true, 'description' => 'screenname on this service'),
-                'transport' => array('type' => 'varchar', 'length' => 191, 'not null' => true, 'description' => 'transport (ex xmpp, aim)'),
-                'notify' => array('type' => 'int', 'size' => 'tiny', 'not null' => true, 'default' => 0, 'description' => 'Notify when a new notice is sent'),
-                'replies' => array('type' => 'int', 'size' => 'tiny', 'not null' => true, 'default' => 0, 'description' => 'Send replies  from people not subscribed to'),
-                'updatefrompresence' => array('type' => 'int', 'size' => 'tiny', 'not null' => true, 'default' => 0, 'description' => 'Send replies from people not subscribed to.'),
-                'created' => array('type' => 'datetime', 'not null' => true, 'description' => 'date this record was created'),
-                'modified' => array('type' => 'timestamp', 'not null' => true, 'description' => 'date this record was modified'),
-            ),
-            'primary key' => array('user_id', 'transport'),
-            'unique keys' => array(
-                'transport_screenname_key' => array('transport', 'screenname'),
-            ),
-            'foreign keys' => array(
-                'user_im_prefs_user_id_fkey' => array('user', array('user_id' => 'id')),
-            ),
-        );
-    }
-
+   // -------------------------------------------------------------------------
+   // Function: schemaDef
+   // Returns the schema definition for this class
+   //
+   // Returns:
+   // o array
+   public static function schemaDef()
+   {
+      return array(
+         'fields' => array(
+            'user_id' => array('type' => 'int', 'not null' => true, 'description' => 'user'),
+            'screenname' => array('type' => 'varchar', 'length' => 191, 'not null' => true, 'description' => 'screenname on this service'),
+            'transport' => array('type' => 'varchar', 'length' => 191, 'not null' => true, 'description' => 'transport (ex xmpp, aim)'),
+            'notify' => array('type' => 'int', 'size' => 'tiny', 'not null' => true, 'default' => 0, 'description' => 'Notify when a new notice is sent'),
+            'replies' => array('type' => 'int', 'size' => 'tiny', 'not null' => true, 'default' => 0, 'description' => 'Send replies  from people not subscribed to'),
+            'updatefrompresence' => array('type' => 'int', 'size' => 'tiny', 'not null' => true, 'default' => 0, 'description' => 'Send replies from people not subscribed to.'),
+            'created' => array('type' => 'datetime', 'not null' => true, 'description' => 'date this record was created'),
+            'modified' => array('type' => 'timestamp', 'not null' => true, 'description' => 'date this record was modified'),
+         ),
+         'primary key' => array('user_id', 'transport'),
+         'unique keys' => array(
+            'transport_screenname_key' => array('transport', 'screenname'),
+         ),
+         'foreign keys' => array(
+            'user_im_prefs_user_id_fkey' => array('user', array('user_id' => 'id')),
+         ),
+      );
+   }
 }
+// END OF FILE
+// ============================================================================
 ?>

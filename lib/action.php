@@ -370,7 +370,8 @@ class Action extends HTMLOutputter // lawsuit
                 Event::handle('EndShowStylesheets', array($this));
             }
 
-            $this->cssLink('js/extlib/jquery-ui/css/smoothness/jquery-ui.css');
+            // fixme: this shouldn't be hardcoded, bad idea
+            $this->cssLink('media/js/extlib/jquery-ui/css/smoothness/jquery-ui.css');
 
             if (Event::handle('StartShowUAStyles', array($this))) {
                 Event::handle('EndShowUAStyles', array($this));
