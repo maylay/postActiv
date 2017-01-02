@@ -125,4 +125,7 @@ class ApiListMemberAction extends ApiBareAuthAction
         return true;
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>
