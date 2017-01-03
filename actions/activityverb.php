@@ -1,16 +1,20 @@
 <?php
-/**
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
- * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
- *
+/* ============================================================================
+ * Title: ActivityVerb
  * Class for deleting a notice
  *
- * PHP version 5
+ * postActiv:
+ * the micro-blogging software
  *
- * LICENCE: This program is free software: you can redistribute it and/or modify
+ * Copyright:
+ * Copyright (C) 2016-2017, Maiyannah Bishop
+ *
+ * Derived from code copyright various sources:
+ * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ * o StatusNet (C) 2008-2012, StatusNet, Inc
+ * ----------------------------------------------------------------------------
+ * License:
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -23,15 +27,29 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @category  Plugin
- * @package   GNUsocial
- * @author    Mikael Nordfeldth <mmn@hethane.se>
- * @copyright 2015 Free Software Foundaction, Inc.
- * @license   https://www.gnu.org/licenses/agpl.html
- * @link      https://gnu.io/social
+ * <https://www.gnu.org/licenses/agpl.html>
+ * ----------------------------------------------------------------------------
+ * About:
+ * Class for deleting a notice
+ *
+ * PHP version:
+ * Tested with PHP 5.6, PHP 7
+ * ----------------------------------------------------------------------------
+ * File Authors:
+ * o Mikael Nordfeldth <mmn@hethane.se>
+ * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ *
+ * Web:
+ *  o postActiv  <http://www.postactiv.com>
+ *  o GNU social <https://www.gnu.org/s/social/>
+ * ============================================================================
  */
+ 
+// This file is formatted so that it provides useful documentation output in
+// NaturalDocs.  Please be considerate of this before changing formatting.
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
+
 
 class ActivityverbAction extends ManagedAction
 {
@@ -81,3 +99,7 @@ class ActivityverbAction extends ManagedAction
         }
     }
 }
+
+// END OF FILE
+// ============================================================================
+?>
