@@ -1,11 +1,19 @@
 <?php
-/*
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
- * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
+/* ============================================================================
+ * Title: ActivityVerbPostPlugin
+ * Extends activity verb handling for plugin interfacing
  *
+ * postActiv:
+ * the micro-blogging software
+ *
+ * Copyright:
+ * Copyright (C) 2016-2017, Maiyannah Bishop
+ *
+ * Derived from code copyright various sources:
+ * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ * o StatusNet (C) 2008-2012, StatusNet, Inc
+ * ----------------------------------------------------------------------------
+ * License:
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -19,36 +27,67 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @license   https://www.gnu.org/licenses/agpl.html
+ * <https://www.gnu.org/licenses/agpl.html>
+ * ----------------------------------------------------------------------------
+ * About:
+ * Extends activity verb handling for plugin interfacing
+ *
+ * PHP version:
+ * Tested with PHP 5.6, PHP 7
+ * ----------------------------------------------------------------------------
+ * File Authors:
+ * o Mikael Nordfeldth <mmn@hethane.se>
+ * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ *
+ * Web:
+ *  o postActiv  <http://www.postactiv.com>
+ *  o GNU social <https://www.gnu.org/s/social/>
+ * ============================================================================
  */
+ 
+// This file is formatted so that it provides useful documentation output in
+// NaturalDocs.  Please be considerate of this before changing formatting.
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+if (!defined('POSTACTIV')) { exit(1); }
 
-/**
- * @package     Activity
- * @maintainer  Mikael Nordfeldth <mmn@hethane.se>
- */
 
+// ----------------------------------------------------------------------------
+// Class: ActivityVerbPostPlugin
+// Extends activity verb handling for plugin interfacing
+// 
+// TODO:
+// o Implement a "fallback" feature which can handle anything _as_ an 
+//   activityobject "note"
 class ActivityVerbPostPlugin extends ActivityVerbHandlerPlugin
 {
-    // TODO: Implement a "fallback" feature which can handle anything _as_ an activityobject "note"
 
-    public function tag()
-    {
-        return 'post';
-    }
+   // -------------------------------------------------------------------------
+   // Function: tag
+   // Returns default tag ("post") - override to set a new default
+   public function tag() {
+      return 'post';
+   }
 
-    public function types()
-    {
-        return array(ActivityObject::ARTICLE,
-                     ActivityObject::BLOGENTRY,
-                     ActivityObject::NOTE,
-                     ActivityObject::STATUS,
-                     ActivityObject::COMMENT,
-                    // null,    // if we want to follow the original Ostatus_profile::processActivity code
-                    );
-    }
 
+   // -------------------------------------------------------------------------   
+   // Function: types
+   // Returns an array of acceptable ActivityObject types - override to set new
+   // limits or add a new AO type.
+   public function types() {
+      return array(ActivityObject::ARTICLE,
+                   ActivityObject::BLOGENTRY,
+                   ActivityObject::NOTE,
+                   ActivityObject::STATUS,
+                   ActivityObject::COMMENT,
+                   // null,    // if we want to follow the original Ostatus_profile::processActivity code
+                   );
+   }
+
+
+   // -------------------------------------------------------------------------
+   // Function: verbs
+   // Returns an array of acceptable ActivityObject verbs - override to set new
+   // limits or add a new AO verb.
     public function verbs()
     {
         return array(ActivityVerb::POST);
