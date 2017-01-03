@@ -127,4 +127,7 @@ class ApiAccountUpdateProfileImageAction extends ApiAuthAction
         }
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>
