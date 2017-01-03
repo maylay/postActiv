@@ -51,65 +51,62 @@
 if (!defined('POSTACTIV')) { exit(1); }
 
 
-/**
- * Spam notice stream
- *
- * @category  Spam
- * @package   StatusNet
- * @author    Evan Prodromou <evan@status.net>
- * @copyright 2012 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
- * @link      http://status.net/
- */
-
+// ----------------------------------------------------------------------------
+// Class: SpamNoticeStream
+// Wrapper around a RawSpamNoticeStream class
 class SpamNoticeStream extends ScopingNoticeStream
 {
-    function __construct(Profile $scoped=null)
-    {
-        parent::__construct(new CachingNoticeStream(new RawSpamNoticeStream(), 'spam_score:notice_ids'),
-                            $scoped);
-    }
+   // -------------------------------------------------------------------------
+   // Function: __construct
+   // Class constructor
+   //
+   // Parameters
+   // o scoped - default null
+   function __construct(Profile $scoped=null) {
+      parent::__construct(new CachingNoticeStream(new RawSpamNoticeStream(), 'spam_score:notice_ids'),
+                          $scoped);
+   }
 }
 
-/**
- * Raw stream of spammy notices
- *
- * @category  Stream
- * @package   StatusNet
- * @author    Evan Prodromou <evan@status.net>
- * @copyright 2011 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
- * @link      http://status.net/
- */
 
+// ----------------------------------------------------------------------------
+// Class: RawSpamNoticeStream
+// Raw stream of spammy notices
 class RawSpamNoticeStream extends NoticeStream
 {
-    function getNoticeIds($offset, $limit, $since_id, $max_id)
-    {
-        $ss = new Spam_score();
-
-        $ss->is_spam = 1;
-
-        $ss->selectAdd();
-        $ss->selectAdd('notice_id');
-
-        Notice::addWhereSinceId($ss, $since_id, 'notice_id');
-        Notice::addWhereMaxId($ss, $max_id, 'notice_id');
-
-        $ss->orderBy('notice_created DESC, notice_id DESC');
-
-        if (!is_null($offset)) {
-            $ss->limit($offset, $limit);
-        }
-
-        $ids = array();
-
-        if ($ss->find()) {
-            while ($ss->fetch()) {
-                $ids[] = $ss->notice_id;
-            }
-        }
-
-        return $ids;
-    }
+   // -------------------------------------------------------------------------
+   // Function: getNoticeIds
+   // Returns an array of notice IDs that make up this stream
+   //
+   // Parameters:
+   // o offset
+   // o limit
+   // o since_id
+   // o max_id
+   //
+   // Returns:
+   // o array
+   function getNoticeIds($offset, $limit, $since_id, $max_id) {
+      $ss = new Spam_score();
+      $ss->is_spam = 1;
+      $ss->selectAdd();
+      $ss->selectAdd('notice_id');
+      Notice::addWhereSinceId($ss, $since_id, 'notice_id');
+      Notice::addWhereMaxId($ss, $max_id, 'notice_id');
+      $ss->orderBy('notice_created DESC, notice_id DESC');
+      if (!is_null($offset)) {
+         $ss->limit($offset, $limit);
+      }
+      $ids = array();
+      if ($ss->find()) {
+         while ($ss->fetch()) {
+            $ids[] = $ss->notice_id;
+         }
+      }
+      return $ids;
+   }
 }
+
+// END OF FILE
+// ============================================================================
+?>
