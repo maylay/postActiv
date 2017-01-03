@@ -29,6 +29,36 @@ var indexSectionsWithContent = {
       "Y": true,
       "Z": false
       },
+   "General": {
+      "Symbols": true,
+      "Numbers": false,
+      "A": true,
+      "B": true,
+      "C": true,
+      "D": true,
+      "E": true,
+      "F": true,
+      "G": true,
+      "H": true,
+      "I": true,
+      "J": true,
+      "K": false,
+      "L": true,
+      "M": true,
+      "N": true,
+      "O": true,
+      "P": true,
+      "Q": true,
+      "R": true,
+      "S": true,
+      "T": true,
+      "U": true,
+      "V": true,
+      "W": false,
+      "X": false,
+      "Y": true,
+      "Z": false
+      },
    "Files": {
       "Symbols": false,
       "Numbers": false,
@@ -57,36 +87,6 @@ var indexSectionsWithContent = {
       "W": false,
       "X": false,
       "Y": true,
-      "Z": false
-      },
-   "Functions": {
-      "Symbols": true,
-      "Numbers": false,
-      "A": true,
-      "B": true,
-      "C": true,
-      "D": true,
-      "E": true,
-      "F": true,
-      "G": true,
-      "H": true,
-      "I": true,
-      "J": true,
-      "K": false,
-      "L": true,
-      "M": true,
-      "N": true,
-      "O": true,
-      "P": true,
-      "Q": true,
-      "R": true,
-      "S": true,
-      "T": true,
-      "U": true,
-      "V": true,
-      "W": false,
-      "X": false,
-      "Y": false,
       "Z": false
       },
    "Variables": {
@@ -119,7 +119,7 @@ var indexSectionsWithContent = {
       "Y": false,
       "Z": false
       },
-   "General": {
+   "Functions": {
       "Symbols": true,
       "Numbers": false,
       "A": true,
@@ -146,7 +146,7 @@ var indexSectionsWithContent = {
       "V": true,
       "W": false,
       "X": false,
-      "Y": true,
+      "Y": false,
       "Z": false
       }
    }
