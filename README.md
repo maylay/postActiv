@@ -47,7 +47,7 @@ postActiv supports an open standard called OStatus
 follow each other. It enables a distributed social network spread all across
 the Web.
 
-postActive is derived from GNU Social, and GNU Social was originally developed
+postActiv is derived from GNU Social, and GNU Social was originally developed
 as "StatusNet" by StatusNet, Inc. with Evan Prodromou as lead developer.
 It is forked form commit bd306bdb9fb43e80f9092784602a9508a7d52031 in the Nightly
 branch of GNU Social, available here:
@@ -165,7 +165,7 @@ assistance on the users mailing list, at <users@postactiv.com>
 ## Unstable version
 
 If you're adventurous or impatient, you may want to install the development
-version of GNU social. To get it, use the git version control tool
+version of postActiv. To get it, use the git version control tool
 <http://git-scm.com/> like so:
 
     git clone git@git.postactiv.com:postActiv/postActiv.git
@@ -182,12 +182,12 @@ To keep it up-to-date, use 'git pull'. Watch for conflicts!
 
 ## Further information
 
-There are several ways to get more information about GNU social.
+There are several ways to get more information about postActiv.
 
 * Following us on the Fediverse --
 <https://community.highlandarrow.com/postActiv>
 
-* psotActiv has a bug tracker for any defects you may find, or ideas for
+* postActiv has a bug tracker for any defects you may find, or ideas for
   making things better. <https://git.postactiv.com/postActiv/postActiv/issues>
 * Patches are welcome, preferrably to our repository on git.postactiv.com.
   <https://git.postactiv.com/postActiv/postActiv/>
