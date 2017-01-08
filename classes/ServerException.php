@@ -83,10 +83,12 @@ class ServerException extends Exception
 {
     public function __construct($message = null, $code = SERVER_EXCEPTION, Exception $previous = null, $severity = LOG_ERR) {
         parent::__construct($message, $code);
+        $file = $this->file;
+        $line = $this->line;
         if ($severity==LOG_DEBUG) {
            common_debug($message . " (" . $code . ")");
         } else {
-           common_log($severity, $message . " (" . $code .")");
+           common_log($severity, $message . " (" . $code .")  Exception raised in " . $file . " on line " . $line . ".");
         }
     }
 
@@ -161,7 +163,7 @@ class EmptyPkeyValueException extends ServerException
     {
         // FIXME: translate the 'not specified' case?
         parent::__construct(sprintf(_('Empty primary key (%1$s) value was given to query for a "%2$s" object'),
-                                        is_null($key) ? 'not specified' : _ve($key),$called_class), SERVER_EXCEPTION_INVALID_PKEY);
+                                        is_null($key) ? 'not specified' : _ve($key),$called_class), SERVER_EXCEPTION_INVALID_PKEY, null, LOG_DEBUG);
     }
 }
 
