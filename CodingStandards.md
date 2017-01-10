@@ -246,7 +246,7 @@ A few notes:
 
 *  You can use a license other than the AGPL if you are writing 100% from
    scratch.  If you do, include the source code file header specified by your
-   given license, and change the @license link as appropriate.
+   given license, and change the license link as appropriate.
 
 
 8. FILE CONSOLIDATION
