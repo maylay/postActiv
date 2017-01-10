@@ -182,25 +182,53 @@ fancy" then that inline commenting becomes a MUST.
 
 File headers follow a consistent format, as such:
 
-    /***
-     * postActiv - a fork of the GNU Social microblogging software
-     * Copyright (C) 2016, Maiyannah Bishop <maiyannah@member.fsf.org>
+    /* ============================================================================
+     * Title: [title of file here]
+     * [summary description of file here]
+     *
+     * postActiv:
+     * the micro-blogging software
+     *
+     * Copyright:
+     * Copyright (C) 2016-2017, Maiyannah Bishop
+     *
      * Derived from code copyright various sources:
-     *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
-     *   StatusNet (C) 2008-2011, StatusNet, Inc
+     * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+     * o StatusNet (C) 2008-2012, StatusNet, Inc
+     * ----------------------------------------------------------------------------
+     * License:
+     * This program is free software: you can redistribute it and/or modify
+     * it under the terms of the GNU Affero General Public License as published by
+     * the Free Software Foundation, either version 3 of the License, or
+     * (at your option) any later version.
      *
-     * [description of file]
+     * This program is distributed in the hope that it will be useful,
+     * but WITHOUT ANY WARRANTY; without even the implied warranty of
+     * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     * GNU Affero General Public License for more details.
      *
-     * PHP version [php version]
+     * You should have received a copy of the GNU Affero General Public License
+     * along with this program.  If not, see <http://www.gnu.org/licenses/>.
      *
-     * [license text]
+     * <https://www.gnu.org/licenses/agpl.html>
+     * ----------------------------------------------------------------------------
+     * About:
+     * [extended description of file here]
      *
-     * @category  [category]
-     * @package   postActiv
-     * @author    [author] <[author's email]>
-     * @copyright [copyright]
-     * @license   [link to license]
-     * @link      https://git.gnu.io/maiyannah/postActiv
+     * PHP version:
+     * Tested with [versions it works with here, ideally 5.6 and 7]
+     * ----------------------------------------------------------------------------
+     * File Authors:
+     * o [your name here!]
+     *
+     * Web:
+     *  o postActiv  <http://www.postactiv.com>
+     *  o GNU social <https://www.gnu.org/s/social/>
+     * ============================================================================
+     */
+
+    // This file is formatted so that it provides useful documentation output in
+    // NaturalDocs.  Please be considerate of this before changing formatting.
 
 Please use it.
 
