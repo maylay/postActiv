@@ -1,11 +1,19 @@
 <?php
 /* ============================================================================
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
+ * Title: postActiv
+ * Core class for abstracting the postActiv software
+ *
+ * postActiv:
+ * the micro-blogging software
+ *
+ * Copyright:
+ * Copyright (C) 2016-2017, Maiyannah Bishop
+ *
  * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
+ * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ * o StatusNet (C) 2008-2012, StatusNet, Inc
  * ----------------------------------------------------------------------------
+ * License:
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -18,21 +26,35 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * ----------------------------------------------------------------------------
- * PHP version 5
  *
- * Core class for abstracting the postActiv software
+ * <https://www.gnu.org/licenses/agpl.html>
  * ----------------------------------------------------------------------------
- * @category  Main
- * @package   postActiv
- * @author    Mikael Nordfeldth <mmn@hethane.se>
- * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2015-2016 Free Software Foundation, Inc.
- * @copyright 2016 Maiyannah Bishop
- * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://www.postactiv.com
+ * About:
+ * Core class for abstracting the postActiv software
+ * 
+ * Renamed from 'GNUsocial' to avoid trademark/IP problems.
+ *
+ * PHP version:
+ * Tested with PHP 5.6
+ * ----------------------------------------------------------------------------
+ * File Authors:
+ * o Zach Copley
+ * o Brion Vibber <brion@pobox.com>
+ * o James Walker <walkah@walkah.net>
+ * o Evan Prodromou
+ * o Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * o Mikael Nordfeldth <mmn@hethane.se>
+ * o Chimo <chimo@chromic.org>
+ * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ *
+ * Web:
+ *  o postActiv  <http://www.postactiv.com>
+ *  o GNU social <https://www.gnu.org/s/social/>
  * ============================================================================
  */
+ 
+// This file is formatted so that it provides useful documentation output in
+// NaturalDocs.  Please be considerate of this before changing formatting.
 
 if (!defined('POSTACTIV')) { exit(1); }
 

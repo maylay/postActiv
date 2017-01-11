@@ -1,13 +1,19 @@
 <?php
-/***
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
+/* ============================================================================
+ * Title: Profile
+ * Table Definition for profile
+ *
+ * postActiv:
+ * the micro-blogging software
+ *
+ * Copyright:
+ * Copyright (C) 2016-2017, Maiyannah Bishop
+ *
  * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
- *
- * PHP version 5 
- *
+ * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ * o StatusNet (C) 2008-2012, StatusNet, Inc
+ * ----------------------------------------------------------------------------
+ * License:
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -21,31 +27,41 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @category  Accounts
- * @package   postActiv
- * @author    Evan Prodromou <evan@prodromou.name>
- * @author    Mike Cochrane <mikec@mikenz.geek.nz>
- * @author    Robin Millette <robin@millette.info>
- * @author    Zach Copley <zach@copley.name>
- * @author    Sean Murphy <sgmurphy@gmail.com>
- * @author    Brenda Wallace <shiny@cpan.org>
- * @author    Craig Andrews <candrews@integralblue.com>
- * @author    Trever Fischer <wm161@wm161.net>
- * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
- * @author    Brion Vibber <brion@pobox.com>
- * @author    Sashi Gowda <connect2shashi@gmail.com>
- * @author    Dan Scott <dan@coffeecode.net>
- * @author    Joshua Wise <jwise@nvidia.com>
- * @author    Mikael Nordfeldth <mmn@hethane.se>
- * @author    Hannes Mannerheim <h@nnesmannerhe.im>
- * @author    Chimo <chimo@chromic.org>
- * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2008-2011 StatusNet, Inc.
- * @copyright 2013-2016 Free Software Foundation, Inc.
- * @copyright 2016 Maiyannah Bishop
- * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://www.postactiv.com
+ * <https://www.gnu.org/licenses/agpl.html>
+ * ----------------------------------------------------------------------------
+ * About:
+ * Table Definition for profile
+ *
+ * PHP version:
+ * Tested with PHP 5.6
+ * ----------------------------------------------------------------------------
+ * File Authors:
+ * o Evan Prodromou <evan@prodromou.name>
+ * o Mike Cochrane <mikec@mikenz.geek.nz>
+ * o Robin Millette <robin@millette.info>
+ * o Zach Copley <zach@copley.name>
+ * o Sean Murphy <sgmurphy@gmail.com>
+ * o Brenda Wallace <shiny@cpan.org>
+ * o Craig Andrews <candrews@integralblue.com>
+ * o Trever Fischer <wm161@wm161.net>
+ * o Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * o Brion Vibber <brion@pobox.com>
+ * o Sashi Gowda <connect2shashi@gmail.com>
+ * o Dan Scott <dan@coffeecode.net>
+ * o Joshua Wise <jwise@nvidia.com>
+ * o Mikael Nordfeldth <mmn@hethane.se>
+ * o Hannes Mannerheim <h@nnesmannerhe.im>
+ * o Chimo <chimo@chromic.org>
+ * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ *
+ * Web:
+ *  o postActiv  <http://www.postactiv.com>
+ *  o GNU social <https://www.gnu.org/s/social/>
+ * ============================================================================
  */
+ 
+// This file is formatted so that it provides useful documentation output in
+// NaturalDocs.  Please be considerate of this before changing formatting.
 
 if (!defined('POSTACTIV')) { exit(1); }
 
