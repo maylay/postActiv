@@ -119,7 +119,7 @@ Installing from the Archive Bundle
 1. Unpack the tarball you downloaded on your Web server. Usually a
    command like this will work:
 
-       tar zxf postactiv-*.tar.gz
+       tar zxf archive.tar.gz?ref=master
 
    ...which will make a postactiv-x.y.z subdirectory in your current
    directory. (If you don't have shell access on your Web server, you
@@ -157,7 +157,14 @@ Installing from the Archive Bundle
    that user's default group instead. As a last resort, you can create
    a new group like "postactiv" and add the Web server's user to the group.
 
-4. You should also take this moment to make your 'avatar' and 'file' sub-
+4. You will need to create a directory to store avatars, and one to store
+   file attachments.  By default, these are "avatar" and "file", so you
+   would want to do something like:
+
+       mkdir /var/www/postactiv/avatar
+       mkdir /var/www/postactiv/file
+
+5. You should also take this moment to make your 'avatar' and 'file' sub-
    directories writeable by the Web server. The _insecure_ way to do
    this is:
 
@@ -167,7 +174,7 @@ Installing from the Archive Bundle
    You can also make the avatar, and file directories just writable by
    the Web server group, as noted above.
 
-5. Create a database to hold your site data. Something like this
+6. Create a database to hold your site data. Something like this
    should work (you will be prompted for your database password):
 
        mysqladmin -u "root" -p create social
@@ -180,7 +187,7 @@ Installing from the Archive Bundle
    a tool like phpMyAdmin to create a database. Check your hosting
    service's documentation for how to create a new MySQL database.)
 
-6. Create a new database account that postActiv will use to access the
+7. Create a new database account that postActiv will use to access the
    database. If you have shell access, this will probably work from the
    MySQL shell:
 
@@ -192,7 +199,7 @@ Installing from the Archive Bundle
    to your preferred new database username and password. You may want to
    test logging in to MySQL as this new user.
 
-7. In a browser, navigate to the postActiv install script; something like:
+8. In a browser, navigate to the postActiv install script; something like:
 
        https://social.example.net/install.php
 
@@ -200,7 +207,7 @@ Installing from the Archive Bundle
    install program will configure your site and install the initial,
    almost-empty database.
 
-8. You should now be able to navigate to your social site's main directory
+9. You should now be able to navigate to your social site's main directory
    and see the "Public Timeline", which will probably be empty. You can
    now register new user, post some notices, edit your profile, etc.
 
