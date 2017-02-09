@@ -1,11 +1,19 @@
 <?php
 /* ============================================================================
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
+ * Title: ShowStream
+ * User profile page
+ *
+ * postActiv:
+ * the micro-blogging software
+ *
+ * Copyright:
+ * Copyright (C) 2016-2017, Maiyannah Bishop
+ *
  * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2012, StatusNet, Inc
+ * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ * o StatusNet (C) 2008-2012, StatusNet, Inc
  * ----------------------------------------------------------------------------
+ * License:
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -18,50 +26,53 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * <https://www.gnu.org/licenses/agpl.html>
  * ----------------------------------------------------------------------------
- * PHP version 5
- *
- * User profile page
- *
- * @category  UI
- * @package   postActiv
- * @author    Evan Prodromou
- * @author    Mike Cochrane <mikec@mikenz.geek.nz>
- * @author    Matthew Gregg <matthew.gregg@gmail.com>
- * @author    Sarven Capadisli
- * @author    Robin Millette <robin@millette.info>
- * @author    Zach Copley
- * @author    Adrian Lang <mail@adrianlang.de>
- * @author    Sean Murphy <sgmurphy@gmail.com>
- * @author    Meitar Moscovitz <meitarm@gmail.com>
- * @author    Ciaran Gultneiks <ciaran@ciarang.com>
- * @author    Jeffery To <jeffery.to@gmail.com>
- * @author    Christopher Vollick <psycotica0@gmail.com>
- * @author    Sashi Gowda <connect2shashi@gmail.com>
- * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
- * @author    Brion Vibber <brion@pobox.com>
- * @author    Craig Andrews <candrews@integralblue.com>
- * @author    Eric Helgeson <erichelgeson@gmail.com>
- * @author    Mikael Nordfeldth <mmn@hethane.se>
- * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2008-2012 StatusNet, Inc.
- * @copyright 2013-2016 Free Software Foundation, Inc.
- * @copyright 2016 Maiyannah Bishop
- * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://www.postactiv.com
- * ============================================================================ 
- */
-
-if (!defined('POSTACTIV')) { exit(1); }
-
-/**
- * User profile page
- *
+ * About:
  * When I created this page, "show stream" seemed like the best name for it.
  * Now, it seems like a really bad name.
  *
  * It shows a stream of the user's posts, plus lots of profile info, links
  * to subscriptions and stuff, etc.
+ *
+ * PHP version:
+ * Tested with PHP 5.6
+ * ----------------------------------------------------------------------------
+ * File Authors:
+ * o Evan Prodromou
+ * o Mike Cochrane <mikec@mikenz.geek.nz>
+ * o Matthew Gregg <matthew.gregg@gmail.com>
+ * o Sarven Capadisli
+ * o Robin Millette <robin@millette.info>
+ * o Zach Copley
+ * o Adrian Lang <mail@adrianlang.de>
+ * o Sean Murphy <sgmurphy@gmail.com>
+ * o Meitar Moscovitz <meitarm@gmail.com>
+ * o Ciaran Gultneiks <ciaran@ciarang.com>
+ * o Jeffery To <jeffery.to@gmail.com>
+ * o Christopher Vollick <psycotica0@gmail.com>
+ * o Sashi Gowda <connect2shashi@gmail.com>
+ * o Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * o Brion Vibber <brion@pobox.com>
+ * o Craig Andrews <candrews@integralblue.com>
+ * o Eric Helgeson <erichelgeson@gmail.com>
+ * o Mikael Nordfeldth <mmn@hethane.se>
+ * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ *
+ * Web:
+ *  o postActiv  <http://www.postactiv.com>
+ *  o GNU social <https://www.gnu.org/s/social/>
+ * ============================================================================
+ */
+
+// This file is formatted so that it provides useful documentation output in
+// NaturalDocs.  Please be considerate of this before changing formatting.
+
+if (!defined('POSTACTIV')) { exit(1); }
+
+/**
+ * User profile page
  */
 class ShowstreamAction extends NoticestreamAction
 {

@@ -1,11 +1,19 @@
 <?php
 /* ============================================================================
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
+ * Title: Replies
+ * List of replies
+ *
+ * postActiv:
+ * the micro-blogging software
+ *
+ * Copyright:
+ * Copyright (C) 2016-2017, Maiyannah Bishop
+ *
  * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2012, StatusNet, Inc
+ * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ * o StatusNet (C) 2008-2012, StatusNet, Inc
  * ----------------------------------------------------------------------------
+ * License:
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -18,34 +26,39 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * ----------------------------------------------------------------------------
- * PHP version 5
  *
+ * <https://www.gnu.org/licenses/agpl.html>
+ * ----------------------------------------------------------------------------
+ * About:
  * List of replies
  *
- * @category  Personal
- * @package   postActiv
- * @author    Matthew Gregg <matthew.gregg@gmail.com>
- * @author    Evan Prodromou
- * @author    Mike Cochrane <mikec@mikenz.geek.nz>
- * @author    Sarven Capadisli
- * @author    Robin Millette <robin@millette.info>
- * @author    Zach Copley
- * @author    Meitar Moscovitz <meitarm@gmail.com>
- * @author    Adrian Lang <mail@adrianlang.de>
- * @author    Jeffery To <jeffery.to@gmail.com>
- * @author    Craig Andrews <candrews@integralblue.com>
- * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
- * @author    Eric Helgeson <erichelgeson@gmail.com>
- * @author    Mikael Nordfeldth <mmn@hethane.se>
- * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2008-2012 StatusNet, Inc.
- * @copyright 2013-2016 Free Software Foundation, Inc.
- * @copyright 2016 Maiyannah Bishop
- * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://www.postactiv.com
- * ============================================================================ 
+ * PHP version:
+ * Tested with PHP 5.6
+ * ----------------------------------------------------------------------------
+ * File Authors:
+ * o Matthew Gregg <matthew.gregg@gmail.com>
+ * o Evan Prodromou
+ * o Mike Cochrane <mikec@mikenz.geek.nz>
+ * o Sarven Capadisli
+ * o Robin Millette <robin@millette.info>
+ * o Zach Copley
+ * o Meitar Moscovitz <meitarm@gmail.com>
+ * o Adrian Lang <mail@adrianlang.de>
+ * o Jeffery To <jeffery.to@gmail.com>
+ * o Craig Andrews <candrews@integralblue.com>
+ * o Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * o Eric Helgeson <erichelgeson@gmail.com>
+ * o Mikael Nordfeldth <mmn@hethane.se>
+ * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ *
+ * Web:
+ *  o postActiv  <http://www.postactiv.com>
+ *  o GNU social <https://www.gnu.org/s/social/>
+ * ============================================================================
  */
+
+// This file is formatted so that it provides useful documentation output in
+// NaturalDocs.  Please be considerate of this before changing formatting.
 
 if (!defined('POSTACTIV')) { exit(1); }
 
