@@ -87,7 +87,7 @@ class ServerException extends Exception
         $line = $this->line;
         if ($severity==LOG_DEBUG) {
            common_debug($message . " (" . $code . ")");
-        elseif ($severity==LOG_INFO) {
+        } elseif ($severity==LOG_INFO) {
            common_log($severity, $message . " (" . $code .")");
         } else {
            common_log($severity, $message . " (" . $code .")  Exception raised in " . $file . " on line " . $line . ".");
@@ -678,7 +678,8 @@ class OStatusShadowException extends Exception
      * @param Profile $profile
      * @param string $message
      */
-    function __construct($message) {
+    function __construct(Profile $profile, $message) {
+        $this->profile = $profile;
         parent::__construct($message, SERVER_EXCEPTION_OSTATUS_SHADOW_FOUND, null, LOG_INFO);
     }
 }
