@@ -151,6 +151,8 @@ class Session extends Managed_DataObject
                 return $result;
             }
         }
+        // make sure we return something on all return paths
+        return true;
     }
 
     static function destroy($id)
@@ -161,6 +163,7 @@ class Session extends Managed_DataObject
 
         if (empty($session)) {
             self::logdeb("Can't find '$id' to delete.");
+            return false;
         } else {
             $result = $session->delete();
             if (!$result) {
