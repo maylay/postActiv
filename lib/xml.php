@@ -135,6 +135,9 @@ class XMLOutputter
     {
         $this->elementStart($tag, $attrs);
         if (!is_null($content)) {
+            if (is_array($content) {
+               implode(" ",$content);
+            }
             $this->xw->text($content);
         }
         $this->elementEnd($tag);
