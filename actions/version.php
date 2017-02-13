@@ -1,11 +1,19 @@
 <?php
 /* ============================================================================
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
+ * Title: Version
+ * Show version information for this software and plugins
+ *
+ * postActiv:
+ * the micro-blogging software
+ *
+ * Copyright:
+ * Copyright (C) 2016-2017, Maiyannah Bishop
+ *
  * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2012, StatusNet, Inc
+ * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ * o StatusNet (C) 2008-2012, StatusNet, Inc
  * ----------------------------------------------------------------------------
+ * License:
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -18,36 +26,41 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * ----------------------------------------------------------------------------
- * PHP version 5
  *
+ * <https://www.gnu.org/licenses/agpl.html>
+ * ----------------------------------------------------------------------------
+ * About:
  * Show version information for this software and plugins
  *
- * @category  Info
- * @package   postActiv
- * @author    Evan Prodromou
- * @author    Sarven Capadisli
- * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
- * @author    Craig Andrews <candrews@integralblue.com>
- * @author    Zach Copley
- * @author    Mikael Nordfeldth <mmn@hethane.se>
- * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2008-2012 SatusNet, Inc
- * @copyright 2012-2016 Free Software Foundation, Inc.
- * @copyright 2016 Maiyannah Bishop
- * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://www.postactiv.com
+ * A page that shows version information for this site. Helpful for
+ * debugging, for giving credit to authors, and for linking to more
+ * complete documentation for admins.
+ *
+ * PHP version:
+ * Tested with PHP 5.6
+ * ----------------------------------------------------------------------------
+ * File Authors:
+ * o Evan Prodromou
+ * o Sarven Capadisli
+ * o Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * o Craig Andrews <candrews@integralblue.com>
+ * o Zach Copley
+ * o Mikael Nordfeldth <mmn@hethane.se>
+ * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ *
+ * Web:
+ *  o postActiv  <http://www.postactiv.com>
+ *  o GNU social <https://www.gnu.org/s/social/>
  * ============================================================================
  */
+
+// This file is formatted so that it provides useful documentation output in
+// NaturalDocs.  Please be considerate of this before changing formatting.
 
 if (!defined('POSTACTIV')) { exit(1); }
 
 /**
  * Version info page
- *
- * A page that shows version information for this site. Helpful for
- * debugging, for giving credit to authors, and for linking to more
- * complete documentation for admins.
  */
 class VersionAction extends Action
 {
