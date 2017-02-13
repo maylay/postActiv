@@ -48,7 +48,7 @@
  
 // This file is formatted so that it provides useful documentation output in
 // NaturalDocs.  Please be considerate of this before changing formatting.
- */
+
 
 class Profile_prefs extends Managed_DataObject
 {
