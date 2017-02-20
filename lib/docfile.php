@@ -118,12 +118,14 @@ class DocFile
     static function mailPaths()
     {
         $paths = array(INSTALLDIR.'/local/mail-src/',
+                       INSTALLDIR.'/media/mail-src/',
                        INSTALLDIR.'/mail-src/');
 
         $site = postActiv::currentSite();
 
         if (!empty($site)) {
             array_unshift($paths, INSTALLDIR.'/local/mail-src/'.$site.'/');
+            array_unshift($paths, INSTALLDIR.'/media/mail-src/'.$site.'/');
         }
 
         return $paths;
