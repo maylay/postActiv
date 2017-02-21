@@ -370,9 +370,9 @@ class Action extends HTMLOutputter // lawsuit
 
             // Look for config settings for path to JS, fall back to a default 
             // path if not found
-            if (common_config("site", "js_path") {
+            if (common_config("site", "js_path")) {
                $js_path = common_config("site", "js_path");
-            } elseif (common_config("javascript", "path") {
+            } elseif (common_config("javascript", "path")) {
                $js_path = common_config("javascript", "path");
             }
             if (!$js_path) {
