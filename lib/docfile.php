@@ -1,11 +1,19 @@
 <?php
 /* ============================================================================
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
+ * Title: DocFile
+ * Utility for finding and parsing documentation files
+ *
+ * postActiv:
+ * the micro-blogging software
+ *
+ * Copyright:
+ * Copyright (C) 2016-2017, Maiyannah Bishop
+ *
  * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2012, StatusNet, Inc
+ * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ * o StatusNet (C) 2008-2012, StatusNet, Inc
  * ----------------------------------------------------------------------------
+ * License:
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -18,89 +26,115 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * ----------------------------------------------------------------------------
- * PHP version 5
  *
+ * <https://www.gnu.org/licenses/agpl.html>
+ * ----------------------------------------------------------------------------
+ * About:
  * Utility for finding and parsing documentation files
  *
- * @category  Documentation
- * @package   postActiv
- * @author    Evan Prodromou <evan@status.net>
- * @copyright 2011 StatusNet, Inc.
- * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://status.net/
+ * PHP version:
+ * Tested with PHP 5.6, PHP 7
+ * ----------------------------------------------------------------------------
+ * File Authors:
+ *  o Evan Prodromou
+ *  o Mikael Nordfeldth <mmn@hethane.se>
+ *  o Bob Mottram <bob@freedombone.net>
+ *  o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ *
+ * Web:
+ *  o postActiv  <http://www.postactiv.com>
+ *  o GNU social <https://www.gnu.org/s/social/>
+ * ============================================================================
  */
+
 
 if (!defined('POSTACTIV')) { exit(1); }
 
-/**
- * Utility for finding and parsing documentation files
- */
-
+// ----------------------------------------------------------------------------
+// Class: DocFile
+// Utility for finding and parsing documentation files
+//
+// Variables:
+// o protected $filename
+// o protected $contents
 class DocFile
 {
-    protected $filename;
-    protected $contents;
+   protected $filename;
+   protected $contents;
 
-    function __construct($filename)
-    {
-        $this->filename = $filename;
-    }
 
-    static function forTitle($title, $paths)
-    {
-        if (!is_array($paths)) {
-            $paths = array($paths);
-        }
+   // -------------------------------------------------------------------------
+   // Function: __construct
+   // Class constructor.  Sets up the filename protected variable.
+   function __construct($filename)
+   {
+      $this->filename = $filename;
+   }
 
-        $filename = null;
 
-        if (Event::handle('StartDocFileForTitle', array($title, &$paths, &$filename))) {
+   // -------------------------------------------------------------------------
+   // Function: forTitle
+   // Look up the documentation file by a title in the given paths.
+   // Spins off the StartDocForTitle and EndDocForTitle events before and
+   // after the lookup, but importantly, both are before any returns, for
+   // obvious control path reasons.
+   //
+   // Parameters:
+   // o string title - filename of the docfile to look up
+   // o array paths  - paths to look in
+   //
+   // Returns:
+   // o DocFile of that file if it finds a file, null if there is no file found.
+   static function forTitle($title, $paths)
+   {
+      // TODO: This is a dirty fix.  Find out why and where we're passed bad data instead.
+      if (!is_array($paths)) {
+         $paths = array($paths);
+      }
 
-            foreach ($paths as $path) {
-
-                $def = $path.'/'.$title;
-
-                if (!file_exists($def)) {
-                    $def = null;
-                }
-
-                $lang = glob($path.'/'.$title.'.*');
-
-                if ($lang === false) {
-                    $lang = array();
-                }
-
-                if (!empty($lang) || !empty($def)) {
-                    $filename = self::negotiateLanguage($lang, $def);
-                    break;
-                }
+      $filename = null;
+      if (Event::handle('StartDocFileForTitle', array($title, &$paths, &$filename))) {
+         foreach ($paths as $path) {
+            $def = $path.'/'.$title;
+            if (!file_exists($def)) {
+               $def = null;
             }
+            $lang = glob($path.'/'.$title.'.*');
+            if ($lang === false) {
+               $lang = array();
+            }
+            if (!empty($lang) || !empty($def)) {
+               $filename = self::negotiateLanguage($lang, $def);
+               break;
+            }
+         }
+         Event::handle('EndDocFileForTitle', array($title, $paths, &$filename));
+      }
 
-            Event::handle('EndDocFileForTitle', array($title, $paths, &$filename));
-        }
+      if (empty($filename)) {
+         return null;
+      } else {
+         return new DocFile($filename);
+      }
+   }
 
-        if (empty($filename)) {
-            return null;
-        } else {
-            return new DocFile($filename);
-        }
-    }
 
-    function toHTML($args=null)
-    {
-        if (is_null($args)) {
-            $args = array();
-        }
+   // -------------------------------------------------------------------------
+   // Function: toHTML
+   // Parse the markup in a docfile to HTML equivalents.
+   function toHTML($args=null)
+   {
+      if (is_null($args)) {
+         $args = array();
+      }
+      if (empty($this->contents)) {
+         $this->contents = file_get_contents($this->filename);
+      }
+      return common_markup_to_html($this->contents, $args);
+   }
 
-        if (empty($this->contents)) {
-            $this->contents = file_get_contents($this->filename);
-        }
 
-        return common_markup_to_html($this->contents, $args);
-    }
-
-    // ------------------------------------------------------------------------
+   // ------------------------------------------------------------------------
    // Function: defaultPaths
    // Returns an array containing the possible paths for the in-UI documentation
    // sources
@@ -148,19 +182,33 @@ class DocFile
       return $paths;
    }
 
-    static function negotiateLanguage($filenames, $defaultFilename=null)
-    {
-        // XXX: do this better
 
-        $langcode = common_language();
-
-        foreach ($filenames as $filename) {
-            if (preg_match('/\.'.$langcode.'$/', $filename)) {
+   // -------------------------------------------------------------------------
+   // Function: negotiateLanguage
+   // Figure out what language code we're using for a docfile
+   //
+   // Parameters:
+   // o filenames       - files we're looking up the language for
+   // o defaultFilename - default filename to use if we don't find something,
+   //                     defaults to null
+   //
+   // Returns:
+   // o string filename or null if not found
+   //
+   // Todo:
+   // o Do this better
+   static function negotiateLanguage($filenames, $defaultFilename=null)
+   {
+      $langcode = common_language();
+      foreach ($filenames as $filename) {
+         if (preg_match('/\.'.$langcode.'$/', $filename)) {
                 return $filename;
-            }
-        }
-
-        return $defaultFilename;
-    }
+         }
+      }
+      return $defaultFilename;
+   }
 }
+
+// END OF FILE
+// ============================================================================
 ?>
