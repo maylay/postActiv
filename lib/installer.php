@@ -439,6 +439,8 @@ abstract class Installer
                 "// You will need to enable the following if you are on a shared webhost\n".
 		"// since running checkschema.php requires shell access.  This may degrade\n".
 		"// site performance though, so do not uncomment if you have shell access.\n".
+		"// If you aren't using the 'runtime' option, you should run \n".
+		"// php scripts/checkschema.php every time a plugin is updated/installed.\n".
                 "//\$config['db']['schemacheck'] = 'runtime';\n\n";
 
         // Normalize line endings for Windows servers

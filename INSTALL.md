@@ -314,7 +314,7 @@ you'll want to uncomment the following line in config.php:
 //$config['db']['schemacheck'] = 'runtime';
 ```
 
-**This will degrade performance however since it runs a database integrity
+**This will degrade performance however, since it runs a database integrity
 check on every page load.  If you have shell access, this setting 
 should be disabled.**
 
