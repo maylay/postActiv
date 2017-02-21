@@ -146,10 +146,14 @@ This section is a catch-all for site-wide variables.
     be fine-tuned for notices, messages, profile bios and group descriptions.
     Zero indicates no limit.
 
-* doc_src (string, default null): local filesystem path to UI documentation
+* doc_path (string, default null): local filesystem path to UI documentation
     templates.
 
-* mail_src (string, default null): local filesystem path to the mail templates.
+* mail_path (string, default null): local filesystem path to the mail 
+    templates.
+    
+* js_path (string, default null): local filesystem path to the javascripts 
+    used by postActiv.
 
 
 db
@@ -363,8 +367,10 @@ see: http://pear.php.net/manual/en/package.mail.mail.factory.php
    setup supports it as it is of the three the more difficult one for script
    exploits to abuse (relatively speaking - they all have potential problems.)
 
-* params (array, default null): if the mail backend requires any parameters, 
+* params (array, default null): if the mail backend requires any parameters,
     you can provide them in an associative array.
+    
+* templates_path (string, default null): alias for site->mail_path
 
 
 nickname

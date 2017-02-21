@@ -150,7 +150,7 @@ class DocFile
          array_unshift($paths, INSTALLDIR.'/local/doc-src/'.$site.'/');
       }
 
-      $doc_src = common_config("site", "doc_src")
+      $doc_src = common_config("site", "doc_path");
       if ($doc_src) {
          array_unshift($paths, $doc_src);
       }
@@ -174,8 +174,13 @@ class DocFile
          array_unshift($paths, INSTALLDIR.'/media/mail-src/'.$site.'/');
       }
 
-      $mail_src = common_config("site", "mail_src")
-      if ($doc_src) {
+      // Prefer site vars over subsection
+      if (common_config("site", "doc_path")) {
+         $mail_src = common_config("site", "mail_path");
+      } elseif(common_config("mail", "templates_path"))
+         $mail_src = common_config("mail", "templates_path");      
+      }
+      if ($mail_src) {
          array_unshift($paths, $mail_src);
       }
 

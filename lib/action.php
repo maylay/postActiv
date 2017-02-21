@@ -362,16 +362,24 @@ class Action extends HTMLOutputter // lawsuit
     function showStylesheets()
     {
         if (Event::handle('StartShowStyles', array($this))) {
-
             // Use old name for StatusNet for compatibility on events
-
             if (Event::handle('StartShowStylesheets', array($this))) {
                 $this->primaryCssLink(null, 'screen, projection, tv, print');
                 Event::handle('EndShowStylesheets', array($this));
             }
 
-            // fixme: this shouldn't be hardcoded, bad idea
-            $this->cssLink('media/js/extlib/jquery-ui/css/smoothness/jquery-ui.css');
+            // Look for config settings for path to JS, fall back to a default 
+            // path if not found
+            if (common_config("site", "js_path") {
+               $js_path = common_config("site", "js_path");
+            } elseif (common_config("javascript", "path") {
+               $js_path = common_config("javascript", "path");
+            }
+            if (!$js_path) {
+               $this->cssLink('media/js/extlib/jquery-ui/css/smoothness/jquery-ui.css');
+            } else {
+               $this->cssLink($js_path . '/extlib/jquery-ui/css/smoothness/jquery-ui.css');
+            }
 
             if (Event::handle('StartShowUAStyles', array($this))) {
                 Event::handle('EndShowUAStyles', array($this));
