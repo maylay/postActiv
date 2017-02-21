@@ -146,6 +146,11 @@ This section is a catch-all for site-wide variables.
     be fine-tuned for notices, messages, profile bios and group descriptions.
     Zero indicates no limit.
 
+* doc_src (string, default null): local filesystem path to UI documentation
+    templates.
+
+* mail_src (string, default null): local filesystem path to the mail templates.
+
 
 db
 -------------------------------------------------------------------------------

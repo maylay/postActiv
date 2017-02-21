@@ -100,36 +100,53 @@ class DocFile
         return common_markup_to_html($this->contents, $args);
     }
 
-    static function defaultPaths()
-    {
-        $paths = array(INSTALLDIR.'/media/doc-src/',
-                       INSTALLDIR.'/local/doc-src/',
-                       INSTALLDIR.'/doc-src/');
+    // ------------------------------------------------------------------------
+   // Function: defaultPaths
+   // Returns an array containing the possible paths for the in-UI documentation
+   // sources
+   static function defaultPaths()
+   {
+      $paths = array(INSTALLDIR.'/media/doc-src/',
+                     INSTALLDIR.'/local/doc-src/',
+                     INSTALLDIR.'/doc-src/');
 
-        $site = postActiv::currentSite();
+      $site = postActiv::currentSite();
 
-        if (!empty($site)) {
-            array_unshift($paths, INSTALLDIR.'/local/doc-src/'.$site.'/');
-        }
+      if (!empty($site)) {
+         array_unshift($paths, INSTALLDIR.'/local/doc-src/'.$site.'/');
+      }
 
-        return $paths;
-    }
+      $doc_src = common_config("site", "doc_src")
+      if ($doc_src) {
+         array_unshift($paths, $doc_src);
+      }
 
-    static function mailPaths()
-    {
-        $paths = array(INSTALLDIR.'/local/mail-src/',
-                       INSTALLDIR.'/media/mail-src/',
-                       INSTALLDIR.'/mail-src/');
+      return $paths;
+   }
 
-        $site = postActiv::currentSite();
+   // -------------------------------------------------------------------------
+   // Function: mailPaths
+   // As <defaultPaths> but for mail sources (template for invites, etc)
+   static function mailPaths()
+   {
+      $paths = array(INSTALLDIR.'/local/mail-src/',
+                     INSTALLDIR.'/media/mail-src/',
+                     INSTALLDIR.'/mail-src/');
 
-        if (!empty($site)) {
-            array_unshift($paths, INSTALLDIR.'/local/mail-src/'.$site.'/');
-            array_unshift($paths, INSTALLDIR.'/media/mail-src/'.$site.'/');
-        }
+      $site = postActiv::currentSite();
 
-        return $paths;
-    }
+      if (!empty($site)) {
+         array_unshift($paths, INSTALLDIR.'/local/mail-src/'.$site.'/');
+         array_unshift($paths, INSTALLDIR.'/media/mail-src/'.$site.'/');
+      }
+
+      $mail_src = common_config("site", "mail_src")
+      if ($doc_src) {
+         array_unshift($paths, $mail_src);
+      }
+
+      return $paths;
+   }
 
     static function negotiateLanguage($filenames, $defaultFilename=null)
     {
