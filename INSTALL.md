@@ -305,6 +305,18 @@ It should go without saying, this method requires git installed to use.
    and see the "Public Timeline", which will probably be empty. You can
    now register new user, post some notices, edit your profile, etc.
 
+Note for Running on Shared Webhosts
+------------------------------------
+If you're running postActiv on a shared webhost without shell access, 
+you'll want to uncomment the following line in config.php:
+
+```php
+//$config['db']['schemacheck'] = 'runtime';
+```
+
+**This will degrade performance however since it runs a database integrity
+check on every page load.  If you have shell access, this setting 
+should be disabled.**
 
 Log Filtering
 -------------

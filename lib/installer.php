@@ -436,9 +436,10 @@ abstract class Installer
                 ($this->db['type'] == 'pgsql' ? "\$config['db']['quote_identifiers'] = true;\n\n":'').
                 "\$config['db']['type'] = {$vals['db_type']};\n\n".
 
-                "// Uncomment below for better performance. Just remember you must run\n".
-                "// php scripts/checkschema.php whenever your enabled plugins change!\n".
-                "//\$config['db']['schemacheck'] = 'script';\n\n";
+                "// You will need to enable the following if you are on a shared webhost\n".
+		"// since running checkschema.php requires shell access.  This may degrade\n".
+		"// site performance though, so do not uncomment if you have shell access.\n".
+                "//\$config['db']['schemacheck'] = 'runtime';\n\n";
 
         // Normalize line endings for Windows servers
         $cfg = str_replace("\n", PHP_EOL, $cfg);
