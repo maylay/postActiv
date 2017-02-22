@@ -200,7 +200,7 @@ The ones that you may want to set are listed below for clarity.
     until they get their databases fixed up. See "UTF-8 database" above for 
     details.
 
-* schemacheck (enum["runtime", "script"], default "runtime"): when to let
+* schemacheck (enum["runtime", "script"], default "script"): when to let
     plugins check the database schema to add tables or update them. 'runtime'
     can be costly (plugins check the schema on every hit, adding potentially
     several db queries, some quite long), but not everyone knows how to run a
