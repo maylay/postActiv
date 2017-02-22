@@ -217,8 +217,8 @@ class RedisQueueManager extends QueueManager {
             $result = $handler->handle($item);
 
         } catch (NoQueueHandlerException $e) {
-         $this->_log(LOG_WARNING, "[$transport:{$rep}] No handler for queue $transport; discarding.");
-         return $this->_done($queue_item, $transport);
+             $this->_log(LOG_WARNING, "[$transport:{$rep}] No handler for queue $transport; discarding.");
+             return $this->_done($queue_item, $transport);
 
         } catch (NoResultException $e) {
             $this->_log(LOG_ERR, "[$transport:$rep] ".get_class($e).' thrown ('._ve($e->getMessage()).'), ignoring queue_item '._ve($queue_item->id));
@@ -232,6 +232,7 @@ class RedisQueueManager extends QueueManager {
             $this->_log(LOG_ERR, "[$transport:$rep] Exception (".get_class($e).') thrown: '._ve($e->getMessage()));
             $result = false;
         }
+        $this->recordItemHandled();
 
         if ($result) {
             $this->_log(LOG_INFO, "[$transport:$rep] Successfully handled item");

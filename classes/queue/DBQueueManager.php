@@ -131,6 +131,7 @@ class DBQueueManager extends QueueManager
          $this->_log(LOG_ERR, "[{$qi->transport}:$rep] Exception (".get_class($e).') thrown: '._ve($e->getMessage()));
          $result = false;
       }
+      $this->recordItemHandled();
       if ($result) {
          $this->_log(LOG_INFO, "[{$qi->transport}:$rep] Successfully handled item");
          $this->_done($qi);

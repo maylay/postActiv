@@ -78,6 +78,7 @@ abstract class QueueManager extends IoManager
     protected $groups = array();
     protected $activeGroups = array();
     protected $ignoredTransports = array();
+    protected $itemsUntilExpiration = null;
 
     // ------------------------------------------------------------------------
     // Function: __construct
@@ -85,6 +86,26 @@ abstract class QueueManager extends IoManager
     function __construct()
     {
         $this->initialize();
+    }
+
+    public function setItemsUntilExpiration($itemsUntilExpiration) {
+        // Don't allow negative values
+        if ($itemsUntilExpiration > 0)
+            $this->itemsUntilExpiration = $itemsUntilExpiration;
+    }
+
+    public function recordItemHandled() {
+        if ($this->itemsUntilExpiration !== null) {
+            $this->_log(LOG_DEBUG, "Items until expiration: $this->itemsUntilExpiration");
+            // Don't keep decrementing after hitting zero.
+            if ($this->itemsUntilExpiration <= 0 || $this->itemsUntilExpiration-- <= 0)
+                return false;
+        }
+        return true;
+    }
+
+    public function isExpired() {
+        return ($this->itemsUntilExpiration !== null && $this->itemsUntilExpiration <= 0);
     }
 
     // ------------------------------------------------------------------------
@@ -156,6 +177,7 @@ abstract class QueueManager extends IoManager
 
                 $enabled = common_config('queue', 'enabled');
                 $type = common_config('queue', 'subsystem');
+                $itemsUntilExpiration = common_config('queue', 'items_to_handle');
 
                 if (!$enabled) {
                     // does everything immediately
@@ -174,6 +196,7 @@ abstract class QueueManager extends IoManager
                      default:
                         throw new ServerException("No queue manager class for type '$type'");
                     }
+                    self::qm->setItemsUntilExpiration($itemsUntilExpiration);
                 }
             }
         }

@@ -103,6 +103,7 @@ $default =
         'queue' =>
         array('enabled' => true,
               'daemon' => false, # Use queuedaemon. Default to false
+              'items_to_handle' => null, # How many items to handle before a daemon process exits.  Default to unlimited
               'subsystem' => 'db', # default to database, or 'stomp' or 'redis'
               'stomp_server' => null,
               'queue_basename' => '/queue/statusnet/',

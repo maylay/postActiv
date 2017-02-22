@@ -126,11 +126,13 @@ class QueueDaemon extends SpawningDaemon
 class QueueMaster extends IoMaster
 {
     protected $processManager;
+    protected $queueManager;
 
     function __construct($id, $processManager)
     {
         parent::__construct($id);
         $this->processManager = $processManager;
+        $this->queueManager = null;
     }
 
     /**
@@ -140,9 +142,9 @@ class QueueMaster extends IoMaster
     {
         $managers = array();
         if (Event::handle('StartQueueDaemonIoManagers', array(&$managers))) {
-            $qm = QueueManager::get();
-            $qm->setActiveGroup('main');
-            $managers[] = $qm;
+            $this->queueManager = QueueManager::get();
+            $this->queueManager->setActiveGroup('main');
+            $managers[] = $this->queueManager;
             $managers[] = $this->processManager;
         }
         Event::handle('EndQueueDaemonIoManagers', array(&$managers));
@@ -150,6 +152,14 @@ class QueueMaster extends IoMaster
         foreach ($managers as $manager) {
             $this->instantiate($manager);
         }
+    }
+
+    function idle() {
+        if ($this->queueManager !== null && $this->queueManager->isExpired()) {
+            common_log(LOG_INFO, 'Queue daemon has expired as dictated by configuration, requesting a respawn.');
+            $this->requestRestart();
+        } else
+            IoMaster::idle();
     }
 }
 
