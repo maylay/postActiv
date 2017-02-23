@@ -145,8 +145,8 @@ class VersionAction extends Action
 
         // TRANS: Content part of engine version page.
         // TRANS: %1$s is the engine name (GNU social) and %2$s is the GNU social version.
-        $this->raw(sprintf(_('This site is powered by %1$s version %2$s, '.
-                             'Copyright 2008-2013 StatusNet, Inc., 2013-2016 Free Software Foundation, and 2016 Maiyannah Bishop, as well as other contributors.'),
+        $this->raw(sprintf('This site is powered by %1$s version %2$s, '.
+                           'Copyright 2008-2013 StatusNet, Inc., 2013-2016 Free Software Foundation, and 2016-2017 Maiyannah Bishop, as well as other contributors.',
                            XMLStringer::estring('a', array('href' => GNUSOCIAL_ENGINE_URL),
                                                 // TRANS: Engine name.
                                                 GNUSOCIAL_ENGINE),
@@ -210,9 +210,7 @@ class VersionAction extends Action
          foreach ($this->pluginVersions as $plugin) {
             $dir = preg_replace('/\s+/', '', $plugin['name']);
             // Is this a plugin or a module? -mb
-            if (@file_exists(INSTALLDIR.'/local/plugins/'.$dir.'/')) {
-               $module = false;
-            } elseif (@file_exists(INSTALLDIR.'/local/modules/'.$dir.'/')) {
+            if (@file_exists(INSTALLDIR.'/local/modules/'.$dir.'/')) {
                $module = true;
             } elseif (@file_exists(INSTALLDIR.'/modules/'.$dir.'/')) {
                $module = true;
