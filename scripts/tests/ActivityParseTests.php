@@ -1,41 +1,4 @@
 <?php
-/***
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
- * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
- *
- * Unit test for activity parsing
- *
- * PHP version 5
- *
- * LICENCE: This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @category  Unit Tests
- * @package   postActiv
- * @author    Zach Copley <zcopley@danube.local>
- * @author    Evan Prodromou <evan@prodromou.name>
- * @author    Brion Vibber <brion@pobox.com>
- * @author    Mikael Nordfeldth <mmn@hethane.se>
- * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2010-2011 StatusNet, Inc.
- * @copyright 2013-2016 Free Software Foundation
- * @copyright 2016 Maiyannah Bishop
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
- * @link      https://git.gnu.io/maiyannah/postActiv
- */
 
 if (isset($_SERVER) && array_key_exists('REQUEST_METHOD', $_SERVER)) {
     print "This script must be run from the command line\n";
@@ -45,7 +8,6 @@ if (isset($_SERVER) && array_key_exists('REQUEST_METHOD', $_SERVER)) {
 // XXX: we should probably have some common source for this stuff
 
 define('INSTALLDIR', realpath(dirname(__FILE__) . '/..'));
-define('POSTACTIV', true);
 define('GNUSOCIAL', true);
 define('STATUSNET', true);  // compatibility
 
@@ -53,6 +15,35 @@ require_once INSTALLDIR . '/lib/common.php';
 
 class ActivityParseTests extends PHPUnit_Framework_TestCase
 {
+
+    public function testMastodonRetweet() {
+        global $_mastodon_retweet;
+        $dom = DOMDocument::loadXML($_mastodon_retweet);
+        $feed = $dom->documentElement;
+        $entries = $feed->getElementsByTagName('entry');
+        $entry = $entries->item(0);
+        $act = new Activity($entry, $feed);
+        $this->assertFalse(empty($act));
+        $this->assertFalse(empty($act->objects[0]));
+
+        $object = $act->objects[0];
+        $this->assertEquals($object->verb, ActivityVerb::POST);
+    }
+
+    public function testGSReweet() {
+        global $_gs_retweet;
+        $dom = DOMDocument::loadXML($_gs_retweet);
+        $feed = $dom->documentElement;
+        $entries = $feed->getElementsByTagName('entry');
+        $entry = $entries->item(0);
+        $act = new Activity($entry, $feed);
+        $this->assertFalse(empty($act));
+        $this->assertFalse(empty($act->objects[0]));
+
+        $object = $act->objects[0];
+        $this->assertEquals($object->verb, ActivityVerb::POST);
+    }
+
     public function testExample1()
     {
         global $_example1;
