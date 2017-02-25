@@ -1,7 +1,12 @@
-# postActiv 1.0
-(c) 2016 Maiyannah Bishop
+# postActiv 1.0.3
+(c) 2016-2017 Maiyannah Bishop
 
-Derived from code copyright various sources:
+If you're reading this on GitLab and you want the most up-to-date documentation,
+go here: 
+
+https://git.postactiv.com/postActiv/postActiv/blob/nightly/README.md
+
+postActiv is derived from code copyright various sources:
  * GNU Social (C) 2013-2016, Free Software Foundation, Inc
  * StatusNet (C) 2008-2011, StatusNet, Inc
 
@@ -18,23 +23,25 @@ Some other files to review:
 - EVENTS.txt: events supported by the plugin system
 - COPYING.md: full text of the software license
 
-Information on using GNU social can be found in the "doc" subdirectory or in
+Information on using postActiv can be found in the "doc" subdirectory or in
 the "help" section on-line, or you can contact maiyannah on the fediverse at
 @maiyannah@community.highlandarrow.com or her email at
 <maiyannah.bishop@postactiv.com>
 
+There is also a website at <postactiv.com> with a lot of useful information,
+such as FAQs, more extensive mailing docs, and mailing list archives.
+
 ## About
 
 postActiv is a free software project to develop a social networking platform.
-It is derived from GNU Social, which is itself derived from StatusNet and
-Laconica.  It helps people in a community, company, or group to exchange short
-status updates, do polls, annouce events, or other social activites.  Users can
-choose which people to "follow" and receive only their friends' or collegues'
-status messages.  They can also view the public timeline of the site to see
-everyone, or the "whole known network" timeline, to see all the people in sites
-that have connected with this one, by someone following them.  It provides a
-similar service to proprietary social network sites, but is decentralized, and
-with many additional features and an open, free software codebase that you can
+It helps people in a community, company, or group to exchange short status
+updates, do polls, annouce events, or other social activites.  Users can choose
+which people to "follow" and receive only their friends' or collegues' status
+messages.  They can also view the public timeline of the site to see everyone,
+or the "whole known network" timeline, to see all the people in sites that have
+connected with this one, by someone following them.  It provides a similar
+service to proprietary social network sites, but is decentralized, and with
+many additional features and an open, free software codebase that you can
 develop your own plugins for, it is much more awesome.
 
 Using plugins available to postActiv, status messages can be sent to mobile
@@ -47,10 +54,11 @@ postActiv supports an open standard called OStatus
 follow each other. It enables a distributed social network spread all across
 the Web.
 
-postActiv is derived from GNU Social, and GNU Social was originally developed
-as "StatusNet" by StatusNet, Inc. with Evan Prodromou as lead developer.
-It is forked form commit bd306bdb9fb43e80f9092784602a9508a7d52031 in the Nightly
-branch of GNU Social, available here:
+is derived from GNU Social, which is itself derived from StatusNet and
+Laconica.  It is forked form commit 
+bd306bdb9fb43e80f9092784602a9508a7d52031 in the Nightly branch of GNU Social, 
+available here:
+
 <https://git.gnu.io/gnu/gnu-social/commit/bd306bdb9fb43e80f9092784602a9508a7d52031>
 
 It is shared with you in hope that you too make an service available to your
@@ -105,10 +113,11 @@ license file in the extlib directory for additional terms.
 ## Requirements
 The minimum requirements to run postActiv are the following:
 
-* PHP: PHP 5 or higher is neccesary.  We recommend 5.4.  PHP 7 should work but
-  is untested so there's probably some stuff that won't work properly.
+* PHP: PHP 5 or higher is neccesary.  We recommend using PHP 7 as all new
+  postActiv code is being designed with that as the target version.
 * MySQL: You need either a MariaDB or MySQL database available for postActiv
-  to store information in.
+  to store information in.  MySQL 5.6 is the recommended version.  MariaDB
+  also works fine, but has some installation technicalities.
 * Web server: You must have either an Apache, nginx, or Litespeed web server
   configured with PHP support to serve up postActiv.  We recommend Apache, but
   nginx is also well-supported.
@@ -186,7 +195,7 @@ There are several ways to get more information about postActiv.
 
 * Following us on the Fediverse --
 <https://community.highlandarrow.com/postActiv>
-
+* Our web page at <www.postactiv.com>
 * postActiv has a bug tracker for any defects you may find, or ideas for
   making things better. <https://git.postactiv.com/postActiv/postActiv/issues>
 * Patches are welcome, preferrably to our repository on git.postactiv.com.
@@ -206,6 +215,8 @@ The following is a list of developers who've contributed to postActiv:
 * Verius - <verius@postactiv.com>
 * Neil E Hodges
 * Moonman
+* Normandy
+* Bob Mottram
 
 See CREDITS.md for a full listing of contributors to upstream sources such as
 GNU social or StatusNet.

@@ -20,6 +20,8 @@ Developers
 * Verius <verius@postactiv.com>
 * Neil E Hodges
 * Moonman
+* Normandy
+* Bob Mottram
 
 
 GNU social Team
