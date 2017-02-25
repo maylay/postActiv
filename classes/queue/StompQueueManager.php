@@ -586,7 +586,7 @@ class StompQueueManager extends QueueManager {
       $site = $message['site'];
       $queue = $message['handler'];
 
-      if ($this->isDeadletter($frame, $message)) {
+      if ($this->isDeadLetter($frame, $message)) {
          $this->stats('deadletter', $queue);
 	     return false;
       }
