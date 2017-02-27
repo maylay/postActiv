@@ -1,9 +1,20 @@
 #!/usr/bin/env php
 <?php
-/*
- * StatusNet - the distributed open-source microblogging tool
- * Copyright (C) 2009, StatusNet, Inc.
+/* ============================================================================
+ * Title: AllSites
+ * List all the sites in a multi-site postActiv install
  *
+ * postActiv:
+ * the micro-blogging software
+ *
+ * Copyright:
+ * Copyright (C) 2016-2017, Maiyannah Bishop
+ *
+ * Derived from code copyright various sources:
+ * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ * o StatusNet (C) 2008-2012, StatusNet, Inc
+ * ----------------------------------------------------------------------------
+ * License:
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -16,7 +27,32 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * <https://www.gnu.org/licenses/agpl.html>
+ * ----------------------------------------------------------------------------
+ * About:
+ * List all the sites in a multi-site postActiv install
+ *
+ *     USAGE: allsites.php [OPTIONS]
+ *
+ *     -t --tagged=tagname  List only sites with this tag
+ *     -w --not-tagged=tagname List only sites without this tag
+ *
+ * PHP version:
+ * Tested with PHP 7
+ * ----------------------------------------------------------------------------
+ * File Authors:
+ *  o Evan Prodromou
+ *  o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ *
+ * Web:
+ *  o postActiv  <http://www.postactiv.com>
+ *  o GNU social <https://www.gnu.org/s/social/>
+ * ============================================================================
  */
+ 
+// This file is formatted so that it provides useful documentation output in
+// NaturalDocs.  Please be considerate of this before changing formatting.
 
 // Abort if called from a web server
 
@@ -36,6 +72,9 @@ ENDOFHELP;
 
 require_once INSTALLDIR.'/scripts/commandline.inc';
 
+
+// ----------------------------------------------------------------------------
+// Function: print_all_sites
 function print_all_sites() {
 
     $sn = new Status_network();
@@ -48,6 +87,9 @@ function print_all_sites() {
     return;
 }
 
+
+// ----------------------------------------------------------------------------
+// Function: print_tagged_sites
 function print_tagged_sites($tag) {
 
     $sn = new Status_network();
@@ -64,6 +106,9 @@ function print_tagged_sites($tag) {
     return;
 }
 
+
+// ----------------------------------------------------------------------------
+// Function: print_untagged_sites
 function print_untagged_sites($tag) {
 
     $sn = new Status_network();
@@ -91,3 +136,7 @@ if (have_option('t', 'tagged')) {
 } else {
     print_all_sites();
 }
+
+// END OF FILE
+// ============================================================================
+?>

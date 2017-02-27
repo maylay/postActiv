@@ -1,12 +1,20 @@
 #!/usr/bin/env php
 <?php
-/***
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop <maiyannah@member.fsf.org>
- * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
+/* ============================================================================
+ * Title: Clean_file_table
+ * Deletes all local files where the filename cannot be found in the filesystem
  *
+ * postActiv:
+ * the micro-blogging software
+ *
+ * Copyright:
+ * Copyright (C) 2016-2017, Maiyannah Bishop
+ *
+ * Derived from code copyright various sources:
+ * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ * o StatusNet (C) 2008-2012, StatusNet, Inc
+ * ----------------------------------------------------------------------------
+ * License:
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -20,15 +28,33 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @category  Scripts
- * @package   postActiv
- * @author    Mikael Nordfeldth <mmn@hethane.se>
- * @author    Maiyannah Bishop <maiyannah@member.fsf.org>
- * @copyright 2015-2016 Free Software Foundation, Inc.
- * @copyright 2016 Maiyannah Bishop
- * @license   GNU Affero General Public License http://www.gnu.org/licenses/
- * @link      https://git.gnu.io/maiyannah/postActiv
+ * <https://www.gnu.org/licenses/agpl.html>
+ * ----------------------------------------------------------------------------
+ * About:
+ * Deletes all local files where the filename cannot be found in the filesystem.
+ *
+ *     clean_file_table.php [options]
+ *     Deletes all local files where the filename cannot be found in the filesystem.
+ *
+ *     -y --yes      do not wait for confirmation
+ *
+ *     Will print '.' for each file, except for deleted ones which are marked as 'x'.
+ *
+ * PHP version:
+ * Tested with PHP 7
+ * ----------------------------------------------------------------------------
+ * File Authors:
+ *  o Mikael Nordfeldth <mmn@hethane.se>
+ *  o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ *
+ * Web:
+ *  o postActiv  <http://www.postactiv.com>
+ *  o GNU social <https://www.gnu.org/s/social/>
+ * ============================================================================
  */
+ 
+// This file is formatted so that it provides useful documentation output in
+// NaturalDocs.  Please be considerate of this before changing formatting.
 
 define('INSTALLDIR', realpath(dirname(__FILE__) . '/..'));
 
@@ -72,4 +98,7 @@ if ($file->find()) {
     }
 }
 print "\nDONE.\n";
+
+// END OF FILE
+// ============================================================================
 ?>
