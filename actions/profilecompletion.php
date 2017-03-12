@@ -33,7 +33,7 @@
  * Profile completion action
  *
  * PHP version:
- * Tested with PHP 5.6, PHP 7
+ * Tested with PHP 7.0
  * ----------------------------------------------------------------------------
  * File Authors:
  * o Shashi Gowda <connect2shashi@gmail.com>
@@ -48,7 +48,7 @@
  *  o GNU social <https://www.gnu.org/s/social/>
  * ============================================================================
  */
- 
+
 // This file is formatted so that it provides useful documentation output in
 // NaturalDocs.  Please be considerate of this before changing formatting.
 

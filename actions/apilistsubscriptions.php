@@ -33,7 +33,7 @@
  * Get a list of lists a user is subscribed to.
  *
  * PHP version:
- * Tested with PHP 5.6, PHP 7
+ * Tested with PHP 7.0
  * ----------------------------------------------------------------------------
  * File Authors:
  * o Sashi Gowda <connect2shashi@gmail.com>

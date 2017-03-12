@@ -33,7 +33,7 @@
  * Site notice administration panel
  *
  * PHP version:
- * Tested with PHP 5.6
+ * Tested with PHP 7.0
  * ----------------------------------------------------------------------------
  * File Authors:
  * o Zach Copley

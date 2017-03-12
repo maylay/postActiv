@@ -35,12 +35,14 @@
  * This is the action for subscribing to a peopletag. It works more or less like the join action
  * for groups.
  *
- * @category  Peopletag
- * @package   postActiv
- * @author    Shashi Gowda <connect2shashi@gmail.com>
- * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
- * @author    Mikael Nordfeldth <mmn@hethane.se>
- * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ * PHP version:
+ * Tested with PHP 7.0
+ * ----------------------------------------------------------------------------
+ * File Authors:
+ * o Shashi Gowda <connect2shashi@gmail.com>
+ * o Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * o Mikael Nordfeldth <mmn@hethane.se>
+ * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  *
  * Web:
  *  o postActiv  <http://www.postactiv.com>

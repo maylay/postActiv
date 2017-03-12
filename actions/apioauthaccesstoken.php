@@ -34,7 +34,7 @@
  * request token for an access token)
  *
  * PHP version:
- * Tested with PHP 5.6, PHP 7
+ * Tested with PHP 7.0
  * ----------------------------------------------------------------------------
  * File Authors:
  * o Siebrand Mazeland <s.mazeland@xs4all.nl>

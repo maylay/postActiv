@@ -33,7 +33,7 @@
  * Restore a backup of your own account from the browser
  *
  * PHP version:
- * Tested with PHP 5.6
+ * Tested with PHP 7.0
  * ----------------------------------------------------------------------------
  * File Authors:
  * o Evan Prodromou

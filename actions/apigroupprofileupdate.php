@@ -33,7 +33,7 @@
  * Update a group's profile
  *
  * PHP version:
- * Tested with PHP 5.6, PHP 7
+ * Tested with PHP 7.0
  * ----------------------------------------------------------------------------
  * File Authors:
  * o Zach Copley

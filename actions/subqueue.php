@@ -33,7 +33,7 @@
  * Queue of people waiting to be approved for subscription
  *
  * PHP version:
- * Tested with PHP 5.6
+ * Tested with PHP 7.0
  * ----------------------------------------------------------------------------
  * File Authors:
  * o Brion Vibber <brion@pobox.com>

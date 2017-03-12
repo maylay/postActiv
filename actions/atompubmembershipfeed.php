@@ -33,7 +33,7 @@
  * Feed of group memberships for a user, in ActivityStreams format
  *
  * PHP version:
- * Tested with PHP 5.6, PHP 7
+ * Tested with PHP 7.0
  * ----------------------------------------------------------------------------
  * File Authors:
  * @author    Evan Prodromou

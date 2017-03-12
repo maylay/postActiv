@@ -34,7 +34,7 @@
  * might not actually need this for non-Qvitter installs.
  *
  * PHP version:
- * Tested with PHP 5.6, PHP 7
+ * Tested with PHP 7.0
  * ----------------------------------------------------------------------------
  * File Authors:
  * @author    Hannes Mannerheim <h@nnesmannerhe.im>

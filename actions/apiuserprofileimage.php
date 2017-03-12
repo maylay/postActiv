@@ -33,7 +33,7 @@
  * Return a user's avatar image
  *
  * PHP version:
- * Tested with PHP 5.6, PHP 7
+ * Tested with PHP 7.0
  * ----------------------------------------------------------------------------
  * File Authors:
  * o Brion Vibber <brion@status.net>

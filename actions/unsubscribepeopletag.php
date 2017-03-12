@@ -35,7 +35,7 @@
  * This is the action for subscribing to a peopletag. It works more or less like the join action
  *
  * PHP version:
- * Tested with PHP 5.6
+ * Tested with PHP 7.0
  * ----------------------------------------------------------------------------
  * File Authors:
  * o Shashi Gowda <connect2shashi@gmail.com>
