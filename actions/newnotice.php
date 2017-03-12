@@ -1,11 +1,19 @@
 <?php
 /* ============================================================================
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
+ * Title: Notice
+ * Handler for posting new notices
+ *
+ * postActiv:
+ * the micro-blogging software
+ *
+ * Copyright:
+ * Copyright (C) 2016-2017, Maiyannah Bishop
+ *
  * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2012, StatusNet, Inc
+ * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ * o StatusNet (C) 2008-2012, StatusNet, Inc
  * ----------------------------------------------------------------------------
+ * License:
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -18,34 +26,39 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * ----------------------------------------------------------------------------
- * PHP version 5
  *
+ * <https://www.gnu.org/licenses/agpl.html>
+ * ----------------------------------------------------------------------------
+ * About:
  * Handler for posting new notices
  *
- * @category  Personal
- * @package   postActiv
- * @author    Evan Prodromou
- * @author    Matthew Gregg <matthew.gregg@gmail.com>
- * @author    Mike Cochrane <mikec@mikenz.geek.nz>
- * @author    Zach Copley
- * @author    Robin Millette <robin@millette.info>
- * @author    Sarven Capadisli
- * @author    Adrian Lang <mail@adrianlang.de>
- * @author    Ciaran Gultneiks <ciaran@ciarang.com>
- * @author    Craig Andrews <candrews@integralblue.com>
- * @author    Brion Vibber <brion@pobox.com>
- * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
- * @author    Mikael Nordfeldth <mmn@hethane.se>
- * @author    Chimo <chimo@chromic.org>
- * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2008-2012 StatusNet, Inc.
- * @copyright 2013-2016 Free Software Foundation, Inc.
- * @copyright 2016 Maiyannah Bishop
- * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://www.postactiv.com
+ * PHP version:
+ * Tested with PHP 7.0
+ * ----------------------------------------------------------------------------
+ * File Authors:
+ * o Evan Prodromou
+ * o Matthew Gregg <matthew.gregg@gmail.com>
+ * o Mike Cochrane <mikec@mikenz.geek.nz>
+ * o Zach Copley
+ * o Robin Millette <robin@millette.info>
+ * o Sarven Capadisli
+ * o Adrian Lang <mail@adrianlang.de>
+ * o Ciaran Gultneiks <ciaran@ciarang.com>
+ * o Craig Andrews <candrews@integralblue.com>
+ * o Brion Vibber <brion@pobox.com>
+ * o Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * o Mikael Nordfeldth <mmn@hethane.se>
+ * o Chimo <chimo@chromic.org>
+ * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ *
+ * Web:
+ *  o postActiv  <http://www.postactiv.com>
+ *  o GNU social <https://www.gnu.org/s/social/>
  * ============================================================================
  */
+
+// This file is formatted so that it provides useful documentation output in
+// NaturalDocs.  Please be considerate of this before changing formatting.
 
 if (!defined('POSTACTIV')) { exit(1); }
 

@@ -1,11 +1,19 @@
 <?php
 /* ============================================================================
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
+ * Title: NewGroup
+ * Add a new group
+ *
+ * postActiv:
+ * the micro-blogging software
+ *
+ * Copyright:
+ * Copyright (C) 2016-2017, Maiyannah Bishop
+ *
  * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2012, StatusNet, Inc
+ * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ * o StatusNet (C) 2008-2012, StatusNet, Inc
  * ----------------------------------------------------------------------------
+ * License:
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -18,28 +26,35 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * ----------------------------------------------------------------------------
- * PHP version 5
  *
+ * <https://www.gnu.org/licenses/agpl.html>
+ * ----------------------------------------------------------------------------
+ * About:
  * Add a new group
  *
- * @category  Group
- * @package   postActiv
- * @author    Evan Prodromou
- * @author    Robin Millette <robin@millette.info>
- * @author    Eric Helgeson <erichelgeson@gmail.com>
- * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
- * @author    Brion Vibber <brion@pobox.com>
- * @author    Mikael Nordfeldth <mmn@hethane.se>
- * @author    Roland Haeder <roland@mxchange.org>
- * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2008-2012 StatusNet, Inc.
- * @copyright 2013-2016 Free Software Foundation, Inc.
- * @copyright 2016 Maiyannah Bishop
- * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://www.postactiv.com
- * ============================================================================ 
+ * This is the form for adding a new group
+ *
+ * PHP version:
+ * Tested with PHP 7.0
+ * ----------------------------------------------------------------------------
+ * File Authors:
+ * o Evan Prodromou
+ * o Robin Millette <robin@millette.info>
+ * o Eric Helgeson <erichelgeson@gmail.com>
+ * o Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * o Brion Vibber <brion@pobox.com>
+ * o Mikael Nordfeldth <mmn@hethane.se>
+ * o Roland Haeder <roland@mxchange.org>
+ * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ *
+ * Web:
+ *  o postActiv  <http://www.postactiv.com>
+ *  o GNU social <https://www.gnu.org/s/social/>
+ * ============================================================================
  */
+
+// This file is formatted so that it provides useful documentation output in
+// NaturalDocs.  Please be considerate of this before changing formatting.
 
 if (!defined('POSTACTIV')) { exit(1); }
 

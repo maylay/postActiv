@@ -1,11 +1,19 @@
 <?php
 /* ============================================================================
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
+ * Title: BackupAccount
+ * Download a backup of your own account to the browser
+ *
+ * postActiv:
+ * the micro-blogging software
+ *
+ * Copyright:
+ * Copyright (C) 2016-2017, Maiyannah Bishop
+ *
  * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2012, StatusNet, Inc
+ * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ * o StatusNet (C) 2008-2012, StatusNet, Inc
  * ----------------------------------------------------------------------------
+ * License:
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -18,34 +26,39 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * <https://www.gnu.org/licenses/agpl.html>
  * ----------------------------------------------------------------------------
- * PHP version 5
- *
- * Download a backup of your own account to the browser
- *
- * @category  Accounts
- * @package   postActiv
- * @author    Evan Prodromou
- * @author    Brion Vibber <brion@pobox.com>
- * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
- * @author    Mikael Nordfeldth <mmn@hethane.se>
- * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2010-2012 StatusNet, Inc.
- * @copyright 2013-2016 Free Software Foundation, Inc.
- * @copyright 2016 Maiyannah Bishop
- * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://www.postactiv.com
- * ============================================================================
- */
-
-if (!defined('POSTACTIV')) { exit(1); }
-
-/**
+ * About:
  * Download a backup of your own account to the browser
  *
  * We go through some hoops to make this only respond to POST, since
  * it's kind of expensive and there's probably some downside to having
  * your account in all kinds of search engines.
+ *
+ * PHP version:
+ * Tested with PHP 7.0
+ * ----------------------------------------------------------------------------
+ * File Authors:
+ * o Evan Prodromou
+ * o Brion Vibber <brion@pobox.com>
+ * o Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * o Mikael Nordfeldth <mmn@hethane.se>
+ * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ *
+ * Web:
+ *  o postActiv  <http://www.postactiv.com>
+ *  o GNU social <https://www.gnu.org/s/social/>
+ * ============================================================================
+ */
+
+// This file is formatted so that it provides useful documentation output in
+// NaturalDocs.  Please be considerate of this before changing formatting.
+
+if (!defined('POSTACTIV')) { exit(1); }
+
+/**
+ * Download a backup of your own account to the browser
  */
 class BackupaccountAction extends FormAction
 {
