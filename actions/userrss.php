@@ -59,57 +59,111 @@
 
 if (!defined('POSTACTIV')) { exit(1); }
 
-// Formatting of RSS handled by Rss10Action
 
+// ============================================================================
+// Class: UserrssAction
+// Formatting of RSS handled by Rss10Action
+//
+// This class represents a notice stream from a given user and contains
+// interfaces to retrieve and describe it.
+//
+// Variables:
+// o tag - default none; contains a hashtag we're using to filter the feed, if
+//         any
 class UserrssAction extends TargetedRss10Action
 {
     protected $tag = null;
 
-    protected function doStreamPreparation()
-    {
-        parent::doStreamPreparation();
+   // ------------------------------------------------------------------------
+   // function: doStreamPreparation
+   // Prepare RSS stream, process tag variable
+   //
+   // Parameters:
+   // o none
+   //
+   // Returns:
+   // o void
+   protected function doStreamPreparation() {
+      parent::doStreamPreparation();
+      $this->tag  = $this->trimmed('tag');
+   }
 
-        $this->tag  = $this->trimmed('tag');
-    }
 
-    protected function getNotices()
-    {
-        if (!empty($this->tag)) {
-            $stream = $this->getTarget()->getTaggedNotices($this->tag, 0, $this->limit);
-            return $stream->fetchAll();
-        }
-        // otherwise we fetch a normal user stream
+   // -------------------------------------------------------------------------
+   // Function: getNotices
+   // Retrieve the notices for the user timeline represented by this userrss
+   // object
+   //
+   // Parameters:
+   // o none
+   //
+   // Returns:
+   // o array containing all the notices
+   protected function getNotices()
+   {
+      if (!empty($this->tag)) {
+         $stream = $this->getTarget()->getTaggedNotices($this->tag, 0, $this->limit);
+         return $stream->fetchAll();
+      }
+      // otherwise we fetch a normal user stream
+      $stream = $this->getTarget()->getNotices(0, $this->limit);
+      return $stream->fetchAll();
+   }
 
-        $stream = $this->getTarget()->getNotices(0, $this->limit);
-        return $stream->fetchAll();
-    }
 
-    function getChannel()
-    {
-        $c = array('url' => common_local_url('userrss',
-                                             array('nickname' =>
-                                                   $this->target->getNickname())),
-                   // TRANS: Message is used as link title. %s is a user nickname.
-                   'title' => sprintf(_('%s timeline'), $this->target->getNickname()),
-                   'link' => $this->target->getUrl(),
-                   // TRANS: Message is used as link description. %1$s is a username, %2$s is a site name.
-                   'description' => sprintf(_('Updates from %1$s on %2$s!'),
-                                            $this->target->getNickname(), common_config('site', 'name')));
-        return $c;
-    }
+   // -------------------------------------------------------------------------
+   // Function: getChannel
+   // Returns a description of the timeline we're presently on, in this case 
+   // user timeline
+   //
+   // Parameters:
+   // o none
+   //
+   // Returns:
+   // $c - array containing url, title, link, and description
+   function getChannel() {
+      $c = array('url' => common_local_url('userrss',
+                                           array('nickname' =>
+                                                 $this->target->getNickname())),
+                 // TRANS: Message is used as link title. %s is a user nickname.
+                 'title' => sprintf(_('%s timeline'), $this->target->getNickname()),
+                 'link' => $this->target->getUrl(),
+                 // TRANS: Message is used as link description. %1$s is a username, %2$s is a site name.
+                 'description' => sprintf(_('Updates from %1$s on %2$s!'),
+                                          $this->target->getNickname(), common_config('site', 'name')));
+      return $c;
+   }
 
-    // override parent to add X-SUP-ID URL
 
-    function initRss()
-    {
-        $url = common_local_url('sup', null, null, $this->target->getID());
-        header('X-SUP-ID: '.$url);
-        parent::initRss();
-    }
+   // -------------------------------------------------------------------------
+   // Function: initRes
+   // override parent to add X-SUP-ID URL
+   //
+   // Parameters:
+   // o none
+   //
+   // Returns:
+   // o void
+   function initRss() {
+      $url = common_local_url('sup', null, null, $this->target->getID());
+      header('X-SUP-ID: '.$url);
+      parent::initRss();
+   }
 
-    function isReadOnly($args)
-    {
+
+   // -------------------------------------------------------------------------
+   // Function: isReadOnly
+   //
+   // Parameters:
+   // o array $args - ignored
+   //
+   // Returns:
+   // o boolean true
+   function isReadOnly($args) {
         return true;
-    }
+   }
 }
+
+// END OF FILE
+// ============================================================================
 ?>
