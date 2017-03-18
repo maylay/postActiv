@@ -149,24 +149,42 @@ class TagAction extends ManagedAction
                                       $this->tag)));
     }
 
-    protected function showContent()
-    {
-        if(Event::handle('StartTagShowContent', array($this))) {
 
-            $nl = new PrimaryNoticeList($this->notice, $this, array('show_n'=>NOTICES_PER_PAGE));
+   // -------------------------------------------------------------------------
+   // Function: showContent
+   // Shows the notices containing this page, paginated according to the
+   // current settings for pagination.
+   //
+   // Parameters:
+   // o none
+   //
+   // Returns:
+   // o void
+   protected function showContent() {
+      if(Event::handle('StartTagShowContent', array($this))) {
+         $nl = new PrimaryNoticeList($this->notice, $this, array('show_n'=>NOTICES_PER_PAGE));
+         $cnt = $nl->show();
+         $this->pagination($this->page > 1, $cnt > NOTICES_PER_PAGE,
+                           $this->page, 'tag', array('tag' => $this->tag));
+         Event::handle('EndTagShowContent', array($this));
+      }
+   }
 
-            $cnt = $nl->show();
 
-            $this->pagination($this->page > 1, $cnt > NOTICES_PER_PAGE,
-                              $this->page, 'tag', array('tag' => $this->tag));
-
-            Event::handle('EndTagShowContent', array($this));
-        }
-    }
-
-    function isReadOnly($args)
-    {
-        return true;
-    }
+   // -------------------------------------------------------------------------
+   // Function: isReadOnly
+   // Returns whether this action class is read-only (yes)
+   //
+   // Parameters:
+   // o array $args - ignored
+   //
+   // Returns:
+   // o boolean true
+   function isReadOnly($args) {
+      return true;
+   }
 }
+
+// END OF FILE
+// ============================================================================
 ?>
