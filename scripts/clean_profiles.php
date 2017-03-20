@@ -78,12 +78,12 @@ END_OF_HELP;
 require_once INSTALLDIR.'/scripts/commandline.inc';
 
 if (!have_option('y', 'yes')) {
-    print "About to delete profiles that we think are useless to save. Are you sure? [y/N] ";
-    $response = fgets(STDIN);
-    if (strtolower(trim($response)) != 'y') {
-        print "Aborting.\n";
-        exit(0);
-    }
+   print "About to delete profiles that we think are useless to save. Are you sure? [y/N] ";
+   $response = fgets(STDIN);
+   if (strtolower(trim($response)) != 'y') {
+      print "Aborting.\n";
+      exit(0);
+   }
 }
 
 print "Deleting";
@@ -94,8 +94,8 @@ $profile->query('SELECT * FROM profile WHERE ' .
                 'AND NOT (SELECT COUNT(*) FROM user_group WHERE user_group.profile_id=profile.id) ' .
                 'AND NOT (SELECT COUNT(*) FROM subscription WHERE subscriber=profile.id OR subscribed=profile.id) ');
 while ($profile->fetch()) {
-    echo ' '.$profile->getID().':'.$profile->getNickname();
-    $profile->delete();
+   echo ' '.$profile->getID().':'.$profile->getNickname();
+   $profile->delete();
 }
 print "\nDONE.\n";
 

@@ -54,7 +54,7 @@
  *  o GNU social <https://www.gnu.org/s/social/>
  * ============================================================================
  */
- 
+
 // This file is formatted so that it provides useful documentation output in
 // NaturalDocs.  Please be considerate of this before changing formatting.
 
@@ -80,26 +80,26 @@ END_OF_DELETEUSER_HELP;
 // Function: clear_jabber
 function clear_jabber($id)
 {
-    $user = User::getKV('id', $id);
-    if ($user && $user->jabber) {
-        echo "clearing user $id's user.jabber, was: $user->jabber";
-        if (have_option('dry-run')) {
-            echo " (SKIPPING)";
-        } else {
-            $original = clone($user);
-            $user->jabber = null;
-            try {
-                $user->updateWithKeys($original);
-            } catch (Exception $e) {
-                echo "WARNING: user update failed (setting jabber to null): ".$e->getMessage()."\n";
-            }
-        }
-        echo "\n";
-    } else if (!$user) {
-        echo "Missing user for $id\n";
-    } else {
-        echo "Cleared jabber already for $id\n";
-    }
+   $user = User::getKV('id', $id);
+   if ($user && $user->jabber) {
+      echo "clearing user $id's user.jabber, was: $user->jabber";
+      if (have_option('dry-run')) {
+         echo " (SKIPPING)";
+      } else {
+         $original = clone($user);
+         $user->jabber = null;
+         try {
+            $user->updateWithKeys($original);
+         } catch (Exception $e) {
+            echo "WARNING: user update failed (setting jabber to null): ".$e->getMessage()."\n";
+         }
+      }
+      echo "\n";
+   } else if (!$user) {
+      echo "Missing user for $id\n";
+   } else {
+      echo "Cleared jabber already for $id\n";
+   }
 }
 
 
@@ -107,32 +107,32 @@ function clear_jabber($id)
 // Script main procedure follows
 
 if (have_option('i', 'id')) {
-    $id = get_option_value('i', 'id');
-    $user = User::getKV('id', $id);
-    if (empty($user)) {
-        print "Can't find user with ID $id\n";
-        exit(1);
-    }
+   $id = get_option_value('i', 'id');
+   $user = User::getKV('id', $id);
+   if (empty($user)) {
+      print "Can't find user with ID $id\n";
+      exit(1);
+   }
 } else if (have_option('n', 'nickname')) {
-    $nickname = get_option_value('n', 'nickname');
-    $user = User::getKV('nickname', $nickname);
-    if (empty($user)) {
-        print "Can't find user with nickname '$nickname'\n";
-        exit(1);
-    }
+   $nickname = get_option_value('n', 'nickname');
+   $user = User::getKV('nickname', $nickname);
+   if (empty($user)) {
+      print "Can't find user with nickname '$nickname'\n";
+      exit(1);
+   }
 } else if (have_option('all')) {
-    $user = new User();
-    $user->whereAdd("jabber != ''");
-    $user->find(true);
-    if ($user->N == 0) {
-        print "No users with registered Jabber addresses in database.\n";
-        exit(1);
-    }
+   $user = new User();
+   $user->whereAdd("jabber != ''");
+   $user->find(true);
+   if ($user->N == 0) {
+      print "No users with registered Jabber addresses in database.\n";
+      exit(1);
+   }
 } else {
-    print "You must provide either an ID or a nickname.\n";
-    print "\n";
-    print $helptext;
-    exit(1);
+   print "You must provide either an ID or a nickname.\n";
+   print "\n";
+   print $helptext;
+   exit(1);
 }
 
 do {

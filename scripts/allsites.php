@@ -92,49 +92,44 @@ function print_all_sites() {
 // Function: print_tagged_sites
 function print_tagged_sites($tag) {
 
-    $sn = new Status_network();
+   $sn = new Status_network();
+   $sn->query('select status_network.nickname '.
+              'from status_network join status_network_tag '.
+              'on status_network.site_id = status_network_tag.site_id '.
+              'where status_network_tag.tag = "' . $tag . '"');
 
-    $sn->query('select status_network.nickname '.
-               'from status_network join status_network_tag '.
-               'on status_network.site_id = status_network_tag.site_id '.
-               'where status_network_tag.tag = "' . $tag . '"');
-
-    while ($sn->fetch()) {
+   while ($sn->fetch()) {
         print "$sn->nickname\n";
-    }
-
-    return;
+   }
+   return;
 }
 
 
 // ----------------------------------------------------------------------------
 // Function: print_untagged_sites
 function print_untagged_sites($tag) {
+   $sn = new Status_network();
+   $sn->query('select status_network.nickname '.
+              'from status_network '.
+              'where not exists '.
+              '(select tag from status_network_tag '.
+              'where site_id = status_network.site_id '.
+              'and tag = "'.$tag.'")');
 
-    $sn = new Status_network();
-
-    $sn->query('select status_network.nickname '.
-               'from status_network '.
-               'where not exists '.
-               '(select tag from status_network_tag '.
-               'where site_id = status_network.site_id '.
-               'and tag = "'.$tag.'")');
-
-    while ($sn->fetch()) {
-        print "$sn->nickname\n";
-    }
-
-    return;
+   while ($sn->fetch()) {
+      print "$sn->nickname\n";
+   }
+   return;
 }
 
 if (have_option('t', 'tagged')) {
-    $tag = get_option_value('t', 'tagged');
-    print_tagged_sites($tag);
+   $tag = get_option_value('t', 'tagged');
+   print_tagged_sites($tag);
 } else if (have_option('w', 'not-tagged')) {
-    $tag = get_option_value('w', 'not-tagged');
-    print_untagged_sites($tag);
+   $tag = get_option_value('w', 'not-tagged');
+   print_untagged_sites($tag);
 } else {
-    print_all_sites();
+   print_all_sites();
 }
 
 // END OF FILE

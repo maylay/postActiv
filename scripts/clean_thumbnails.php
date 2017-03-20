@@ -79,30 +79,30 @@ END_OF_HELP;
 require_once INSTALLDIR.'/scripts/commandline.inc';
 
 if (!have_option('y', 'yes')) {
-    print "About to delete locally generated thumbnails to allow regeneration. Are you sure? [y/N] ";
-    $response = fgets(STDIN);
-    if (strtolower(trim($response)) != 'y') {
-        print "Aborting.\n";
-        exit(0);
-    }
+   print "About to delete locally generated thumbnails to allow regeneration. Are you sure? [y/N] ";
+   $response = fgets(STDIN);
+   if (strtolower(trim($response)) != 'y') {
+      print "Aborting.\n";
+      exit(0);
+   }
 }
 
 print "Deleting";
 $thumbs = new File_thumbnail();
 $thumbs->find();
 while ($thumbs->fetch()) {
-    try {
-        $file = $thumbs->getFile();
-        if ($file->isLocal()) {
-            // only delete properly linked thumbnails if they're local
-            $thumbs->delete();
-            print '.';
-        }
-    } catch (NoResultException $e) {
-        // No File object for thumbnail, let's delete the thumbnail entry
-        $thumbs->delete();
-        print 'x';
-    }
+   try {
+      $file = $thumbs->getFile();
+      if ($file->isLocal()) {
+         // only delete properly linked thumbnails if they're local
+         $thumbs->delete();
+         print '.';
+      }
+   } catch (NoResultException $e) {
+      // No File object for thumbnail, let's delete the thumbnail entry
+      $thumbs->delete();
+      print 'x';
+   }
 }
 print "\nDONE.\n";
 

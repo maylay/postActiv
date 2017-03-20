@@ -33,6 +33,12 @@
  * About:
  * postActiv command-line processor for testing/development/maintenance purposes
  *
+ * Perform commands on behalf of a user, such as sub, unsub, join, drop
+ *     usage: php command.php [options] [command line]
+ *       -i --id       ID of the user
+ *       -n --nickname nickname of the user
+ *       -o --owner    use the site owner
+ *
  * PHP version:
  * Tested with PHP 7
  * ----------------------------------------------------------------------------
@@ -70,43 +76,43 @@ require_once INSTALLDIR.'/scripts/commandline.inc';
 
 function interpretCommand($user, $body)
 {
-    $inter = new CommandInterpreter();
-    $chan = new CLIChannel();
-    $cmd = $inter->handle_command($user, $body);
-    if ($cmd) {
-        $cmd->execute($chan);
-        return true;
-    } else {
-        $chan->error($user, "Not a valid command. Try 'help'?");
-        return false;
-    }
+   $inter = new CommandInterpreter();
+   $chan = new CLIChannel();
+   $cmd = $inter->handle_command($user, $body);
+   if ($cmd) {
+      $cmd->execute($chan);
+      return true;
+   } else {
+      $chan->error($user, "Not a valid command. Try 'help'?");
+      return false;
+   }
 }
 
 if (have_option('i', 'id')) {
-    $id = get_option_value('i', 'id');
-    $user = User::getKV('id', $id);
-    if (empty($user)) {
-        print "Can't find user with ID $id\n";
-        exit(1);
-    }
+   $id = get_option_value('i', 'id');
+   $user = User::getKV('id', $id);
+   if (empty($user)) {
+      print "Can't find user with ID $id\n";
+      exit(1);
+   }
 } else if (have_option('n', 'nickname')) {
-    $nickname = get_option_value('n', 'nickname');
-    $user = User::getKV('nickname', $nickname);
-    if (empty($user)) {
-        print "Can't find user with nickname '$nickname'\n";
-        exit(1);
-    }
+   $nickname = get_option_value('n', 'nickname');
+   $user = User::getKV('nickname', $nickname);
+   if (empty($user)) {
+      print "Can't find user with nickname '$nickname'\n";
+      exit(1);
+   }
 } else if (have_option('o', 'owner')) {
-    try {
-        $user = User::siteOwner();
-    } catch (ServerException $e) {
-        print "Site has no owner.\n";
-        exit(1);
-    }
+   try {
+      $user = User::siteOwner();
+   } catch (ServerException $e) {
+      print "Site has no owner.\n";
+      exit(1);
+   }
 } else {
-    print "You must provide either an ID or a nickname.\n\n";
-    print $helptext;
-    exit(1);
+   print "You must provide either an ID or a nickname.\n\n";
+   print $helptext;
+   exit(1);
 }
 
 // @todo refactor the interactive console in console.php and use

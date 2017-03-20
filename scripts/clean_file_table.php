@@ -52,7 +52,7 @@
  *  o GNU social <https://www.gnu.org/s/social/>
  * ============================================================================
  */
- 
+
 // This file is formatted so that it provides useful documentation output in
 // NaturalDocs.  Please be considerate of this before changing formatting.
 
@@ -74,12 +74,12 @@ END_OF_HELP;
 require_once INSTALLDIR.'/scripts/commandline.inc';
 
 if (!have_option('y', 'yes')) {
-    print "About to delete local file entries where the file cannot be found. Are you sure? [y/N] ";
-    $response = fgets(STDIN);
-    if (strtolower(trim($response)) != 'y') {
-        print "Aborting.\n";
-        exit(0);
-    }
+   print "About to delete local file entries where the file cannot be found. Are you sure? [y/N] ";
+   $response = fgets(STDIN);
+   if (strtolower(trim($response)) != 'y') {
+      print "Aborting.\n";
+      exit(0);
+   }
 }
 
 print "Deleting";
@@ -87,15 +87,15 @@ $file = new File();
 $file->whereAdd('filename IS NOT NULL');        // local files
 $file->whereAdd('filehash IS NULL', 'AND');     // without filehash value
 if ($file->find()) {
-    while ($file->fetch()) {
-        try {
-            $file->getPath();
-            print '.';
-        } catch (FileNotFoundException $e) {
-            $file->delete();
-            print 'x';
-        }
-    }
+   while ($file->fetch()) {
+      try {
+         $file->getPath();
+         print '.';
+      } catch (FileNotFoundException $e) {
+         $file->delete();
+         print 'x';
+      }
+   }
 }
 print "\nDONE.\n";
 
