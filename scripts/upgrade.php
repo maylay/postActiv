@@ -191,7 +191,7 @@ function initConversation() {
    }
 
    while ($notice->fetch()) {
-      id = $notice->conversation;
+      $id = $notice->conversation;
       $uri = common_local_url('conversation', array('id' => $id));
 
       // @fixme db_dataobject won't save our value for an autoincrement
