@@ -177,7 +177,7 @@ class DocFile
       // Prefer site vars over subsection
       if (common_config("site", "doc_path")) {
          $mail_src = common_config("site", "mail_path");
-      } elseif(common_config("mail", "templates_path"))
+      } elseif(common_config("mail", "templates_path")) {
          $mail_src = common_config("mail", "templates_path");      
       }
       if ($mail_src) {
