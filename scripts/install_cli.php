@@ -154,7 +154,7 @@ class CliInstaller extends Installer
     function showHelp()
     {
         echo <<<END_HELP
-install_cli.php - StatusNet command-line installer
+install_cli.php - postActiv command-line installer
 
     -s --server=<name>   Use <name> as server name (required)
     -p --path=<path>     Use <path> as path name
@@ -172,8 +172,6 @@ install_cli.php - StatusNet command-line installer
        --admin-nick      Administrator nickname (required)
        --admin-pass      Initial password for admin user (required)
        --admin-email     Initial email address for admin user
-       --admin-updates   'yes' (default) or 'no', whether to subscribe
-                         admin to update@status.net (default yes)
        
        --site-profile    site profile ['public', 'private' (default), 'community', 'singleuser']
        
