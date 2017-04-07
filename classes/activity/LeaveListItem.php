@@ -1,4 +1,4 @@
-<?php
+x<?php
 /* ============================================================================
  * Title: LeaveListItem
  * List item for when you leave a group
@@ -33,7 +33,7 @@
  * List item for when you leave a group
  *
  * PHP version:
- * Tested with PHP 5.6
+ * Tested with PHP 7
  * ----------------------------------------------------------------------------
  * File Authors:
  * o Evan Prodromou

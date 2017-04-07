@@ -1,11 +1,19 @@
 <?php
 /* ============================================================================
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
+ * Title: User
+ * User table definition
+ *
+ * postActiv:
+ * the micro-blogging software
+ *
+ * Copyright:
+ * Copyright (C) 2016-2017, Maiyannah Bishop
+ *
  * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2012, StatusNet, Inc
+ * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ * o StatusNet (C) 2008-2012, StatusNet, Inc
  * ----------------------------------------------------------------------------
+ * License:
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -18,38 +26,45 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * ----------------------------------------------------------------------------
- * PHP version 5
  *
- * @category  Accounts
- * @package   postActiv
- * @author    Evan Prodromou <evan@prodromou.name>
- * @author    Matthew Gregg <matthew.gregg@gmail.com>
- * @author    Mike Cochrane <mikec@mikenz.geek.nz>
- * @author    Ori Avtalion <ori@avtalion.name>
- * @author    Zach Copley <zach@copley.name>
- * @author    Ciaran Gultnieks <ciaran@ciarang.com>
- * @author    Mac65 <mac65@mac65.com>
- * @author    Zach Copley <zach@copley.name>
- * @author    Robin Millette <robin@millette.info>
- * @author    Leslie Michael Orchard <l.m.orchard@pobox.com>
- * @author    Brenda Wallace <shiny@cpan.org>
- * @author    Craig Andrews <candrews@integralblue.com>
- * @author    Carlos Perilla <deepspawn@valkertown.org>
- * @author    Sarven Capadisli <csarven@status.net>
- * @author    Eric Helgeson <erichelgeson@gmail.com>
- * @author    Sashi Gowda <connect2shashi@gmail.com>
- * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
- * @author    Michele Azzolari <macno@macno.org>
- * @author    Joshua Wise <jwise@nvidia.com>
- * @author    Mikael Nordfeldth <mmn@hethane.se>
- * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2008-2011 StatusNet, Inc.
- * @copyright 2013-2016 Free Software Foundation, Inc.
- * @copyright 2016 Maiyannah Bishop
- * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://www.postactiv.com
+ * <https://www.gnu.org/licenses/agpl.html>
+ * ----------------------------------------------------------------------------
+ * About:
+ * User table definition
+ *
+ * PHP version:
+ * Tested with PHP 7
+ * ----------------------------------------------------------------------------
+ * File Authors:
+ * o Evan Prodromou <evan@prodromou.name>
+ * o Matthew Gregg <matthew.gregg@gmail.com>
+ * o Mike Cochrane <mikec@mikenz.geek.nz>
+ * o Ori Avtalion <ori@avtalion.name>
+ * o Zach Copley <zach@copley.name>
+ * o Ciaran Gultnieks <ciaran@ciarang.com>
+ * o Michele Azzolari <macno@macno.org>
+ * o Zach Copley <zach@copley.name>
+ * o Robin Millette <robin@millette.info>
+ * o Leslie Michael Orchard <l.m.orchard@pobox.com>
+ * o Brenda Wallace <shiny@cpan.org>
+ * o Craig Andrews <candrews@integralblue.com>
+ * o Carlos Perilla <deepspawn@valkertown.org>
+ * o Sarven Capadisli <csarven@status.net>
+ * o Eric Helgeson <erichelgeson@gmail.com>
+ * o Sashi Gowda <connect2shashi@gmail.com>
+ * o Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * o Joshua Wise <jwise@nvidia.com>
+ * o Mikael Nordfeldth <mmn@hethane.se>
+ * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ *
+ * Web:
+ *  o postActiv  <http://www.postactiv.com>
+ *  o GNU social <https://www.gnu.org/s/social/>
+ * ============================================================================
  */
+ 
+// This file is formatted so that it provides useful documentation output in
+// NaturalDocs.  Please be considerate of this before changing formatting.
 
 if (!defined('POSTACTIV')) { exit(1); }
 

@@ -1,13 +1,13 @@
 <?php
 /* ============================================================================
- * Title: Redis Queue
+ * Title: LiberalSTOMP
  * Liberal STOMP interface implementation
  *
  * postActiv:
  * the micro-blogging software
  *
  * Copyright:
- * Copyright (C) 2016, Maiyannah Bishop
+ * Copyright (C) 2016-2017, Maiyannah Bishop
  *
  * Derived from code copyright various sources:
  * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
@@ -17,7 +17,8 @@
  * *This file is subject to a different license than most of postActiv.*
  *
  * Original code is copyright 2005-2006 The Apache Software Foundation
- * Modifications copyright 2009 StatusNet Inc by Brion Vibber <brion@status.net>
+ * Modifications copyright 2009 StatusNet Inc by Brion Vibber
+ * Documentation copyright 2016-2017 Maiyannah Bishop
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +40,7 @@
  * Based on code from Stomp PHP library, working around bugs in the base class.
  *
  * PHP version:
- * Tested with PHP 5.6
+ * Tested with PHP 7
  * ----------------------------------------------------------------------------
  * File Authors:
  * o Brion Vibber <brion@pobox.com>

@@ -33,7 +33,7 @@
  * A class for representing links in JSON Activities
  *
  * PHP version:
- * Tested with PHP 5.6
+ * Tested with PHP 7
  * ----------------------------------------------------------------------------
  * File Authors:
  *  o Mikael Nordfeldth <mmn@hethane.se>

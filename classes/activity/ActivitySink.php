@@ -59,7 +59,7 @@
  * It's large enough that I've left it seperate in activityobject.php
  *
  * PHP version:
- * Tested with PHP 5.6
+ * Tested with PHP 7
  * ----------------------------------------------------------------------------
  * File Authors:
  * o Zach Copley

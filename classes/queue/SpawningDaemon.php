@@ -8,7 +8,7 @@
  * the micro-blogging software
  *
  * Copyright:
- * Copyright (C) 2016, Maiyannah Bishop
+ * Copyright (C) 2016-2017, Maiyannah Bishop
  *
  * Derived from code copyright various sources:
  * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
@@ -43,7 +43,7 @@
  * they belong to. We additionally can handle queues for multiple sites.
  *
  * PHP version:
- * Tested with PHP 5.6
+ * Tested with PHP 7
  * ----------------------------------------------------------------------------
  * File Authors:
  * o Brion Vibber <brion@pobox.com>

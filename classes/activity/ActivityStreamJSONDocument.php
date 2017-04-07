@@ -34,7 +34,7 @@
  * Class for serializing Activity Streams in JSON
  *
  * PHP version:
- * Tested with PHP 5.6
+ * Tested with PHP 7
  * ----------------------------------------------------------------------------
  * File Authors:
  *  o Zach Copley

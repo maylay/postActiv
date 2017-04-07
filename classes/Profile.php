@@ -33,13 +33,13 @@
  * Table Definition for profile
  *
  * PHP version:
- * Tested with PHP 5.6
+ * Tested with PHP 7
  * ----------------------------------------------------------------------------
  * File Authors:
- * o Evan Prodromou <evan@prodromou.name>
+ * o Evan Prodromou
  * o Mike Cochrane <mikec@mikenz.geek.nz>
  * o Robin Millette <robin@millette.info>
- * o Zach Copley <zach@copley.name>
+ * o Zach Copley
  * o Sean Murphy <sgmurphy@gmail.com>
  * o Brenda Wallace <shiny@cpan.org>
  * o Craig Andrews <candrews@integralblue.com>
@@ -59,7 +59,7 @@
  *  o GNU social <https://www.gnu.org/s/social/>
  * ============================================================================
  */
- 
+
 // This file is formatted so that it provides useful documentation output in
 // NaturalDocs.  Please be considerate of this before changing formatting.
 

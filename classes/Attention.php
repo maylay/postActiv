@@ -33,7 +33,7 @@
  * Class to hold a notification, essentially
  *
  * PHP version:
- * Tested with PHP 5.6
+ * Tested with PHP 7
  * ----------------------------------------------------------------------------
  * File Authors:
  * o Mikael Nordfeldth <mmn@hethane.se>

@@ -33,7 +33,7 @@
  * Data class for user location preferences
  *
  * PHP version:
- * Tested with PHP 5.6
+ * Tested with PHP 7
  * ----------------------------------------------------------------------------
  * File Authors:
  * o Evan Prodromou

@@ -33,10 +33,10 @@
  * Table Definition for profile_block
  *
  * PHP version:
- * Tested with PHP 5.6
+ * Tested with PHP 7
  * ----------------------------------------------------------------------------
  * File Authors:
- * o Evan Prodromou <evan@prodromou.name>
+ * o Evan Prodromou
  * o Mikael Nordfeldth <mmn@hethane.se>
  * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  *

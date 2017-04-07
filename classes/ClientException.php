@@ -1,11 +1,20 @@
 <?php
 /* ============================================================================
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
+ * Title: ClientException
+ * ClientException and descendant classes as well as the canonical error
+ * definitions
+ *
+ * postActiv:
+ * the micro-blogging software
+ *
+ * Copyright:
+ * Copyright (C) 2016-2017, Maiyannah Bishop
+ *
  * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2012, StatusNet, Inc
+ * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ * o StatusNet (C) 2008-2012, StatusNet, Inc
  * ----------------------------------------------------------------------------
+ * License:
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -18,34 +27,39 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * ----------------------------------------------------------------------------
- * PHP version 5
  *
+ * <https://www.gnu.org/licenses/agpl.html>
+ * ----------------------------------------------------------------------------
+ * About:
  * ClientException and descendant classes as well as the canonical error
  * definitions
  *
  * These classes represent some sort of client error, such as improper 
  * authentication credentials, or attempting to upload bad files, and the like.
  * Most of these can be fixed by the end user.
+ *
+ * PHP version:
+ * Tested with PHP 7
  * ----------------------------------------------------------------------------
- * @category  Exception
- * @package   postActiv
- * @author    Evan Prodromou
- * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
- * @author    Mikael Nordfeldth <mmn@hethane.se>
- * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2009-2012 StatusNet, Inc
- * @copyright 2013-2016 Free Software Foundation, Inc
- * @copyright 2016 Maiyannah Bishop
- * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://www.postactiv.com/
+ * File Authors:
+ * o Evan Prodromou
+ * o Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * o Mikael Nordfeldth <mmn@hethane.se>
+ * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ *
+ * Web:
+ *  o postActiv  <http://www.postactiv.com>
+ *  o GNU social <https://www.gnu.org/s/social/>
  * ============================================================================
  */
+ 
+// This file is formatted so that it provides useful documentation output in
+// NaturalDocs.  Please be considerate of this before changing formatting.
 
-# -----------------------------------------------------------------------------
-# Canonical error codes
-# The codes for server errors should reflect the closest appropriate HTTP Status
-# Code, here.  See https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
+// -----------------------------------------------------------------------------
+// Canonical error codes
+// The codes for server errors should reflect the closest appropriate HTTP Status
+// Code, here.  See https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 define("CLIENT_EXCEPTION", 400);
 define("CLIENT_EXCEPTION_UNAUTHORIZED", 403);
 define("CLIENT_EXCEPTION_EMPTY_POST", 400);
@@ -172,4 +186,7 @@ class RunQueueOutOfWorkException extends ServerException
       parent::__construct($msg,0,null,LOG_DEBUG);
    }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

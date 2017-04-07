@@ -1,11 +1,19 @@
 <?php
 /* ============================================================================
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
+ * Title: ImPlugin
+ * Superclass for plugins that do instant messaging
+ *
+ * postActiv:
+ * the micro-blogging software
+ *
+ * Copyright:
+ * Copyright (C) 2016-2017, Maiyannah Bishop
+ *
  * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2012, StatusNet, Inc
+ * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ * o StatusNet (C) 2008-2012, StatusNet, Inc
  * ----------------------------------------------------------------------------
+ * License:
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -18,28 +26,33 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * ----------------------------------------------------------------------------
- * PHP version 5
  *
- * Superclass for plugins that do instant messaging
+ * <https://www.gnu.org/licenses/agpl.html>
  * ----------------------------------------------------------------------------
- * @category  Plugin
- * @package   postActiv
- * @author    Craig Andrews <candrews@integralblue.com>
- * @author    Brion Vibber <brion@pobox.com>
- * @author    Evan Prodromou
- * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
- * @author    Ciaran Gultneiks <ciaran@ciarang.com>
- * @author    pztrn
- * @author    Mikael Nordfeldth <mmn@hethane.se>
- * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2010-2012 StatusNet, Inc
- * @copyright 2013-2016 Free Software Foundation, Inc
- * @copyright 2016 Maiyannah Bishop
- * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://www.postactiv.com/
+ * About:
+ * Superclass for plugins that do instant messaging
+ *
+ * PHP version:
+ * Tested with PHP 7
+ * ----------------------------------------------------------------------------
+ * File Authors:
+ * o Craig Andrews <candrews@integralblue.com>
+ * o Brion Vibber <brion@pobox.com>
+ * o Evan Prodromou
+ * o Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * o Ciaran Gultneiks <ciaran@ciarang.com>
+ * o pztrn
+ * o Mikael Nordfeldth <mmn@hethane.se>
+ * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ *
+ * Web:
+ *  o postActiv  <http://www.postactiv.com>
+ *  o GNU social <https://www.gnu.org/s/social/>
  * ============================================================================
  */
+ 
+// This file is formatted so that it provides useful documentation output in
+// NaturalDocs.  Please be considerate of this before changing formatting.
 
 if (!defined('POSTACTIV')) { exit(1); }
 
@@ -638,4 +651,7 @@ abstract class ImPlugin extends Plugin
         }
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

@@ -1,15 +1,19 @@
 <?php
-/***
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
- * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
- *
+/* ============================================================================
+ * Title: File_redirection
  * Table Definition for file_redirection
  *
- * PHP version 5
+ * postActiv:
+ * the micro-blogging software
  *
+ * Copyright:
+ * Copyright (C) 2016-2017, Maiyannah Bishop
+ *
+ * Derived from code copyright various sources:
+ * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ * o StatusNet (C) 2008-2012, StatusNet, Inc
+ * ----------------------------------------------------------------------------
+ * License:
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,29 +21,39 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.     See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.     If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @category  Attachments
- * @package   postActiv
- * @author    Robin Millette <robin@millette.info>
- * @author    Evan Prodromou <evan@prodromou.name>
- * @author    Craig Andrews <candrews@integralblue.com>
- * @author    Brion Vibber <brion@pobox.com>
- * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
- * @author    Mikael Nordfeldth <mmn@hethane.se>
- * @author    Stephen Paul Weber <singpolyma@singpolyma.net>
- * @author    Hannes Mannerheim <h@nnesmannerhe.im>
- * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2009-2011 StatusNet, Inc.
- * @copyright 2013-2016 Free Software Foundation, Inc.
- * @copyright 2016 Maiyannah Bishop
- * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://www.postactiv.com
+ * <https://www.gnu.org/licenses/agpl.html>
+ * ----------------------------------------------------------------------------
+ * About:
+ * Table Definition for file_redirection
+ *
+ * PHP version:
+ * Tested with PHP 7
+ * ----------------------------------------------------------------------------
+ * File Authors:
+ * o Robin Millette <robin@millette.info>
+ * o Evan Prodromou
+ * o Craig Andrews <candrews@integralblue.com>
+ * o Brion Vibber <brion@pobox.com>
+ * o Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * o Mikael Nordfeldth <mmn@hethane.se>
+ * o Stephen Paul Weber <singpolyma@singpolyma.net>
+ * o Hannes Mannerheim <h@nnesmannerhe.im>
+ * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ *
+ * Web:
+ *  o postActiv  <http://www.postactiv.com>
+ *  o GNU social <https://www.gnu.org/s/social/>
+ * ============================================================================
  */
+ 
+// This file is formatted so that it provides useful documentation output in
+// NaturalDocs.  Please be considerate of this before changing formatting.
 
 if (!defined('POSTACTIV')) { exit(1); }
 
@@ -264,7 +278,7 @@ class File_redirection extends Managed_DataObject
                     $file_redir->file_id = $redir->file->getID();
                     $file_redir->insert();
                     $file_redir->redir_url = $redir->file->url;                 
-                }       
+                }
 
                 $file_redir->file = $redir->file;       
                 return $file_redir; 
@@ -472,4 +486,7 @@ class File_redirection extends Managed_DataObject
         return $this->file;
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

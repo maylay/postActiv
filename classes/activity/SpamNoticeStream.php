@@ -33,7 +33,7 @@
  * A notice stream which displays messages labelled as Spam by a SpamFilter
  *
  * PHP version:
- * Tested with PHP 5.6
+ * Tested with PHP 7
  * ----------------------------------------------------------------------------
  * File Authors:
  * o Evan Prodromou

@@ -35,7 +35,7 @@
  * Renamed from 'GNUsocial' to avoid trademark/IP problems.
  *
  * PHP version:
- * Tested with PHP 5.6
+ * Tested with PHP 7
  * ----------------------------------------------------------------------------
  * File Authors:
  * o Zach Copley
@@ -552,4 +552,7 @@ class NoConfigException extends Exception
         $this->configFiles = $configFiles;
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

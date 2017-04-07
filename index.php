@@ -42,7 +42,7 @@
  * o STATUSNET  - legacy security constant
  *
  * PHP version:
- * Tested with PHP 5.6, PHP 7
+ * Tested with PHP 7
  * ----------------------------------------------------------------------------
  * File Authors:
  *  o Evan Prodromou

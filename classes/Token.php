@@ -21,21 +21,25 @@
  * ----------------------------------------------------------------------------
  * Table Definition for token
  *
- * PHP version 5
+ * PHP version:
+ * Tested with PHP 7
+ * ----------------------------------------------------------------------------
+ * File Authors:
+ * o Evan Prodromou
+ * o Mike Cochrane <mikec@mikenz.geek.nz>
+ * o Zach Copley <zach@copley.name>
+ * o Mikael Nordfeldth <mmn@hethane.se>
+ * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  *
- * @category  oAuth
- * @package   postActiv
- * @author    Evan Prodromou <evan@prodromou.name>
- * @author    Mike Cochrane <mikec@mikenz.geek.nz>
- * @author    Zach Copley <zach@copley.name>
- * @author    Mikael Nordfeldth <mmn@hethane.se>
- * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2008-2011 StatusNet, Inc.
- * @copyright 2013-2016 Free Software Foundation, Inc.
- * @copyright 2016 Maiyannah Bishop
- * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://www.postactiv.com
+ * Web:
+ *  o postActiv  <http://www.postactiv.com>
+ *  o GNU social <https://www.gnu.org/s/social/>
+ * ============================================================================
  */
+ 
+// This file is formatted so that it provides useful documentation output in
+// NaturalDocs.  Please be considerate of this before changing formatting.
+
 require_once INSTALLDIR.'/classes/Memcached_DataObject.php';
 
 class Token extends Managed_DataObject
@@ -79,4 +83,7 @@ class Token extends Managed_DataObject
         );
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

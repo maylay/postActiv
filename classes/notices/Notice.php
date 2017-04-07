@@ -7,7 +7,7 @@
  * the micro-blogging software
  *
  * Copyright:
- * Copyright (C) 2016, Maiyannah Bishop
+ * Copyright (C) 2016-2017, Maiyannah Bishop
  *
  * Derived from code copyright various sources:
  * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
@@ -33,14 +33,14 @@
  * Base superclass for notices
  *
  * PHP version:
- * Tested with PHP 5.6
+ * Tested with PHP 7
  * ----------------------------------------------------------------------------
  * File Authors:
- * o Evan Prodromou <evan@prodromou.name>
+ * o Evan Prodromou
  * o Mike Cochrane <mikec@mikenz.geek.nz>
- * o Zach Copley <zach@copley.name>
+ * o Zach Copley
  * o Garret Buell <terragb@gmail.com>
- * o Ori Avtalion <ori@avtalion.name>
+ * o Ori Avtalion
  * o mac65 <mac65@mac65.com>
  * o Robin Millette <robin@millette.info>
  * o Adrian Lang <mail@adrianlang.de>
