@@ -51,7 +51,7 @@
  
 // This file is formatted so that it provides useful documentation output in
 // NaturalDocs.  Please be considerate of this before changing formatting.
- */
+
 require_once INSTALLDIR.'/classes/Memcached_DataObject.php';
 
 class Foreign_user extends Managed_DataObject
