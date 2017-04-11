@@ -101,7 +101,7 @@
     - name: require phan
       composer:
         command: require
-        arguments: etsy/phan:dev-master
+        arguments: etsy/phan:0.8.3
         no_dev: false
         working_dir: /home/ubuntu
     - name: install all required composer packages
