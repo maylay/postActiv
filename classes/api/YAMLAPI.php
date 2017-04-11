@@ -78,7 +78,7 @@ class YAMLAPIAction extends Action {
    // Parameters:
    // o array $args
    protected function prepare(array $args=array()) {
-      throw new NotYetImplemented("YAMLAPIAction::prepare not yet implemented")
+      throw new NotYetImplemented("YAMLAPIAction::prepare not yet implemented");
    }
    
    
@@ -92,7 +92,7 @@ class YAMLAPIAction extends Action {
    // Returns:
    // o void
    protected function handle() {
-      throw new NotYetImplemented("YAMLAPIAction::handle not yet implemented")
+      throw new NotYetImplemented("YAMLAPIAction::handle not yet implemented");
    }
 
 
