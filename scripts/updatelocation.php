@@ -56,7 +56,6 @@
  
 // This file is formatted so that it provides useful documentation output in
 // NaturalDocs.  Please be considerate of this before changing formatting.
- */
 
 define('INSTALLDIR', realpath(dirname(__FILE__) . '/..'));
 
