@@ -132,7 +132,7 @@ class ApteriumServer
             return false;
          }
       }
-      catch (Exception $err) {
+      catch (Exception $err)
       {
          // todo: log the exception
          return false;
