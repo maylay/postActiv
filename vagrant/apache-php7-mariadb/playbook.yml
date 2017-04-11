@@ -35,6 +35,8 @@
         password: postactiv
         state: present
         priv: 'postactiv.*:ALL'
+    - name: enable apache2 proxy_fcgi module
+      apache2_module: name=proxy_fcgi state=present
     - name: enable apache2 rewrite module
       apache2_module: name=rewrite state=present
     - name: update apache configuration
