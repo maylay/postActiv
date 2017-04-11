@@ -18,7 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-define('INSTALLDIR', realpath(dirname(__FILE__) . '/../..'));
+define('INSTALLDIR', realpath(dirname(__FILE__) . '/../../..'));
 
 require_once INSTALLDIR . '/extlib/OAuth.php';
 

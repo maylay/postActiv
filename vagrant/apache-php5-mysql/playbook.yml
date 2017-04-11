@@ -49,6 +49,7 @@
       with_items:
          - actions
          - classes
+         - modules
          - db
          - extlib
          - lib
