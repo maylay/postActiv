@@ -97,4 +97,7 @@ class UnblockAction extends ProfileFormAction
         }
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

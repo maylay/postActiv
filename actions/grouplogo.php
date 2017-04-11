@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: GroupLogo
  * Upload an avatar for a group
@@ -504,4 +506,7 @@ class GrouplogoAction extends GroupAction
         $this->autofocus('avatarfile');
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

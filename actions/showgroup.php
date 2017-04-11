@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: ShowGroup
  * Group main page
@@ -194,4 +196,7 @@ class ShowgroupAction extends GroupAction
         }
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

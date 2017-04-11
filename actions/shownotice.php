@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: SingleNotice
  * Show a single notice
@@ -277,4 +279,7 @@ class ShownoticeAction extends ManagedAction
                                      'content' => $this->notice->content));
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

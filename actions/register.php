@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: Register
  * Register a new user account
@@ -667,4 +669,7 @@ class RegisterAction extends Action
         }
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

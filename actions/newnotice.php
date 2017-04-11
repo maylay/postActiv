@@ -270,4 +270,7 @@ class NewnoticeAction extends FormAction
         // pass
     }
 }
+
+// END OF FILE
+// =============================================================================
 ?>

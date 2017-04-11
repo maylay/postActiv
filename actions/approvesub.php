@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: ApproveSub
  * Approve group subscription request

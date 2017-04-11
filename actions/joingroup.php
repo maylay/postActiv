@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: JoinGroup
  * Join a group
@@ -174,4 +176,7 @@ class JoingroupAction extends Action
         }
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

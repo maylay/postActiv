@@ -150,4 +150,7 @@ class UnsubscribepeopletagAction extends Action
         }
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

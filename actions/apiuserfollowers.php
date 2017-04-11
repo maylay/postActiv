@@ -94,4 +94,7 @@ class ApiUserFollowersAction extends ApiSubscriptionsAction
         return $profiles;
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

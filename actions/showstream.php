@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: ShowStream
  * User profile page
@@ -291,4 +293,7 @@ class ShowstreamAction extends NoticestreamAction
         return $options;
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

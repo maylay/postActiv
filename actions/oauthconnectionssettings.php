@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: oAuthConnectionSettings
  * List a user's OAuth connected applications
@@ -235,4 +237,7 @@ class OauthconnectionssettingsAction extends SettingsAction
         $this->elementEnd('section');
     }
 }
+
+// END OF FILE
+/ ==============================================================================
 ?>

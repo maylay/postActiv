@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: Doc
  * Documentation action.
@@ -202,4 +204,7 @@ class DocListNav extends Menu
         return $items;
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

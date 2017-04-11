@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: GroupBlock
  * Block a user from a group action class.
@@ -38,7 +40,7 @@
  * File Authors:
  * o Evan Prodromou
  * o Sarven Capadisli
- * o Zach Copley 
+ * o Zach Copley
  * o Siebrand Mazeland <s.mazeland@xs4all.nl>
  * o Brion Vibber <brion@pobox.com>
  * o Mikael Nordfeldth <mmn@hethane.se>
@@ -244,4 +246,7 @@ class GroupblockAction extends RedirectingAction
         $this->autofocus('form_action-yes');
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

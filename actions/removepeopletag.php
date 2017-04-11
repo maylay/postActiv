@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: RemovePeopleTag
  * Subscription action.
@@ -175,4 +177,7 @@ class RemovepeopletagAction extends Action
         }
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

@@ -161,4 +161,7 @@ class UsergroupsAction extends GalleryAction
         $block->show();
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

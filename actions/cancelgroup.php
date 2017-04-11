@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: CancelGroup
  * Leave a group
@@ -171,4 +173,7 @@ class CancelgroupAction extends Action
         }
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

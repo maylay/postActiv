@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: EditGroup
  * Edit an existing group
@@ -299,4 +301,7 @@ class EditgroupAction extends GroupAction
         }
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

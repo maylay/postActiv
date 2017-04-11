@@ -100,4 +100,7 @@ class DeletenoticeAction extends FormAction
         common_redirect(common_get_returnto(), 303);
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

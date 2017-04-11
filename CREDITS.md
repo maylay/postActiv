@@ -22,6 +22,11 @@ Developers
 * Moonman
 * Normandy
 * Bob Mottram
+* David Yip
+
+Financial Supporters
+* Thomas Karpiniec
+* Sonya Mann
 
 
 GNU social Team

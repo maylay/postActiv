@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: Invite
  * Send an invitation to join the instance to an email address given.
@@ -333,4 +335,7 @@ class InviteAction extends Action
         mail_send($recipients, $headers, $body);
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

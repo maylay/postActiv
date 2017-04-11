@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: SMSSettings
  * Settings for SMS
@@ -548,4 +550,7 @@ class SmssettingsAction extends SettingsAction
         return _('New incoming email address added.');
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

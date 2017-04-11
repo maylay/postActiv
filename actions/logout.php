@@ -93,4 +93,7 @@ class LogoutAction extends ManagedAction
         common_forgetme(); // don't log back in!
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

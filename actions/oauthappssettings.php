@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: OAuthAppSettings
  * List the OAuth applications that a user has registered with this instance
@@ -139,4 +141,7 @@ class OauthappssettingsAction extends SettingsAction
         $this->elementEnd('div');
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

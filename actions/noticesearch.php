@@ -260,4 +260,7 @@ class SearchNoticeListItem extends NoticeListItem {
         return $result;
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

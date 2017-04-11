@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: EditPeopleTag
  * Edit an existing peopletag
@@ -345,4 +347,6 @@ class EditpeopletagAction extends Action
         return !empty($ptag);
     }
 }
+// END OF FILE
+// ============================================================================
 ?>

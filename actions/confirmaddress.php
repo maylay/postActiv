@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: ConfirmAddress
  * Confirm an email address
@@ -201,4 +203,7 @@ class ConfirmaddressAction extends ManagedAction
                                $this->address));
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

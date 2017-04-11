@@ -97,4 +97,7 @@ class UnsandboxAction extends ProfileFormAction
         $this->profile->unsandbox();
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

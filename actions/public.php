@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: Public
  * Action for displaying the public stream
@@ -143,4 +145,7 @@ class PublicAction extends SitestreamAction
                               _('Public Timeline Feed (Atom)')));
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

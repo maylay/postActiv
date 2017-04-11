@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: Unsubscribe
  * Unsubscribe handler
@@ -115,4 +117,7 @@ class UnsubscribeAction extends Action
         }
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

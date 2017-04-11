@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: DeleteAccount
  * Delete your own account
@@ -331,4 +333,7 @@ class DeleteAccountForm extends Form
                            _('Permanently delete your account.'));
     }
 }
+
+// END OF FILE
+// =================================================================================
 ?>

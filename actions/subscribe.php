@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: Subscribe
  * Subscription action.
@@ -164,4 +166,7 @@ class SubscribeAction extends Action
         }
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: Subscribers
  * List a user's subscribers
@@ -150,4 +152,7 @@ class SubscribersAction extends GalleryAction
         parent::showSections();
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

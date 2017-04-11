@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: IMSettings
  * Settings for Jabber/XMPP integration
@@ -442,4 +444,7 @@ class ImsettingsAction extends SettingsAction
         return $user_im_prefs->find(true) ? true : false;
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

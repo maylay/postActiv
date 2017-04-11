@@ -105,4 +105,7 @@ class AvatarbynicknameAction extends Action
         return true;
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

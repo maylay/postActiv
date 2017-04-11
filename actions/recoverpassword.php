@@ -391,4 +391,7 @@ class RecoverpasswordAction extends Action
         $nav->show();
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

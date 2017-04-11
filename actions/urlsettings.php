@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: URLSettings
  * Miscellaneous settings
@@ -240,4 +242,7 @@ class UrlsettingsAction extends SettingsAction
         return _('Preferences saved.');
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

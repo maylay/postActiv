@@ -161,4 +161,7 @@ class ApiGNUsocialConfigAction extends ApiAction
         return true;
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

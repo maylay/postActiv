@@ -246,4 +246,7 @@ class PeopletagMemberListItem extends ProfileListItem
         return $args;
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: ShowProfileTag
  * Show a given peopletag on a profile
@@ -312,4 +314,7 @@ class ShowprofiletagAction extends ShowstreamAction
         $this->elementEnd('div');
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

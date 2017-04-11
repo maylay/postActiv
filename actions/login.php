@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: Login
  * Login form
@@ -246,4 +248,7 @@ class LoginAction extends FormAction
     {
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

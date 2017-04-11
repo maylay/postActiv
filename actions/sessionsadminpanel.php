@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: SessionsAdminPanel
  * Sessions administration panel
@@ -220,4 +222,7 @@ class SessionsAdminPanelForm extends AdminForm
                            _('Save session settings'));
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

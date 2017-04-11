@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: PluginEnable
  * Plugin enable action.
@@ -46,7 +48,7 @@
  *  o GNU social <https://www.gnu.org/s/social/>
  * ============================================================================
  */
- 
+
 // This file is formatted so that it provides useful documentation output in
 // NaturalDocs.  Please be considerate of this before changing formatting.
 
@@ -173,4 +175,7 @@ class PluginEnableAction extends Action
         return new DisablePluginForm($this, $this->plugin);
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

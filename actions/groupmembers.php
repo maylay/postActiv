@@ -116,4 +116,7 @@ class GroupmembersAction extends GroupAction
                           array('nickname' => $this->group->nickname));
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

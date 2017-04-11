@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: UserAdminPanel
  * User administration panel
@@ -314,4 +316,7 @@ class UserAdminPanelForm extends AdminForm
                            _('Save user settings.'));
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

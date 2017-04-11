@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: Conversation
  * Conversation tree in the browser
@@ -131,4 +133,7 @@ class ConversationAction extends ManagedAction
                               _('Conversation feed (Atom)')));
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

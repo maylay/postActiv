@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: ShowApplication
  * Show an OAuth application
@@ -383,4 +385,7 @@ class ShowApplicationAction extends Action
         $this->showPage();
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

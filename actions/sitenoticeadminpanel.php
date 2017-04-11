@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: SiteNoticeAdminPanel
  * Site notice administration panel
@@ -210,4 +212,7 @@ class SiteNoticeAdminPanelForm extends AdminForm
         );
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

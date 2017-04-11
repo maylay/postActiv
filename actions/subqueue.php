@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: SubQueue
  * Queue of people waiting to be approved for subscription
@@ -118,4 +120,7 @@ class SubqueueAction extends GalleryAction
                           array('nickname' => $this->target->getNickname())); // urgh
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

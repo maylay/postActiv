@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: OldSchoolSettings
  * Settings panel for old-school UI
@@ -210,4 +212,7 @@ class OldSchoolSettingsForm extends Form
         return 'form_settings';
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

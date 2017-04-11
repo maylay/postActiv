@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: DeleteApplication
  * Action class to delete an OAuth application
@@ -190,4 +192,7 @@ class DeleteapplicationAction extends Action
         $this->app->delete();
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: PeopleSearch
  * People search action class.
@@ -157,4 +159,7 @@ class PeopleSearchResultItem extends ProfileListItem
         return preg_replace($this->pattern, '<strong>\\1</strong>', htmlspecialchars($text));
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

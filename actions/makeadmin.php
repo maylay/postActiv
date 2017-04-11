@@ -174,7 +174,7 @@ class MakeadminAction extends RedirectingAction
     /**
      * If we reached this form without returnto arguments, default to
      * the top of the group's member list.
-     * 
+     *
      * @return string URL
      */
     function defaultReturnTo()
@@ -184,4 +184,7 @@ class MakeadminAction extends RedirectingAction
     }
 
 }
+
+// END OF FILE
+// ============================================================================
 ?>

@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: CancelSubscription
  * Cancel the subscription of a profile
@@ -93,4 +95,7 @@ class CancelsubscriptionAction extends FormAction
         common_redirect(common_local_url('subscriptions', array('nickname' => $this->scoped->getNickname())), 303);
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

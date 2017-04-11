@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: AvatarSettings
  * Handle various actions regarding Avatars
@@ -409,4 +411,7 @@ class AvatarsettingsAction extends SettingsAction
         $this->autofocus('avatarfile');
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

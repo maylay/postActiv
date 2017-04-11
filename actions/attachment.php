@@ -158,4 +158,7 @@ class AttachmentAction extends ManagedAction
         $ns->show();
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

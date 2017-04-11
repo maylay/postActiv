@@ -99,4 +99,7 @@ class SandboxAction extends ProfileFormAction
         $this->profile->sandbox();
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

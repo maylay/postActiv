@@ -261,4 +261,7 @@ class PeopletagSubscriberListItem extends ProfileListItem
         return $args;
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

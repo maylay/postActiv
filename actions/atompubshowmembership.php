@@ -174,4 +174,7 @@ class AtompubshowmembershipAction extends AtompubAction
                                           $ctime)) . '"';
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

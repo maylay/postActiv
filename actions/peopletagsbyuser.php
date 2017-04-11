@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: PeopleTagsByUser
  * Lists by a user
@@ -312,4 +314,7 @@ class PeopletagsbyuserAction extends Action
         #TODO: tags with most "members"
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

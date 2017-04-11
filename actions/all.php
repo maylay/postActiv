@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: All
  * Retrieve all the different friends timeline formats (RSS, JSON, etc)

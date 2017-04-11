@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: PluginsAdminPanel
  * Plugins administration panel
@@ -46,7 +48,7 @@
  *  o GNU social <https://www.gnu.org/s/social/>
  * ============================================================================
  */
- 
+
 // This file is formatted so that it provides useful documentation output in
 // NaturalDocs.  Please be considerate of this before changing formatting.
 
@@ -119,4 +121,7 @@ class PluginsadminpanelAction extends AdminPanelAction
         }
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

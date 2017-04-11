@@ -79,4 +79,7 @@ class RedirectAction extends Action
         common_redirect(common_local_url($this->arg('nextAction'), $this->arg('args')));
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: SiteAdminPanel
  * Site administration panel
@@ -391,4 +393,7 @@ class SiteAdminPanelForm extends AdminForm
                            _('Save the site settings.'));
     }
 }
+
+// END OF FILE 
+// ============================================================================
 ?>

@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: BlockedFromGroup
  * List of profiles blocked from this group
@@ -333,4 +335,7 @@ class GroupUnblockForm extends Form
                            _('Unblock this user'));
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

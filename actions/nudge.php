@@ -142,4 +142,7 @@ class NudgeAction extends Action
         return true;
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: Featured
  * List of featured users
@@ -157,4 +159,7 @@ class FeaturedAction extends Action
         }
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: Subscriptions
  * List of a user's subscriptions
@@ -178,4 +180,7 @@ class SubscriptionsAction extends GalleryAction
                                       $this->target->getNickname())));
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

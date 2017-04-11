@@ -1,6 +1,8 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
- * Title: Version
+ * Title: DeleteUser
  * Action class to delete a user
  *
  * postActiv:
@@ -200,4 +202,7 @@ class DeleteuserAction extends ProfileFormAction
         }
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

@@ -211,4 +211,7 @@ class SelfTagProfileListItem extends ProfileListItem
         }
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

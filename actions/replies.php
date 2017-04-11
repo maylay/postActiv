@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: Replies
  * List of replies
@@ -184,4 +186,7 @@ class RepliesAction extends ShowstreamAction
         return true;
     }
 }
+
+// END OF FILE
+// =============================================================================
 ?>

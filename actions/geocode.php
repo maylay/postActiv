@@ -111,4 +111,7 @@ class GeocodeAction extends Action
         return true;
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

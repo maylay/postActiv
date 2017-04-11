@@ -141,4 +141,7 @@ class PeopletagautocompleteAction extends Action
         return false;
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

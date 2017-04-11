@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: Block
  * Block a user action class.
@@ -242,4 +244,7 @@ class BlockAction extends ProfileFormAction
         }
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

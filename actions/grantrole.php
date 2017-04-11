@@ -109,4 +109,7 @@ class GrantRoleAction extends ProfileFormAction
         $this->profile->grantRole($this->role);
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

@@ -88,4 +88,7 @@ class RepliesrssAction extends TargetedRss10Action
         return true;
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

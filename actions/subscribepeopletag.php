@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: SubscribePeopleTag
  * Subscribe to a peopletag
@@ -158,4 +160,7 @@ class SubscribepeopletagAction extends Action
         }
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

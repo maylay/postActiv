@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: RestoreAccount
  * Restore a backup of your own account from the browser
@@ -383,4 +385,7 @@ class RestoreAccountForm extends Form
                            _('Upload the file'));
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

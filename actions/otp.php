@@ -158,4 +158,7 @@ class OtpAction extends Action
         common_redirect($url, 303);
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

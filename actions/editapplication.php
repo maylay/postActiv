@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: EditApplication
  * Edit the details of an OAuth application
@@ -311,4 +313,7 @@ class EditApplicationAction extends Action
         }
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

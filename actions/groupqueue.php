@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: GroupQueue
  * Queue of people who want to subscribe to a group.
@@ -197,4 +199,7 @@ class GroupQueueListItem extends GroupMemberListItem
         $this->out->elementEnd('li');
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

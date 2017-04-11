@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: EmailSettings
  * Settings for email
@@ -518,4 +520,7 @@ class EmailsettingsAction extends SettingsAction
         return $other->id != $user->id;
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

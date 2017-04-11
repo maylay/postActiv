@@ -85,4 +85,7 @@ class PluginDisableAction extends PluginEnableAction
         return new EnablePluginForm($this, $this->plugin);
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

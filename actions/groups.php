@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: Groups
  * Latest groups information
@@ -152,4 +154,7 @@ class GroupsAction extends Action
         $gbm->show();
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

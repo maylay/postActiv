@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: GroupSearch
  * Group search action class.
@@ -136,4 +138,7 @@ class GroupSearchResults extends GroupList
         return preg_replace($this->pattern, '<strong>\\1</strong>', htmlspecialchars($text));
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>

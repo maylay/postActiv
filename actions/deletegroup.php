@@ -1,4 +1,6 @@
 <?php
+// !TODO: I WRITE HTML, REFACTOR FOR SMARTY
+
 /* ============================================================================
  * Title: DeleteGroup
  * Delete a group
@@ -245,4 +247,7 @@ class DeletegroupAction extends RedirectingAction
         $this->elementEnd('form');
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>
