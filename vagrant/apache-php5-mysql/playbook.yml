@@ -13,7 +13,6 @@
         - php5-curl
         - php5-intl
         - php5-gd
-        - php5-mbstring
         - php5-mysql
         - mysql-server
     - name: ensure postactiv database exists
