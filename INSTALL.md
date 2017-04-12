@@ -568,7 +568,7 @@ in CentOS, you can install the required environment with:
 
 For other distributions, the package names may change.
 
-Once Redis is set up and confirmed to be working, you will need to set the 
+Once Redis is set up and confirmed to be working, you will need to set the
 following in your config.php:
 
 To enable redis queue:

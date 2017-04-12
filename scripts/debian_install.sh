@@ -24,79 +24,140 @@ POSTACTIV_ADMIN_PASSWORD=$3
 POSTACTIV_DOMAIN_NAME=$4
 MY_EMAIL_ADDRESS=$5
 
-if [ ! $1 ]; then
-    echo './scripts/debian_install.sh [mariadb password] [username] [password] [domain] [email address]'
-    exit 0
-fi
+DEBIAN_REPO="ftp.us.debian.org"
+DEBIAN_VERSION=$6
 
-# Install a web server
-apt-get -yq remove --purge apache2
-if [ -d /etc/apache2 ]; then
-    rm -rf /etc/apache2
-fi
-# install nginx
-apt-get -yq install nginx php5-fpm
+POSTACTIV_REPO="https://git.postactiv.com/postActiv/postActiv.git"
+POSTACTIV_COMMIT='432cbbd4c15e0dd6b0dd38d2d76cda14a53add3b'
 
-# Create the database
-apt-get -yq install python-software-properties debconf-utils
-apt-get -yq install software-properties-common
-apt-get -yq update
-debconf-set-selections <<< "mariadb-server mariadb-server/root_password password $MARIADB_PASSWORD"
-debconf-set-selections <<< "mariadb-server mariadb-server/root_password_again password $MARIADB_PASSWORD"
-apt-get -yq install mariadb-server
-echo "create database postactiv;
+QVITTER_THEME_REPO="https://git.gnu.io/h2p/Qvitter.git"
+QVITTER_THEME_COMMIT='a7f82628402db3a7579bb9b2877da3c5737da77b'
+
+function create_repo_sources {
+    if [ ! $DEBIAN_VERSION ]; then
+        DEBIAN_VERSION='jessie'
+    fi
+    rm -rf /var/lib/apt/lists/*
+    apt-get clean
+
+    echo "deb http://${DEBIAN_REPO}/debian/ ${DEBIAN_VERSION} main" > /etc/apt/sources.list
+    echo "deb-src http://${DEBIAN_REPO}/debian/ ${DEBIAN_VERSION} main" >> /etc/apt/sources.list
+    echo '' >> /etc/apt/sources.list
+    echo "deb http://security.debian.org/ ${DEBIAN_VERSION}/updates main" >> /etc/apt/sources.list
+    echo "deb-src http://security.debian.org/ ${DEBIAN_VERSION}/updates main" >> /etc/apt/sources.list
+    echo '' >> /etc/apt/sources.list
+    echo "deb http://${DEBIAN_REPO}/debian/ ${DEBIAN_VERSION}-updates main" >> /etc/apt/sources.list
+    echo "deb-src http://${DEBIAN_REPO}/debian/ ${DEBIAN_VERSION}-updates main" >> /etc/apt/sources.list
+    echo '' >> /etc/apt/sources.list
+    echo "deb http://${DEBIAN_REPO}/debian/ ${DEBIAN_VERSION}-backports main" >> /etc/apt/sources.list
+    echo "deb-src http://${DEBIAN_REPO}/debian/ ${DEBIAN_VERSION}-backports main" >> /etc/apt/sources.list
+
+    apt-get update
+    apt-get -yq install git apt-transport-https
+}
+
+
+function install_mariadb {
+    apt-get -yq install python-software-properties debconf-utils
+    apt-get -yq install software-properties-common
+
+    debconf-set-selections <<< "mariadb-server mariadb-server/root_password password $MARIADB_PASSWORD"
+    debconf-set-selections <<< "mariadb-server mariadb-server/root_password_again password $MARIADB_PASSWORD"
+    apt-get -yq install mariadb-server
+
+    if [ ! -d /etc/mysql ]; then
+        echo $"ERROR: mariadb-server does not appear to have installed. $CHECK_MESSAGE"
+        exit 76833
+    fi
+
+    if [ ! -f /usr/bin/mysql ]; then
+        echo $"ERROR: mariadb-server does not appear to have installed. $CHECK_MESSAGE"
+        exit 34672
+    fi
+
+    mysqladmin -u root password "$MARIADB_PASSWORD"
+}
+
+function install_web_server {
+    if [[ $DEBIAN_VERSION != 'stretch' ]]; then
+        apt-get -yq install php-gettext php5-curl php5-gd php5-mysql git curl
+        apt-get -yq install php5-memcached php5-intl php-xml-parser
+        apt-get -yq remove --purge apache2
+        if [ -d /etc/apache2 ]; then
+            rm -rf /etc/apache2
+        fi
+
+        apt-get -yq install nginx php5-fpm
+    else
+        apt-get -yq install php-gettext php7.0-curl php7.0-gd php7.0-mysql git curl
+        apt-get -yq install php-memcached php7.0-intl php-xml-parser
+        apt-get -yq remove --purge apache2
+        if [ -d /etc/apache2 ]; then
+            rm -rf /etc/apache2
+        fi
+
+        apt-get -yq install nginx php7.0-fpm
+    fi
+}
+
+function create_postactiv_database {
+    echo "create database postactiv;
 CREATE USER '${POSTACTIV_ADMIN_USER}@localhost' IDENTIFIED BY '${POSTACTIV_ADMIN_PASSWORD}';
 GRANT ALL PRIVILEGES ON postactiv.* TO '${POSTACTIV_ADMIN_USER}@localhost';
 quit" > ~/batch.sql
-chmod 600 ~/batch.sql
-mysql -u root --password="$MARIADB_PASSWORD" < ~/batch.sql
-shred -zu ~/batch.sql
+    chmod 600 ~/batch.sql
+    mysql -u root --password="$MARIADB_PASSWORD" < ~/batch.sql
+    shred -zu ~/batch.sql
+}
 
-apt-get -yq install php-gettext php5-curl php5-gd php5-mysql git curl
-apt-get -yq install php5-memcached php5-intl php-xml-parser
-
-# Clone the PostActiv repo
-if [ ! -d /var/www/postactiv ]; then
-    git clone https://git.postactiv.com/postActiv/postActiv.git /var/www/postactiv
-else
+function install_postactiv_from_repo {
+    # Clone the PostActiv repo
+    if [ ! -d /var/www/postactiv ]; then
+        git clone $POSTACTIV_REPO /var/www/postactiv
+    else
+        cd /var/www/postactiv
+        git stash
+        git checkout master
+        git pull
+    fi
     cd /var/www/postactiv
-    git stash
-    git pull
-fi
+    git checkout $POSTACTIV_COMMIT -b $POSTACTIV_COMMIT
 
-# Set permissions
-chmod g+w /var/www/postactiv
-chmod a+w /var/www/postactiv/avatar
-chmod a+w /var/www/postactiv/file
-chown -R www-data:www-data /var/www/postactiv
-chmod +x /var/www/postactiv/scripts/maildaemon.php
-chmod 777 /var/www/postactiv/extlib/HTMLPurifier/HTMLPurifier/DefinitionCache/Serializer.php
-if ! grep 'www-data: root' /etc/aliases; then
-    echo 'www-data: root' >> /etc/aliases
-fi
-if ! grep 'maildaemon.php' /etc/aliases; then
-    echo '*: /var/www/postactiv/scripts/maildaemon.php' >> /etc/aliases
-fi
+    # Set permissions
+    chmod g+w /var/www/postactiv
+    chmod a+w /var/www/postactiv/avatar
+    chmod a+w /var/www/postactiv/file
+    chown -R www-data:www-data /var/www/postactiv
+    chmod +x /var/www/postactiv/scripts/maildaemon.php
+    chmod 777 /var/www/postactiv/extlib/HTMLPurifier/HTMLPurifier/DefinitionCache/Serializer.php
+    if ! grep 'www-data: root' /etc/aliases; then
+        echo 'www-data: root' >> /etc/aliases
+    fi
+    if ! grep 'maildaemon.php' /etc/aliases; then
+        echo '*: /var/www/postactiv/scripts/maildaemon.php' >> /etc/aliases
+    fi
 
-# Generate the config
-postactiv_installer=/var/www/postactiv/scripts/install_cli.php
-${postactiv_installer} --server "${POSTACTIV_DOMAIN_NAME}" \
-                       --host="localhost" --database="postactiv" \
-                       --dbtype=mysql --username="$POSTACTIV_ADMIN_USER" -v \
-                       --password="$POSTACTIV_ADMIN_PASSWORD" \
-                       --sitename=$"postactiv" --fancy='yes' \
-                       --admin-nick="$POSTACTIV_ADMIN_USER" \
-                       --admin-pass="$POSTACTIV_ADMIN_PASSWORD" \
-                       --site-profile="community" \
-                       --ssl="always"
+    # Generate the config
+    postactiv_installer=/var/www/postactiv/scripts/install_cli.php
+    ${postactiv_installer} --server "${POSTACTIV_DOMAIN_NAME}" \
+                           --host="localhost" --database="postactiv" \
+                           --dbtype=mysql --username="$POSTACTIV_ADMIN_USER" -v \
+                           --password="$POSTACTIV_ADMIN_PASSWORD" \
+                           --sitename=$"postactiv" --fancy='yes' \
+                           --admin-nick="$POSTACTIV_ADMIN_USER" \
+                           --admin-pass="$POSTACTIV_ADMIN_PASSWORD" \
+                           --site-profile="community" \
+                           --ssl="always"
+}
 
-# Diffie-Hellman parameters. From BetterCrypto:
-#
-#   "Where configurable, we recommend using the Diffie Hellman groups
-#    defined for IKE, specifically groups 14-18 (2048–8192bit MODP).
-#    These groups have been checked by many eyes and can be assumed
-#    to be secure."
-echo '-----BEGIN DH PARAMETERS-----
+function configure_tls_cert {
+    # Diffie-Hellman parameters. From BetterCrypto:
+    #
+    #   "Where configurable, we recommend using the Diffie Hellman groups
+    #    defined for IKE, specifically groups 14-18 (2048–8192bit MODP).
+    #    These groups have been checked by many eyes and can be assumed
+    #    to be secure."
+    echo '-----BEGIN DH PARAMETERS-----
 MIIECAKCBAEA///////////JD9qiIWjCNMTGYouA3BzRKQJOCIpnzHQCC76mOxOb
 IlFKCHmONATd75UZs806QxswKwpt8l8UN0/hNW1tUcJF5IW1dmJefsb0TELppjft
 awv/XLb0Brft7jhr+1qJn6WunyQRfEsf5kkoZlHs5Fs9wgB8uKFjvwWY2kg2HFXT
@@ -122,36 +183,41 @@ aDWQRvTrh5+SQAlDi0gcbNeImgAu1e44K8kZDab8Am5HlVjkR1Z36aqeMFDidlaU
 -----END DH PARAMETERS-----
 ' > /etc/ssl/certs/${POSTACTIV_DOMAIN_NAME}.dhparam
 
-# Get a LetsEncrypt cert
-apt-get -yq install certbot -t jessie-backports
-systemctl stop nginx
-if [ ! -f /etc/letsencrypt/live/${POSTACTIV_DOMAIN_NAME}/fullchain.pem ]; then
-    certbot certonly -n --server https://acme-v01.api.letsencrypt.org/directory --standalone -d $POSTACTIV_DOMAIN_NAME --renew-by-default --agree-tos --email $MY_EMAIL_ADDRESS
-    ln -s /etc/letsencrypt/live/${POSTACTIV_DOMAIN_NAME}/privkey.pem /etc/ssl/private/${POSTACTIV_DOMAIN_NAME}.key
-    ln -s /etc/letsencrypt/live/${POSTACTIV_DOMAIN_NAME}/fullchain.pem /etc/ssl/certs/${POSTACTIV_DOMAIN_NAME}.pem
-fi
+    # Get a LetsEncrypt cert
+    if [[ $DEBIAN_VERSION != 'stretch' ]]; then
+        apt-get -yq install certbot -t jessie-backports
+    else
+        apt-get -yq install certbot
+    fi
+    systemctl stop nginx
+    if [ ! -f /etc/letsencrypt/live/${POSTACTIV_DOMAIN_NAME}/fullchain.pem ]; then
+        certbot certonly -n --server https://acme-v01.api.letsencrypt.org/directory --standalone -d $POSTACTIV_DOMAIN_NAME --renew-by-default --agree-tos --email $MY_EMAIL_ADDRESS
+        ln -s /etc/letsencrypt/live/${POSTACTIV_DOMAIN_NAME}/privkey.pem /etc/ssl/private/${POSTACTIV_DOMAIN_NAME}.key
+        ln -s /etc/letsencrypt/live/${POSTACTIV_DOMAIN_NAME}/fullchain.pem /etc/ssl/certs/${POSTACTIV_DOMAIN_NAME}.pem
+    fi
 
-# LetsEncrypt cert renewals
-renewals_script=/etc/cron.monthly/letsencrypt
-echo '#!/bin/bash' > $renewals_script
-echo 'if [ -d /etc/letsencrypt ]; then' >> $renewals_script
-echo '    if [ -f ~/letsencrypt_failed ]; then' >> $renewals_script
-echo '        rm ~/letsencrypt_failed' >> $renewals_script
-echo '    fi' >> $renewals_script
-echo '    for d in /etc/letsencrypt/live/*/ ; do' >> $renewals_script
-echo -n '        LETSENCRYPT_DOMAIN=$(echo "$d" | ' >> $renewals_script
-echo -n "awk -F '/' '{print " >> $renewals_script
-echo -n '$5' >> $renewals_script
-echo "}')" >> $renewals_script
-echo '        if [ -f /etc/nginx/sites-available/$LETSENCRYPT_DOMAIN ]; then' >> $renewals_script
-echo "            certbot certonly -n --server https://acme-v01.api.letsencrypt.org/directory --standalone -d $LETSENCRYPT_DOMAIN --renew-by-default --agree-tos --email $MY_EMAIL_ADDRESS" >> $renewals_script
-echo '        fi' >> $renewals_script
-echo '    done' >> $renewals_script
-echo 'fi' >> $renewals_script
-chmod +x $renewals_script
+    # LetsEncrypt cert renewals
+    renewals_script=/etc/cron.monthly/letsencrypt
+    echo '#!/bin/bash' > $renewals_script
+    echo 'if [ -d /etc/letsencrypt ]; then' >> $renewals_script
+    echo '    if [ -f ~/letsencrypt_failed ]; then' >> $renewals_script
+    echo '        rm ~/letsencrypt_failed' >> $renewals_script
+    echo '    fi' >> $renewals_script
+    echo '    for d in /etc/letsencrypt/live/*/ ; do' >> $renewals_script
+    echo -n '        LETSENCRYPT_DOMAIN=$(echo "$d" | ' >> $renewals_script
+    echo -n "awk -F '/' '{print " >> $renewals_script
+    echo -n '$5' >> $renewals_script
+    echo "}')" >> $renewals_script
+    echo '        if [ -f /etc/nginx/sites-available/$LETSENCRYPT_DOMAIN ]; then' >> $renewals_script
+    echo "            certbot certonly -n --server https://acme-v01.api.letsencrypt.org/directory --standalone -d $LETSENCRYPT_DOMAIN --renew-by-default --agree-tos --email $MY_EMAIL_ADDRESS" >> $renewals_script
+    echo '        fi' >> $renewals_script
+    echo '    done' >> $renewals_script
+    echo 'fi' >> $renewals_script
+    chmod +x $renewals_script
+}
 
-# Create web server config
-echo "server {
+function configure_web_server {
+    echo "server {
     listen 80;
     listen [::]:80;
     server_name ${POSTACTIV_DOMAIN_NAME};
@@ -227,10 +293,109 @@ server {
   }
 
 }" > /etc/nginx/sites-available/postactiv
-ln -s /etc/nginx/sites-available/postactiv /etc/nginx/sites-enabled/
+    ln -s /etc/nginx/sites-available/postactiv /etc/nginx/sites-enabled/
 
-# Start the web server
-systemctl restart php5-fpm
-systemctl start nginx
+    # Start the web server
+    if [[ $DEBIAN_VERSION == 'stretch' ]]; then
+        sed -i 's|php5|php7.0|g' /etc/nginx/sites-available/postactiv
+        systemctl restart php7.0-fpm
+    else
+        systemctl restart php5-fpm
+    fi
+    systemctl start nginx
+}
+
+function additional_postactiv_settings {
+    postactiv_config_file=/var/www/postactiv/config.php
+
+    echo "" >> $postactiv_config_file
+    echo "// Recommended postactiv settings" >> $postactiv_config_file
+    echo "\$config['thumbnail']['maxsize'] = 3000;" >> $postactiv_config_file
+    echo "\$config['profile']['delete'] = true;" >> $postactiv_config_file
+    echo "\$config['profile']['changenick'] = true;" >> $postactiv_config_file
+    echo "\$config['public']['localonly'] = false;" >> $postactiv_config_file
+    echo "addPlugin('StoreRemoteMedia');" >> $postactiv_config_file
+    echo "\$config['queue']['enabled'] = true;" >> $postactiv_config_file
+    echo "\$config['queue']['daemon'] = true;" >> $postactiv_config_file
+    echo "\$config['ostatus']['hub_retries'] = 3;" >> $postactiv_config_file
+
+    # This improves performance
+    sed -i "s|//\$config\['db'\]\['schemacheck'\].*|\$config\['db'\]\['schemacheck'\] = 'script';|g" $postactiv_config_file
+
+    # remove the install script
+    if [ -f /var/www/postactiv/install.php ]; then
+        rm /var/www/postactiv/install.php
+    fi
+}
+
+function keep_daemons_running {
+    echo '#!/bin/bash' > /etc/cron.hourly/postactiv-daemons
+    echo -n 'daemon_lines=$(ps aux | grep "' >> /etc/cron.hourly/postactiv-daemons
+    echo 'postactiv/scripts/queuedaemon.php" | grep "/var/www")' >> /etc/cron.hourly/postactiv-daemons
+    echo 'cd /var/www/postactiv' >> /etc/cron.hourly/postactiv-daemons
+    echo 'if [[ $daemon_lines != *"/var/www/"* ]]; then' >> /etc/cron.hourly/postactiv-daemons
+
+    echo '    scripts/startdaemons.sh' >> /etc/cron.hourly/postactiv-daemons
+    echo 'fi' >> /etc/cron.hourly/postactiv-daemons
+
+    echo 'php scripts/delete_orphan_files.php > /dev/null' >> /etc/cron.hourly/postactiv-daemons
+    echo 'php scripts/clean_thumbnails.php -y > /dev/null' >> /etc/cron.hourly/postactiv-daemons
+    echo 'php scripts/clean_file_table.php -y > /dev/null' >> /etc/cron.hourly/postactiv-daemons
+    echo 'php scripts/upgrade.php > /dev/null' >> /etc/cron.hourly/postactiv-daemons
+
+    chmod +x /etc/cron.hourly/postactiv-daemons
+}
+
+function install_qvitter {
+    mkdir -p /var/www/postactiv/local/plugins
+
+    git clone $QVITTER_THEME_REPO /var/www/postactiv/local/plugins/Qvitter
+    if [ ! -d /var/www/postactiv/local/plugins/Qvitter ]; then
+        echo "Couldn't clone Qvitter"
+        exit 6278254
+    fi
+    cd /var/www/postactiv/local/plugins/Qvitter
+    git checkout $QVITTER_THEME_COMMIT -b $QVITTER_THEME_COMMIT
+
+    config_file=/var/www/postactiv/config.php
+    if ! grep -q "addPlugin('Qvitter')" $config_file; then
+        echo "" >> $config_file
+        echo "// Qvitter settings" >> $config_file
+        echo "addPlugin('Qvitter');" >> $config_file
+        echo "\$config['site']['qvitter']['enabledbydefault'] = true;" >> $config_file
+        echo "\$config['site']['qvitter']['defaultbackgroundcolor'] = '#f4f4f4';" >> $config_file
+        echo "\$config['site']['qvitter']['defaultlinkcolor'] = '#0084B4';" >> $config_file
+        echo "\$config['site']['qvitter']['timebetweenpolling'] = 30000; // 30 secs" >> $config_file
+        echo "\$config['site']['qvitter']['favicon'] = 'img/favicon.ico?v=4';" >> $config_file
+        echo "\$config['site']['qvitter']['sprite'] = Plugin::staticPath('Qvitter', '').'img/sprite.png?v=40';" >> $config_file
+        echo "\$config['site']['qvitter']['enablewelcometext'] = false;" >> $config_file
+        echo "\$config['site']['qvitter']['blocked_ips'] = array();" >> $config_file
+    fi
+
+    chown -R www-data:www-data /var/www/postactiv
+
+    cd /var/www/postactiv
+    php scripts/upgrade.php
+    php scripts/checkschema.php
+    chown -R www-data:www-data /var/www/postactiv
+}
+
+if [ ! $1 ]; then
+    echo './scripts/debian_install.sh [mariadb password] [username] [password] [domain] [email address] [jessie|stretch]'
+    exit 0
+fi
+
+create_repo_sources
+install_mariadb
+install_web_server
+create_postactiv_database
+install_postactiv_from_repo
+configure_tls_cert
+configure_web_server
+additional_postactiv_settings
+keep_daemons_running
+install_qvitter
+
+echo "postActiv installed"
 
 exit 0
