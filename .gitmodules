@@ -1,3 +1,6 @@
 [submodule "plugins/SensitiveContent"]
 	path = plugins/SensitiveContent
 	url = https://gitgud.io/ShitposterClub/SensitiveContent.git
+[submodule "plugins/Qvitter"]
+	path = plugins/Qvitter
+	url = git@git.gnu.io:h2p/Qvitter.git
