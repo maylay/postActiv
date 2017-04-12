@@ -35,6 +35,8 @@
         password: postactiv
         state: present
         priv: 'postactiv.*:ALL'
+    - name: enable apache2 proxy_fcgi module
+      apache2_module: name=proxy_fcgi state=present
     - name: enable apache2 rewrite module
       apache2_module: name=rewrite state=present
     - name: update apache configuration
@@ -99,7 +101,7 @@
     - name: require phan
       composer:
         command: require
-        arguments: etsy/phan:dev-master
+        arguments: etsy/phan:0.8.3
         no_dev: false
         working_dir: /home/ubuntu
     - name: install all required composer packages

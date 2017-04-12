@@ -82,6 +82,7 @@ class StompQueueManager extends QueueManager {
 
    protected $useTransactions;
    protected $useAcks;
+   protected $useBase64;
 
    protected $sites = array();
    protected $subscriptions = array();
@@ -91,6 +92,7 @@ class StompQueueManager extends QueueManager {
    protected $transaction = array();
    protected $transactionCount = array();
    protected $defaultIdx = 0;
+   protected $properties;
 
    // -------------------------------------------------------------------------
    // Function: __construct
@@ -110,6 +112,8 @@ class StompQueueManager extends QueueManager {
       $this->breakout        = common_config('queue', 'breakout');
       $this->useTransactions = common_config('queue', 'stomp_transactions');
       $this->useAcks         = common_config('queue', 'stomp_acks');
+      $this->useBase64       = common_config('queue', 'stomp_base64');
+      $this->properties      = common_config('queue', 'stomp_properties');
    }
 
 
@@ -212,6 +216,9 @@ class StompQueueManager extends QueueManager {
                         'handler' => $queue,
                         'payload' => $this->encode($object));
       $msg = serialize($envelope);
+      if ($this->useBase64) {
+         $msg = base64_encode($msg);
+      }
 
       $props = array('created' => common_sql_now());
       if ($this->isPersistent($queue)) {
@@ -521,7 +528,7 @@ class StompQueueManager extends QueueManager {
       $host = $con->getServer();
       foreach ($this->subscriptions() as $sub) {
          $this->_log(LOG_INFO, "Subscribing to $sub on $host");
-         $con->subscribe($sub);
+         $con->subscribe($sub, $this->properties);
       }
    }
 
@@ -575,7 +582,11 @@ class StompQueueManager extends QueueManager {
    // o bool success
    protected function handleItem($frame) {
       $host = $this->cons[$this->defaultIdx]->getServer();
-      $message = unserialize($frame->body);
+      if ($this->useBase64) {
+         $message = unserialize(base64_decode($frame->body));
+      } else {
+         $message = unserialize($frame->body);
+      }
 
       if ($message === false) {
          $this->_log(LOG_ERR, "Can't unserialize frame: {$frame->body}");
