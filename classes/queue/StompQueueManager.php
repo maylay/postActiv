@@ -92,6 +92,7 @@ class StompQueueManager extends QueueManager {
    protected $transaction = array();
    protected $transactionCount = array();
    protected $defaultIdx = 0;
+   protected $properties;
 
    // -------------------------------------------------------------------------
    // Function: __construct
@@ -112,6 +113,7 @@ class StompQueueManager extends QueueManager {
       $this->useTransactions = common_config('queue', 'stomp_transactions');
       $this->useAcks         = common_config('queue', 'stomp_acks');
       $this->useBase64       = common_config('queue', 'stomp_base64');
+      $this->properties      = common_config('queue', 'stomp_properties');
    }
 
 
@@ -526,7 +528,7 @@ class StompQueueManager extends QueueManager {
       $host = $con->getServer();
       foreach ($this->subscriptions() as $sub) {
          $this->_log(LOG_INFO, "Subscribing to $sub on $host");
-         $con->subscribe($sub);
+         $con->subscribe($sub, $this->properties);
       }
    }
 

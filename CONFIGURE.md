@@ -283,6 +283,8 @@ sending out SMS email or XMPP messages, for off-line processing. See
     base64. This is needed for some queue servers such as RabbitMQ to avoid
     encountering control characters.
 
+* stomp_properties (array, default null): additional headers to pass to STOMP
+
 * redis_socket_location (string, default null): Unix domain socket location for
 	Redis.  If specified, the TCP settings below  be disabled.
 

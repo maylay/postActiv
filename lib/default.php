@@ -114,6 +114,7 @@ $default =
               'stomp_acks' => true, // send acknowledgements after successful processing (supported by ActiveMQ, but not by all)
 	      'stomp_manual_failover' => true, // if multiple servers are listed, treat them as separate (enqueue on one randomly, listen on all)
 	      'stomp_base64' => false, // wheter to encode queue items in base64 (needed for RabbitMQ)
+	      'stomp_properties' => null, // additional headers to pass to STOMP
               'redis_socket_location' => null, // Unix domain socket location
               'redis_host' => null, // TCP socket hostname
               'redis_port' => 6379, // Default Redis port
