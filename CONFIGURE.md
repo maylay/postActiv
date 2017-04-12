@@ -279,6 +279,10 @@ sending out SMS email or XMPP messages, for off-line processing. See
     you do), but if using another message queue server that does not support 
     acknowledgements you might need to disable this.
 
+* stomp_base64 (boolean, default false): whether to encode the queue item in 
+    base64. This is needed for some queue servers such as RabbitMQ to avoid
+    encountering control characters.
+
 * redis_socket_location (string, default null): Unix domain socket location for
 	Redis.  If specified, the TCP settings below  be disabled.
 
