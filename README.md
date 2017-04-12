@@ -20,7 +20,7 @@ Some other files to review:
 
 Information on using GNU social can be found in the "doc" subdirectory or in
 the "help" section on-line, or you can contact maiyannah on the fediverse at
-@maiyannah@community.highlandarrow.com or her email at 
+@maiyannah@community.highlandarrow.com or her email at
 <maiyannah.bishop@postactiv.com>
 
 ## About
@@ -112,15 +112,15 @@ The minimum requirements to run postActiv are the following:
 * Web server: You must have either an Apache, nginx, or Litespeed web server
   configured with PHP support to serve up postActiv.  We recommend Apache, but
   nginx is also well-supported.
-  
+
 ## Installation
-Detailed installation information is in INSTALLING.md, but in basic, you will 
+Detailed installation information is in INSTALL.md, but in basic, you will
 want to download the branch archive of your choice, unzip it to a web-accessible
 directory, and then run the Install.php file, which will guide you through
 further setup.  You will want to have a database available for postActiv, of
 course.
 
-The postActiv repository also contains MoonMan's SensitiveContent as a 
+The postActiv repository also contains MoonMan's SensitiveContent as a
 submodule, which allows users to block the display of attachments on posts
 that are tagged "NSFW".  If you wish to install this plugin, you will have to
 download the branch of your choice, and then in /plugins/SensitiveContent
@@ -129,9 +129,9 @@ course.
 
 ## Configuration
 The main configuration file for postActiv (excepting configurations for
-dependency software or some plugins) is config.php in your postActiv root 
-directory. If you edit any other file in the directory, like 
-lib/default.php (where most of the defaults are defined), you will lose 
+dependency software or some plugins) is config.php in your postActiv root
+directory. If you edit any other file in the directory, like
+lib/default.php (where most of the defaults are defined), you will lose
 your configuration options in any upgrade, so you will want to make changes
 in the config.php file.
 
@@ -184,7 +184,7 @@ To keep it up-to-date, use 'git pull'. Watch for conflicts!
 
 There are several ways to get more information about GNU social.
 
-* Following us on the Fediverse -- 
+* Following us on the Fediverse --
 <https://community.highlandarrow.com/postActiv>
 
 * psotActiv has a bug tracker for any defects you may find, or ideas for
