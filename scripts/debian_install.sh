@@ -79,14 +79,25 @@ function install_mariadb {
 }
 
 function install_web_server {
-    apt-get -yq install php-gettext php5-curl php5-gd php5-mysql git curl
-    apt-get -yq install php5-memcached php5-intl php-xml-parser
-    apt-get -yq remove --purge apache2
-    if [ -d /etc/apache2 ]; then
-        rm -rf /etc/apache2
-    fi
+    if [[ $DEBIAN_VERSION != 'stretch' ]]; then
+        apt-get -yq install php-gettext php5-curl php5-gd php5-mysql git curl
+        apt-get -yq install php5-memcached php5-intl php-xml-parser
+        apt-get -yq remove --purge apache2
+        if [ -d /etc/apache2 ]; then
+            rm -rf /etc/apache2
+        fi
 
-    apt-get -yq install nginx php5-fpm
+        apt-get -yq install nginx php5-fpm
+    else
+        apt-get -yq install php-gettext php7.0-curl php7.0-gd php7.0-mysql git curl
+        apt-get -yq install php-memcached php7.0-intl php-xml-parser
+        apt-get -yq remove --purge apache2
+        if [ -d /etc/apache2 ]; then
+            rm -rf /etc/apache2
+        fi
+
+        apt-get -yq install nginx php7.0-fpm
+    fi
 }
 
 function create_postactiv_database {
@@ -285,7 +296,12 @@ server {
     ln -s /etc/nginx/sites-available/postactiv /etc/nginx/sites-enabled/
 
     # Start the web server
-    systemctl restart php5-fpm
+    if [[ $DEBIAN_VERSION == 'stretch' ]]; then
+        sed -i 's|php5|php7.0|g' /etc/nginx/sites-available/postactiv
+        systemctl restart php7.0-fpm
+    else
+        systemctl restart php5-fpm
+    fi
     systemctl start nginx
 }
 
