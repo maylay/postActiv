@@ -226,8 +226,6 @@ function configure_web_server {
     error_log /var/log/nginx/postactiv.err.log warn;
     client_max_body_size 20m;
     client_body_buffer_size 128k;
-    limit_conn conn_limit_per_ip 10;
-    limit_req zone=req_limit_per_ip burst=10 nodelay;
 
     rewrite ^ https://$server_name$request_uri? permanent;
 }
