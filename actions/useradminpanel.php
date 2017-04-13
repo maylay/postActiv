@@ -54,74 +54,73 @@
 
 if (!defined('POSTACTIV')) { exit(1); }
 
-/**
- * Administer user settings
- */
+// ============================================================================
+// Class: UseradminpanelAction
+// Action class for displaying the user administration panel
 class UseradminpanelAction extends AdminPanelAction
 {
-    /**
-     * Returns the page title
-     *
-     * @return string page title
-     */
-    function title()
-    {
-        // TRANS: User admin panel title.
-        return _m('TITLE', 'User');
-    }
+   // -------------------------------------------------------------------------
+   // Function: title
+   // Returns the page title
+   //
+   // Returns:
+   // o string title - page title
+   function title() {
+      // TRANS: User admin panel title.
+      return _m('TITLE', 'User');
+   }
 
-    /**
-     * Instructions for using this form.
-     *
-     * @return string instructions
-     */
-    function getInstructions()
-    {
+
+   // -------------------------------------------------------------------------
+   // Function: getInstructions
+   // Instructions for using this form.
+   //
+   // @return string instructions
+   function getInstructions() {
         // TRANS: Instruction for user admin panel.
         return _('User settings for this StatusNet site');
-    }
+   }
 
-    /**
-     * Show the site admin panel form
-     *
-     * @return void
-     */
-    function showForm()
-    {
-        $form = new UserAdminPanelForm($this);
-        $form->show();
-        return;
-    }
 
-    /**
-     * Save settings from the form
-     *
-     * @return void
-     */
-    function saveSettings()
-    {
-        static $settings = array(
-                'profile' => array('biolimit'),
-                'newuser' => array('welcome', 'default')
-        );
+   // -------------------------------------------------------------------------
+   // Function: showForm
+   // Show the site admin panel form
+   //
+   // Returns:
+   // o void
+   function showForm() {
+      $form = new UserAdminPanelForm($this);
+      $form->show();
+      return;
+   }
 
-        static $booleans = array(
-            'invite' => array('enabled')
-        );
 
-        $values = array();
+   // --------------------------------------------------------------------------
+   // Function: saveSettings
+   // Save settings from the form
+   //
+   // Returns:
+   // o void
+   function saveSettings() {
+      static $settings = array(
+         'profile' => array('biolimit'),
+         'newuser' => array('welcome', 'default')
+      );
+      static $booleans = array(
+         'invite' => array('enabled')
+      );
+      $values = array();
 
-        foreach ($settings as $section => $parts) {
-            foreach ($parts as $setting) {
-                $values[$section][$setting] = $this->trimmed("$section-$setting");
-            }
-        }
-
-        foreach ($booleans as $section => $parts) {
-            foreach ($parts as $setting) {
-                $values[$section][$setting] = ($this->boolean("$section-$setting")) ? 1 : 0;
-            }
-        }
+      foreach ($settings as $section => $parts) {
+         foreach ($parts as $setting) {
+            $values[$section][$setting] = $this->trimmed("$section-$setting");
+         }
+      }
+      foreach ($booleans as $section => $parts) {
+         foreach ($parts as $setting) {
+            $values[$section][$setting] = ($this->boolean("$section-$setting")) ? 1 : 0;
+         }
+      }
 
         // This throws an exception on validation errors
 

@@ -50,18 +50,20 @@
 
 if (!defined('POSTACTIV')) { exit(1); }
 
-/**
- * Unsilence a user.
- */
+
+// ============================================================================
+// Class: UnsilenceAction
+// Action class to unsilence a user
 class UnsilenceAction extends ProfileFormAction
 {
-    function handlePost()
-    {
-        assert($this->scoped instanceof Profile);
-        assert($this->profile instanceof Profile);
-
-        $this->profile->unsilenceAs($this->scoped);
-    }
+   // -------------------------------------------------------------------------
+   // Function: handlePost
+   // Unsilence the user
+   function handlePost() {
+      assert($this->scoped instanceof Profile);
+      assert($this->profile instanceof Profile);
+      $this->profile->unsilenceAs($this->scoped);
+   }
 }
 
 // END OF FILE

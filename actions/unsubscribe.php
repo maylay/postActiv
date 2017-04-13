@@ -53,69 +53,72 @@
 
 if (!defined('POSTACTIV')) { exit(1); }
 
-/**
- * Unsubscribe handler
- */
+// ============================================================================
+// Class: UnsubscribeAction
+// Action class for unsubscribing from a user or group
 class UnsubscribeAction extends Action
 {
-    function handle()
-    {
-        parent::handle();
-        if (!common_logged_in()) {
-            // TRANS: Error message displayed when trying to perform an action that requires a logged in user.
-            $this->clientError(_('Not logged in.'));
-        }
+   // -------------------------------------------------------------------------
+   // Function: handle
+   // Do the actual unsubscription, then write the HTML saying it succeeded.
+   //
+   // Error States:
+   // o raises a clientError if not logged in or CSRF check fails
+   // o redirects to the subscription form if the HTTP method isn't POST
+   // o raises a clientError if there is no profile ID supplied or its invalid
+   function handle()
+   {
+      parent::handle();
+      if (!common_logged_in()) {
+         // TRANS: Error message displayed when trying to perform an action that requires a logged in user.
+         $this->clientError(_('Not logged in.'));
+      }
+      if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+         common_redirect(common_local_url('subscriptions',
+                                          array('nickname' => $this->scoped->nickname)));
+      }
 
-        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-            common_redirect(common_local_url('subscriptions',
-                                             array('nickname' => $this->scoped->nickname)));
-        }
+      /* Use a session token for CSRF protection. */
+      $token = $this->trimmed('token');
+      if (!$token || $token != common_session_token()) {
+          // TRANS: Client error displayed when the session token does not match or is not given.
+          $this->clientError(_('There was a problem with your session token. ' .
+                               'Try again, please.'));
+      }
 
-        /* Use a session token for CSRF protection. */
+      $other_id = $this->arg('unsubscribeto');
+      if (!$other_id) {
+         // TRANS: Client error displayed when trying to unsubscribe without providing a profile ID.
+         $this->clientError(_('No profile ID in request.'));
+      }
 
-        $token = $this->trimmed('token');
+      $other = Profile::getKV('id', $other_id);
+      if (!($other instanceof Profile)) {
+         // TRANS: Client error displayed when trying to unsubscribe while providing a non-existing profile ID.
+         $this->clientError(_('No profile with that ID.'));
+      }
 
-        if (!$token || $token != common_session_token()) {
-            // TRANS: Client error displayed when the session token does not match or is not given.
-            $this->clientError(_('There was a problem with your session token. ' .
-                                 'Try again, please.'));
-        }
+      try {
+         Subscription::cancel($this->scoped, $other);
+      } catch (Exception $e) {
+         $this->clientError($e->getMessage());
+      }
 
-        $other_id = $this->arg('unsubscribeto');
-
-        if (!$other_id) {
-            // TRANS: Client error displayed when trying to unsubscribe without providing a profile ID.
-            $this->clientError(_('No profile ID in request.'));
-        }
-
-        $other = Profile::getKV('id', $other_id);
-
-        if (!($other instanceof Profile)) {
-            // TRANS: Client error displayed when trying to unsubscribe while providing a non-existing profile ID.
-            $this->clientError(_('No profile with that ID.'));
-        }
-
-        try {
-            Subscription::cancel($this->scoped, $other);
-        } catch (Exception $e) {
-            $this->clientError($e->getMessage());
-        }
-
-        if ($this->boolean('ajax')) {
-            $this->startHTML('text/xml;charset=utf-8');
-            $this->elementStart('head');
-            // TRANS: Page title for page to unsubscribe.
-            $this->element('title', null, _('Unsubscribed'));
-            $this->elementEnd('head');
-            $this->elementStart('body');
-            $subscribe = new SubscribeForm($this, $other);
-            $subscribe->show();
-            $this->elementEnd('body');
-            $this->endHTML();
-        } else {
+      if ($this->boolean('ajax')) {
+         $this->startHTML('text/xml;charset=utf-8');
+         $this->elementStart('head');
+         // TRANS: Page title for page to unsubscribe.
+         $this->element('title', null, _('Unsubscribed'));
+         $this->elementEnd('head');
+         $this->elementStart('body');
+         $subscribe = new SubscribeForm($this, $other);
+         $subscribe->show();
+         $this->elementEnd('body');
+         $this->endHTML();
+      } else {
             common_redirect(common_local_url('subscriptions', array('nickname' => $this->scoped->nickname)), 303);
-        }
-    }
+      }
+   }
 }
 
 // END OF FILE
