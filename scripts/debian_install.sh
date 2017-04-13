@@ -87,7 +87,8 @@ function install_web_server {
             rm -rf /etc/apache2
         fi
 
-        apt-get -yq install nginx php5-fpm
+        apt-get -yq install nginx
+        apt-get -yq install php5-fpm
     else
         apt-get -yq install php-gettext php7.0-curl php7.0-gd php7.0-mysql git curl
         apt-get -yq install php-memcached php7.0-intl php-xml-parser
@@ -96,7 +97,8 @@ function install_web_server {
             rm -rf /etc/apache2
         fi
 
-        apt-get -yq install nginx php7.0-fpm
+        apt-get -yq install nginx
+        apt-get -yq install php7.0-fpm
     fi
 }
 
