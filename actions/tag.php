@@ -61,62 +61,83 @@
 
 if (!defined('POSTACTIV')) { exit(1); }
 
-// @todo FIXME: documentation missing.
-class TagAction extends ManagedAction
-{
-    var $notice;
-    var $tag;
-    var $page;
+// ============================================================================
+// Class: TagAction
+// Action class to display a hashtag and posts under it
+//
+// Variables:
+// o notice - current notice
+// o tag - current tag
+// o page - current page
+class TagAction extends ManagedAction {
+   var $notice;
+   var $tag;
+   var $page;
 
-    protected function prepare(array $args=array())
-    {
-        parent::prepare($args);
+   // -------------------------------------------------------------------------
+   // Function: prepare
+   // Prepares a tag for display based on our current notice/page
+   //
+   // Parameters:
+   // o args - passed to parent prepare()
+   //
+   // Returns:
+   // true, unless an error has been encounterd
+   //
+   // Error Conditions:
+   // o no valid tag data, throws a client exception
+   // o tag contains upperclase characters, redirects
+   // o page is out of bounds, 404s
+   protected function prepare(array $args=array()) {
+      parent::prepare($args);
+      $taginput = $this->trimmed('tag');
+      $this->tag = common_canonical_tag($taginput);
 
-        $taginput = $this->trimmed('tag');
-        $this->tag = common_canonical_tag($taginput);
+      if (empty($this->tag)) {
+         throw new ClientException(_('No valid tag data.'));
+      }
 
-        if (empty($this->tag)) {
-            throw new ClientException(_('No valid tag data.'));
-        }
+      // after common_canonical_tag we have a lowercase, no-specials tag string
+      if ($this->tag !== $taginput) {
+         common_redirect(common_local_url('tag', array('tag' => $this->tag)), 301);
+      }
 
-        // after common_canonical_tag we have a lowercase, no-specials tag string
-        if ($this->tag !== $taginput) {
-            common_redirect(common_local_url('tag', array('tag' => $this->tag)), 301);
-        }
-
-        $this->page = ($this->arg('page')) ? ($this->arg('page')+0) : 1;
-
-        common_set_returnto($this->selfUrl());
-
-        $this->notice = Notice_tag::getStream($this->tag)->getNotices(($this->page-1)*NOTICES_PER_PAGE,
+      $this->page = ($this->arg('page')) ? ($this->arg('page')+0) : 1;
+      common_set_returnto($this->selfUrl());
+      $this->notice = Notice_tag::getStream($this->tag)->getNotices(($this->page-1)*NOTICES_PER_PAGE,
                                                                        NOTICES_PER_PAGE + 1);
 
-        if($this->page > 1 && $this->notice->N == 0){
-            // TRANS: Client error when page not found (404).
-            $this->clientError(_('No such page.'), 404);
-        }
+      if($this->page > 1 && $this->notice->N == 0){
+         // TRANS: Client error when page not found (404).
+         $this->clientError(_('No such page.'), 404);
+      }
+      return true;
+   }
 
-        return true;
-    }
 
-    function title()
-    {
-        if ($this->page == 1) {
-            // TRANS: Title for first page of notices with tags.
-            // TRANS: %s is the tag.
-            return sprintf(_('Notices tagged with %s'), $this->tag);
-        } else {
-            // TRANS: Title for all but the first page of notices with tags.
-            // TRANS: %1$s is the tag, %2$d is the page number.
-            return sprintf(_('Notices tagged with %1$s, page %2$d'),
-                           $this->tag,
-                           $this->page);
-        }
-    }
+   // -------------------------------------------------------------------------
+   // Function: title
+   // Returns the title of the page for the tag display
+   function title() {
+      if ($this->page == 1) {
+         // TRANS: Title for first page of notices with tags.
+         // TRANS: %s is the tag.
+         return sprintf(_('Notices tagged with %s'), $this->tag);
+      } else {
+         // TRANS: Title for all but the first page of notices with tags.
+         // TRANS: %1$s is the tag, %2$d is the page number.
+         return sprintf(_('Notices tagged with %1$s, page %2$d'),
+                          $this->tag,
+                          $this->page);
+      }
+   }
 
-    function getFeeds()
-    {
-        return array(new Feed(Feed::JSON,
+
+   // -------------------------------------------------------------------------
+   // Function: getFeeds
+   // Returns an array of the various feeds for the tag display page
+   function getFeeds() {
+      return array(new Feed(Feed::JSON,
                               common_local_url('ApiTimelineTag',
                                                array('format' => 'as',
                                                      'tag' => $this->tag)),
@@ -124,14 +145,14 @@ class TagAction extends ManagedAction
                               // TRANS: %s is the tag the feed is for.
                               sprintf(_('Notice feed for tag %s (Activity Streams JSON)'),
                                       $this->tag)),
-                     new Feed(Feed::RSS1,
+                   new Feed(Feed::RSS1,
                               common_local_url('tagrss',
                                                array('tag' => $this->tag)),
                               // TRANS: Link label for feed on "notices with tag" page.
                               // TRANS: %s is the tag the feed is for.
                               sprintf(_('Notice feed for tag %s (RSS 1.0)'),
                                       $this->tag)),
-                     new Feed(Feed::RSS2,
+                   new Feed(Feed::RSS2,
                               common_local_url('ApiTimelineTag',
                                                array('format' => 'rss',
                                                      'tag' => $this->tag)),
@@ -139,7 +160,7 @@ class TagAction extends ManagedAction
                               // TRANS: %s is the tag the feed is for.
                               sprintf(_('Notice feed for tag %s (RSS 2.0)'),
                                       $this->tag)),
-                     new Feed(Feed::ATOM,
+                   new Feed(Feed::ATOM,
                               common_local_url('ApiTimelineTag',
                                                array('format' => 'atom',
                                                      'tag' => $this->tag)),
@@ -147,7 +168,7 @@ class TagAction extends ManagedAction
                               // TRANS: %s is the tag the feed is for.
                               sprintf(_('Notice feed for tag %s (Atom)'),
                                       $this->tag)));
-    }
+   }
 
 
    // -------------------------------------------------------------------------

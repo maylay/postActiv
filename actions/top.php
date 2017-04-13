@@ -51,19 +51,33 @@
 
 if (!defined('POSTACTIV')) { exit(1); }
 
+
+// ============================================================================
+// Class: TopAction
+// Action class to redirect the user to appropriate top-of-site
 class TopAction extends ManagedAction
 {
-    public function showPage()
-    {
-        if (common_config('singleuser', 'enabled')) {
-            $user = User::singleUser();
-            common_redirect(common_local_url('showstream', array('nickname' => $user->getNickname())), 303);
-        } elseif (common_config('public', 'localonly')) {
-            common_redirect(common_local_url('public'), 303);
-        } else {
-            common_redirect(common_local_url('networkpublic'), 303);
-        }
-    }
+   
+   // -------------------------------------------------------------------------
+   // Function: showPage
+   // Redirects the user to the appropriate top of page:
+   // o friends timeline for a single-user instance
+   // o public timeline for a private instance
+   // o network timeline for public instance
+   //
+   // Returns:
+   // o void
+   public function showPage()
+   {
+      if (common_config('singleuser', 'enabled')) {
+         $user = User::singleUser();
+         common_redirect(common_local_url('showstream', array('nickname' => $user->getNickname())), 303);
+      } elseif (common_config('public', 'localonly')) {
+         common_redirect(common_local_url('public'), 303);
+      } else {
+         common_redirect(common_local_url('networkpublic'), 303);
+      }
+   }
 }
 
 // END OF FILE

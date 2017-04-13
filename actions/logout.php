@@ -56,42 +56,56 @@
 
 if (!defined('POSTACTIV')) { exit(1); }
 
-/**
- * Logout action class.
- */
+// ============================================================================
+// Class: LogoutAction
+// Action class to log a user out and redirect them accordingly
 class LogoutAction extends ManagedAction
 {
-    /**
-     * This is read only.
-     *
-     * @return boolean true
-     */
-    function isReadOnly($args)
-    {
-        return false;
-    }
+   // -------------------------------------------------------------------------
+   // Function: isReadOnly
+   // Abstraction to indicate the class both writes and reads
+   //
+   // Returns:
+   // o boolean True
+   function isReadOnly($args) {
+      return false;
+   }
 
-    protected function doPreparation()
-    {
-        if (!common_logged_in()) {
-            // TRANS: Error message displayed when trying to logout even though you are not logged in.
-            throw new AlreadyFulfilledException(_('Cannot log you out if you are not logged in.'));
-        }
-        if (Event::handle('StartLogout', array($this))) {
-            $this->logout();
-        }
-        Event::handle('EndLogout', array($this));
 
-        common_redirect(common_local_url('top'));
-    }
+   // -------------------------------------------------------------------------
+   // Function: doPreparation
+   // Log the user out and redirect
+   //
+   // Returns:
+   // o void
+   //
+   // Error States:
+   // o returns an AlreadyFulfilledException if the user is already logged out
+   protected function doPreparation() {
+      if (!common_logged_in()) {
+         // TRANS: Error message displayed when trying to logout even though you are not logged in.
+         throw new AlreadyFulfilledException(_('Cannot log you out if you are not logged in.'));
+      }
+      if (Event::handle('StartLogout', array($this))) {
+         $this->logout();
+      }
+      Event::handle('EndLogout', array($this));
+      common_redirect(common_local_url('top'));
+   }
 
-    // Accessed through the action on events
-    public function logout()
-    {
-        common_set_user(null);
-        common_real_login(false); // not logged in
-        common_forgetme(); // don't log back in!
-    }
+
+   // -------------------------------------------------------------------------
+   // Function: logout
+   // Actual meat and bones of the logout function. Accessed through the action 
+   // on events
+   // 
+   // Returns:
+   // o void
+   public function logout() {
+      common_set_user(null);
+      common_real_login(false); // not logged in
+      common_forgetme(); // don't log back in!
+   }
 }
 
 // END OF FILE
