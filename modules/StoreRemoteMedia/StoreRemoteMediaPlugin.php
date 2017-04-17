@@ -1,9 +1,71 @@
 <?php
+/* ============================================================================
+ * Title: StoreRemoteMedia
+ * Caches remote images linked in notices
+ *
+ * postActiv:
+ * the micro-blogging software
+ *
+ * Copyright:
+ * Copyright (C) 2016-2017, Maiyannah Bishop
+ *
+ * Derived from code copyright various sources:
+ * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ * o StatusNet (C) 2008-2012, StatusNet, Inc
+ * ----------------------------------------------------------------------------
+ * License:
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * <https://www.gnu.org/licenses/agpl.html>
+ * ----------------------------------------------------------------------------
+ * About:
+ * Caches remote images linked in notices
+ *
+ * PHP version:
+ * Tested with PHP 7
+ * ----------------------------------------------------------------------------
+ * File Authors:
+ * o Mikael Nordfeldth <mmn@hethane.se>
+ * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ * o Saul St John <saul.stjohn@gmail.com>
+ *
+ * Web:
+ *  o postActiv  <http://www.postactiv.com>
+ *  o GNU social <https://www.gnu.org/s/social/>
+ * ============================================================================
+ */
+
+// This file is formatted so that it provides useful documentation output in
+// NaturalDocs.  Please be considerate of this before changing formatting.
 
 if (!defined('GNUSOCIAL')) { exit(1); }
 
-// FIXME: To support remote video/whatever files, this plugin needs reworking.
-
+// ----------------------------------------------------------------------------
+// Class: StoreRemoteMediaPlugin
+// Main StoreRemoteMedia plugin class
+// 
+// FIXME:
+// o To support remote video/whatever files, this plugin needs reworking.
+//
+// Variables:
+// o $domain_whitelist - array of domains to allow media from
+// o $append_whitelist - additional domains to allow media from
+// o $check_whitelist - whether to enforce a whitelist
+// o $domain_blacklist - array of domains to block media from
+// o $check_blacklist - whether to enforce a blacklist
+// o $max_image_bytes - maximum image size in bytes
+// o $imgData - raw image data
 class StoreRemoteMediaPlugin extends Plugin
 {
     // settings which can be set in config.php with addPlugin('Oembed', array('param'=>'value', ...));
@@ -22,7 +84,9 @@ class StoreRemoteMediaPlugin extends Plugin
 
     protected $imgData = array();
 
-    // these should be declared protected everywhere
+    // ------------------------------------------------------------------------
+    // Function: initalize
+    // Initialize the plugin
     public function initialize()
     {
         parent::initialize();
@@ -30,15 +94,17 @@ class StoreRemoteMediaPlugin extends Plugin
         $this->domain_whitelist = array_merge($this->domain_whitelist, $this->append_whitelist);
     }
 
-    /**
-     * Save embedding information for a File, if applicable.
-     *
-     * Normally this event is called through File::saveNew()
-     *
-     * @param File   $file       The abount-to-be-inserted File object.
-     *
-     * @return boolean success
-     */
+    // ------------------------------------------------------------------------
+    // Function: onStartFileSaveNew
+    // Save embedding information for a File, if applicable.
+    //
+    // Normally this event is called through File::saveNew()
+    //
+    // Parameters:
+    // o File $file - The about-to-be-inserted File object.
+    //
+    // Returns:
+    // o boolean success
     public function onStartFileSaveNew(File &$file)
     {
         // save given URL as title if it's a media file this plugin understands
@@ -62,6 +128,18 @@ class StoreRemoteMediaPlugin extends Plugin
         return true;
     }
 
+    // ------------------------------------------------------------------------
+    // Function: onCreateFileImageThumbnailSource
+    // Create a thumbnail from remote media, adhering to applicable whitelists
+    // and blacklists.
+    //
+    // Parameters:
+    // o File $file - A File object
+    // o string $imgPath - where to save the image file
+    // o string $media - media type
+    //
+    // Returns:
+    // o boolean true on success; false otherwise
     public function onCreateFileImageThumbnailSource(File $file, &$imgPath, $media=null)
     {
         // If we are on a private node, we won't do any remote calls (just as a precaution until
@@ -162,9 +240,16 @@ class StoreRemoteMediaPlugin extends Plugin
         return false;
     }
 
-    /**
-     * @return boolean          true if given url passes blacklist check
-     */
+    // ------------------------------------------------------------------------
+    // Function: checkBlackList
+    // Check if a given url matches one of the domains in the blacklist
+    // if $check_blacklist is set to true, otherwise just allow any url.
+    //
+    // Parameters:
+    // o string $url - url to check
+    //
+    // Returns:
+    // o boolean true if given url passes blacklist check
     protected function checkBlackList($url)
     {
         if (!$this->check_blacklist) {
@@ -180,9 +265,16 @@ class StoreRemoteMediaPlugin extends Plugin
         return true;
     }
 
-    /***
-     * @return boolean          true if given url passes whitelist check
-     */
+    // ------------------------------------------------------------------------
+    // Function: checkWhiteList
+    // Check if a given url mathes one of the domains in the whitelist
+    // if $check_whitelist is set to true, otherwise just allow any url.
+    //
+    // Parameters:
+    // o string $url - url to check
+    //
+    // Returns:
+    // o boolean true if given url passes whitelist check
     protected function checkWhiteList($url)
     {
         if (!$this->check_whitelist) {
@@ -198,6 +290,15 @@ class StoreRemoteMediaPlugin extends Plugin
         return false;
     }
 
+    // ------------------------------------------------------------------------
+    // Function: onPluginVersion
+    // Modify a versions array to provide the plugin version info.
+    //
+    // Parameters:
+    // o array $versions - versions array to modify
+    //
+    // Returns:
+    // o boolean true
     public function onPluginVersion(array &$versions)
     {
         $versions[] = array('name' => 'StoreRemoteMedia',
@@ -210,3 +311,5 @@ class StoreRemoteMediaPlugin extends Plugin
         return true;
     }
 }
+// END OF FILE
+// ============================================================================
