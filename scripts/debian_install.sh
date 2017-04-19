@@ -28,7 +28,7 @@ DEBIAN_REPO="ftp.us.debian.org"
 DEBIAN_VERSION=$6
 
 POSTACTIV_REPO="https://git.postactiv.com/postActiv/postActiv.git"
-POSTACTIV_COMMIT='432cbbd4c15e0dd6b0dd38d2d76cda14a53add3b'
+POSTACTIV_COMMIT='1477a300de87faebfcb7fd7163c3a55c75728e2d'
 
 QVITTER_THEME_REPO="https://git.gnu.io/h2p/Qvitter.git"
 QVITTER_THEME_COMMIT='a7f82628402db3a7579bb9b2877da3c5737da77b'
@@ -143,7 +143,7 @@ function install_postactiv_from_repo {
     postactiv_installer=/var/www/postactiv/scripts/install_cli.php
     ${postactiv_installer} --server "${POSTACTIV_DOMAIN_NAME}" \
                            --host="localhost" --database="postactiv" \
-                           --dbtype=mysql --username="$POSTACTIV_ADMIN_USER" -v \
+                           --dbtype=mysql --username="$POSTACTIV_ADMIN_USER@localhost" -v \
                            --password="$POSTACTIV_ADMIN_PASSWORD" \
                            --sitename=$"postactiv" --fancy='yes' \
                            --admin-nick="$POSTACTIV_ADMIN_USER" \
@@ -275,9 +275,6 @@ server {
   location / {
     client_max_body_size 15m;
     client_body_buffer_size 128k;
-
-    limit_conn conn_limit_per_ip 10;
-    limit_req zone=req_limit_per_ip burst=10 nodelay;
 
     try_files $uri $uri/ @postactiv;
   }
