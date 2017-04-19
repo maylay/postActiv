@@ -69,6 +69,7 @@
 // o protected $groups = array();
 // o protected $activeGroups = array();
 // o protected $ignoredTransports = array();
+// o protected $itemsUntilExpiration = null;
 abstract class QueueManager extends IoManager
 {
     static $qm = null;
@@ -78,6 +79,7 @@ abstract class QueueManager extends IoManager
     protected $groups = array();
     protected $activeGroups = array();
     protected $ignoredTransports = array();
+    protected $itemsUntilExpiration = null;
 
     // ------------------------------------------------------------------------
     // Function: __construct
@@ -85,6 +87,48 @@ abstract class QueueManager extends IoManager
     function __construct()
     {
         $this->initialize();
+    }
+
+    // ------------------------------------------------------------------------
+    // Function: setItemsUntilExpiration
+    // Set a value for the number of items to process before respawning a daemon
+    // process
+    //
+    // Parameters:
+    // o int $itemsUntilExpiration - number of items until daemon process is respawned
+    public function setItemsUntilExpiration($itemsUntilExpiration) {
+        // Don't allow negative values
+        if ($itemsUntilExpiration > 0)
+            $this->itemsUntilExpiration = $itemsUntilExpiration;
+    }
+
+    // ------------------------------------------------------------------------
+    // Function: recordItemHandled
+    // Keeps track of the number of items left to process before the daemon
+    // process has to be respawned.
+    //
+    // Returns:
+    // o true if limit has not been reached, false otherwise
+    public function recordItemHandled() {
+        if ($this->itemsUntilExpiration !== null) {
+            $this->_log(LOG_DEBUG, "Items until expiration: $this->itemsUntilExpiration");
+            // Don't keep decrementing after hitting zero.
+            if ($this->itemsUntilExpiration <= 0 || $this->itemsUntilExpiration-- <= 0)
+                return false;
+        }
+        return true;
+    }
+
+    // ------------------------------------------------------------------------
+    // Function: isExpired
+    // Return true if the maximum number of items for a given daemon process
+    // has been reached.
+    //
+    // Returns:
+    // o boolean true if there are no more items until expiration or if a limit
+    // has not been set.
+    public function isExpired() {
+        return ($this->itemsUntilExpiration !== null && $this->itemsUntilExpiration <= 0);
     }
 
     // ------------------------------------------------------------------------
@@ -156,6 +200,7 @@ abstract class QueueManager extends IoManager
 
                 $enabled = common_config('queue', 'enabled');
                 $type = common_config('queue', 'subsystem');
+                $itemsUntilExpiration = common_config('queue', 'items_to_handle');
 
                 if (!$enabled) {
                     // does everything immediately
@@ -174,6 +219,7 @@ abstract class QueueManager extends IoManager
                      default:
                         throw new ServerException("No queue manager class for type '$type'");
                     }
+                    self::$qm->setItemsUntilExpiration($itemsUntilExpiration);
                 }
             }
         }

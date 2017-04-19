@@ -627,6 +627,7 @@ class StompQueueManager extends QueueManager {
          $this->_log(LOG_ERR, "Exception on queue $queue: " . $e->getMessage());
          $ok = false;
       }
+      $this->recordItemHandled();
 
       if ($ok) {
          $this->_log(LOG_INFO, "Successfully handled $info");
