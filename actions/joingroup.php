@@ -57,91 +57,91 @@
 
 if (!defined('POSTACTIV')) { exit(1); }
 
-/**
- * Join a group
- *
- * This is the action for joining a group. It works more or less like the subscribe action
- * for users.
- */
-class JoingroupAction extends Action
-{
-    var $group = null;
+// ============================================================================
+// Class: JoingroupAction
+// Join a group
+//
+// This is the action for joining a group. It works more or less like the
+// subscribe action for users.
+//
+// Variables:
+// o group: group being joined
+class JoingroupAction extends Action {
+   var $group = null;
 
-    /**
-     * Prepare to run
-     */
-    protected function prepare(array $args=array())
-    {
-        parent::prepare($args);
+   // -------------------------------------------------------------------------
+   // Function: prepare
+   // Prepare to run
+   //
+   // Error states:
+   // o returns a client error if not logged in
+   // o returns a client error if the group does not exist
+   // o returns a client error if the group id or name is not provided
+   // o returns a client error if the user has been blocked
+   //
+   // Returns:
+   // o boolean true if successful
+   protected function prepare(array $args=array()) {
+      parent::prepare($args);
 
-        if (!common_logged_in()) {
-            // TRANS: Client error displayed when trying to join a group while not logged in.
-            $this->clientError(_('You must be logged in to join a group.'));
-        }
-
-        $nickname_arg = $this->trimmed('nickname');
-        $id = intval($this->arg('id'));
-        if ($id) {
-            $this->group = User_group::getKV('id', $id);
-        } else if ($nickname_arg) {
-            $nickname = common_canonical_nickname($nickname_arg);
-
-            // Permanent redirect on non-canonical nickname
-
-            if ($nickname_arg != $nickname) {
-                $args = array('nickname' => $nickname);
-                common_redirect(common_local_url('leavegroup', $args), 301);
-            }
-
-            $local = Local_group::getKV('nickname', $nickname);
-
-            if (!$local) {
-                // TRANS: Client error displayed when trying to join a non-local group.
-                $this->clientError(_('No such group.'), 404);
-            }
-
-            $this->group = User_group::getKV('id', $local->group_id);
-        } else {
-            // TRANS: Client error displayed when trying to join a group without providing a group name or group ID.
-            $this->clientError(_('No nickname or ID.'), 404);
-        }
-
-        if (!$this->group) {
-            // TRANS: Client error displayed when trying to join a non-existing group.
+      if (!common_logged_in()) {
+         // TRANS: Client error displayed when trying to join a group while not logged in.
+         $this->clientError(_('You must be logged in to join a group.'));
+      }
+      $nickname_arg = $this->trimmed('nickname');
+      $id = intval($this->arg('id'));
+      if ($id) {
+         $this->group = User_group::getKV('id', $id);
+      } else if ($nickname_arg) {
+         $nickname = common_canonical_nickname($nickname_arg);
+         // Permanent redirect on non-canonical nickname
+         if ($nickname_arg != $nickname) {
+             $args = array('nickname' => $nickname);
+             common_redirect(common_local_url('leavegroup', $args), 301);
+         }
+         $local = Local_group::getKV('nickname', $nickname);
+         if (!$local) {
+            // TRANS: Client error displayed when trying to join a non-local group.
             $this->clientError(_('No such group.'), 404);
-        }
+         }
+         $this->group = User_group::getKV('id', $local->group_id);
+      } else {
+         // TRANS: Client error displayed when trying to join a group without providing a group name or group ID.
+         $this->clientError(_('No nickname or ID.'), 404);
+      }
+      if (!$this->group) {
+         // TRANS: Client error displayed when trying to join a non-existing group.
+         $this->clientError(_('No such group.'), 404);
+      }
+      if ($this->scoped->isMember($this->group)) {
+         // TRANS: Client error displayed when trying to join a group while already a member.
+         $this->clientError(_('You are already a member of that group.'), 403);
+      }
+      if (Group_block::isBlocked($this->group, $this->scoped)) {
+         // TRANS: Client error displayed when trying to join a group while being blocked form joining it.
+         $this->clientError(_('You have been blocked from that group by the admin.'), 403);
+      }
+      return true;
+   }
 
-        if ($this->scoped->isMember($this->group)) {
-            // TRANS: Client error displayed when trying to join a group while already a member.
-            $this->clientError(_('You are already a member of that group.'), 403);
-        }
+   // -------------------------------------------------------------------------
+   // Function: handle
+   // Handle the request
+   //
+   // On POST, add the current user to the group
+   //
+   // Returns:
+   // o void
+   protected function handle() {
+      parent::handle();
 
-        if (Group_block::isBlocked($this->group, $this->scoped)) {
-            // TRANS: Client error displayed when trying to join a group while being blocked form joining it.
-            $this->clientError(_('You have been blocked from that group by the admin.'), 403);
-        }
-
-        return true;
-    }
-
-    /**
-     * Handle the request
-     *
-     * On POST, add the current user to the group
-     *
-     * @return void
-     */
-    protected function handle()
-    {
-        parent::handle();
-
-        try {
-            $result = $this->scoped->joinGroup($this->group);
-        } catch (Exception $e) {
-        	common_log(LOG_ERR, sprintf("Couldn't join user %s to group %s: '%s'",
-        								$this->scoped->nickname,
-        								$this->group->nickname,
-        								$e->getMessage()));
+      try {
+         $result = $this->scoped->joinGroup($this->group);
+      } catch (Exception $e) {
+         common_log(LOG_ERR, sprintf("Couldn't join user %s to group %s: '%s'",
+                              $this->scoped->nickname,
+                              $this->group->nickname,
+                              $e->getMessage()));
             // TRANS: Server error displayed when joining a group failed in the database.
             // TRANS: %1$s is the joining user's nickname, $2$s is the group nickname for which the join failed.
             $this->serverError(sprintf(_('Could not join user %1$s to group %2$s.'),

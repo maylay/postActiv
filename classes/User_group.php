@@ -59,102 +59,129 @@
 // NaturalDocs.  Please be considerate of this before changing formatting.
 
 
-class User_group extends Managed_DataObject
-{
-    const JOIN_POLICY_OPEN = 0;
-    const JOIN_POLICY_MODERATE = 1;
-    const CACHE_WINDOW = 201;
+// ============================================================================
+// Class: User_group
+// Table definition for user_group
+//
+// Constants:
+// o JOIN_POLICY_OPEN = 0
+// o JOIN_POLICY_MODERATE = 1
+// o CACHE_WINDOW = 201
+//
+// Variables:
+// o __table = 'user_group' - table name
+// o id            - int(4)  primary_key not_null
+// o profile_id    - int(4)  primary_key not_null
+// o nickname      - varchar(64)
+// o fullname      - varchar(191)   not 255 because utf8mb4 takes more space
+// o homepage      - varchar(191)   not 255 because utf8mb4 takes more space
+// o description   - text
+// o location      - varchar(191)   not 255 because utf8mb4 takes more space
+// o original_logo - varchar(191)   not 255 because utf8mb4 takes more space
+// o homepage_logo - varchar(191)   not 255 because utf8mb4 takes more space
+// o stream_logo   - varchar(191)   not 255 because utf8mb4 takes more space
+// o mini_logo     - varchar(191)   not 255 because utf8mb4 takes more space
+// o created       - datetime   not_null default_0000-00-00%2000%3A00%3A00
+// o modified      - timestamp   not_null default_CURRENT_TIMESTAMP
+// o uri           - varchar(191)  unique_key   not 255 because utf8mb4 takes more space
+// o mainpage      - varchar(191)   not 255 because utf8mb4 takes more space
+// o join_policy   - tinyint
+// o force_scope   - tinyint
+class User_group extends Managed_DataObject {
+   const JOIN_POLICY_OPEN = 0;
+   const JOIN_POLICY_MODERATE = 1;
+   const CACHE_WINDOW = 201;
 
-    ###START_AUTOCODE
-    /* the code below is auto generated do not remove the above tag */
+   public $__table = 'user_group';
+   public $id;
+   public $profile_id;
+   public $nickname;
+   public $fullname;
+   public $homepage;
+   public $description;
+   public $location;
+   public $original_logo;
+   public $homepage_logo;
+   public $stream_logo;
+   public $mini_logo;
+   public $created;
+   public $modified;
+   public $uri;
+   public $mainpage;
+   public $join_policy;
+   public $force_scope;
+   
+   protected $_profile = array();
 
-    public $__table = 'user_group';                      // table name
-    public $id;                              // int(4)  primary_key not_null
-    public $profile_id;                      // int(4)  primary_key not_null
-    public $nickname;                        // varchar(64)
-    public $fullname;                        // varchar(191)   not 255 because utf8mb4 takes more space
-    public $homepage;                        // varchar(191)   not 255 because utf8mb4 takes more space
-    public $description;                     // text
-    public $location;                        // varchar(191)   not 255 because utf8mb4 takes more space
-    public $original_logo;                   // varchar(191)   not 255 because utf8mb4 takes more space
-    public $homepage_logo;                   // varchar(191)   not 255 because utf8mb4 takes more space
-    public $stream_logo;                     // varchar(191)   not 255 because utf8mb4 takes more space
-    public $mini_logo;                       // varchar(191)   not 255 because utf8mb4 takes more space
-    public $created;                         // datetime   not_null default_0000-00-00%2000%3A00%3A00
-    public $modified;                        // timestamp   not_null default_CURRENT_TIMESTAMP
-    public $uri;                             // varchar(191)  unique_key   not 255 because utf8mb4 takes more space
-    public $mainpage;                        // varchar(191)   not 255 because utf8mb4 takes more space
-    public $join_policy;                     // tinyint
-    public $force_scope;                     // tinyint
-
-    /* the code above is auto generated do not remove the tag below */
-    ###END_AUTOCODE
-
-    public function getObjectType()
-    {
-        return ActivityObject::GROUP;
-    }
+   // -------------------------------------------------------------------------
+   // Function: getObjectType
+   // Returns the ActivityObject type this class is a representation of
+   //
+   // Returns:
+   // o ActivityObject object
+   public function getObjectType() {
+      return ActivityObject::GROUP;
+   }
 
 
-    public static function schemaDef()
-    {
-        return array(
-            'fields' => array(
-                'id' => array('type' => 'serial', 'not null' => true, 'description' => 'unique identifier'),
-                'profile_id' => array('type' => 'int', 'not null' => true, 'description' => 'foreign key to profile table'),
-
-                'nickname' => array('type' => 'varchar', 'length' => 64, 'description' => 'nickname for addressing'),
-                'fullname' => array('type' => 'varchar', 'length' => 191, 'description' => 'display name'),
-                'homepage' => array('type' => 'varchar', 'length' => 191, 'description' => 'URL, cached so we dont regenerate'),
-                'description' => array('type' => 'text', 'description' => 'group description'),
-                'location' => array('type' => 'varchar', 'length' => 191, 'description' => 'related physical location, if any'),
-
-                'original_logo' => array('type' => 'varchar', 'length' => 191, 'description' => 'original size logo'),
-                'homepage_logo' => array('type' => 'varchar', 'length' => 191, 'description' => 'homepage (profile) size logo'),
-                'stream_logo' => array('type' => 'varchar', 'length' => 191, 'description' => 'stream-sized logo'),
-                'mini_logo' => array('type' => 'varchar', 'length' => 191, 'description' => 'mini logo'),
-
-                'created' => array('type' => 'datetime', 'not null' => true, 'description' => 'date this record was created'),
-                'modified' => array('type' => 'timestamp', 'not null' => true, 'description' => 'date this record was modified'),
-
-                'uri' => array('type' => 'varchar', 'length' => 191, 'description' => 'universal identifier'),
-                'mainpage' => array('type' => 'varchar', 'length' => 191, 'description' => 'page for group info to link to'),
-                'join_policy' => array('type' => 'int', 'size' => 'tiny', 'description' => '0=open; 1=requires admin approval'),      
-                'force_scope' => array('type' => 'int', 'size' => 'tiny', 'description' => '0=never,1=sometimes,-1=always'),
+   // -------------------------------------------------------------------------
+   // Function: schemaDef
+   // Returns the table schema definition
+   //
+   // Returns:
+   // o array schemaDef - description of table schema
+   public static function schemaDef() {
+      return array(
+         'fields' => array(
+            'id' => array('type' => 'serial', 'not null' => true, 'description' => 'unique identifier'),
+            'profile_id' => array('type' => 'int', 'not null' => true, 'description' => 'foreign key to profile table'),
+            'nickname' => array('type' => 'varchar', 'length' => 64, 'description' => 'nickname for addressing'),
+            'fullname' => array('type' => 'varchar', 'length' => 191, 'description' => 'display name'),
+            'homepage' => array('type' => 'varchar', 'length' => 191, 'description' => 'URL, cached so we dont regenerate'),
+            'description' => array('type' => 'text', 'description' => 'group description'),
+            'location' => array('type' => 'varchar', 'length' => 191, 'description' => 'related physical location, if any'),
+            'original_logo' => array('type' => 'varchar', 'length' => 191, 'description' => 'original size logo'),
+            'homepage_logo' => array('type' => 'varchar', 'length' => 191, 'description' => 'homepage (profile) size logo'),
+            'stream_logo' => array('type' => 'varchar', 'length' => 191, 'description' => 'stream-sized logo'),
+            'mini_logo' => array('type' => 'varchar', 'length' => 191, 'description' => 'mini logo'),
+            'created' => array('type' => 'datetime', 'not null' => true, 'description' => 'date this record was created'),
+            'modified' => array('type' => 'timestamp', 'not null' => true, 'description' => 'date this record was modified'),
+            'uri' => array('type' => 'varchar', 'length' => 191, 'description' => 'universal identifier'),
+            'mainpage' => array('type' => 'varchar', 'length' => 191, 'description' => 'page for group info to link to'),
+            'join_policy' => array('type' => 'int', 'size' => 'tiny', 'description' => '0=open; 1=requires admin approval'),
+            'force_scope' => array('type' => 'int', 'size' => 'tiny', 'description' => '0=never,1=sometimes,-1=always'),),
+         'primary key' => array('id'),
+         'unique keys' => array(
+            'user_group_uri_key' => array('uri'),
+            // when it's safe and everyone's run upgrade.php                'user_profile_id_key' => array('profile_id'),
             ),
-            'primary key' => array('id'),
-            'unique keys' => array(
-                'user_group_uri_key' => array('uri'),
-// when it's safe and everyone's run upgrade.php                'user_profile_id_key' => array('profile_id'),
-            ),
-            'foreign keys' => array(
-                'user_group_id_fkey' => array('profile', array('profile_id' => 'id')),
-            ),
-            'indexes' => array(
-                'user_group_nickname_idx' => array('nickname'),
-                'user_group_profile_id_idx' => array('profile_id'), //make this unique in future
-            ),
-        );
-    }
+         'foreign keys' => array(
+         'user_group_id_fkey' => array('profile', array('profile_id' => 'id')),),
+         'indexes' => array(
+            'user_group_nickname_idx' => array('nickname'),
+            'user_group_profile_id_idx' => array('profile_id'),),);
+   }
 
-    protected $_profile = array();
 
-    /**
-     * @return Profile
-     *
-     * @throws GroupNoProfileException if user has no profile
-     */
-    public function getProfile()
-    {
-        if (!isset($this->_profile[$this->profile_id])) {
-            $profile = Profile::getKV('id', $this->profile_id);
-            if (!$profile instanceof Profile) {
-                throw new GroupNoProfileException($this);
-            }
-            $this->_profile[$this->profile_id] = $profile;
+   // -------------------------------------------------------------------------
+   // Function: getProfile
+   // Returns the profile of the group
+   //
+   // Returns:
+   // o Profile
+   //
+   // Error states:
+   // o throws GroupNoProfileException if user has no profile
+   public function getProfile() {
+      if (!isset($this->_profile[$this->profile_id])) {
+           $profile = Profile::getKV('id', $this->profile_id);
+           if (!$profile instanceof Profile) {
+              throw new GroupNoProfileException($this);
+           }
+           $this->_profile[$this->profile_id] = $profile;
         }
-        return $this->_profile[$this->profile_id];
-    }
+      return $this->_profile[$this->profile_id];
+   }
 
     public function getNickname()
     {

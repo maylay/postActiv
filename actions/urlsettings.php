@@ -53,23 +53,22 @@
 
 if (!defined('POSTACTIV')) { exit(1); }
 
-/**
- * Miscellaneous settings actions
- *
- * Currently this just manages URL shortening.
- */
+// ============================================================================
+// Class: UrlsettingsAction
+// Action class for settings page for miscellaneous settings
+//
+// Currently this just manages URL shortening.
 class UrlsettingsAction extends SettingsAction
 {
-    /**
-     * Title of the page
-     *
-     * @return string Title of the page
-     */
-    function title()
-    {
-        // TRANS: Title of URL settings tab in profile settings.
-        return _('URL settings');
-    }
+   // -------------------------------------------------------------------------
+   // Function: title
+   // Title of the page
+   //
+   // @return string Title of the page
+   function title() {
+      // TRANS: Title of URL settings tab in profile settings.
+      return _('URL settings');
+   }
 
     /**
      * Instructions for use
