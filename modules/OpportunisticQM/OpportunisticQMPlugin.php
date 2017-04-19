@@ -66,7 +66,7 @@ class OpportunisticQMPlugin extends Plugin {
     public $verbosity = 1;
 
     // ------------------------------------------------------------
-    // Function: onRauterInitialized
+    // Function: onRouterInitialized
     // Define routes for particular functions.
     //
     // Parameter:
