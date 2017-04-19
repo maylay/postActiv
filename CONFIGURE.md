@@ -241,6 +241,9 @@ sending out SMS email or XMPP messages, for off-line processing. See
     other server required), "stomp" for a stomp server, and "redis" for a Redis
 	server.
 
+* items_to_handle (int): How many items to handle before a daemon process exits.
+    Default to unlimited.
+
 * stomp_server (string, default null): "broker URI" for stomp server.
     Something like "tcp://hostname:61613". More complicated ones are possible;
     see your stomp server's documentation for details.
