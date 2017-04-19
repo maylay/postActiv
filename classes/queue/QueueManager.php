@@ -219,7 +219,7 @@ abstract class QueueManager extends IoManager
                      default:
                         throw new ServerException("No queue manager class for type '$type'");
                     }
-                    self::qm->setItemsUntilExpiration($itemsUntilExpiration);
+                    self::$qm->setItemsUntilExpiration($itemsUntilExpiration);
                 }
             }
         }
