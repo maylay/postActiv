@@ -288,6 +288,9 @@ server {
   location ~ /\.(ht|git) {
     deny all;
   }
+  location /scripts/ {
+    deny all;
+  }
 
 }" > /etc/nginx/sites-available/postactiv
     ln -s /etc/nginx/sites-available/postactiv /etc/nginx/sites-enabled/
