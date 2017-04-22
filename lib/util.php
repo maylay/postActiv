@@ -300,6 +300,7 @@ function common_ensure_session()
 	if (isset($id)) {
 	    session_id($id);
 	}
+        session_set_cookie_params(0, '/', '', postActiv::useHTTPS(), true);
         @session_start();
         if (!isset($_SESSION['started'])) {
             $_SESSION['started'] = time();
@@ -367,7 +368,8 @@ function common_set_cookie($key, $value, $expiration=0)
                      $expiration,
                      $cookiepath,
                      $server,
-                     postActiv::useHTTPS());
+                     postActiv::useHTTPS(),
+                     true);
 }
 
 define('REMEMBERME', 'rememberme');
