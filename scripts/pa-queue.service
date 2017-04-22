@@ -1,0 +1,16 @@
+[Unit]
+Description=postActiv queue daemons
+# May need to add redis.service or rabbitmq.service depending on backend used
+Wants=mariadb.service
+After=network.target mariadb.service
+
+[Service]
+# Change to www-data on Debian/Ubuntu
+User=php-fpm
+Group=php-fpm
+Type=forking
+ExecStart=/var/www/postactiv/scripts/startdaemons.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
