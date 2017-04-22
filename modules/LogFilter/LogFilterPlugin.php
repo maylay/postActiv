@@ -1,11 +1,19 @@
 <?php
 /* ============================================================================
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
+ * Title: LogFilterPlugin
+ * Plugin that allows log messages to be filtered by severity.
+ *
+ * postActiv:
+ * the micro-blogging software
+ *
+ * Copyright:
+ * Copyright (C) 2016-2017, Maiyannah Bishop
+ *
  * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2012, StatusNet, Inc
+ * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ * o StatusNet (C) 2008-2012, StatusNet, Inc
  * ----------------------------------------------------------------------------
+ * License:
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -18,9 +26,10 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * ----------------------------------------------------------------------------
- * PHP version 5
  *
+ * <https://www.gnu.org/licenses/agpl.html>
+ * ----------------------------------------------------------------------------
+ * About:
  * This plugin will allow you to filter different severities of log message or
  * that match certain PCRE tests from the log file.
  *
@@ -30,31 +39,52 @@
  *    'regex' => array('/About to push/' => false)
  * ));
  *
- * @todo add an admin panel
+ * PHP version:
+ * Tested with 7
  * ----------------------------------------------------------------------------
- * @package   postActiv
- * @category  LogFilterPlugin
- * @author    Brion Vibber <brion@pobox.com>
- * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
- * @author    Mikael Nordfeldth <mmn@hethane.se>
- * @author    chimo <chimo@chromic.org>
- * @author    Maiyannah Bishop <maiynnah.bishop@postactiv.com>
- * @copyright 2009-2012 StatusNet, Inc
- * @copyright 2013-2016 Free Software Foundation, Inc
- * @copyright 2016 Maiyannah Bishop
- * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://www.postactiv.com/
+ * File Authors:
+ *  o Brion Vibber <brion@pobox.com>
+ *  o Siebrand Mazeland <s.mazeland@xs4all.nl>
+ *  o Mikael Nordfeldth <mmn@hethane.se>
+ *  o chimo <chimo@chromic.org>
+ *  o Maiyannah Bishop <maiynnah.bishop@postactiv.com>
+ *
+ * Web:
+ *  o postActiv  <http://www.postactiv.com>
+ *  o GNU social <https://www.gnu.org/s/social/>
  * ============================================================================
  */
 
+// This file is formatted so that it provides useful documentation output in
+// NaturalDocs.  Please be considerate of this before changing formatting.
+
 if (!defined('POSTACTIV')) { exit(1); }
 
+// ----------------------------------------------------------------------------
+// Class: LogFilterPlugin
+// Main plugin class for LogFilter
+//
+// Variables:
+// o $default - Set to false to require opting things in
+// o $priority - override by priority: array(LOG_ERR => true, LOG_DEBUG => false)
+// o $regex -  override by regex match of message: array('/twitter/i' => false)
+//
+// TODO: add an admin panel
 class LogFilterPlugin extends Plugin
 {
     public $default = true;     // Set to false to require opting things in
     public $priority = array(); // override by priority: array(LOG_ERR => true, LOG_DEBUG => false)
     public $regex = array();    // override by regex match of message: array('/twitter/i' => false)
 
+    // ------------------------------------------------------------------------
+    // Function: onPluginVersion
+    // Modify a versions array to provide the plugin version info.
+    //
+    // Parameters:
+    // o array $versions - versions array to modify
+    //
+    // Returns:
+    // o boolean true
     function onPluginVersion(array &$versions)
     {
         $versions[] = array('name' => 'LogFilter',
@@ -68,15 +98,18 @@ class LogFilterPlugin extends Plugin
         return true;
     }
 
-    /**
-     * Hook for the StartLog event in common_log().
-     * If a message doesn't pass our filters, we'll abort it.
-     *
-     * @param string $priority
-     * @param string $msg
-     * @param string $filename
-     * @return boolean hook result code
-     */
+    // ------------------------------------------------------------------------
+    // Function: onStartLog
+    // Hook for the StartLog event in common_log().
+    // If a message doesn't pass our filters, we'll abort it.
+    //
+    // Parameters:
+    // o string $priority - log message priority
+    // o string $msg - the log message itself
+    // o string $filename - location of log file
+    //
+    // Returns:
+    // o boolean hook result code
     function onStartLog(&$priority, &$msg, &$filename)
     {
         if ($this->filter($priority, $msg)) {
@@ -88,13 +121,16 @@ class LogFilterPlugin extends Plugin
         }
     }
 
-    /**
-     * Do the filtering...
-     *
-     * @param string $priority
-     * @param string $msg
-     * @return boolean true to let the log message be processed
-     */
+    // -------------------------------------------------------------------------
+    // Function: filter
+    // Do the filtering...
+    //
+    // Paramters:
+    // o string $priority - log message priority
+    // o string $msg - the log message itself
+    //
+    // Returns:
+    // o boolean true to let the log message be processed
     function filter($priority, $msg)
     {
         $state = $this->default;
@@ -109,3 +145,6 @@ class LogFilterPlugin extends Plugin
         return $state;
     }
 }
+
+// END OF FILE
+// =============================================================================
