@@ -693,7 +693,7 @@ class OStatusShadowException extends Exception
      */
     function __construct(Profile $profile, $message) {
         $this->profile = $profile;
-        parent::__construct($message, SERVER_EXCEPTION_OSTATUS_SHADOW_FOUND, null, LOG_INFO);
+        parent::__construct($message, SERVER_EXCEPTION_OSTATUS_SHADOW_FOUND, null);
     }
 }
 
