@@ -51,6 +51,9 @@
 
 if (!defined('GNUSOCIAL')) { exit(1); }
 
+// ----------------------------------------------------------------------------
+// Class: SimpleCaptchaPlugin
+// Main class for the SimpleCaptcha plugin
 class SimpleCaptchaPlugin extends Plugin
 {
     // ------------------------------------------------------------------------
