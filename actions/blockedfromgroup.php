@@ -169,7 +169,7 @@ class GroupBlockList extends ProfileList
         $this->group = $group;
     }
 
-    function newListItem($profile)
+    function newListItem(Profile $profile)
     {
         return new GroupBlockListItem($profile, $this->group, $this->action);
     }

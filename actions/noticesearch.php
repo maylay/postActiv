@@ -207,7 +207,7 @@ class SearchNoticeList extends NoticeList {
         $this->terms = $terms;
     }
 
-    function newListItem($notice)
+    function newListItem(Notice $notice)
     {
         return new SearchNoticeListItem($notice, $this->out, $this->terms);
     }
