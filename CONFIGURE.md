@@ -281,7 +281,7 @@ sending out SMS email or XMPP messages, for off-line processing. See
     control. An acknowledgement of successful processing tells the server we're
     ready for more and can help keep things moving smoothly.
 
-    This should *not* `be` turned off when running with ActiveMQ, (it breaks if 
+    This should *not* be turned off when running with ActiveMQ, (it breaks if 
     you do), but if using another message queue server that does not support 
     acknowledgements you might need to disable this.
 
