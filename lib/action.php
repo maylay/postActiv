@@ -387,7 +387,7 @@ class Action extends HTMLOutputter // lawsuit
             } elseif (common_config("javascript", "path")) {
                $js_path = common_config("javascript", "path");
             }
-            if (!$js_path) {
+            if (!isset($js_path)) {
                $this->cssLink('media/js/extlib/jquery-ui/css/smoothness/jquery-ui.css');
             } else {
                $this->cssLink($js_path . '/extlib/jquery-ui/css/smoothness/jquery-ui.css');
