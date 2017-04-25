@@ -144,8 +144,7 @@ class PrivateSite extends SiteProfileSettings
             ),
             'plugins' => array(
                 'core'    => self::corePlugins(),
-                'default' => array_merge(self::defaultPlugins(), array(
-                ))
+                'default' => array_merge(self::defaultPlugins(), array()),
                 'disable-OStatus' => 1,
                 'disable-WebFinger' => 1,
              ),
