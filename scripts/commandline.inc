@@ -26,7 +26,7 @@ if (isset($_SERVER) && array_key_exists('REQUEST_METHOD', $_SERVER)) {
     exit();
 }
 
-define('POSTACTIV',true);
+//define('POSTACTIV',true);
 define('GNUSOCIAL', true);
 define('STATUSNET', true); //compatibility
 

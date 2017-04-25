@@ -33,6 +33,243 @@ POSTACTIV_COMMIT='1477a300de87faebfcb7fd7163c3a55c75728e2d'
 QVITTER_THEME_REPO="https://git.gnu.io/h2p/Qvitter.git"
 QVITTER_THEME_COMMIT='a7f82628402db3a7579bb9b2877da3c5737da77b'
 
+SSH_PORT=22
+ALLOW_PING=yes
+
+function create_firewall {
+	apt-get -yq install iptables
+	
+	iptables -P INPUT ACCEPT
+	ip6tables -P INPUT ACCEPT
+	iptables -F
+	ip6tables -F
+	iptables -t nat -F
+	ip6tables -t nat -F
+	iptables -X
+	ip6tables -X
+	iptables -P INPUT DROP
+	ip6tables -P INPUT DROP
+	iptables -P FORWARD DROP
+	ip6tables -P FORWARD DROP
+	iptables -A INPUT -i lo -j ACCEPT
+	iptables -A INPUT -m conntrack --ctstate ESTABLISHED -j ACCEPT
+
+	# Drop invalid packets
+	iptables -t mangle -A PREROUTING -m conntrack --ctstate INVALID -j DROP
+
+	# Make sure incoming tcp connections are SYN packets
+	iptables -A INPUT -p tcp ! --syn -m state --state NEW -j DROP
+	iptables -t mangle -A PREROUTING -p tcp ! --syn -m conntrack --ctstate NEW -j DROP
+
+	# Drop SYN packets with suspicious MSS value
+	iptables -t mangle -A PREROUTING -p tcp -m conntrack --ctstate NEW -m tcpmss ! --mss 536:65535 -j DROP
+
+	# Drop packets with incoming fragments
+	iptables -A INPUT -f -j DROP
+
+	# Drop bogons
+	iptables -A INPUT -p tcp --tcp-flags ALL ALL -j DROP
+	iptables -A INPUT -p tcp --tcp-flags ALL FIN,PSH,URG -j DROP
+	iptables -A INPUT -p tcp --tcp-flags ALL SYN,RST,ACK,FIN,URG -j DROP
+	iptables -t mangle -A PREROUTING -p tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG NONE -j DROP
+	iptables -t mangle -A PREROUTING -p tcp --tcp-flags FIN,SYN FIN,SYN -j DROP
+	iptables -t mangle -A PREROUTING -p tcp --tcp-flags SYN,RST SYN,RST -j DROP
+	iptables -t mangle -A PREROUTING -p tcp --tcp-flags SYN,FIN SYN,FIN -j DROP
+	iptables -t mangle -A PREROUTING -p tcp --tcp-flags FIN,RST FIN,RST -j DROP
+	iptables -t mangle -A PREROUTING -p tcp --tcp-flags FIN,ACK FIN -j DROP
+	iptables -t mangle -A PREROUTING -p tcp --tcp-flags ACK,URG URG -j DROP
+	iptables -t mangle -A PREROUTING -p tcp --tcp-flags ACK,FIN FIN -j DROP
+	iptables -t mangle -A PREROUTING -p tcp --tcp-flags ACK,PSH PSH -j DROP
+	iptables -t mangle -A PREROUTING -p tcp --tcp-flags ALL ALL -j DROP
+	iptables -t mangle -A PREROUTING -p tcp --tcp-flags ALL NONE -j DROP
+	iptables -t mangle -A PREROUTING -p tcp --tcp-flags ALL FIN,PSH,URG -j DROP
+	iptables -t mangle -A PREROUTING -p tcp --tcp-flags ALL SYN,FIN,PSH,URG -j DROP
+	iptables -t mangle -A PREROUTING -p tcp --tcp-flags ALL SYN,RST,ACK,FIN,URG -j DROP
+
+	# Incoming malformed NULL packets:
+	iptables -A INPUT -p tcp --tcp-flags ALL NONE -j DROP
+
+    # telnet isn't enabled as an input and we can also
+	# drop any outgoing telnet, just in case
+	iptables -A OUTPUT -p tcp --dport telnet -j REJECT
+	iptables -A OUTPUT -p udp --dport telnet -j REJECT
+
+    # drop spoofed packets
+    iptables -t mangle -A PREROUTING -s 224.0.0.0/3 -j DROP
+	iptables -t mangle -A PREROUTING -s 169.254.0.0/16 -j DROP
+	iptables -t mangle -A PREROUTING -s 172.16.0.0/12 -j DROP
+	iptables -t mangle -A PREROUTING -s 192.0.2.0/24 -j DROP
+	iptables -t mangle -A PREROUTING -s 10.0.0.0/8 -j DROP
+	iptables -t mangle -A PREROUTING -s 240.0.0.0/5 -j DROP
+	iptables -t mangle -A PREROUTING -s 127.0.0.0/8 ! -i lo -j DROP	
+	
+    # Limit connections per source IP
+	iptables -A INPUT -p tcp -m connlimit --connlimit-above 111 -j REJECT --reject-with tcp-reset
+
+	# Limit RST packets
+	iptables -A INPUT -p tcp --tcp-flags RST RST -m limit --limit 2/s --limit-burst 2 -j ACCEPT
+	iptables -A INPUT -p tcp --tcp-flags RST RST -j DROP
+
+	# Limit new TCP connections per second per source IP
+	iptables -A INPUT -p tcp -m conntrack --ctstate NEW -m limit --limit 60/s --limit-burst 20 -j ACCEPT
+	iptables -A INPUT -p tcp -m conntrack --ctstate NEW -j DROP
+
+	# SSH brute-force protection
+	iptables -A INPUT -p tcp --dport ssh -m conntrack --ctstate NEW -m recent --set
+	iptables -A INPUT -p tcp --dport ssh -m conntrack --ctstate NEW -m recent --update --seconds 60 --hitcount 10 -j DROP	
+
+    # These shouldn't be used anyway, but just in case
+	iptables -A INPUT -s 6.0.0.0/8 -j DROP
+	iptables -A OUTPUT -s 6.0.0.0/8 -j DROP
+	iptables -A INPUT -s 7.0.0.0/8 -j DROP
+	iptables -A OUTPUT -s 7.0.0.0/8 -j DROP
+	iptables -A INPUT -s 11.0.0.0/8 -j DROP
+	iptables -A OUTPUT -s 11.0.0.0/8 -j DROP
+	iptables -A INPUT -s 21.0.0.0/8 -j DROP
+	iptables -A OUTPUT -s 21.0.0.0/8 -j DROP
+	iptables -A INPUT -s 22.0.0.0/8 -j DROP
+	iptables -A OUTPUT -s 22.0.0.0/8 -j DROP
+	iptables -A INPUT -s 26.0.0.0/8 -j DROP
+	iptables -A OUTPUT -s 26.0.0.0/8 -j DROP
+	iptables -A INPUT -s 28.0.0.0/8 -j DROP
+	iptables -A OUTPUT -s 28.0.0.0/8 -j DROP
+	iptables -A INPUT -s 29.0.0.0/8 -j DROP
+	iptables -A OUTPUT -s 29.0.0.0/8 -j DROP
+	iptables -A INPUT -s 30.0.0.0/8 -j DROP
+	iptables -A OUTPUT -s 30.0.0.0/8 -j DROP
+	iptables -A INPUT -s 33.0.0.0/8 -j DROP
+	iptables -A OUTPUT -s 33.0.0.0/8 -j DROP
+	iptables -A INPUT -s 55.0.0.0/8 -j DROP
+	iptables -A OUTPUT -s 55.0.0.0/8 -j DROP
+	iptables -A INPUT -s 214.0.0.0/8 -j DROP
+	iptables -A OUTPUT -s 214.0.0.0/8 -j DROP
+	iptables -A INPUT -s 215.0.0.0/8 -j DROP
+	iptables -A OUTPUT -s 215.0.0.0/8 -j DROP	
+
+	if [[ $ALLOW_PING != 'yes' ]]; then
+		iptables -A INPUT -p icmp --icmp-type echo-request -j DROP
+		iptables -A OUTPUT -p icmp --icmp-type echo-reply -j DROP
+	fi
+	
+	# DNS
+    iptables -A INPUT -p udp -m udp --dport 1024:65535 --sport 53 -j ACCEPT
+	
+	# ssh
+    iptables -A INPUT -p tcp --dport $SSH_PORT -j ACCEPT
+	
+	# http/s
+    iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+    iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+
+	# If you are also going to install an xmpp server uncomment these lines
+    #iptables -A INPUT -p tcp --dport 5222 -j ACCEPT
+    #iptables -A INPUT -p tcp --dport 5223 -j ACCEPT
+    #iptables -A INPUT -p tcp --dport 5269 -j ACCEPT
+    #iptables -A INPUT -p tcp --dport 5280 -j ACCEPT
+    #iptables -A INPUT -p tcp --dport 5281 -j ACCEPT
+		
+	# save the firewall
+    iptables-save > /etc/firewall.conf
+	ip6tables-save > /etc/firewall6.conf
+	printf '#!/bin/sh\n' > /etc/network/if-up.d/iptables
+	printf 'iptables-restore < /etc/firewall.conf\n' >> /etc/network/if-up.d/iptables
+	printf 'ip6tables-restore < /etc/firewall6.conf\n' >> /etc/network/if-up.d/iptables
+	if [ -f /etc/network/if-up.d/iptables ]; then
+		chmod +x /etc/network/if-up.d/iptables
+	fi	
+}
+
+function configure_ip {
+	# This should be fixed in recent debian versions, but we can do it anyway
+    if ! grep -q "tcp_challenge_ack_limit" /etc/sysctl.conf; then
+        echo 'net.ipv4.tcp_challenge_ack_limit = 999999999' >> /etc/sysctl.conf
+    else
+        sed -i 's|net.ipv4.tcp_challenge_ack_limit.*|net.ipv4.tcp_challenge_ack_limit = 999999999|g' /etc/sysctl.conf
+    fi
+
+    sed -i "s/#net.ipv4.tcp_syncookies.*/net.ipv4.tcp_syncookies=1/g" /etc/sysctl.conf
+	sed -i "s/#net.ipv4.conf.all.accept_redirects.*/net.ipv4.conf.all.accept_redirects = 0/g" /etc/sysctl.conf
+	sed -i "s/#net.ipv6.conf.all.accept_redirects.*/net.ipv6.conf.all.accept_redirects = 0/g" /etc/sysctl.conf
+	sed -i "s/#net.ipv4.conf.all.send_redirects.*/net.ipv4.conf.all.send_redirects = 0/g" /etc/sysctl.conf
+	sed -i "s/#net.ipv4.conf.all.accept_source_route.*/net.ipv4.conf.all.accept_source_route = 0/g" /etc/sysctl.conf
+	sed -i "s/#net.ipv6.conf.all.accept_source_route.*/net.ipv6.conf.all.accept_source_route = 0/g" /etc/sysctl.conf
+	sed -i "s/#net.ipv4.conf.default.rp_filter.*/net.ipv4.conf.default.rp_filter=1/g" /etc/sysctl.conf
+	sed -i "s/#net.ipv4.conf.all.rp_filter.*/net.ipv4.conf.all.rp_filter=1/g" /etc/sysctl.conf
+	sed -i "s/#net.ipv4.ip_forward.*/net.ipv4.ip_forward=0/g" /etc/sysctl.conf
+	sed -i "s/#net.ipv6.conf.all.forwarding.*/net.ipv6.conf.all.forwarding=0/g" /etc/sysctl.conf
+
+	sed -i "s/# net.ipv4.tcp_syncookies.*/net.ipv4.tcp_syncookies=1/g" /etc/sysctl.conf
+	sed -i "s/# net.ipv4.conf.all.accept_redirects.*/net.ipv4.conf.all.accept_redirects = 0/g" /etc/sysctl.conf
+	sed -i "s/# net.ipv6.conf.all.accept_redirects.*/net.ipv6.conf.all.accept_redirects = 0/g" /etc/sysctl.conf
+	sed -i "s/# net.ipv4.conf.all.send_redirects.*/net.ipv4.conf.all.send_redirects = 0/g" /etc/sysctl.conf
+	sed -i "s/# net.ipv4.conf.all.accept_source_route.*/net.ipv4.conf.all.accept_source_route = 0/g" /etc/sysctl.conf
+	sed -i "s/# net.ipv6.conf.all.accept_source_route.*/net.ipv6.conf.all.accept_source_route = 0/g" /etc/sysctl.conf
+	sed -i "s/# net.ipv4.conf.default.rp_filter.*/net.ipv4.conf.default.rp_filter=1/g" /etc/sysctl.conf
+	sed -i "s/# net.ipv4.conf.all.rp_filter.*/net.ipv4.conf.all.rp_filter=1/g" /etc/sysctl.conf
+	sed -i "s/# net.ipv4.ip_forward.*/net.ipv4.ip_forward=0/g" /etc/sysctl.conf
+	sed -i "s/# net.ipv6.conf.all.forwarding.*/net.ipv6.conf.all.forwarding=0/g" /etc/sysctl.conf
+
+	if [[ $ALLOW_PING != 'yes' ]]; then
+		if ! grep -q "ignore pings" /etc/sysctl.conf; then
+			echo '# ignore pings' >> /etc/sysctl.conf
+			echo 'net.ipv4.icmp_echo_ignore_all = 1' >> /etc/sysctl.conf
+			echo 'net.ipv6.icmp_echo_ignore_all = 1' >> /etc/sysctl.conf
+		fi
+	fi
+	
+	if ! grep -q "disable ipv6" /etc/sysctl.conf; then
+		echo '# disable ipv6' >> /etc/sysctl.conf
+		echo 'net.ipv6.conf.all.disable_ipv6 = 1' >> /etc/sysctl.conf
+	fi
+	if ! grep -q "net.ipv4.tcp_synack_retries" /etc/sysctl.conf; then
+		echo 'net.ipv4.tcp_synack_retries = 2' >> /etc/sysctl.conf
+		echo 'net.ipv4.tcp_syn_retries = 1' >> /etc/sysctl.conf
+	fi
+	if ! grep -q "keepalive" /etc/sysctl.conf; then
+		echo '# keepalive' >> /etc/sysctl.conf
+		echo 'net.ipv4.tcp_keepalive_probes = 9' >> /etc/sysctl.conf
+		echo 'net.ipv4.tcp_keepalive_intvl = 75' >> /etc/sysctl.conf
+		echo 'net.ipv4.tcp_keepalive_time = 7200' >> /etc/sysctl.conf
+	fi
+	if ! grep -q "net.ipv4.conf.default.send_redirects" /etc/sysctl.conf; then
+		echo "net.ipv4.conf.default.send_redirects = 0" >> /etc/sysctl.conf
+	else
+		sed -i "s|# net.ipv4.conf.default.send_redirects.*|net.ipv4.conf.default.send_redirects = 0|g" /etc/sysctl.conf
+		sed -i "s|#net.ipv4.conf.default.send_redirects.*|net.ipv4.conf.default.send_redirects = 0|g" /etc/sysctl.conf
+		sed -i "s|net.ipv4.conf.default.send_redirects.*|net.ipv4.conf.default.send_redirects = 0|g" /etc/sysctl.conf
+	fi
+	if ! grep -q "net.ipv4.conf.all.secure_redirects" /etc/sysctl.conf; then
+		echo "net.ipv4.conf.all.secure_redirects = 0" >> /etc/sysctl.conf
+	else
+		sed -i "s|# net.ipv4.conf.all.secure_redirects.*|net.ipv4.conf.all.secure_redirects = 0|g" /etc/sysctl.conf
+		sed -i "s|#net.ipv4.conf.all.secure_redirects.*|net.ipv4.conf.all.secure_redirects = 0|g" /etc/sysctl.conf
+		sed -i "s|net.ipv4.conf.all.secure_redirects.*|net.ipv4.conf.all.secure_redirects = 0|g" /etc/sysctl.conf
+	fi
+	if ! grep -q "net.ipv4.conf.default.accept_source_route" /etc/sysctl.conf; then
+		echo "net.ipv4.conf.default.accept_source_route = 0" >> /etc/sysctl.conf
+	else
+		sed -i "s|# net.ipv4.conf.default.accept_source_route.*|net.ipv4.conf.default.accept_source_route = 0|g" /etc/sysctl.conf
+		sed -i "s|#net.ipv4.conf.default.accept_source_route.*|net.ipv4.conf.default.accept_source_route = 0|g" /etc/sysctl.conf
+		sed -i "s|net.ipv4.conf.default.accept_source_route.*|net.ipv4.conf.default.accept_source_route = 0|g" /etc/sysctl.conf
+	fi
+	if ! grep -q "net.ipv4.conf.default.secure_redirects" /etc/sysctl.conf; then
+		echo "net.ipv4.conf.default.secure_redirects = 0" >> /etc/sysctl.conf
+	else
+		sed -i "s|# net.ipv4.conf.default.secure_redirects.*|net.ipv4.conf.default.secure_redirects = 0|g" /etc/sysctl.conf
+		sed -i "s|#net.ipv4.conf.default.secure_redirects.*|net.ipv4.conf.default.secure_redirects = 0|g" /etc/sysctl.conf
+		sed -i "s|net.ipv4.conf.default.secure_redirects.*|net.ipv4.conf.default.secure_redirects = 0|g" /etc/sysctl.conf
+	fi
+	if ! grep -q "net.ipv4.conf.default.accept_redirects" /etc/sysctl.conf; then
+		echo "net.ipv4.conf.default.accept_redirects = 0" >> /etc/sysctl.conf
+	else
+		sed -i "s|# net.ipv4.conf.default.accept_redirects.*|net.ipv4.conf.default.accept_redirects = 0|g" /etc/sysctl.conf
+		sed -i "s|#net.ipv4.conf.default.accept_redirects.*|net.ipv4.conf.default.accept_redirects = 0|g" /etc/sysctl.conf
+		sed -i "s|net.ipv4.conf.default.accept_redirects.*|net.ipv4.conf.default.accept_redirects = 0|g" /etc/sysctl.conf
+	fi
+	
+    sysctl -p -q
+}
+
 function create_repo_sources {
     if [ ! $DEBIAN_VERSION ]; then
         DEBIAN_VERSION='jessie'
@@ -385,6 +622,8 @@ if [ ! $1 ]; then
     exit 0
 fi
 
+create_firewall
+configure_ip
 create_repo_sources
 install_mariadb
 install_web_server
