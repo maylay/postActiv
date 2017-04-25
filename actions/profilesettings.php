@@ -171,7 +171,7 @@ class ProfilesettingsAction extends SettingsAction
                          $this->trimmed('xmpp') ?: $this->scoped->getXmpp(),
                          // TRANS: Your XMPP address
                          _('Your XMPP address.'),
-                         null, true);
+                         null, false);
 
             $this->elementEnd('li');
             $this->elementStart('li');
@@ -186,7 +186,7 @@ class ProfilesettingsAction extends SettingsAction
                          $this->trimmed('toxid') ?: $this->scoped->getToxId(),
                          // TRANS: Your Tox ID
                          _('Your Tox ID'),
-                         null, true);
+                         null, false);
 
             $this->elementEnd('li');
             $this->elementStart('li');
@@ -194,7 +194,7 @@ class ProfilesettingsAction extends SettingsAction
                          $this->trimmed('matrix') ?: $this->scoped->getMatrix(),
                          // TRANS: Your Matrix address
                          _('Your Matrix address'),
-                         null, true);
+                         null, false);
 
             $this->elementEnd('li');
             $this->elementStart('li');
