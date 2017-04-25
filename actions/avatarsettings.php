@@ -391,7 +391,7 @@ class AvatarsettingsAction extends SettingsAction
     function showStylesheets()
     {
         parent::showStylesheets();
-        $this->cssLink('js/extlib/jquery-jcrop/css/jcrop.css','base','screen, projection, tv');
+        $this->cssLink($this->js_path . '/extlib/jquery-jcrop/css/jcrop.css','base','screen, projection, tv');
     }
 
     /**
