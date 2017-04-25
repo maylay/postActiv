@@ -77,6 +77,10 @@ class Profile extends Managed_DataObject
     public $profileurl;                      // text()
     public $homepage;                        // text()
     public $bio;                             // text()  multiple_key
+    public $matrix;                          // text()
+    public $toxid;                           // text()
+    public $xmpp;                            // text()
+    public $gpgpubkey;                       // text()
     public $location;                        // text()
     public $lat;                             // decimal(10,7)
     public $lon;                             // decimal(10,7)
@@ -84,6 +88,26 @@ class Profile extends Managed_DataObject
     public $location_ns;                     // int(4)
     public $created;                         // datetime()   not_null
     public $modified;                        // timestamp()   not_null default_CURRENT_TIMESTAMP
+
+    public function getGpgPubKey()
+    {
+        return $this->gpgpubkey;
+    }
+
+    public function getXmpp()
+    {
+        return $this->xmpp;
+    }
+
+    public function getToxId()
+    {
+        return $this->toxid;
+    }
+
+    public function getMatrix()
+    {
+        return $this->matrix;
+    }
 
     public static function schemaDef()
     {
@@ -101,9 +125,12 @@ class Profile extends Managed_DataObject
                 'lon' => array('type' => 'numeric', 'precision' => 10, 'scale' => 7, 'description' => 'longitude'),
                 'location_id' => array('type' => 'int', 'description' => 'location id if possible'),
                 'location_ns' => array('type' => 'int', 'description' => 'namespace for location'),
-
                 'created' => array('type' => 'datetime', 'not null' => true, 'description' => 'date this record was created'),
                 'modified' => array('type' => 'timestamp', 'not null' => true, 'description' => 'date this record was modified'),
+                'gpgpubkey' => array('type' => 'text', 'description' => 'gpg public key', 'collate' => 'utf8mb4_general_ci'),
+                'xmpp' => array('type' => 'text', 'description' => 'xmpp address', 'collate' => 'utf8mb4_general_ci'),
+                'toxid' => array('type' => 'text', 'description' => 'tox id', 'collate' => 'utf8mb4_general_ci'),
+                'matrix' => array('type' => 'text', 'description' => 'matrix address', 'collate' => 'utf8mb4_general_ci'),
             ),
             'primary key' => array('id'),
             'indexes' => array(

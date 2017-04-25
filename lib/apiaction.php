@@ -226,6 +226,10 @@ class ApiAction extends Action
         $twitter_user['screen_name'] = $profile->getNickname();
         $twitter_user['location'] = $profile->location;
         $twitter_user['description'] = $profile->getDescription();
+        $twitter_user['gpgpubkey'] = $profile->getGpgPubKey();
+        $twitter_user['xmpp'] = $profile->getXmpp();
+        $twitter_user['matrix'] = $profile->getMatrix();
+        $twitter_user['toxid'] = $profile->getToxId();
 
         // TODO: avatar url template (example.com/user/avatar?size={x}x{y})
         $twitter_user['profile_image_url'] = Avatar::urlByProfile($profile, AVATAR_STREAM_SIZE);

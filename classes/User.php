@@ -240,6 +240,10 @@ class User extends Managed_DataObject
      *
      * @param array $fields associative array of optional properties
      *              string 'bio'
+     *              string 'xmpp'
+     *              string 'toxid'
+     *              string 'matrix'
+     *              string 'gpgpubkey'
      *              string 'email'
      *              bool 'email_confirmed' pass true to mark email as pre-confirmed
      *              string 'fullname'
@@ -296,6 +300,19 @@ class User extends Managed_DataObject
         }
 
         $profile->created = common_sql_now();
+
+        if (!empty($xmpp)) {
+            $profile->xmpp = $xmpp;
+        }
+        if (!empty($toxid)) {
+            $profile->toxid = $toxid;
+        }
+        if (!empty($matrix)) {
+            $profile->matrix = $matrix;
+        }
+        if (!empty($gpgpubkey)) {
+            $profile->gpgpubkey = $gpgpubkey;
+        }
 
         $user = new User();
 

@@ -192,12 +192,16 @@ class RegisterAction extends Action
                 return;
             }
 
-            $nickname = $this->trimmed('nickname');
-            $email    = $this->trimmed('email');
-            $fullname = $this->trimmed('fullname');
-            $homepage = $this->trimmed('homepage');
-            $bio      = $this->trimmed('bio');
-            $location = $this->trimmed('location');
+            $nickname  = $this->trimmed('nickname');
+            $email     = $this->trimmed('email');
+            $fullname  = $this->trimmed('fullname');
+            $homepage  = $this->trimmed('homepage');
+            $bio       = $this->trimmed('bio');
+            $xmpp      = $this->trimmed('xmpp');
+            $gpgpubkey = $this->trimmed('gpgpubkey');
+            $toxid     = $this->trimmed('toxid');
+            $matrix    = $this->trimmed('matrix');
+            $location  = $this->trimmed('location');
 
             // We don't trim these... whitespace is OK in a password!
             $password = $this->arg('password');
@@ -259,6 +263,10 @@ class RegisterAction extends Action
                                                     'fullname' => $fullname,
                                                     'homepage' => $homepage,
                                                     'bio' => $bio,
+                                                    'xmpp' => $xmpp,
+                                                    'toxid' => $toxid,
+                                                    'matrix' => $matrix,
+                                                    'gpgpubkey' => $gpgpubkey,
                                                     'location' => $location,
                                                     'code' => $code));
                     // success!
@@ -487,6 +495,36 @@ class RegisterAction extends Action
             $this->textarea('bio', _('Bio'),
                             $this->trimmed('bio'),
                             $bioInstr);
+
+            $this->elementEnd('li');
+            $this->elementStart('li');
+            $this->input('xmpp', _('XMPP'),
+                         $this->trimmed('xmpp') ?: $this->scoped->getXmpp(),
+                         // TRANS: Your XMPP address
+                         _('Your XMPP address.'),
+                         null, true);
+
+            $this->elementEnd('li');
+            $this->elementStart('li');
+            $this->textarea('gpgpubkey', _('PGP/GPG'),
+                            $this->trimmed('gpgpubkey') ?: $this->scoped->getGpgPubKey(),
+                            // TRANS: Your XMPP address
+                            _('Your PGP/GPG public key'));
+
+            $this->elementEnd('li');
+            $this->elementStart('li');
+            $this->textarea('toxid', _('Tox ID'),
+                            $this->trimmed('Tox ID') ?: $this->scoped->getToxId(),
+                            // TRANS: Your Tox ID
+                            _('Your Tox ID'));
+
+            $this->elementEnd('li');
+            $this->elementStart('li');
+            $this->textarea('matrix', _('Matrix address'),
+                            $this->trimmed('Matrix address') ?: $this->scoped->getToxId(),
+                            // TRANS: Your Matrix address
+                            _('Your Matrix address'));
+
             $this->elementEnd('li');
             $this->elementStart('li');
             // TRANS: Field label on account registration page.

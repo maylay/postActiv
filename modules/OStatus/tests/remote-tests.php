@@ -381,6 +381,10 @@ class SNTestClient extends TestBase
                   'fullname' => $this->fullname,
                   'homepage' => $this->homepage,
                   'bio' => $this->bio,
+                  'xmpp' => $this->xmpp,
+                  'gpgpubkey' => $this->gpgpubkey,
+                  'toxid' => $this->toxid,
+                  'matrix' => $this->matrix,
                   'license' => 1,
                   'submit' => 'Register'));
     }

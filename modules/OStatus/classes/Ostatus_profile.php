@@ -1348,6 +1348,19 @@ class Ostatus_profile extends Managed_DataObject
         }
 
         $bio = self::getActivityObjectBio($object, $hints);
+		
+        if (!empty($xmpp)) {
+            $profile->xmpp = $xmpp;
+        }
+        if (!empty($toxid)) {
+            $profile->toxid = $toxid;
+        }
+        if (!empty($matrix)) {
+            $profile->matrix = $matrix;
+        }
+        if (!empty($gpgpubkey)) {
+            $profile->gpgpubkey = $gpgpubkey;
+        }
 
         if (!empty($bio)) {
             $profile->bio = $bio;
