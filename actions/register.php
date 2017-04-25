@@ -513,17 +513,19 @@ class RegisterAction extends Action
 
             $this->elementEnd('li');
             $this->elementStart('li');
-            $this->textarea('toxid', _('Tox ID'),
-                            $this->trimmed('Tox ID') ?: $this->scoped->getToxId(),
-                            // TRANS: Your Tox ID
-                            _('Your Tox ID'));
+            $this->input('toxid', _('Tox ID'),
+                         $this->trimmed('toxid') ?: $this->scoped->getToxId(),
+                         // TRANS: Your Tox ID
+                         _('Your Tox ID'),
+                         null, true);
 
             $this->elementEnd('li');
             $this->elementStart('li');
-            $this->textarea('matrix', _('Matrix address'),
-                            $this->trimmed('Matrix address') ?: $this->scoped->getToxId(),
-                            // TRANS: Your Matrix address
-                            _('Your Matrix address'));
+            $this->input('matrix', _('Matrix address'),
+                         $this->trimmed('matrix') ?: $this->scoped->getMatrix(),
+                         // TRANS: Your Matrix address
+                         _('Your Matrix address'),
+                         null, true);
 
             $this->elementEnd('li');
             $this->elementStart('li');
