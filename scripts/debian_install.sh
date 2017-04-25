@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# This program tries to start the daemons for StatusNet.
+# This program tries to start the daemons for postActiv.
 # Note that the 'maildaemon' needs to run as a mail filter.
 
 MARIADB_PASSWORD=$1
@@ -27,12 +27,20 @@ MY_EMAIL_ADDRESS=$5
 DEBIAN_REPO="ftp.us.debian.org"
 DEBIAN_VERSION=$6
 
+ADD_REDIS=${7:-0}
+ADD_MUNIN=${8:-0}
+SYSVINIT=${9:-0}
+
 POSTACTIV_REPO="https://git.postactiv.com/postActiv/postActiv.git"
-POSTACTIV_COMMIT='1477a300de87faebfcb7fd7163c3a55c75728e2d'
+POSTACTIV_COMMIT='df3d7f87a776d46aae64539df62017994a5b804c'
 
 QVITTER_THEME_REPO="https://git.gnu.io/h2p/Qvitter.git"
 QVITTER_THEME_COMMIT='a7f82628402db3a7579bb9b2877da3c5737da77b'
 
+
+# -----------------------------------------------------------------------------
+# Function: create_repo_sources
+# Construct our appropriate sourcelist for Debian
 function create_repo_sources {
     if [ ! $DEBIAN_VERSION ]; then
         DEBIAN_VERSION='jessie'
@@ -57,6 +65,9 @@ function create_repo_sources {
 }
 
 
+# -----------------------------------------------------------------------------
+# Function: install_mariadb
+# Installs and configures mariadb on the target system
 function install_mariadb {
     apt-get -yq install python-software-properties debconf-utils
     apt-get -yq install software-properties-common
@@ -78,33 +89,74 @@ function install_mariadb {
     mysqladmin -u root password "$MARIADB_PASSWORD"
 }
 
+
+# -----------------------------------------------------------------------------
+# Function: install_web_server
+# Installs the nginx web server on the target system
 function install_web_server {
-    if [[ $DEBIAN_VERSION != 'stretch' ]]; then
-        apt-get -yq install php-gettext php5-curl php5-gd php5-mysql git curl
-        apt-get -yq install php5-memcached php5-intl php-xml-parser
-        apt-get -yq remove --purge apache2
-        if [ -d /etc/apache2 ]; then
-            rm -rf /etc/apache2
-        fi
+   if [[ $DEBIAN_VERSION != 'stretch' ]]; then
+      apt-get -yq install php-gettext php5-curl php5-gd php5-mysql git curl
+      apt-get -yq install php5-memcached php5-intl php-xml-parser
+      apt-get -yq remove --purge apache2
+      if [ -d /etc/apache2 ]; then
+         rm -rf /etc/apache2
+      fi
 
-        apt-get -yq install nginx
-        apt-get -yq install php5-fpm
+      apt-get -yq install nginx
+      apt-get -yq install php5-fpm
     else
-        apt-get -yq install php-gettext php7.0-curl php7.0-gd php7.0-mysql git curl
-        apt-get -yq install php-memcached php7.0-intl php-xml-parser
-        apt-get -yq remove --purge apache2
-        if [ -d /etc/apache2 ]; then
-            rm -rf /etc/apache2
-        fi
+      apt-get -yq install php-gettext php7.0-curl php7.0-gd php7.0-mysql git curl
+      apt-get -yq install php-memcached php7.0-intl php-xml-parser
+      apt-get -yq remove --purge apache2
+      if [ -d /etc/apache2 ]; then
+         rm -rf /etc/apache2
+      fi
 
-        apt-get -yq install nginx
-        apt-get -yq install php7.0-fpm
-    fi
+      apt-get -yq install nginx
+      apt-get -yq install php7.0-fpm
+   fi
 }
 
+# -----------------------------------------------------------------------------
+# Function: install_redis
+# Installs Redis 2.8 on the system - the version number is important here,
+# later does not work!
+function install_redis {
+   apt-get -yq install redis-server
+   systemctl restart redis-server
+}
+
+
+# -----------------------------------------------------------------------------
+# Function: install_munin
+# Installs a munin-node onto the server.  Cluster config is something you'll
+# have to do yourself, it's outside of the scope of this.
+function install_munin {
+   apt-get -yq install munin munin-node munin-plugins-extra
+   systemctl restart munin-node
+   systemctl restart nginx
+}
+
+
+# -----------------------------------------------------------------------------
+# Function: switch_systemd_to_sysv
+# Optionally, switch the systemd init system to system V
+function switch_systemd_to_sysv {
+   apt-get install sysvinit-core sysvinit-utils
+   cp /usr/share/sysvinit/inittab /etc/inittab
+   apt-get --purge remove systemd
+   apt-get autoremove
+   echo -e 'Package: systemd\nPin: release *\nPin-Priority: -1' > /etc/apt/preferences.d/systemd
+   echo -e '\n\nPackage: *systemd*\nPin: release *\nPin-Priority: -1' >> /etc/apt/preferences.d/systemd
+}
+
+
+# -----------------------------------------------------------------------------
+# Function: create_postactiv_database
+# Set up MariaDB with a database for postActiv
 function create_postactiv_database {
     echo "create database postactiv;
-CREATE USER '${POSTACTIV_ADMIN_USER}@localhost' IDENTIFIED BY '${POSTACTIV_ADMIN_PASSWORD}';
+CREATE USER '${POSTACTIV_ADMIN_USER}'@'localhost' IDENTIFIED BY '${POSTACTIV_ADMIN_PASSWORD}';
 GRANT ALL PRIVILEGES ON postactiv.* TO '${POSTACTIV_ADMIN_USER}@localhost';
 quit" > ~/batch.sql
     chmod 600 ~/batch.sql
@@ -112,6 +164,10 @@ quit" > ~/batch.sql
     shred -zu ~/batch.sql
 }
 
+
+# -----------------------------------------------------------------------------
+# Function: install_postactiv_from_repo
+# Install postactiv from the latest vetted commit.
 function install_postactiv_from_repo {
     # Clone the PostActiv repo
     if [ ! -d /var/www/postactiv ]; then
@@ -220,38 +276,38 @@ aDWQRvTrh5+SQAlDi0gcbNeImgAu1e44K8kZDab8Am5HlVjkR1Z36aqeMFDidlaU
 
 function configure_web_server {
     echo "server {
-    listen 80;
-    listen [::]:80;
-    server_name ${POSTACTIV_DOMAIN_NAME};
-    root /var/www/postactiv;
-    access_log /var/log/nginx/postactiv.access.log;
-    error_log /var/log/nginx/postactiv.err.log warn;
-    client_max_body_size 20m;
-    client_body_buffer_size 128k;
+  listen 80;
+  listen [::]:80;
+  server_name ${POSTACTIV_DOMAIN_NAME};
+  root /var/www/postactiv;
+  access_log /var/log/nginx/postactiv.access.log;
+  error_log /var/log/nginx/postactiv.err.log warn;
+  client_max_body_size 20m;
+  client_body_buffer_size 128k;
 
-    rewrite ^ https://$server_name$request_uri? permanent;
+  rewrite ^ https://$server_name$request_uri? permanent;
 }
 
 server {
-    listen 443 ssl;
-    listen [::]:443 ssl;
-    server_name ${POSTACTIV_DOMAIN_NAME};
+  listen 443 ssl;
+  listen [::]:443 ssl;
+  server_name ${POSTACTIV_DOMAIN_NAME};
 
-    ssl_stapling off;
-    ssl_stapling_verify off;
-    ssl on;
-    ssl_certificate /etc/ssl/certs/${POSTACTIV_DOMAIN_NAME}.pem;
-    ssl_certificate_key /etc/ssl/private/${POSTACTIV_DOMAIN_NAME}.key;
-    ssl_dhparam /etc/ssl/certs/${POSTACTIV_DOMAIN_NAME}.dhparam;
+  ssl on;
+  ssl_stapling on;
+  ssl_stapling_verify on;
+  ssl_certificate /etc/ssl/certs/${POSTACTIV_DOMAIN_NAME}.pem;
+  ssl_certificate_key /etc/ssl/private/${POSTACTIV_DOMAIN_NAME}.key;
+  ssl_dhparam /etc/ssl/certs/${POSTACTIV_DOMAIN_NAME}.dhparam;
 
-    ssl_session_cache  builtin:1000  shared:SSL:10m;
-    ssl_session_timeout 60m;
-    ssl_prefer_server_ciphers on;
-    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-    ssl_ciphers 'EDH+CAMELLIA:EDH+aRSA:EECDH+aRSA+AESGCM:EECDH+aRSA+SHA256:EECDH:+CAMELLIA128:+AES128:+SSLv3:!aNULL:!eNULL:!LOW:!3DES:!MD5:!EXP:!PSK:!DSS:!RC4:!SEED:!IDEA:!ECDSA:kEDH:CAMELLIA128-SHA:AES128-SHA';
-    add_header Content-Security-Policy \"default-src https:; script-src https: 'unsafe-inline'; style-src https: 'unsafe-inline'\";
-    add_header X-Frame-Options DENY;
-    add_header X-Content-Type-Options nosniff;
+  ssl_session_cache  builtin:1000  shared:SSL:10m;
+  ssl_session_timeout 60m;
+  ssl_prefer_server_ciphers on;
+  ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+  ssl_ciphers 'EDH+CAMELLIA:EDH+aRSA:EECDH+aRSA+AESGCM:EECDH+aRSA+SHA256:EECDH:+CAMELLIA128:+AES128:+SSLv3:!aNULL:!eNULL:!LOW:!3DES:!MD5:!EXP:!PSK:!DSS:!RC4:!SEED:!IDEA:!ECDSA:kEDH:CAMELLIA128-SHA:AES128-SHA';
+  add_header Content-Security-Policy \"default-src https:; script-src https: 'unsafe-inline'; style-src https: 'unsafe-inline'\";
+  add_header X-Frame-Options DENY;
+  add_header X-Content-Type-Options nosniff;
 
   add_header Strict-Transport-Security max-age=15768000;
 
@@ -305,6 +361,9 @@ server {
     systemctl start nginx
 }
 
+# -----------------------------------------------------------------------------
+# Function: additional_postactiv_settings
+# Adds the additional recommended settings for postactiv to the config file
 function additional_postactiv_settings {
     postactiv_config_file=/var/www/postactiv/config.php
 
@@ -328,6 +387,11 @@ function additional_postactiv_settings {
     fi
 }
 
+
+# -----------------------------------------------------------------------------
+# Function: keep_daemons_running
+# Sets the system to keep the queue daemons running, and also schedules some
+# basic maintenance tasks
 function keep_daemons_running {
     echo '#!/bin/bash' > /etc/cron.hourly/postactiv-daemons
     echo -n 'daemon_lines=$(ps aux | grep "' >> /etc/cron.hourly/postactiv-daemons
@@ -346,6 +410,10 @@ function keep_daemons_running {
     chmod +x /etc/cron.hourly/postactiv-daemons
 }
 
+
+# -----------------------------------------------------------------------------
+# Function: install_qvitter
+# Installs the qvitter UI plugin for postActiv
 function install_qvitter {
     mkdir -p /var/www/postactiv/local/plugins
 
@@ -380,6 +448,10 @@ function install_qvitter {
     chown -R www-data:www-data /var/www/postactiv
 }
 
+
+# =============================================================================
+# Main script logic follows
+
 if [ ! $1 ]; then
     echo './scripts/debian_install.sh [mariadb password] [username] [password] [domain] [email address] [jessie|stretch]'
     exit 0
@@ -388,6 +460,12 @@ fi
 create_repo_sources
 install_mariadb
 install_web_server
+if [[ ADD_REDIS != 0 ]]; then
+   install_redis
+fi
+if [[ ADD_MUNIN != 0 ]]; then
+   install_munin
+fi
 create_postactiv_database
 install_postactiv_from_repo
 configure_tls_cert
@@ -395,7 +473,13 @@ configure_web_server
 additional_postactiv_settings
 keep_daemons_running
 install_qvitter
+if [[ SYSVINIT != 0 ]]; then
+   switch_systemd_to_sysv
+fi
 
 echo "postActiv installed"
 
 exit 0
+
+# END OF FILE
+# =============================================================================
