@@ -81,6 +81,8 @@ class Action extends HTMLOutputter // lawsuit
     protected $error  = null;
     protected $msg    = null;
 
+    // Location of javascript files
+    protected $js_path = null;
     /**
      * Constructor
      *
@@ -95,6 +97,16 @@ class Action extends HTMLOutputter // lawsuit
     function __construct($output='php://output', $indent=null)
     {
         parent::__construct($output, $indent);
+
+        // Look for config settings for path to JS, fall back to a default
+        // path if not found
+        if (common_config("site", "js_path")) {
+           $this->js_path = common_config("site", "js_path");
+        } elseif (common_config("javascript", "path")) {
+           $this->js_path = common_config("javascript", "path");
+        } else {
+           $this->js_path = 'media/js';
+        }
     }
 
     function getError()
@@ -380,18 +392,7 @@ class Action extends HTMLOutputter // lawsuit
                 Event::handle('EndShowStylesheets', array($this));
             }
 
-            // Look for config settings for path to JS, fall back to a default 
-            // path if not found
-            if (common_config("site", "js_path")) {
-               $js_path = common_config("site", "js_path");
-            } elseif (common_config("javascript", "path")) {
-               $js_path = common_config("javascript", "path");
-            }
-            if (!isset($js_path)) {
-               $this->cssLink('media/js/extlib/jquery-ui/css/smoothness/jquery-ui.css');
-            } else {
-               $this->cssLink($js_path . '/extlib/jquery-ui/css/smoothness/jquery-ui.css');
-            }
+            $this->cssLink($this->js_path . '/extlib/jquery-ui/css/smoothness/jquery-ui.css');
 
             if (Event::handle('StartShowUAStyles', array($this))) {
                 Event::handle('EndShowUAStyles', array($this));
