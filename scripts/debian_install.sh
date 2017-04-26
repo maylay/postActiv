@@ -36,6 +36,9 @@ QVITTER_THEME_COMMIT='a7f82628402db3a7579bb9b2877da3c5737da77b'
 SSH_PORT=22
 ALLOW_PING=yes
 
+# expire posts after this number of months to prevent the database from growing indefinitely
+EXPIRE_MONTHS=3
+
 function create_firewall {
 	apt-get -yq install iptables
 	
@@ -617,6 +620,35 @@ function install_qvitter {
     chown -R www-data:www-data /var/www/postactiv
 }
 
+function expire_posts {
+	expire_days=$((EXPIRE_MONTHS * 30))
+
+	if [ ! -f /var/www/postactiv/scripts/expire_posts.php ]; then
+		echo $"post expiry script not found"
+		exit 76257
+	fi
+
+	expire_posts_script=/usr/bin/postactiv-expire-posts
+	cp /var/www/postactiv/scripts/expire_posts.php $expire_posts_script
+	sed -i "s|YourPassword|$MARIADB_PASSWORD|g" $expire_posts_script
+	sed -i "s|ExpireMonths|$EXPIRE_MONTHS|g" $expire_posts_script
+	chmod 600 $expire_posts_script	
+	chmod +x $expire_posts_script
+
+	expire_script=/usr/bin/postactiv-expire
+	echo '#!/bin/bash' > $expire_script
+	echo "/usr/bin/php $expire_posts_script" >> $expire_script
+	echo 'if [ -d /var/www/postactiv/file ]; then' >> $expire_script
+	echo "  find /var/www/postactiv/file/* -mtime +${expire_days} -exec rm {} +" >> $expire_script
+	echo 'fi' >> $expire_script
+	chmod +x $expire_script
+
+	# Add a cron job
+	if ! grep -q "${expire_script}" /etc/crontab; then
+		echo "10 3 5   *   *   root /usr/bin/timeout 500 ${expire_script}" >> /etc/crontab
+	fi
+}
+
 if [ ! $1 ]; then
     echo './scripts/debian_install.sh [mariadb password] [username] [password] [domain] [email address] [jessie|stretch]'
     exit 0
@@ -634,6 +666,7 @@ configure_web_server
 additional_postactiv_settings
 keep_daemons_running
 install_qvitter
+expire_posts
 
 echo "postActiv installed"
 
