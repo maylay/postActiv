@@ -62,16 +62,48 @@
  *  o GNU social <https://www.gnu.org/s/social/>
  * ============================================================================
  */
- 
+
 // This file is formatted so that it provides useful documentation output in
 // NaturalDocs.  Please be considerate of this before changing formatting.
 
 if (!defined('POSTACTIV')) { exit(1); }
 
-/**
- * Table Definition for user
- */
 
+// ============================================================================
+// Class: User
+// Superclass which holds the table Definition for users
+//
+// Constants:
+// o SUBSCRIBE_POLICY_OPEN = 0;
+// o SUBSCRIBE_POLICY_MODERATE = 1;
+// 
+// Variables:
+// o __table = 'user'     - table name
+// o id                   - int(4)  primary_key not_null
+// o nickname             - varchar(64)  unique_key
+// o password             - varchar(191)               not 255 because utf8mb4 takes more space
+// o email                - varchar(191)  unique_key   not 255 because utf8mb4 takes more space
+// o incomingemail        - varchar(191)  unique_key   not 255 because utf8mb4 takes more space
+// o emailnotifysub       - tinyint(1)   default_1
+// o emailnotifyfav       - tinyint(1)   default_1
+// o emailnotifynudge     - tinyint(1)   default_1
+// o emailnotifymsg       - tinyint(1)   default_1
+// o emailnotifyattn      - tinyint(1)   default_1
+// o language             - varchar(50)
+// o timezone             - varchar(50)
+// o emailpost            - tinyint(1)   default_1
+// o sms                  - varchar(64)  unique_key
+// o carrier              - int(4)
+// o smsnotify            - tinyint(1)
+// o smsreplies           - tinyint(1)
+// o smsemail             - varchar(191)               not 255 because utf8mb4 takes more space
+// o uri                  - varchar(191)  unique_key   not 255 because utf8mb4 takes more space
+// o autosubscribe        - tinyint(1)
+// o subscribe_policy     - tinyint(1)
+// o urlshorteningservice - varchar(50)   default_ur1.ca
+// o private_stream       - tinyint(1)   default_0
+// o created              - datetime()   not_null
+// o modified             - timestamp()   not_null default_CURRENT_TIMESTAMP
 class User extends Managed_DataObject
 {
     const SUBSCRIBE_POLICY_OPEN = 0;
@@ -80,7 +112,7 @@ class User extends Managed_DataObject
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
-    public $__table = 'user';                            // table name
+    public $__table = 'user';                // table name
     public $id;                              // int(4)  primary_key not_null
     public $nickname;                        // varchar(64)  unique_key
     public $password;                        // varchar(191)               not 255 because utf8mb4 takes more space
@@ -110,57 +142,60 @@ class User extends Managed_DataObject
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
-    public static function schemaDef()
-    {
-        return array(
-            'description' => 'local users',
-            'fields' => array(
-                'id' => array('type' => 'int', 'not null' => true, 'description' => 'foreign key to profile table'),
-                'nickname' => array('type' => 'varchar', 'length' => 64, 'description' => 'nickname or username, duped in profile'),
-                'password' => array('type' => 'varchar', 'length' => 191, 'description' => 'salted password, can be null for OpenID users'),
-                'email' => array('type' => 'varchar', 'length' => 191, 'description' => 'email address for password recovery etc.'),
-                'incomingemail' => array('type' => 'varchar', 'length' => 191, 'description' => 'email address for post-by-email'),
-                'emailnotifysub' => array('type' => 'int', 'size' => 'tiny', 'default' => 1, 'description' => 'Notify by email of subscriptions'),
-                'emailnotifyfav' => array('type' => 'int', 'size' => 'tiny', 'default' => null, 'description' => 'Notify by email of favorites'),
-                'emailnotifynudge' => array('type' => 'int', 'size' => 'tiny', 'default' => 1, 'description' => 'Notify by email of nudges'),
-                'emailnotifymsg' => array('type' => 'int', 'size' => 'tiny', 'default' => 1, 'description' => 'Notify by email of direct messages'),
-                'emailnotifyattn' => array('type' => 'int', 'size' => 'tiny', 'default' => 1, 'description' => 'Notify by email of @-replies'),
-                'language' => array('type' => 'varchar', 'length' => 50, 'description' => 'preferred language'),
-                'timezone' => array('type' => 'varchar', 'length' => 50, 'description' => 'timezone'),
-                'emailpost' => array('type' => 'int', 'size' => 'tiny', 'default' => 1, 'description' => 'Post by email'),
-                'sms' => array('type' => 'varchar', 'length' => 64, 'description' => 'sms phone number'),
-                'carrier' => array('type' => 'int', 'description' => 'foreign key to sms_carrier'),
-                'smsnotify' => array('type' => 'int', 'size' => 'tiny', 'default' => 0, 'description' => 'whether to send notices to SMS'),
-                'smsreplies' => array('type' => 'int', 'size' => 'tiny', 'default' => 0, 'description' => 'whether to send notices to SMS on replies'),
-                'smsemail' => array('type' => 'varchar', 'length' => 191, 'description' => 'built from sms and carrier'),
-                'uri' => array('type' => 'varchar', 'length' => 191, 'description' => 'universally unique identifier, usually a tag URI'),
-                'autosubscribe' => array('type' => 'int', 'size' => 'tiny', 'default' => 0, 'description' => 'automatically subscribe to users who subscribe to us'),
-                'subscribe_policy' => array('type' => 'int', 'size' => 'tiny', 'default' => 0, 'description' => '0 = anybody can subscribe; 1 = require approval'),
-                'urlshorteningservice' => array('type' => 'varchar', 'length' => 50, 'default' => 'internal', 'description' => 'service to use for auto-shortening URLs'),
-                'private_stream' => array('type' => 'int', 'size' => 'tiny', 'default' => 0, 'description' => 'whether to limit all notices to followers only'),
 
-                'created' => array('type' => 'datetime', 'not null' => true, 'description' => 'date this record was created'),
-                'modified' => array('type' => 'timestamp', 'not null' => true, 'description' => 'date this record was modified'),
-            ),
-            'primary key' => array('id'),
-            'unique keys' => array(
-                'user_nickname_key' => array('nickname'),
-                'user_email_key' => array('email'),
-                'user_incomingemail_key' => array('incomingemail'),
-                'user_sms_key' => array('sms'),
-                'user_uri_key' => array('uri'),
-            ),
-            'foreign keys' => array(
-                'user_id_fkey' => array('profile', array('id' => 'id')),
-                'user_carrier_fkey' => array('sms_carrier', array('carrier' => 'id')),
-            ),
-            'indexes' => array(
-                'user_smsemail_idx' => array('smsemail'),
-            ),
-        );
-    }
+   // -------------------------------------------------------------------------
+   // Function: schemaDef
+   // Returns the schema definition of the database in an array format
+   public static function schemaDef() {
+      return array(
+         'description' => 'local users',
+         'fields' => array(
+            'id' => array('type' => 'int', 'not null' => true, 'description' => 'foreign key to profile table'),
+            'nickname' => array('type' => 'varchar', 'length' => 64, 'description' => 'nickname or username, duped in profile'),
+            'password' => array('type' => 'varchar', 'length' => 191, 'description' => 'salted password, can be null for OpenID users'),
+            'email' => array('type' => 'varchar', 'length' => 191, 'description' => 'email address for password recovery etc.'),
+            'incomingemail' => array('type' => 'varchar', 'length' => 191, 'description' => 'email address for post-by-email'),
+            'emailnotifysub' => array('type' => 'int', 'size' => 'tiny', 'default' => 1, 'description' => 'Notify by email of subscriptions'),
+            'emailnotifyfav' => array('type' => 'int', 'size' => 'tiny', 'default' => null, 'description' => 'Notify by email of favorites'),
+            'emailnotifynudge' => array('type' => 'int', 'size' => 'tiny', 'default' => 1, 'description' => 'Notify by email of nudges'),
+            'emailnotifymsg' => array('type' => 'int', 'size' => 'tiny', 'default' => 1, 'description' => 'Notify by email of direct messages'),
+            'emailnotifyattn' => array('type' => 'int', 'size' => 'tiny', 'default' => 1, 'description' => 'Notify by email of @-replies'),
+            'language' => array('type' => 'varchar', 'length' => 50, 'description' => 'preferred language'),
+            'timezone' => array('type' => 'varchar', 'length' => 50, 'description' => 'timezone'),
+            'emailpost' => array('type' => 'int', 'size' => 'tiny', 'default' => 1, 'description' => 'Post by email'),
+            'sms' => array('type' => 'varchar', 'length' => 64, 'description' => 'sms phone number'),
+            'carrier' => array('type' => 'int', 'description' => 'foreign key to sms_carrier'),
+            'smsnotify' => array('type' => 'int', 'size' => 'tiny', 'default' => 0, 'description' => 'whether to send notices to SMS'),
+            'smsreplies' => array('type' => 'int', 'size' => 'tiny', 'default' => 0, 'description' => 'whether to send notices to SMS on replies'),
+            'smsemail' => array('type' => 'varchar', 'length' => 191, 'description' => 'built from sms and carrier'),
+            'uri' => array('type' => 'varchar', 'length' => 191, 'description' => 'universally unique identifier, usually a tag URI'),
+            'autosubscribe' => array('type' => 'int', 'size' => 'tiny', 'default' => 0, 'description' => 'automatically subscribe to users who subscribe to us'),
+            'subscribe_policy' => array('type' => 'int', 'size' => 'tiny', 'default' => 0, 'description' => '0 = anybody can subscribe; 1 = require approval'),
+            'urlshorteningservice' => array('type' => 'varchar', 'length' => 50, 'default' => 'internal', 'description' => 'service to use for auto-shortening URLs'),
+            'private_stream' => array('type' => 'int', 'size' => 'tiny', 'default' => 0, 'description' => 'whether to limit all notices to followers only'),
 
-    protected $_profile = array();
+            'created' => array('type' => 'datetime', 'not null' => true, 'description' => 'date this record was created'),
+            'modified' => array('type' => 'timestamp', 'not null' => true, 'description' => 'date this record was modified'),
+         ),
+         'primary key' => array('id'),
+         'unique keys' => array(
+            'user_nickname_key' => array('nickname'),
+            'user_email_key' => array('email'),
+            'user_incomingemail_key' => array('incomingemail'),
+            'user_sms_key' => array('sms'),
+            'user_uri_key' => array('uri'),
+         ),
+         'foreign keys' => array(
+            'user_id_fkey' => array('profile', array('id' => 'id')),
+            'user_carrier_fkey' => array('sms_carrier', array('carrier' => 'id')),
+         ),
+         'indexes' => array(
+            'user_smsemail_idx' => array('smsemail'),
+         ),
+      );
+   }
+
+   protected $_profile = array();
 
     /**
      * @return Profile
