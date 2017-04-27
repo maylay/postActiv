@@ -111,9 +111,7 @@ class PublicSite extends SiteProfileSettings
             ),
             'plugins' => array(
                 'core'    => self::corePlugins(),
-                'default' => array_merge(self::defaultPlugins(), array(
-                    'RegisterThrottle'        => array(),
-                ))
+                'default' => array_merge(self::defaultPlugins(), array())
             ),
             'discovery' => array('cors' => true) // Allow Cross-Origin Resource Sharing for service discovery (host-meta, XRD, etc.)
         );
@@ -194,8 +192,7 @@ class CommunitySite extends SiteProfileSettings
             ),
             'plugins' => array(
                 'core'    => self::corePlugins(),
-                'default' => array_merge(self::defaultPlugins(), array(
-                ))
+                'default' => array_merge(self::defaultPlugins(), array())
             ),
             'public'    => array('localonly' => true),
             'discovery' => array('cors' => true) // Allow Cross-Origin Resource Sharing for service discovery (host-meta, XRD, etc.)
