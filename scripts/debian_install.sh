@@ -460,12 +460,6 @@ fi
 create_repo_sources
 install_mariadb
 install_web_server
-if [[ ADD_REDIS != 0 ]]; then
-   install_redis
-fi
-if [[ ADD_MUNIN != 0 ]]; then
-   install_munin
-fi
 create_postactiv_database
 install_postactiv_from_repo
 configure_tls_cert
@@ -473,9 +467,6 @@ configure_web_server
 additional_postactiv_settings
 keep_daemons_running
 install_qvitter
-if [[ SYSVINIT != 0 ]]; then
-   switch_systemd_to_sysv
-fi
 
 echo "postActiv installed"
 
