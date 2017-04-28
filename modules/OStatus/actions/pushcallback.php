@@ -87,7 +87,7 @@ class PushCallbackAction extends Action
 			$settings[$configphpsetting] = $value;
 		}
 		$bans = $settings['banned_instances'];
-      common_log(LOG_INFO, "Banned instances currently: " . json_encode($bans));
+      common_debug("Banned instances currently: " . json_encode($bans));
 
 		// If we have no banned instances we can bail
       if ($bans==null) {
