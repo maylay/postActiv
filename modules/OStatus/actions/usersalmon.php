@@ -1,11 +1,19 @@
 <?php
-/*
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
- * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
+/* ============================================================================
+ * Title: User Salmon
+ * Action class representing a user receiving a salmon message
  *
+ * postActiv:
+ * the micro-blogging software
+ *
+ * Copyright:
+ * Copyright (C) 2016-2017, Maiyannah Bishop
+ *
+ * Derived from code copyright various sources:
+ * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ * o StatusNet (C) 2008-2012, StatusNet, Inc
+ * ----------------------------------------------------------------------------
+ * License:
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -19,63 +27,94 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @license   https://www.gnu.org/licenses/agpl.html 
+ * <https://www.gnu.org/licenses/agpl.html>
+ * ----------------------------------------------------------------------------
+ * About:
+ * Action class representing a user receiving a salmon message
+ *
+ * PHP version:
+ * Tested with PHP 7
+ * ----------------------------------------------------------------------------
+ * File Authors:
+
+ * o Mikael Nordfeldth <mmn@hethane.se>
+ * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ *
+ * Web:
+ *  o postActiv  <http://www.postactiv.com>
+ *  o GNU social <https://www.gnu.org/s/social/>
+ * ============================================================================
  */
+
+// This file is formatted so that it provides useful documentation output in
+// NaturalDocs.  Please be considerate of this before changing formatting.
 
 if (!defined('POSTACTIV')) { exit(1); }
 
-/**
- * @package OStatusPlugin
- * @author James Walker <james@status.net>
- */
-class UsersalmonAction extends SalmonAction
-{
-    protected function prepare(array $args=array())
-    {
-        parent::prepare($args);
 
-        $this->user = User::getByID($this->trimmed('id'));
+// ============================================================================
+// Class: UsersalmonAction
+// Class for a salmon that is directed at a specific user
+//
+// Notice must either be:
+// o in reply to a notice by this user
+// o in reply to a notice to the attention of this user
+// o to the attention of this user
+// o reference the user as an activity:object
+class UsersalmonAction extends SalmonAction {
 
-        $this->target = $this->user->getProfile();
+   // -------------------------------------------------------------------------
+   // Function: prepare
+   // A series of integrity/etc checks we perform before acting on the salmon
+   // object.
+   protected function prepare(array $args=array()) {
+      parent::prepare($args);
 
-        // Notice must either be a) in reply to a notice by this user
-        // or b) in reply to a notice to the attention of this user
-        // or c) to the attention of this user
-        // or d) reference the user as an activity:object
+      // Get the user information
+      $this->user = User::getByID($this->trimmed('id'));
+      $this->target = $this->user->getProfile();
 
-        $notice = null;
+      // Notice must either be a) in reply to a notice by this user
+      // or b) in reply to a notice to the attention of this user
+      // or c) to the attention of this user
+      // or d) reference the user as an activity:object
+      $notice = null;
 
-        if (!empty($this->activity->context->replyToID)) {
-            try {
+      // Make sure we actually have the notice this is in_reply_to
+      if (!empty($this->activity->context->replyToID)) {
+         try {
                 $notice = Notice::getByUri($this->activity->context->replyToID);
                 common_debug('Referenced Notice object found with URI: '.$notice->getUri());
-            } catch (NoResultException $e) {
+         } catch (NoResultException $e) {
                 common_debug('Referenced Notice object NOT found with URI: '.$this->activity->context->replyToID);
                 $notice = false;
-            }
-        }
+         }
+      }
 
-        if ($notice instanceof Notice &&
+      // Make sure that the user is actually mentioned in the salmon
+      if ($notice instanceof Notice &&
                 ($this->target->sameAs($notice->getProfile())
                     || in_array($this->target->getID(), $notice->getAttentionProfileIDs())
                 )) {
-            // In reply to a notice either from or mentioning this user.
-            common_debug('User is the owner or was in the attention list of thr:in-reply-to activity.');
-        } elseif (!empty($this->activity->context->attention) &&
+         // In reply to a notice either from or mentioning this user.
+         common_debug('User is the owner or was in the attention list of thr:in-reply-to activity.');
+      } elseif (!empty($this->activity->context->attention) &&
                    array_key_exists($this->target->getUri(), $this->activity->context->attention)) {
-            // To the attention of this user.
-            common_debug('User was in attention list of salmon slap.');
-        } elseif (!empty($this->activity->objects) && $this->activity->objects[0]->id === $this->target->getUri()) {
-            // The user is the object of this slap (unfollow for example)
-            common_debug('User URI was the id of the salmon slap object.');
-        } else {
-            common_debug('User was NOT found in salmon slap context.');
-            // TRANS: Client exception.
-            throw new ClientException(_m('The owner of this salmon endpoint was not in the context of the carried slap.'));
-        }
+         // To the attention of this user.
+         common_debug('User was in attention list of salmon slap.');
+      } elseif (!empty($this->activity->objects) && $this->activity->objects[0]->id === $this->target->getUri()) {
+         // The user is the object of this slap (unfollow for example)
+         common_debug('User URI was the id of the salmon slap object.');
+      } else {
+         common_debug('User was NOT found in salmon slap context.');
+         // TRANS: Client exception.
+         throw new ClientException(_m('The owner of this salmon endpoint was not in the context of the carried slap.'));
+      }
 
-        return true;
-    }
+      // Checks complete!
+      return true;
+   }
+
 
     /**
      * We've gotten a post event on the Salmon backchannel, probably a reply.
