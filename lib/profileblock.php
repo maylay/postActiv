@@ -118,7 +118,7 @@ abstract class ProfileBlock extends Widget
                                            'rel' => '',
                                            'class' => 'profile_block_homepage'));
 
-            $this->out->element('img', array('src' => Avatar::url("../plugins/Qvitter/img/xmppbutton.png"),
+            $this->out->element('img', array('src' => Avatar::url("../theme/base/images/icons/xmppbutton.png"),
                                 'width' => 40,
                                 'height' => 40,
                                 'alt' => $xmpp));
@@ -132,7 +132,7 @@ abstract class ProfileBlock extends Widget
                                            'rel' => '',
                                            'class' => 'profile_block_homepage'));
 
-            $this->out->element('img', array('src' => Avatar::url("../plugins/Qvitter/img/gpgbutton.jpg"),
+            $this->out->element('img', array('src' => Avatar::url("../theme/base/images/icons/gpgbutton.jpg"),
                                 'width' => 40,
                                 'height' => 40,
                                 'alt' => $gpgpubkey));
@@ -146,7 +146,7 @@ abstract class ProfileBlock extends Widget
                                            'rel' => '',
                                            'class' => 'profile_block_homepage'));
 
-            $this->out->element('img', array('src' => Avatar::url("../plugins/Qvitter/img/toxbutton.png"),
+            $this->out->element('img', array('src' => Avatar::url("../theme/base/images/icons/toxbutton.png"),
                                 'width' => 40,
                                 'height' => 40,
                                 'alt' => $toxid));
@@ -160,7 +160,7 @@ abstract class ProfileBlock extends Widget
                                            'rel' => '',
                                            'class' => 'profile_block_homepage'));
 
-            $this->out->element('img', array('src' => Avatar::url("../plugins/Qvitter/img/matrixbutton.png"),
+            $this->out->element('img', array('src' => Avatar::url("../theme/base/images/icons/matrixbutton.png"),
                                 'width' => 40,
                                 'height' => 40,
                                 'alt' => $matrix));
