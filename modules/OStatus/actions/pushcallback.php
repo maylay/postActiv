@@ -114,7 +114,7 @@ class PushCallbackAction extends Action
       $feed_loc = $feedsub->huburi;
       common_log(LOG_INFO, "Huburi detected: " . $feed_loc);
 
-      // Return whether this feed from a banned instance?
+      // Return whether this feed from a banned instance
       $is_banned = false;
       foreach ($bans as $banned_instance) {
          if (strpos($feed_loc, $banned_instance)) {
@@ -122,7 +122,7 @@ class PushCallbackAction extends Action
             break;
          }
       }
-      common_log(LOG_INFO, "This packet's owning instance ban status: " . (($is_banned) ? "true" : "false"));
+      common_log(LOG_INFO, "This hubsub packet's originating instance ban status: " . (($is_banned) ? "true" : "false"));
       return $is_banned;
    }
 
