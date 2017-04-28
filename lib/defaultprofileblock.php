@@ -70,6 +70,26 @@ class DefaultProfileBlock extends AccountProfileBlock
         return null;
     }
 
+    function xmpp()
+    {
+        return null;
+    }
+
+    function gpgpubkey()
+    {
+        return null;
+    }
+
+    function toxid()
+    {
+        return null;
+    }
+
+    function matrix()
+    {
+        return null;
+    }
+
     function otherProfiles()
     {
         return array();

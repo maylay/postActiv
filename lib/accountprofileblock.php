@@ -92,6 +92,26 @@ class AccountProfileBlock extends ProfileBlock
         return $this->profile->bio;
     }
 
+    function xmpp()
+    {
+        return $this->profile->xmpp;
+    }
+
+    function gpgpubkey()
+    {
+        return $this->profile->gpgpubkey;
+    }
+
+    function toxid()
+    {
+        return $this->profile->toxid;
+    }
+
+    function matrix()
+    {
+        return $this->profile->matrix;
+    }
+
     function otherProfiles()
     {
         $others = array();
