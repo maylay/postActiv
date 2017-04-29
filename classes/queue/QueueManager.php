@@ -125,8 +125,8 @@ abstract class QueueManager extends IoManager
     // has been reached.
     //
     // Returns:
-    // o boolean true if there are no more items until expiration or if a limit
-    // has not been set.
+    // o boolean true if a limit has been set and there are not more items until
+    // expiration
     public function isExpired() {
         return ($this->itemsUntilExpiration !== null && $this->itemsUntilExpiration <= 0);
     }
