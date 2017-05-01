@@ -1,10 +1,60 @@
 <?php
-/****
- * @license   https://www.gnu.org/licenses/agpl.html
+/* ============================================================================
+ * Title: AntiBrutePlugin
+ * delay + log multiple fail logins
+ *
+ * postActiv:
+ * the micro-blogging software
+ *
+ * Copyright:
+ * Copyright (C) 2016-2017, Maiyannah Bishop
+ *
+ * Derived from code copyright various sources:
+ * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ * o StatusNet (C) 2008-2012, StatusNet, Inc
+ * ----------------------------------------------------------------------------
+ * License:
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * <https://www.gnu.org/licenses/agpl.html>
+ * ----------------------------------------------------------------------------
+ * About:
+ * Plugin that mitigates brute-force attacks by delaying failed login attempts.
+ *
+ * PHP version:
+ * Tested with PHP 7
+ * ----------------------------------------------------------------------------
+ * File Authors:
+ * o Normandy <kuroe@openmailbox.org>
+ * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ * o Mikael Nordfeldth <mmn@hethane.se>
+ * o Bhuvan Krishna <bhuvan@swecha.net>
+ *
+ * Web:
+ *  o postActiv  <http://www.postactiv.com>
+ *  o GNU social <https://www.gnu.org/s/social/>
+ * ============================================================================
  */
 
-if (!defined('GNUSOCIAL')) { exit(1); }
+// This file is formatted so that it provides useful documentation output in
+// NaturalDocs.  Please be considerate of this before changing formatting.
 
+if (!defined('POSTACTIV')) { exit(1); }
+
+// -----------------------------------------------------------------------------
+// Class: AntiBrutePlugin
+// Main AntiBrute plugin class
 class AntiBrutePlugin extends Plugin {
     protected $failed_attempts = 0;
     protected $unauthed_user = null;
@@ -12,6 +62,9 @@ class AntiBrutePlugin extends Plugin {
 
     const FAILED_LOGIN_IP_SECTION = 'failed_login_ip';
 
+    // -------------------------------------------------------------------------
+    // Function: initialize
+    // Initializes the plugin.
     public function initialize()
     {
         // This probably needs some work. For example with IPv6 you can easily generate new IPs...
@@ -19,6 +72,17 @@ class AntiBrutePlugin extends Plugin {
         $this->client_ip = $client_ip[0] ?: $client_ip[1];   // [0] is proxy, [1] should be the real IP
     }
 
+    // -------------------------------------------------------------------------
+    // Function: onStartCheckPassword
+    // Delay failed login attemptss after the first attempt for up to 5 seconds.
+    //
+    // Parameters:
+    // o string $nickname - email or nickname of the user
+    // o string $password - password entered
+    // o User $authenticatedUser - an authenticated user
+    //
+    // Returns:
+    // o bool true to continue processing StartCheckPassword
     public function onStartCheckPassword($nickname, $password, &$authenticatedUser)
     {
         if (common_is_email($nickname)) {
@@ -52,6 +116,18 @@ class AntiBrutePlugin extends Plugin {
         return true;
     }
 
+    // -------------------------------------------------------------------------
+    // Function: onEndCheckPassword
+    // Increment attempt count on login failure, and remove failed logins
+    // on successful entry.
+    //
+    // Parameters:
+    // o string $nickname - nickname or email of user
+    // o string $password - password entered
+    // o User $authenticatedUser - an authenticated user
+    //
+    // Returns:
+    // o bool true
     public function onEndCheckPassword($nickname, $password, $authenticatedUser)
     {
         if ($authenticatedUser instanceof User) {
@@ -71,6 +147,15 @@ class AntiBrutePlugin extends Plugin {
         return true;
     }
 
+    // -------------------------------------------------------------------------
+    // Function: onPluginVersion
+    // Modify a versions array to provide the plugin information.
+    //
+    // Parameters:
+    // o array $versions - versions array to modify
+    //
+    // Returns:
+    // o bool true
     public function onPluginVersion(array &$versions)
     {
         $versions[] = array('name' => 'AntiBrute',
@@ -83,3 +168,5 @@ class AntiBrutePlugin extends Plugin {
         return true;
     }
 }
+// END OF FILE
+// =============================================================================
