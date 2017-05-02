@@ -1,6 +1,6 @@
 <?php
 /* ============================================================================
- * Title: PuSH Callback Action
+ * Title: PuSHCallback
  * Handler for callbacks to our PuSH hub
  *
  * postActiv:

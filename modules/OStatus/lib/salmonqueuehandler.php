@@ -1,6 +1,6 @@
 <?php
 /* ============================================================================
- * Title: Salmon Queue Handler
+ * Title: SalmonQueueHandler
  * Salmon queue handler class
  *
  * postActiv:

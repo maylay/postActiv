@@ -1,6 +1,6 @@
 <?php
 /* ============================================================================
- * Title: Salmon Action
+ * Title: SalmonAction
  * Superclass handler for receiving salmon messages
  *
  * postActiv:
