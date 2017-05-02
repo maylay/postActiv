@@ -549,7 +549,7 @@ This is a good solution whether you:
 
 * have no access to command line (shared hosting)
 * do not want to deal with long-running PHP processes
-* run a low traffic postActiv instance
+* run a low-traffic postActiv instance
 
 In other case, you really should consider enabling the Redis queue manager or
 queuedaemon for performance reasons.  OpprotunisticQM is essentially the slower
