@@ -315,37 +315,39 @@ class FeedSub extends Managed_DataObject {
       $this->doSubscribe('unsubscribe');
    }
 
-    /**
-     * Check if there are any active local uses of this feed, and if not then
-     * make sure it's inactive, unsubscribing if necessary.
-     *
-     * @return boolean true if the subscription is now inactive, false if still active.
-     * @throws NoProfileException in FeedSubSubscriberCount for missing Profile entries
-     * @throws Exception if something goes wrong in unsubscribe() method
-     */
-    public function garbageCollect()
-    {
-        if ($this->sub_state == '' || $this->sub_state == 'inactive') {
-            // No active PuSH subscription, we can just leave it be.
-            return true;
-        }
 
-        // PuSH subscription is either active or in an indeterminate state.
-        // Check if we're out of subscribers, and if so send an unsubscribe.
-        $count = 0;
-        Event::handle('FeedSubSubscriberCount', array($this, &$count));
+   // -------------------------------------------------------------------------
+   // Function: garbageCollect
+   // Check if there are any active local uses of this feed, and if not then
+   // make sure it's inactive, unsubscribing if necessary.
+   //
+   // Returns:
+   // o boolean true if the subscription is now inactive, false if still active.
+   //
+   // Error States:
+   // o throws NoProfileException in FeedSubSubscriberCount for missing Profile entries
+   // o throws Exception if something goes wrong in unsubscribe() method
+   public function garbageCollect() {
+      if ($this->sub_state == '' || $this->sub_state == 'inactive') {
+         // No active PuSH subscription, we can just leave it be.
+         return true;
+      }
 
-        if ($count > 0) {
-            common_log(LOG_INFO, __METHOD__ . ': ok, ' . $count . ' user(s) left for ' . $this->getUri());
-            return false;
-        }
-
-        common_log(LOG_INFO, __METHOD__ . ': unsubscribing, no users left for ' . $this->getUri());
-        // Unsubscribe throws various Exceptions on failure
-        $this->unsubscribe();
-
-        return true;
-    }
+      // PuSH subscription is either active or in an indeterminate state.
+      // Check if we're out of subscribers, and if so send an unsubscribe.
+      $count = 0;
+      Event::handle('FeedSubSubscriberCount', array($this, &$count));
+      
+      if ($count > 0) {
+         common_log(LOG_INFO, __METHOD__ . ': ok, ' . $count . ' user(s) left for ' . $this->getUri());
+         return false;
+      }
+      common_log(LOG_INFO, __METHOD__ . ': unsubscribing, no users left for ' . $this->getUri());
+      
+      // Unsubscribe throws various Exceptions on failure
+      $this->unsubscribe();
+      return true;
+   }
 
 
    // ------------------------------------------------------------------------
@@ -369,83 +371,87 @@ class FeedSub extends Managed_DataObject {
       $this->subscribe();
    }
 
-    /**
-     * Setting to subscribe means it is _waiting_ to become active. This
-     * cannot be done in a transaction because there is a chance that the
-     * remote script we're calling (as in the case of PuSHpress) performs
-     * the lookup _while_ we're POSTing data, which means the transaction
-     * never completes (PushcallbackAction gets an 'inactive' state).
-     *
-     * @return boolean true when everything is ok (throws Exception on fail)
-     * @throws Exception on failure, can be HTTPClient's or our own.
-     */
-    protected function doSubscribe($mode)
-    {
-        $orig = clone($this);
-        if ($mode == 'subscribe') {
+
+   // -------------------------------------------------------------------------
+   // Function: doSubscribe
+   // Setting to subscribe means it is _waiting_ to become active. This
+   // cannot be done in a transaction because there is a chance that the
+   // remote script we're calling (as in the case of PuSHpress) performs
+   // the lookup _while_ we're POSTing data, which means the transaction
+   // never completes (PushcallbackAction gets an 'inactive' state).
+   //
+   // Returns:
+   // o boolean true when everything is ok (throws Exception on fail)
+   //
+   // Error States:
+   // o throws Exception on failure, can be HTTPClient's or our own.
+   protected function doSubscribe($mode) {
+      $orig = clone($this);
+      if ($mode == 'subscribe') {
             $this->secret = common_random_hexstr(32);
-        }
-        $this->sub_state = $mode;
-        $this->update($orig);
-        unset($orig);
+      }
+      $this->sub_state = $mode;
+      $this->update($orig);
+      unset($orig);
 
-        try {
-            $callback = common_local_url('pushcallback', array('feed' => $this->id));
-            $headers = array('Content-Type: application/x-www-form-urlencoded');
-            $post = array('hub.mode' => $mode,
-                          'hub.callback' => $callback,
-                          'hub.verify' => 'async',  // TODO: deprecated, remove when noone uses PuSH <0.4 (only 'async' method used there)
-                          'hub.verify_token' => 'Deprecated-since-PuSH-0.4', // TODO: rm!
-
-                          'hub.lease_seconds' => 2592000,   // 3600*24*30, request approximately month long lease (may be changed by hub)
-                          'hub.secret' => $this->secret,
-                          'hub.topic' => $this->getUri());
-            $client = new HTTPClient();
-            if ($this->huburi) {
-                $hub = $this->huburi;
+      try {
+         $callback = common_local_url('pushcallback', array('feed' => $this->id));
+         $headers = array('Content-Type: application/x-www-form-urlencoded');
+         $post = array('hub.mode' => $mode,
+                       'hub.callback' => $callback,
+                       'hub.verify' => 'async',  // TODO: deprecated, remove when noone uses PuSH <0.4 (only 'async' method used there)
+                       'hub.verify_token' => 'Deprecated-since-PuSH-0.4', // TODO: rm!
+                       'hub.lease_seconds' => 2592000,   // 3600*24*30, request approximately month long lease (may be changed by hub)
+                       'hub.secret' => $this->secret,
+                       'hub.topic' => $this->getUri());
+         $client = new HTTPClient();
+         if ($this->huburi) {
+            $hub = $this->huburi;
+         } else {
+            if (common_config('feedsub', 'fallback_hub')) {
+               $hub = common_config('feedsub', 'fallback_hub');
+               if (common_config('feedsub', 'hub_user')) {
+                  $u = common_config('feedsub', 'hub_user');
+                  $p = common_config('feedsub', 'hub_pass');
+                  $client->setAuth($u, $p);
+               }
             } else {
-                if (common_config('feedsub', 'fallback_hub')) {
-                    $hub = common_config('feedsub', 'fallback_hub');
-                    if (common_config('feedsub', 'hub_user')) {
-                        $u = common_config('feedsub', 'hub_user');
-                        $p = common_config('feedsub', 'hub_pass');
-                        $client->setAuth($u, $p);
-                    }
-                } else {
-                    throw new FeedSubException('Server could not find a usable PuSH hub.');
-                }
+               throw new FeedSubException('Server could not find a usable PuSH hub.');
             }
-            $response = $client->post($hub, $headers, $post);
-            $status = $response->getStatus();
-            // PuSH specificed response status code
-            if ($status == 202  || $status == 204) {
-                common_log(LOG_INFO, __METHOD__ . ': sub req ok, awaiting verification callback');
-                return;
-            } else if ($status >= 200 && $status < 300) {
-                common_log(LOG_ERR, __METHOD__ . ": sub req returned unexpected HTTP $status: " . $response->getBody());
-            } else {
-                common_log(LOG_ERR, __METHOD__ . ": sub req failed with HTTP $status: " . $response->getBody());
-            }
-        } catch (Exception $e) {
-            common_log(LOG_ERR, __METHOD__ . ": error \"{$e->getMessage()}\" hitting hub {$this->huburi} subscribing to {$this->getUri()}");
+         }
+         $response = $client->post($hub, $headers, $post);
+         $status = $response->getStatus();
+         // PuSH specificed response status code
+         if ($status == 202  || $status == 204) {
+            common_log(LOG_INFO, __METHOD__ . ': sub req ok, awaiting verification callback');
+            return;
+         } else if ($status >= 200 && $status < 300) {
+            common_log(LOG_ERR, __METHOD__ . ": sub req returned unexpected HTTP $status: " . $response->getBody());
+         } else {
+            common_log(LOG_ERR, __METHOD__ . ": sub req failed with HTTP $status: " . $response->getBody());
+         }
+      } catch (Exception $e) {
+         common_log(LOG_ERR, __METHOD__ . ": error \"{$e->getMessage()}\" hitting hub {$this->huburi} subscribing to {$this->getUri()}");
 
-            // Reset the subscription state.
-            $orig = clone($this);
-            $this->sub_state = 'inactive';
-            $this->update($orig);
+         // Reset the subscription state.
+         $orig = clone($this);
+         $this->sub_state = 'inactive';
+         $this->update($orig);
 
-            // Throw the Exception again.
-            throw $e;
-        }
-        throw new ServerException("{$mode} request failed.");
-    }
+         // Throw the Exception again.
+         throw $e;
+      }
+      throw new ServerException("{$mode} request failed.");
+   }
 
-    /**
-     * Save PuSH subscription confirmation.
-     * Sets approximate lease start and end times and finalizes state.
-     *
-     * @param int $lease_seconds provided hub.lease_seconds parameter, if given
-     */
+
+   // -------------------------------------------------------------------------
+   // Function: confirmSubscribe
+   // Save PuSH subscription confirmation.
+   // Sets approximate lease start and end times and finalizes state.
+   //
+   // Parameters:
+   // o int $lease_seconds - provided hub.lease_seconds parameter, if given
     public function confirmSubscribe($lease_seconds)
     {
         $original = clone($this);
