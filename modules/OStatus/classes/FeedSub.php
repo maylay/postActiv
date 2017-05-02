@@ -54,7 +54,10 @@
  * ----------------------------------------------------------------------------
  * File Authors:
  * o Brion Vibber <brion@pobox.com>
+ * o Siebrand Mazeland <s.mazeland@xs4all.nl>
  * o Mikael Nordfeldth <mmn@hethane.se>
+ * o Chimo <chimo@chromic.org>
+ * o Stephan Paul Weber <singpolyma@singpolyma.net>
  * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  *
  * Web:
