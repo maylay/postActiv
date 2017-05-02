@@ -66,21 +66,6 @@ The above package names are for Debian based systems. In the case of
 Arch Linux, PHP is compiled with support for most extensions but they
 require manual enabling in the relevant php.ini file (mostly php5-gmp).
 
-Debian install
---------------
-
-Here's how to set the system up on a new installation of Debian stable. You will need a domain name capable of getting a LetsEncrypt certificate and also to forward ports 80 and 443 to your server machine. Then run:
-
-``` bash
-su
-apt-get -yq install git
-git clone https://git.postactiv.com/postActiv/postActiv.git /var/www/postactiv
-cd /var/www/postactiv
-./scripts/debian_install.sh [mariadb password] [username] [password] [domain] [email address]
-```
-
-This installs everything needed, including the web server, TLS certificate and database.
-
 Better performance
 ------------------
 
@@ -104,6 +89,26 @@ Enable it in your php.ini where it is documented together with its settings.
 
 Installation
 ============
+
+Debian install
+--------------
+
+Here's how to set the system up on a new installation of Debian stable. You
+will need a domain name capable of getting a LetsEncrypt certificate and also
+to forward ports 80 and 443 to your server machine. Then run:
+
+``` bash
+su
+apt-get -yq install git
+git clone https://git.postactiv.com/postActiv/postActiv.git /var/www/postactiv
+cd /var/www/postactiv
+./scripts/debian_install.sh [mariadb password] [username] [password] [domain] [email address]
+```
+
+This installs everything needed, including the web server, TLS certificate and
+database.
+
+For systems on other OSes without the auto-installer, read on:
 
 Getting it up and running
 -------------------------
