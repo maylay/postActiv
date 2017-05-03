@@ -34,18 +34,29 @@
  */
 
 // Quick and dirty hack - lets make sure we load the classes we need - mb
-
-function postActiv_installer_autoload($cls)
-{
-   if (file_exists(INSTALLDIR.'/plugins/' . $cls . '.php')) {
-      require_once(INSTALLDIR.'/plugins/' . $cls . '.php');
-   } else if (file_exists(INSTALLDIR.'/modules/' . $cls . '.php')) {
-      require_once(INSTALLDIR.'/modules/' . $cls . '.php');
-   }
-}
-
-// Autoload function queue, starting with our own discovery method
-spl_autoload_register('postActiv_installer_autoload');
+require_once("./modules/Bookmark/classes/Bookmark.php");
+require_once("./modules/DirectMessage/classes/Message.php");
+require_once("./modules/EmailReminder/classes/Email_reminder.php");
+require_once("./modules/EmailSummary/classes/Email_summary_status.php");
+require_once("./modules/Event/classes/Happening.php");
+require_once("./modules/Event/classes/RVSP.php");
+require_once("./modules/Favorite/classes/Fave.php");
+require_once("./modules/Oembed/classes/File_oembed.php");
+require_once("./modules/OpenID/classes/User_openid.php");
+require_once("./modules/OpenID/classes/User_openid_prefs.php");
+require_once("./modules/OpenID/classes/User_openid_trustroot.php");
+require_once("./modules/OStatus/classes/FeedSub.php");
+require_once("./modules/OStatus/classes/HubSub.php");
+require_once("./modules/OStatus/classes/Magicsig.php");
+require_once("./modules/OStatus/classes/Ostatus_profile.php");
+require_once("./modules/Poll/classes/Poll.php");
+require_once("./modules/Poll/classes/Poll_response.php");
+require_once("./modules/Poll/classes/User_poll_prefs.php");
+require_once("./modules/QnA/classes/QnA_answer.php");
+require_once("./modules/QnA/classes/QnA_question.php");
+require_once("./modules/QnA/classes/QnA_vote.php");
+require_once("./modules/SearchSub/classes/SearchSub.php");
+require_once("./modules/TagSub/classes/TagSub.php");
 
 
 $classes = array('Schema_version',
