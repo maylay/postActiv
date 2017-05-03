@@ -90,6 +90,11 @@ class DefaultProfileBlock extends AccountProfileBlock
         return null;
     }
 
+    function donateurl()
+    {
+        return null;
+    }
+
     function otherProfiles()
     {
         return array();

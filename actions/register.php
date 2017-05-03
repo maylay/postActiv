@@ -201,6 +201,7 @@ class RegisterAction extends Action
             $gpgpubkey = $this->trimmed('gpgpubkey');
             $toxid     = $this->trimmed('toxid');
             $matrix    = $this->trimmed('matrix');
+            $donateurl = $this->trimmed('donateurl');
             $location  = $this->trimmed('location');
 
             // We don't trim these... whitespace is OK in a password!
@@ -266,6 +267,7 @@ class RegisterAction extends Action
                                                     'xmpp' => $xmpp,
                                                     'toxid' => $toxid,
                                                     'matrix' => $matrix,
+													'donateurl' => $donateurl,
                                                     'gpgpubkey' => $gpgpubkey,
                                                     'location' => $location,
                                                     'code' => $code));
@@ -525,6 +527,14 @@ class RegisterAction extends Action
                          $this->trimmed('matrix') ?: $this->scoped->getMatrix(),
                          // TRANS: Your Matrix address
                          _('Your Matrix address'),
+                         null, false);
+
+            $this->elementEnd('li');
+            $this->elementStart('li');
+            $this->input('donateurl', _('Donations link'),
+                         $this->trimmed('donateurl') ?: $this->scoped->getDonateUrl(),
+                         // TRANS: Donations link
+                         _('Donations link'),
                          null, false);
 
             $this->elementEnd('li');

@@ -243,6 +243,7 @@ class User extends Managed_DataObject
      *              string 'xmpp'
      *              string 'toxid'
      *              string 'matrix'
+     *              string 'donateurl'
      *              string 'gpgpubkey'
      *              string 'email'
      *              bool 'email_confirmed' pass true to mark email as pre-confirmed
@@ -309,6 +310,9 @@ class User extends Managed_DataObject
         }
         if (!empty($matrix)) {
             $profile->matrix = $matrix;
+        }
+        if (!empty($donateurl)) {
+            $profile->donateurl = $donateurl;
         }
         if (!empty($gpgpubkey)) {
             $profile->gpgpubkey = $gpgpubkey;

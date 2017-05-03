@@ -49,7 +49,7 @@ function showProfileInfo(Ostatus_profile $oprofile) {
         echo "group\n";
     } else {
         $profile = $oprofile->localProfile();
-        foreach (array('nickname', 'fullname', 'bio', 'xmpp', 'gpgpubkey', 'toxid', 'matrix', 'homepage', 'location') as $field) {
+        foreach (array('nickname', 'fullname', 'bio', 'xmpp', 'gpgpubkey', 'toxid', 'matrix', 'donateurl', 'homepage', 'location') as $field) {
             print "  $field: {$profile->$field}\n";
         }
     }

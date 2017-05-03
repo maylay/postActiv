@@ -385,6 +385,7 @@ class SNTestClient extends TestBase
                   'gpgpubkey' => $this->gpgpubkey,
                   'toxid' => $this->toxid,
                   'matrix' => $this->matrix,
+                  'donateurl' => $this->donateurl,
                   'license' => 1,
                   'submit' => 'Register'));
     }

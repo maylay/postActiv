@@ -78,6 +78,7 @@ class Profile extends Managed_DataObject
     public $homepage;                        // text()
     public $bio;                             // text()  multiple_key
     public $matrix;                          // text()
+    public $donateurl;                       // text()
     public $toxid;                           // text()
     public $xmpp;                            // text()
     public $gpgpubkey;                       // text()
@@ -109,6 +110,11 @@ class Profile extends Managed_DataObject
         return $this->matrix;
     }
 
+    public function getDonateUrl()
+    {
+        return $this->donateurl;
+    }
+
     public static function schemaDef()
     {
         $def = array(
@@ -131,6 +137,7 @@ class Profile extends Managed_DataObject
                 'xmpp' => array('type' => 'text', 'description' => 'xmpp address', 'collate' => 'utf8mb4_general_ci'),
                 'toxid' => array('type' => 'text', 'description' => 'tox id', 'collate' => 'utf8mb4_general_ci'),
                 'matrix' => array('type' => 'text', 'description' => 'matrix address', 'collate' => 'utf8mb4_general_ci'),
+                'donateurl' => array('type' => 'text', 'description' => 'donations link', 'collate' => 'utf8mb4_general_ci'),
             ),
             'primary key' => array('id'),
             'indexes' => array(

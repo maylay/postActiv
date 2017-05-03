@@ -1358,6 +1358,9 @@ class Ostatus_profile extends Managed_DataObject
         if (!empty($matrix)) {
             $profile->matrix = $matrix;
         }
+        if (!empty($donateurl)) {
+            $profile->donateurl = $donateurl;
+        }
         if (!empty($gpgpubkey)) {
             $profile->gpgpubkey = $gpgpubkey;
         }

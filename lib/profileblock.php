@@ -50,6 +50,7 @@ abstract class ProfileBlock extends Widget
     abstract function gpgpubkey();
     abstract function toxid();
     abstract function matrix();
+    abstract function donateurl();
 
     function show()
     {
@@ -109,6 +110,23 @@ abstract class ProfileBlock extends Widget
         $gpgpubkey = $this->gpgpubkey();
         $toxid = $this->toxid();
         $matrix = $this->matrix();
+		$donateurl = $this->donateurl();
+
+        if (!empty($donateurl)) {
+            $this->out->elementStart('p');
+            $this->out->elementStart('a',
+                                     array('href' => "$donateurl",
+                                           'rel' => '',
+                                           'class' => 'profile_block_homepage'));
+
+            $this->out->element('img', array('src' => Avatar::url("../theme/neo-gnu/images/donatebutton.jpg"),
+			                    'width' => 218,
+                                'height' => 40,
+                                'alt' => "Donate"));
+			
+            $this->out->elementEnd('a');
+            $this->out->elementEnd('p');
+        }
 
         $this->out->elementStart('p');
 

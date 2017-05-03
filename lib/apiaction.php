@@ -140,7 +140,7 @@ class ApiAction extends Action
 
     var $access    = self::READ_ONLY;  // read (default) or read-write
 
-    static $reserved_sources = array('web', 'omb', 'ostatus', 'mail', 'xmpp', 'api');
+    static $reserved_sources = array('web', 'omb', 'ostatus', 'mail', 'xmpp', 'donateurl', 'api');
 
     /**
      * Initialization.
@@ -229,6 +229,7 @@ class ApiAction extends Action
         $twitter_user['gpgpubkey'] = $profile->getGpgPubKey();
         $twitter_user['xmpp'] = $profile->getXmpp();
         $twitter_user['matrix'] = $profile->getMatrix();
+        $twitter_user['donateurl'] = $profile->getDonateUrl();
         $twitter_user['toxid'] = $profile->getToxId();
 
         // TODO: avatar url template (example.com/user/avatar?size={x}x{y})

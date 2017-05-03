@@ -198,6 +198,14 @@ class ProfilesettingsAction extends SettingsAction
 
             $this->elementEnd('li');
             $this->elementStart('li');
+            $this->input('donateurl', _('Donations link'),
+                         $this->trimmed('donateurl') ?: $this->scoped->getDonateUrl(),
+                         // TRANS: Donations link
+                         _('Donations link'),
+                         null, false);
+
+            $this->elementEnd('li');
+            $this->elementStart('li');
             // TRANS: Field label in form for profile settings.
             $this->input('location', _('Location'),
                          $this->trimmed('location') ?: $this->scoped->location,
@@ -313,6 +321,7 @@ class ProfilesettingsAction extends SettingsAction
             $gpgpubkey = $this->trimmed('gpgpubkey');
             $toxid = $this->trimmed('toxid');
             $matrix = $this->trimmed('matrix');
+            $donateurl = $this->trimmed('donateurl');
             $location = $this->trimmed('location');
             $autosubscribe = $this->booleanintstring('autosubscribe');
             $subscribe_policy = $this->trimmed('subscribe_policy');
@@ -424,6 +433,7 @@ class ProfilesettingsAction extends SettingsAction
             $this->scoped->gpgpubkey = $gpgpubkey;
             $this->scoped->toxid = $toxid;
             $this->scoped->matrix = $matrix;
+            $this->scoped->donateurl = $donateurl;
             $this->scoped->location = $location;
 
             $loc = Location::fromName($location);

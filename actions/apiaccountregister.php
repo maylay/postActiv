@@ -110,6 +110,7 @@ class ApiAccountRegisterAction extends ApiAction
         $gpgpubkey = $this->trimmed('gpgpubkey');
         $toxid     = $this->trimmed('toxid');
         $matrix    = $this->trimmed('matrix');
+        $donateurl = $this->trimmed('donateurl');
         $location = $this->trimmed('location');
 
         // We don't trim these... whitespace is OK in a password!
@@ -189,6 +190,7 @@ class ApiAccountRegisterAction extends ApiAction
                                                         'gpgpubkey' => $gpgpubkey,
                                                         'toxid' => $toxid,
                                                         'matrix' => $matrix,
+                                                        'donateurl' => $donateurl,
 														'location' => $location,
 														'code' => $this->code));
 					Event::handle('EndRegistrationTry', array($this));

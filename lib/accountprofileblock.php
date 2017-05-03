@@ -112,6 +112,11 @@ class AccountProfileBlock extends ProfileBlock
         return $this->profile->matrix;
     }
 
+    function donateurl()
+    {
+        return $this->profile->donateurl;
+    }
+
     function otherProfiles()
     {
         $others = array();
