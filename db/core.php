@@ -33,6 +33,21 @@
  *     double-check what we've been doing on postgres?
  */
 
+// Quick and dirty hack - lets make sure we load the classes we need - mb
+
+function postActiv_installer_autoload($cls)
+{
+   if (file_exists(INSTALLDIR.'/plugins/' . $cls . '.php')) {
+      require_once(INSTALLDIR.'/plugins/' . $cls . '.php');
+   } else if (file_exists(INSTALLDIR.'/modules/' . $cls . '.php')) {
+      require_once(INSTALLDIR.'/modules/' . $cls . '.php');
+   }
+}
+
+// Autoload function queue, starting with our own discovery method
+spl_autoload_register('postActiv_installer_autoload');
+
+
 $classes = array('Schema_version',
                  'Profile',
                  'Avatar',
