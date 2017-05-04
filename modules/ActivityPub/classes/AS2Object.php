@@ -173,16 +173,6 @@ class AS2Object extends Managed_DataObject {
    protected $bcc;
    protected $mediaType;
    protected $duration;
-
-   // -------------------------------------------------------------------------
-   // Function: onRouterInitialized
-   // Add our lookup API functions for AS20s to the site url mapping
-   public function onRouterInitialized(URLMapper $m)
-   {
-      $m->connect('api/activitypub/as2o',
-                  array('action' => 'as2o_lookup'));
-      return true;
-   }
 }
 
 
