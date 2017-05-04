@@ -91,8 +91,6 @@ class SalmonQueueHandler extends QueueHandler {
       $target = Profile::getByID($data['target']);
 
       // Make sure the neither actor nor target are on banned instances
-      $originator  = $actor->profileurl;
-      $destination = $target->profileurl;
       if ($this->isBannedInstance($originator,$destination)) {
            common_log(LOG_INFO, "Salmon originating from or destined to a blocked instance, discarding.");
          return false;
@@ -117,6 +115,11 @@ class SalmonQueueHandler extends QueueHandler {
 		}
 		$bans = $settings['banned_instances'];
       common_debug("Banned instances currently: " . json_encode($bans));
+
+      // Transliterate to the profile URL
+      $originator  = $actor->profileurl;
+      $destination = $target->profileurl;
+
       // Return whether this feed from a banned instance
       $is_banned = false;
       foreach ($bans as $banned_instance) {
