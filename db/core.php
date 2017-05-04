@@ -39,7 +39,7 @@ require_once("./modules/DirectMessage/classes/Message.php");
 require_once("./modules/EmailReminder/classes/Email_reminder.php");
 require_once("./modules/EmailSummary/classes/Email_summary_status.php");
 require_once("./modules/Event/classes/Happening.php");
-require_once("./modules/Event/classes/RVSP.php");
+require_once("./modules/Event/classes/RSVP.php");
 require_once("./modules/Favorite/classes/Fave.php");
 require_once("./modules/Oembed/classes/File_oembed.php");
 require_once("./modules/OpenID/classes/User_openid.php");
