@@ -49,7 +49,7 @@
  *
  * Stuff we will require even though AS2 makes them optional:
  * o uid           - our internal ID for the ActivityObject
- * o id            - URI of the notice
+ * o id            - URI of the notice/object/whatever
  * o type          - type of ActivityObject which this is
  *                   (how could this be optional?)
  *
