@@ -104,7 +104,7 @@
  * o updated       - The date and time the AS2O was last updated
  * o url           - One of more ActivityObjects with links to this object.
  *                   So we could for example have the web-facing version, and also
- *                   the ATOM< XML, and YAML versions.
+ *                   the ATOM, XML, and YAML versions.
  * o to            - An ActivityObject or URL representing the primary recipient
  *                   of the message (so the direct mention, as it were, when one
  *                   exists)
@@ -138,17 +138,41 @@
 // ----------------------------------------------------------------------------
 // Class: AS2Object
 // Class holding the representation of an AS2 ActivityObject
-//
-// Properties:
-// o uid
-// o name
-// o id
-// o type
 class AS2Object extends Managed_DataObject {
+   // Protected so you have to go through proper interfaces
    protected $uid;
    protected $name;
    protected $id;
    protected $type;
+   protected $attachment;
+   protected $attributedTo;
+   protected $audience;
+   protected $content;
+   protected $context;
+   protected $contentMap;
+   protected $name;
+   protected $nameMap;
+   protected $endTime;
+   protected $generator;
+   protected $icon;
+   protected $image;
+   protected $inReplyTo;
+   protected $location;
+   protected $preview;
+   protected $published;
+   protected $replies;
+   protected $startTime;
+   protected $summary;
+   protected $summaryMap;
+   protected $tag;
+   protected $updated;
+   protected $url;
+   protected $to;
+   protected $bto;
+   protected $cc;
+   protected $bcc;
+   protected $mediaType;
+   protected $duration;
 
    // -------------------------------------------------------------------------
    // Function: onRouterInitialized
