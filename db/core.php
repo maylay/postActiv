@@ -124,11 +124,13 @@ $classes = array('Schema_version',
                  'Message',
                  'Poll',
                  'Poll_response',
-                 'Qna_answer',
-                 'Qna_question',
-                 'Qna_vote',
+                 'QnA_Answer',
+                 'QnA_Question',
+                 'QnA_Vote',
                  'Searchsub',
+                 'TagSub',
                  'User_poll_prefs',
+                 'Ostatus_profile',
 );
 
 foreach ($classes as $cls) {
