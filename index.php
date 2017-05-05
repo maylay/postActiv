@@ -408,6 +408,11 @@ function main()
     call_user_func("$action_class::run", $args);
 }
 
+// Sometimes, under currently-mysterious circumstances, a spurious empty line
+// is getting added to the beginning of the output. Cleaning the output buffer
+// works around the issue.
+ob_clean();
+
 main();
 
 // XXX: cleanup exit() calls or add an exit handler so
