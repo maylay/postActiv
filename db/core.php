@@ -34,29 +34,30 @@
  */
 
 // Quick and dirty hack - lets make sure we load the classes we need - mb
-require_once("./modules/Bookmark/classes/Bookmark.php");
-require_once("./modules/DirectMessage/classes/Message.php");
-require_once("./modules/EmailReminder/classes/Email_reminder.php");
-require_once("./modules/EmailSummary/classes/Email_summary_status.php");
-require_once("./modules/Event/classes/Happening.php");
-require_once("./modules/Event/classes/RSVP.php");
-require_once("./modules/Favorite/classes/Fave.php");
-require_once("./modules/Oembed/classes/File_oembed.php");
-require_once("./modules/OpenID/classes/User_openid.php");
-require_once("./modules/OpenID/classes/User_openid_prefs.php");
-require_once("./modules/OpenID/classes/User_openid_trustroot.php");
-require_once("./modules/OStatus/classes/FeedSub.php");
-require_once("./modules/OStatus/classes/HubSub.php");
-require_once("./modules/OStatus/classes/Magicsig.php");
-require_once("./modules/OStatus/classes/Ostatus_profile.php");
-require_once("./modules/Poll/classes/Poll.php");
-require_once("./modules/Poll/classes/Poll_response.php");
-require_once("./modules/Poll/classes/User_poll_prefs.php");
-require_once("./modules/QnA/classes/QnA_answer.php");
-require_once("./modules/QnA/classes/QnA_question.php");
-require_once("./modules/QnA/classes/QnA_vote.php");
-require_once("./modules/SearchSub/classes/SearchSub.php");
-require_once("./modules/TagSub/classes/TagSub.php");
+$pa_path = dirname(dirname(__FILE__));
+require_once(INSTALLDIR . "/modules/Bookmark/classes/Bookmark.php");
+require_once(INSTALLDIR . "/modules/DirectMessage/classes/Message.php");
+require_once(INSTALLDIR . "/modules/EmailReminder/classes/Email_reminder.php");
+require_once(INSTALLDIR . "/modules/EmailSummary/classes/Email_summary_status.php");
+require_once(INSTALLDIR . "/modules/Event/classes/Happening.php");
+require_once(INSTALLDIR . "/modules/Event/classes/RSVP.php");
+require_once(INSTALLDIR . "/modules/Favorite/classes/Fave.php");
+require_once(INSTALLDIR . "/modules/Oembed/classes/File_oembed.php");
+require_once(INSTALLDIR . "/modules/OpenID/classes/User_openid.php");
+require_once(INSTALLDIR . "/modules/OpenID/classes/User_openid_prefs.php");
+require_once(INSTALLDIR . "/modules/OpenID/classes/User_openid_trustroot.php");
+require_once(INSTALLDIR . "/modules/OStatus/classes/FeedSub.php");
+require_once(INSTALLDIR . "/modules/OStatus/classes/HubSub.php");
+require_once(INSTALLDIR . "/modules/OStatus/classes/Magicsig.php");
+require_once(INSTALLDIR . "/modules/OStatus/classes/Ostatus_profile.php");
+require_once(INSTALLDIR . "/modules/Poll/classes/Poll.php");
+require_once(INSTALLDIR . "/modules/Poll/classes/Poll_response.php");
+require_once(INSTALLDIR . "/modules/Poll/classes/User_poll_prefs.php");
+require_once(INSTALLDIR . "/modules/QnA/classes/QnA_Answer.php");
+require_once(INSTALLDIR . "/modules/QnA/classes/QnA_Question.php");
+require_once(INSTALLDIR . "/modules/QnA/classes/QnA_Vote.php");
+require_once(INSTALLDIR . "/modules/SearchSub/classes/SearchSub.php");
+require_once(INSTALLDIR . "/modules/TagSub/classes/TagSub.php");
 
 
 $classes = array('Schema_version',
@@ -118,24 +119,16 @@ $classes = array('Schema_version',
                  'Deleted_notice',
                  'Feedsub',
                  'File_oembed',
-                 'Group_message',
-                 'Group_message_profile',
-                 'Group_privacy_settings',
-                 'Oid_associations',
-                 'Oid_nonces',
                  'Happening',
                  'Magicsig',
                  'Message',
                  'Message_info',
-                 'Notice_to_status',
                  'Poll',
                  'Poll_response',
-                 'Profile_detail',
                  'Qna_answer',
                  'Qna_question',
                  'Qna_vote',
                  'Searchsub',
-                 'Submirror',
                  'User_poll_prefs',
 );
 
