@@ -53,33 +53,36 @@
 
 require_once INSTALLDIR.'/classes/Memcached_DataObject.php';
 
-class Remember_me extends Managed_DataObject
-{
-    ###START_AUTOCODE
-    /* the code below is auto generated do not remove the above tag */
 
-    public $__table = 'remember_me';                     // table name
-    public $code;                            // varchar(32)  primary_key not_null
-    public $user_id;                         // int(4)   not_null
-    public $modified;                        // timestamp()   not_null default_CURRENT_TIMESTAMP
+// ============================================================================
+// Class: Remember_me
+// Superclass representation of remember_me records in the DB.
+//
+// Properties:
+// o __table = 'remember_me' - table name
+// o code     -  varchar(32)  primary_key not_null
+// o user_id  - int(4)   not_null
+// o modified - timestamp()   not_null default_CURRENT_TIMESTAMP
+class Remember_me extends Managed_DataObject {
+   public $__table = 'remember_me';                     // table name
+   public $code;                            // varchar(32)  primary_key not_null
+   public $user_id;                         // int(4)   not_null
+   public $modified;                        // timestamp()   not_null default_CURRENT_TIMESTAMP
 
-    /* the code above is auto generated do not remove the tag below */
-    ###END_AUTOCODE
 
-    public static function schemaDef()
-    {
-        return array(
-            'fields' => array(
-                'code' => array('type' => 'varchar', 'length' => 32, 'not null' => true, 'description' => 'good random code'),
-                'user_id' => array('type' => 'int', 'not null' => true, 'description' => 'user who is logged in'),
-                'modified' => array('type' => 'timestamp', 'not null' => true, 'description' => 'date this record was modified'),
-            ),
-            'primary key' => array('code'),
-            'foreign keys' => array(
-                'remember_me_user_id_fkey' => array('user', array('user_id' => 'id')),
-            ),
-        );
-    }    
+   // -------------------------------------------------------------------------
+   // Function: schemaDef
+   // Returns an array representing the table schema in the DB.
+   public static function schemaDef() {
+      return array(
+         'fields' => array(
+            'code' => array('type' => 'varchar', 'length' => 32, 'not null' => true, 'description' => 'good random code'),
+            'user_id' => array('type' => 'int', 'not null' => true, 'description' => 'user who is logged in'),
+            'modified' => array('type' => 'timestamp', 'not null' => true, 'description' => 'date this record was modified'),),
+         'primary key' => array('code'),
+         'foreign keys' => array(
+            'remember_me_user_id_fkey' => array('user', array('user_id' => 'id')),),);
+   }
 }
 
 // END OF FILE
