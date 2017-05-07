@@ -837,7 +837,7 @@ class User extends Managed_DataObject
 
 
    // -------------------------------------------------------------------------
-   // Functions: repeatedByMe
+   // Function: repeatedByMe
    // Returns the first $limit notices repeated by a user, starting at $offset
    function repeatedByMe($offset=0, $limit=20, $since_id=null, $max_id=null) {
       // FIXME: Use another way to get Profile::current() since we
