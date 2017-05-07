@@ -32,6 +32,8 @@
  * About:
  * Class abstraction of a Smarty theme
  *
+ * Copyright on this file belongs explicitly to Maiyannah Bishop.
+ *
  * PHP version:
  * Tested with PHP 7
  * ----------------------------------------------------------------------------
@@ -47,19 +49,33 @@
 // This file is formatted so that it provides useful documentation output in
 // NaturalDocs.  Please be considerate of this before changing formatting.
 
+
+// ============================================================================
+// Class: SmartyTheme
+// Superclass representing a Smarty-based theme
+//
 // For now, since I'm doing this as a proof of concept back port
 // I'm mostly concerned with seeing that this actually works.
 // As such a lot is missing and a lot is hardcoded
+//
+// Properties:
+// o $name        - Name of template we're using
+// o $templates   - Array to hold template locations
+// o $stylesheets - Array to hold stylesheets
+// o $scripts     - Array to hold scripts
 class SmartyTheme {
    protected $Smarty;   // Smarty template system class object
-   var $Name;           // Name of template we're using
-   var $Templates;      // Array to hold template locations
-   var $Stylesheets;    // Array to hold stylesheets
-   var $Scripts;        // Array to hold scripts
+   var $name;           // Name of template we're using
+   var $templates;      // Array to hold template locations
+   var $stylesheets;    // Array to hold stylesheets
+   var $scripts;        // Array to hold scripts
 
+
+   // -------------------------------------------------------------------------
+   // Function: __construct
+   // Bootstrap the Smarty instance for this theme
    public function __construct($name) {
-      try
-      {
+      try {
          // Load a Smarty processor instance for this Template
          require_once(INSTALLDIR . "/extlib/Smarty/Smarty.class.php");
          $this->Smarty = new Smarty();
@@ -71,144 +87,133 @@ class SmartyTheme {
 
          // If we've got this far, we're good!
          return TRUE;
-      }
-      catch (exception $error)
-      {
+      } catch (exception $error) {
          die("Error constructing SmartyTheme class for " . $name . ": " . $error . PHP_EOL);
       }
    }
 
    // -------------------------------------------------------------------------
-   // PRIVATE: instantiateTemplates()
-   //    Populate the Templates array of this theme with the system short_aliases
-   private function instantiateTemplates()
-   {
-      $this->Templates["single_notice"] = "";   
+   // Function: instantiateTemplates()
+   // Populate the Templates array of this theme with the system short_aliases
+   private function instantiateTemplates() {
+      $this->Templates["single_notice"] = "";
    }
 
    // -------------------------------------------------------------------------
-   // mapTemplatesDir($url)
-   //    Public interface to set the directory the theme's Smarty instance is
-   //    pulling templates from.
-   public function mapTemplatesDir($url)
-   {
-      try
-      {
+   // Function: mapTemplatesDir
+   // Set the directory the theme's Smarty instance is pulling templates from.
+   //
+   // Parameters:
+   // o url - URL of the Smarty templates directory
+   public function mapTemplatesDir($url) {
+      try {
          $this->Smarty->setTemplatesDir($url);
          return TRUE;
-      }
-      catch (exception $error)
-      {
+      } catch (exception $error) {
          common_debug("Error setting the Smarty template dir: " . $error . PHP_EOL);
          return FALSE;
       }
    }
 
    // -------------------------------------------------------------------------
-   // mapCompileDir($url)
-   //    Public interface to set the directory the theme's Smarty instance is
-   //    compiling templates to.
-   public function mapCompileDir($url)
-   {
-      try
-      {
+   // Function: mapCompileDir
+   // Set the directory the theme's Smarty instance is ompiling templates to.
+   //
+   // Parameters:
+   // o url - URL of the Smarty template compile directory.
+   public function mapCompileDir($url) {
+      try {
          $this->Smarty->setCompileDir($url);
          return TRUE;
-      }
-      catch (exception $error)
-      {
+      } catch (exception $error) {
          common_debug("Error setting the Smarty compile dir: " . $error . PHP_EOL);
          return FALSE;
       }
    }
 
    // -------------------------------------------------------------------------
-   // mapTemplate($short_alias, $url)
-   //    Save the URL for a given short_alias for a template, in our internal
-   //    Templates array.
-   //    Returns TRUE on success, FALSE on failure.
-   public function mapTemplate($short_alias, $url)
-   {
-      try
-      {
+   // Function: mapTemplate
+   // Save the URL for a given short_alias for a template, in our internal
+   // Templates array.
+   //
+   // Parameters:
+   // o short_alias - alias of the template we are mapping
+   // o url         - url we are mapping the template to
+   //
+   // Returns:
+   // o boolean true/false for success
+   public function mapTemplate($short_alias, $url) {
+      try {
          $this->Templates[$short_alias] = $url;
          return TRUE;
-      }
-      catch (exception $error)
-      {
+      } catch (exception $error) {
          common_debug("Error mapping Template in SmartyTheme::mapTemplate(" . $short_alias . "," . $url . "): " . $error . PHP_EOL);
          return FALSE;
       }
    }
 
    // -------------------------------------------------------------------------
-   // retrieveTemplate($short_alias)
-   //    Retrieve the template URL for the given short alias
-   //    Returns the URL on success, FALSE on failure.
+   // Function: retrieveTemplate
+   // Retrieve the template URL for the given short alias.
    //
-   //    If you just want to do this to display a template, then use 
-   //    displayTemplate instead!
-   public function retrieveTemplate($short_alias)
-   {
-      try
-      {
-         if (array_key_exists($short_alias, $this->Templates))
-         {
+   // If you just want to do this to display a template, then use 
+   // displayTemplate instead!
+   //
+   // Parameters:
+   // o short_alias - alias of the template we're looking up
+   //
+   // Returns:
+   // o the URL on success, FALSE on failure.
+   public function retrieveTemplate($short_alias) {
+      try {
+         if (array_key_exists($short_alias, $this->Templates)) {
             return $this->Templates[$short_alias];
-         }
-         else
-         {
+         } else {
             return FALSE;
          }
-      }
-      catch (exception $error)
-      {
+      } catch (exception $error) {
          common_debug("Error retrieving Template in SmartyTheme::retrieveTemplate(" . $short_alias . "): " . $error . PHP_EOL);
          return FALSE;
       }
    }
 
    // -------------------------------------------------------------------------
-   // displayTemplate($short_alias)
-   //    Have Smarty display the template with the given short_alias.  Make 
-   //    sure you assign the appropriate template variables first!
-   //    You can use assignVariable($var, $value) for this.
-   //    Returns TRUE if successful, FALSE if not.
-   public function displayTemplate($short_alias)
-   {
-      try
-      {
-         if (array_key_exists($short_alias, $this->Templates))
-         {
+   // Function: displayTemplate($short_alias)
+   // Have Smarty display the template with the given short_alias.  Make sure
+   // you assign the appropriate template variables first! You can use
+   // assignVariable($var, $value) for this.
+   //
+   // Parameters:
+   // o short_alias - alias of the template we are rendering
+   //
+   // Returns:
+   // o TRUE if successful, FALSE if not.
+   public function displayTemplate($short_alias) {
+      try {
+         if (array_key_exists($short_alias, $this->Templates)) {
             $this->Smarty->display($this->Templates[$short_alias]);
             return TRUE;
-         }
-         else
-         {
+         } else {
             return FALSE;
          }
-      }
-      catch (exception $error)
-      {
+      } catch (exception $error) {
          common_debug("Error displaying Template in SmartyTheme::displayTemplate(" . $short_alias . "): " . $error . PHP_EOL);
          return FALSE;
       }
    }
 
    // -------------------------------------------------------------------------
-   // assignVariable($var, $value)
-   //    Interface to the internal Smarty instance to assign variables used in
-   //    templates.
-   //    Returns TRUE if successful, FALSE if not.
-   public function assignVariable($var, $value)
-   {
-      try
-      {
+   // Function: assignVariable($var, $value)
+   // Interface to the internal Smarty instance to assign variables used in
+   // templates.
+   //
+   // Returns:
+   // o TRUE if successful, FALSE if not.
+   public function assignVariable($var, $value) {
+      try {
          $this->Smarty->assign($var,$value);
          return TRUE;
-      }
-      catch (exception $error)
-      {
+      } catch (exception $error) {
          common_debug("Error assigning Smarty variables in SmartyTheme::assignVariable(" . $var . "," . $value . "): " . $error . PHP_EOL);
          return FALSE;
       }
