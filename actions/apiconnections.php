@@ -83,6 +83,14 @@ class ApiConnectionsAction extends ApiAction {
    protected function handle() {
       parent::handle();
    }
+   
+
+   // -------------------------------------------------------------------------
+   // Function: isReadOnly
+   // Is this end-point read-only?  (yes)
+   function isReadOnly($args) {
+      return true;
+   }
 }
 
 // END OF FILE
