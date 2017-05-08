@@ -127,27 +127,35 @@ class Subscription extends Managed_DataObject {
    // Returns:
    // o mixed Subscription or Subscription_queue: new subscription info
    static function start(Profile $subscriber, Profile $other, $force=false) {
+      // AuthorizationException if the user doesn't have Subscribe right
       if (!$subscriber->hasRight(Right::SUBSCRIBE)) {
          // TRANS: Exception thrown when trying to subscribe while being banned from subscribing.
-         throw new Exception(_('You have been banned from subscribing.'));
+         throw new AuthorizationException(_('You have been banned from subscribing.'));
       }
+      // AlreadyFulfilledException if they're already subscribed.
       if (self::exists($subscriber, $other)) {
          // TRANS: Exception thrown when trying to subscribe while already subscribed.
          throw new AlreadyFulfilledException(_('Already subscribed!'));
       }
+      // Fail if user has blocked the subscriber
       if ($other->hasBlocked($subscriber)) {
          // TRANS: Exception thrown when trying to subscribe to a user who has blocked the subscribing user.
-         throw new Exception(_('User has blocked you.'));
+         throw new PrivateStreamException(_('You are unable to subscribe to this user.'));
+      }
+      // Fail if the subscriber matches the filter list
+      if ($this->matchesFilterList($subscriber)) {
+         // TRANS: Exception thrown when trying to subscribe to a user who has blocked the subscribing user.
+         throw new AuthorizationException(_('You have been blocked from subscribing on this server.'));
       }
 
       if (Event::handle('StartSubscribe', array($subscriber, $other))) {
          // unless subscription is forced, the user policy for subscription approvals is tested
          if (!$force && $other->requiresSubscriptionApproval($subscriber)) {
             try {
-                    $sub = Subscription_queue::saveNew($subscriber, $other);
-                    $sub->notify();
+               $sub = Subscription_queue::saveNew($subscriber, $other);
+               $sub->notify();
             } catch (AlreadyFulfilledException $e) {
-                    $sub = Subscription_queue::getSubQueue($subscriber, $other);
+               $sub = Subscription_queue::getSubQueue($subscriber, $other);
             }
          } else {
             $otherUser = User::getKV('id', $other->id);
@@ -179,6 +187,24 @@ class Subscription extends Managed_DataObject {
       return $sub;
    }
 
+
+   // -------------------------------------------------------------------------
+   // Function: matchesFilterList
+   function matchesFilterList($subscriber) {
+      // Get subscription filter list
+      $configphpsettings = common_config('site','sanctions') ?: array();
+      foreach($configphpsettings as $configphpsetting=>$value) {
+         $settings[$configphpsetting] = $value;
+      }
+      $filters = $settings['subscription_filter'];
+      common_debug("Subscription filter list currently: " . json_encode($filters));
+      
+      // Return true if matches, false if not
+      if preg_match($filters, $subscriber) {
+         return true;
+      }
+      return false;
+   }
 
    // -------------------------------------------------------------------------
    // Function: ensureStart
