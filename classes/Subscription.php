@@ -194,6 +194,8 @@ class Subscription extends Managed_DataObject {
 
    // -------------------------------------------------------------------------
    // Function: matchesFilterList
+   // Loads the site subscription filter setting and returns whether $subscriber
+   // matches it or not.
    function matchesFilterList($subscriber) {
       // Get subscription filter list
       $configphpsettings = common_config('site','sanctions') ?: array();
