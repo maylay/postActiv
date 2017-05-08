@@ -131,21 +131,25 @@ class Subscription extends Managed_DataObject {
       if (!$subscriber->hasRight(Right::SUBSCRIBE)) {
          // TRANS: Exception thrown when trying to subscribe while being banned from subscribing.
          throw new AuthorizationException(_('You have been banned from subscribing.'));
+         return false;
       }
       // AlreadyFulfilledException if they're already subscribed.
       if (self::exists($subscriber, $other)) {
          // TRANS: Exception thrown when trying to subscribe while already subscribed.
          throw new AlreadyFulfilledException(_('Already subscribed!'));
+         return false;
       }
       // Fail if user has blocked the subscriber
       if ($other->hasBlocked($subscriber)) {
          // TRANS: Exception thrown when trying to subscribe to a user who has blocked the subscribing user.
          throw new PrivateStreamException(_('You are unable to subscribe to this user.'));
+         return false;
       }
       // Fail if the subscriber matches the filter list
       if ($this->matchesFilterList($subscriber)) {
          // TRANS: Exception thrown when trying to subscribe to a user who has blocked the subscribing user.
          throw new AuthorizationException(_('You have been blocked from subscribing on this server.'));
+         return false;
       }
 
       if (Event::handle('StartSubscribe', array($subscriber, $other))) {
