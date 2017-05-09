@@ -207,6 +207,24 @@ The ones that you may want to set are listed below for clarity.
     script or has the access in their hosting environment to do so. If you can,
     set this to 'script' and run scripts/checkschema.php whenever you install
     or upgrade a plugin.
+    
+
+sanctions
+-------------------------------------------------------------------------------
+
+There are a variety of site-wide filtering options which can be used to keep
+objectionable content off the server.
+
+* `banned_instances` - hubsub callbacks and salmon notices from these instances
+    will be discarded, effectively blocking these servers from federating with
+    your server.  It should be noted this won't stop them from scraping feeds,
+    however.
+    
+* `subscription_filter` - a Perl-compatible regular expression which is used to
+    filter incoming subscriptions - users matching this regular expression will
+    not be able to subscribe to users on this server, they will get an 
+    authorization error.  Care should be taken with any PCRE put in here since 
+    it can cause false positives.
 
 
 syslog
