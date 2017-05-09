@@ -141,7 +141,6 @@
 class AS2Object extends Managed_DataObject {
    // Protected so you have to go through proper interfaces
    protected $uid;
-   protected $name;
    protected $id;
    protected $type;
    protected $attachment;
