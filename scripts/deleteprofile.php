@@ -20,7 +20,7 @@
 
 define('INSTALLDIR', realpath(dirname(__FILE__) . '/..'));
 
-$shortoptions = 'i::n::u::y';
+$shortoptions = 'i:n:u:y';
 $longoptions = array('id=', 'nickname=', 'uri=', 'yes');
 
 $helptext = <<<END_OF_DELETEUSER_HELP
@@ -36,41 +36,43 @@ END_OF_DELETEUSER_HELP;
 
 require_once INSTALLDIR.'/scripts/commandline.inc';
 
-if (have_option('i', 'id')) {
-    $id = get_option_value('i', 'id');
-    $profile = Profile::getKV('id', $id);
-    if (!$profile instanceof Profile) {
-        print "Can't find profile with ID $id\n";
+try {
+    if (have_option('i', 'id')) {
+        $id = get_option_value('i', 'id');
+        $profile = Profile::getKV('id', $id);
+        if (empty($profile)) {
+            throw new Exception("Can't find profile with ID '$id'.");
+        }
+    } else if (have_option('n', 'nickname')) {
+        $nickname = get_option_value('n', 'nickname');
+        $user = User::getKV('nickname', $nickname);
+        if (empty($user)) {
+            throw new Exception("Can't find user with nickname '$nickname'.");
+        }
+        $profile = $user->getProfile();
+    } else if (have_option('u', 'uri')) {
+        $uri = get_option_value('u', 'uri');
+        $oprofile = Ostatus_profile::getKV('uri', $uri);
+        if (empty($oprofile)) {
+            throw new Exception("Can't find profile with URI '$uri'.");
+        }
+        $profile = $oprofile->localProfile();
+    } else {
+        show_help();
         exit(1);
     }
-} else if (have_option('n', 'nickname')) {
-    $nickname = get_option_value('n', 'nickname');
-    $user = User::getKV('nickname', $nickname);
-    if (!$user instanceof User) {
-        print "Can't find user with nickname '$nickname'\n";
-        exit(1);
-    }
-    $profile = $user->getProfile();
-} else if (have_option('u', 'uri')) {
-    $uri = get_option_value('u', 'uri');
-    $oprofile = Ostatus_profile::getKV('uri', $uri);
-    if (!$oprofile instanceof Ostatus_profile) {
-        print "Can't find profile with URI '$uri'\n";
-        exit(1);
-    }
-    $profile = $oprofile->localProfile();
-} else {
-    print "You must provide either an ID, a URI or a nickname.\n";
-    exit(1);
-}
 
-if (!have_option('y', 'yes')) {
-    print "About to PERMANENTLY delete profile '".$profile->getNickname()."' ({$profile->id}). Are you sure? [y/N] ";
-    $response = fgets(STDIN);
-    if (strtolower(trim($response)) != 'y') {
-        print "Aborting.\n";
-        exit(0);
+    if (!have_option('y', 'yes')) {
+        print "About to PERMANENTLY delete profile '".$profile->getNickname()."' ({$profile->id}). Are you sure? [y/N] ";
+        $response = fgets(STDIN);
+        if (strtolower(trim($response)) != 'y') {
+            print "Aborting.\n";
+            exit(0);
+        }
     }
+} catch (Exception $e) {
+    print $e->getMessage()."\n";
+    exit(1);
 }
 
 print "Deleting...";
