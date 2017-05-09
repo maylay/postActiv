@@ -146,7 +146,7 @@ class Subscription extends Managed_DataObject {
          return false;
       }
       // Fail if the subscriber matches the filter list
-      if ($this->matchesFilterList($subscriber)) {
+      if (Subscription::matchesFilterList($subscriber)) {
          // TRANS: Exception thrown when trying to subscribe to a user who has blocked the subscribing user.
          throw new AuthorizationException(_('You have been blocked from subscribing on this server.'));
          return false;
