@@ -206,7 +206,7 @@ class Subscription extends Managed_DataObject {
       common_debug("Subscription filter list currently: " . json_encode($filters));
       
       // Return true if matches, false if not
-      if preg_match($filters, $subscriber) {
+      if (preg_match($filters, $subscriber)) {
          return true;
       }
       return false;
