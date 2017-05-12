@@ -101,11 +101,16 @@ class ApiAccountRegisterAction extends ApiAction
     {
         parent::handle();
 
-        $nickname = $this->trimmed('nickname');
-        $email    = $this->trimmed('email');
-        $fullname = $this->trimmed('fullname');
-        $homepage = $this->trimmed('homepage');
-        $bio      = $this->trimmed('bio');
+        $nickname  = $this->trimmed('nickname');
+        $email     = $this->trimmed('email');
+        $fullname  = $this->trimmed('fullname');
+        $homepage  = $this->trimmed('homepage');
+        $bio       = $this->trimmed('bio');
+        $xmpp      = $this->trimmed('xmpp');
+        $gpgpubkey = $this->trimmed('gpgpubkey');
+        $toxid     = $this->trimmed('toxid');
+        $matrix    = $this->trimmed('matrix');
+        $donateurl = $this->trimmed('donateurl');
         $location = $this->trimmed('location');
 
         // We don't trim these... whitespace is OK in a password!
@@ -181,6 +186,11 @@ class ApiAccountRegisterAction extends ApiAction
 														'fullname' => $fullname,
 														'homepage' => $homepage,
 														'bio' => $bio,
+                                                        'xmpp' => $xmpp,
+                                                        'gpgpubkey' => $gpgpubkey,
+                                                        'toxid' => $toxid,
+                                                        'matrix' => $matrix,
+                                                        'donateurl' => $donateurl,
 														'location' => $location,
 														'code' => $this->code));
 					Event::handle('EndRegistrationTry', array($this));
