@@ -52,6 +52,7 @@
  * o Mikael Nordfeldth <mmn@hethane.se>
  * o Hannes Mannerheim <h@nnesmannerhe.im>
  * o Chimo <chimo@chromic.org>
+ * o Bob Mottram <bob@freedombone.net>
  * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  *
  * Web:
@@ -65,257 +66,297 @@
 
 if (!defined('POSTACTIV')) { exit(1); }
 
-/**
- * Table Definition for profile
- */
-class Profile extends Managed_DataObject
-{
-    public $__table = 'profile';                         // table name
-    public $id;                              // int(4)  primary_key not_null
-    public $nickname;                        // varchar(64)  multiple_key not_null
-    public $fullname;                        // text()
-    public $profileurl;                      // text()
-    public $homepage;                        // text()
-    public $bio;                             // text()  multiple_key
-    public $matrix;                          // text()
-    public $donateurl;                       // text()
-    public $toxid;                           // text()
-    public $xmpp;                            // text()
-    public $gpgpubkey;                       // text()
-    public $location;                        // text()
-    public $lat;                             // decimal(10,7)
-    public $lon;                             // decimal(10,7)
-    public $location_id;                     // int(4)
-    public $location_ns;                     // int(4)
-    public $created;                         // datetime()   not_null
-    public $modified;                        // timestamp()   not_null default_CURRENT_TIMESTAMP
 
-    public function getGpgPubKey()
-    {
-        return $this->gpgpubkey;
+// ============================================================================
+// Class: Profile
+// Superclass representing the table definition for user Profiles and
+// containing interfaces to interact with them.
+//
+// Properties:
+// o __table = 'profile' - table name
+// o id          - int(4)  primary_key not_null
+// o nickname    - varchar(64)  multiple_key not_null
+// o fullname    - text()
+// o profileurl  - text()
+// o homepage    - text()
+// o bio         - text()  multiple_key
+// o matrix      - text()
+// o donateurl   - text()
+// o toxid       - text()
+// o xmpp        - text()
+// o gpgpubkey   - text()
+// o location    - text()
+// o lat         - decimal(10,7)
+// o lon         - decimal(10,7)
+// o location_id - int(4)
+// o location_ns - int(4)
+// o created     - datetime()   not_null
+// o modified    - timestamp()   not_null default_CURRENT_TIMESTAMP
+class Profile extends Managed_DataObject {
+   public $__table = 'profile';                         // table name
+   public $id;
+   public $nickname;
+   public $fullname;
+   public $profileurl;
+   public $homepage;
+   public $bio;
+   public $location;
+   public $lat;
+   public $lon;
+   public $location_id;
+   public $location_ns;
+   public $created;
+   public $modified;
+   public $matrix;
+   public $donateurl;
+   public $toxid;
+   public $xmpp;
+   public $gpgpubkey;
+   
+   protected $_user = array();
+   protected $_group = array();
+
+
+   // -------------------------------------------------------------------------
+   // Function: schemaDef
+   // Returns the table schema definition that represents how the table is set
+   // up in the database.
+   public static function schemaDef() {
+      $def = array(
+         'description' => 'local and remote users have profiles',
+         'fields' => array(
+            'id' => array('type' => 'serial', 'not null' => true, 'description' => 'unique identifier'),
+            'nickname' => array('type' => 'varchar', 'length' => 64, 'not null' => true, 'description' => 'nickname or username', 'collate' => 'utf8mb4_general_ci'),
+            'fullname' => array('type' => 'text', 'description' => 'display name', 'collate' => 'utf8mb4_general_ci'),
+            'profileurl' => array('type' => 'text', 'description' => 'URL, cached so we dont regenerate'),
+            'homepage' => array('type' => 'text', 'description' => 'identifying URL', 'collate' => 'utf8mb4_general_ci'),
+            'bio' => array('type' => 'text', 'description' => 'descriptive biography', 'collate' => 'utf8mb4_general_ci'),
+            'location' => array('type' => 'text', 'description' => 'physical location', 'collate' => 'utf8mb4_general_ci'),
+            'lat' => array('type' => 'numeric', 'precision' => 10, 'scale' => 7, 'description' => 'latitude'),
+            'lon' => array('type' => 'numeric', 'precision' => 10, 'scale' => 7, 'description' => 'longitude'),
+            'location_id' => array('type' => 'int', 'description' => 'location id if possible'),
+            'location_ns' => array('type' => 'int', 'description' => 'namespace for location'),
+            'created' => array('type' => 'datetime', 'not null' => true, 'description' => 'date this record was created'),
+            'modified' => array('type' => 'timestamp', 'not null' => true, 'description' => 'date this record was modified'),
+            'gpgpubkey' => array('type' => 'text', 'description' => 'gpg public key', 'collate' => 'utf8mb4_general_ci'),
+            'xmpp' => array('type' => 'text', 'description' => 'xmpp address', 'collate' => 'utf8mb4_general_ci'),
+            'toxid' => array('type' => 'text', 'description' => 'tox id', 'collate' => 'utf8mb4_general_ci'),
+            'matrix' => array('type' => 'text', 'description' => 'matrix address', 'collate' => 'utf8mb4_general_ci'),
+            'donateurl' => array('type' => 'text', 'description' => 'donations link', 'collate' => 'utf8mb4_general_ci'),),
+         'primary key' => array('id'),
+         'indexes' => array(
+            'profile_nickname_idx' => array('nickname'),));
+
+      // Add a fulltext index
+      if (common_config('search', 'type') == 'fulltext') {
+         $def['fulltext indexes'] = array('nickname' => array('nickname', 'fullname', 'location', 'bio', 'homepage'));
+      }
+      return $def;
+   }
+
+
+   // -------------------------------------------------------------------------
+   // Function: __sleep
+   // Magic function called at serialize() time.
+   //
+   // We use this to drop a couple process-specific references
+   // from DB_DataObject which can cause trouble in future
+   // processes.
+   //
+   // @return array of variable names to include in serialization.
+   function __sleep() {
+      $vars = parent::__sleep();
+      $skip = array('_user', '_group');
+      return array_diff($vars, $skip);
+   }
+
+
+   // -------------------------------------------------------------------------
+   // Function: getByEmail
+   // Looks up a profile by the email associated with it.
+   public static function getByEmail($email) {
+      // in the future, profiles should have emails stored...
+      $user = User::getKV('email', $email);
+      if (!($user instanceof User)) {
+         throw new NoSuchUserException(array('email'=>$email));
+      }
+      return $user->getProfile();
+   }
+
+
+   // -------------------------------------------------------------------------
+   // Function: getUser
+   // Returns the user associated with this profile.
+   public function getUser() {
+      if (!isset($this->_user[$this->id])) {
+         $user = User::getKV('id', $this->id);
+         if (!$user instanceof User) {
+            throw new NoSuchUserException(array('id'=>$this->id));
+         }
+         $this->_user[$this->id] = $user;
+      }
+      return $this->_user[$this->id];
+   }
+
+
+   // ------------------------------------------------------------------------
+   // Function: getGroup
+   // Returns the group associated with this profile.
+   public function getGroup() {
+      if (!isset($this->_group[$this->id])) {
+         $group = User_group::getKV('profile_id', $this->id);
+         if (!$group instanceof User_group) {
+            throw new NoSuchGroupException(array('profile_id'=>$this->id));
+         }
+         $this->_group[$this->id] = $group;
+      }
+      return $this->_group[$this->id];
+   }
+
+
+   // -------------------------------------------------------------------------
+   // Function: isGroup
+   // Returns true/false whether this profile is associated with a group.
+   public function isGroup() {
+      try {
+         $this->getGroup();
+         return true;
+      } catch (NoSuchGroupException $e) {
+         return false;
+      }
+   }
+
+
+   // -------------------------------------------------------------------------
+   // Function: isPerson
+   // Returns true/false whether this profile is associated with an
+   // individual user (as opposed to a group).
+   public function isPerson() {
+      return !$this->isGroup();
+   }
+
+
+   // -------------------------------------------------------------------------
+   // Function: isLocal
+   // Returns true/false whether this profile represents a local user.
+   public function isLocal() {
+      try {
+         $this->getUser();
+      } catch (NoSuchUserException $e) {
+         return false;
+      }
+      return true;
     }
 
-    public function getXmpp()
-    {
-        return $this->xmpp;
-    }
+   // -------------------------------------------------------------------------
+   // Function: hasPassword
+   // Returns false if the user has no password (which will always be the case
+   // for remote users). This can be the case for OpenID logins or other
+   // mechanisms which don't store a password hash.
+   public function hasPassword() {
+      try {
+         return $this->getUser()->hasPassword();
+      } catch (NoSuchUserException $e) {
+         return false;
+      }
+   }
 
-    public function getToxId()
-    {
-        return $this->toxid;
-    }
 
-    public function getMatrix()
-    {
-        return $this->matrix;
-    }
+   // -------------------------------------------------------------------------
+   // Function: getObjectType
+   // Returns which ActivityObject represents the user represented by this
+   // profile.
+   public function getObjectType() {
+      if ($this->isGroup()) {
+         return ActivityObject::GROUP;
+      } else {
+         return ActivityObject::PERSON;
+      }
+   }
 
-    public function getDonateUrl()
-    {
-        return $this->donateurl;
-    }
 
-    public static function schemaDef()
-    {
-        $def = array(
-            'description' => 'local and remote users have profiles',
-            'fields' => array(
-                'id' => array('type' => 'serial', 'not null' => true, 'description' => 'unique identifier'),
-                'nickname' => array('type' => 'varchar', 'length' => 64, 'not null' => true, 'description' => 'nickname or username', 'collate' => 'utf8mb4_general_ci'),
-                'fullname' => array('type' => 'text', 'description' => 'display name', 'collate' => 'utf8mb4_general_ci'),
-                'profileurl' => array('type' => 'text', 'description' => 'URL, cached so we dont regenerate'),
-                'homepage' => array('type' => 'text', 'description' => 'identifying URL', 'collate' => 'utf8mb4_general_ci'),
-                'bio' => array('type' => 'text', 'description' => 'descriptive biography', 'collate' => 'utf8mb4_general_ci'),
-                'location' => array('type' => 'text', 'description' => 'physical location', 'collate' => 'utf8mb4_general_ci'),
-                'lat' => array('type' => 'numeric', 'precision' => 10, 'scale' => 7, 'description' => 'latitude'),
-                'lon' => array('type' => 'numeric', 'precision' => 10, 'scale' => 7, 'description' => 'longitude'),
-                'location_id' => array('type' => 'int', 'description' => 'location id if possible'),
-                'location_ns' => array('type' => 'int', 'description' => 'namespace for location'),
-                'created' => array('type' => 'datetime', 'not null' => true, 'description' => 'date this record was created'),
-                'modified' => array('type' => 'timestamp', 'not null' => true, 'description' => 'date this record was modified'),
-                'gpgpubkey' => array('type' => 'text', 'description' => 'gpg public key', 'collate' => 'utf8mb4_general_ci'),
-                'xmpp' => array('type' => 'text', 'description' => 'xmpp address', 'collate' => 'utf8mb4_general_ci'),
-                'toxid' => array('type' => 'text', 'description' => 'tox id', 'collate' => 'utf8mb4_general_ci'),
-                'matrix' => array('type' => 'text', 'description' => 'matrix address', 'collate' => 'utf8mb4_general_ci'),
-                'donateurl' => array('type' => 'text', 'description' => 'donations link', 'collate' => 'utf8mb4_general_ci'),
-            ),
-            'primary key' => array('id'),
-            'indexes' => array(
-                'profile_nickname_idx' => array('nickname'),
-            )
-        );
+   // -------------------------------------------------------------------------
+   // Function: getAvatar
+   // Returns the avatar associated with this profile.
+   public function getAvatar($width, $height=null) {
+      return Avatar::byProfile($this, $width, $height);
+   }
 
-        // Add a fulltext index
 
-        if (common_config('search', 'type') == 'fulltext') {
-            $def['fulltext indexes'] = array('nickname' => array('nickname', 'fullname', 'location', 'bio', 'homepage'));
-        }
-
-        return $def;
-    }
-
-    public static function getByEmail($email)
-    {
-        // in the future, profiles should have emails stored...
-        $user = User::getKV('email', $email);
-        if (!($user instanceof User)) {
-            throw new NoSuchUserException(array('email'=>$email));
-        }
-        return $user->getProfile();
-    } 
-
-    protected $_user = array();
-
-    public function getUser()
-    {
-        if (!isset($this->_user[$this->id])) {
-            $user = User::getKV('id', $this->id);
-            if (!$user instanceof User) {
-                throw new NoSuchUserException(array('id'=>$this->id));
-            }
-            $this->_user[$this->id] = $user;
-        }
-        return $this->_user[$this->id];
-    }
-
-    protected $_group = array();
-
-    public function getGroup()
-    {
-        if (!isset($this->_group[$this->id])) {
-            $group = User_group::getKV('profile_id', $this->id);
-            if (!$group instanceof User_group) {
-                throw new NoSuchGroupException(array('profile_id'=>$this->id));
-            }
-            $this->_group[$this->id] = $group;
-        }
-        return $this->_group[$this->id];
-    }
-
-    public function isGroup()
-    {
-        try {
-            $this->getGroup();
-            return true;
-        } catch (NoSuchGroupException $e) {
-            return false;
-        }
-    }
-
-    public function isPerson()
-    {
-        // Maybe other things than PERSON and GROUP can have Profiles in the future?
-        return !$this->isGroup();
-    }
-
-    public function isLocal()
-    {
-        try {
-            $this->getUser();
-        } catch (NoSuchUserException $e) {
-            return false;
-        }
-        return true;
-    }
-
-    // Returns false if the user has no password (which will always
-    // be the case for remote users). This can be the case for OpenID
-    // logins or other mechanisms which don't store a password hash.
-    public function hasPassword()
-    {
-        try {
-            return $this->getUser()->hasPassword();
-        } catch (NoSuchUserException $e) {
-            return false;
-        }
-    }
-
-    public function getObjectType()
-    {
-        // FIXME: More types... like peopletags and whatever
-        if ($this->isGroup()) {
-            return ActivityObject::GROUP;
-        } else {
-            return ActivityObject::PERSON;
-        }
-    }
-
-    public function getAvatar($width, $height=null)
-    {
-        return Avatar::byProfile($this, $width, $height);
-    }
-
-    public function setOriginal($filename)
-    {
-        if ($this->isGroup()) {
+   // -------------------------------------------------------------------------
+   // Function: setOriginal
+   // A poorly-named function which sets the avatar associated with this
+   // profile.
+   public function setOriginal($filename) {
+      if ($this->isGroup()) {
             // Until Group avatars are handled just like profile avatars.
             return $this->getGroup()->setOriginal($filename);
-        }
+      }
 
-        $imagefile = new ImageFile(null, Avatar::path($filename));
+      $imagefile = new ImageFile(null, Avatar::path($filename));
 
-        $avatar = new Avatar();
-        $avatar->profile_id = $this->id;
-        $avatar->width = $imagefile->width;
-        $avatar->height = $imagefile->height;
-        $avatar->mediatype = image_type_to_mime_type($imagefile->type);
-        $avatar->filename = $filename;
-        $avatar->original = true;
-        $avatar->created = common_sql_now();
+      $avatar = new Avatar();
+      $avatar->profile_id = $this->id;
+      $avatar->width = $imagefile->width;
+      $avatar->height = $imagefile->height;
+      $avatar->mediatype = image_type_to_mime_type($imagefile->type);
+      $avatar->filename = $filename;
+      $avatar->original = true;
+      $avatar->created = common_sql_now();
 
-        // XXX: start a transaction here
-        if (!Avatar::deleteFromProfile($this, true) || !$avatar->insert()) {
-            // If we can't delete the old avatars, let's abort right here.
-            @unlink(Avatar::path($filename));
-            return null;
-        }
+      // XXX: start a transaction here
+      if (!Avatar::deleteFromProfile($this, true) || !$avatar->insert()) {
+         // If we can't delete the old avatars, let's abort right here.
+         @unlink(Avatar::path($filename));
+         return null;
+      }
+      return $avatar;
+   }
 
-        return $avatar;
-    }
 
-    /**
-     * Gets either the full name (if filled) or the nickname.
-     *
-     * @return string
-     */
-    function getBestName()
-    {
-        return ($this->fullname) ? $this->fullname : $this->nickname;
-    }
+   // -------------------------------------------------------------------------
+   // Function: getBestName
+   // Gets either the full name (if filled) or the nickname.
+   //
+   // Returns:
+   // o string
+   function getBestName() {
+      return ($this->fullname) ? $this->fullname : $this->nickname;
+   }
 
-    /**
-     * Takes the currently scoped profile into account to give a name 
-     * to list in notice streams. Preferences may differ between profiles.
-     */
-    function getStreamName()
-    {
-        $user = common_current_user();
-        if ($user instanceof User && $user->streamNicknames()) {
+
+   // -------------------------------------------------------------------------
+   // Function: getStreamName
+   // Takes the currently scoped profile into account to give a name to list
+   // in notice streams. Preferences may differ between profiles.
+   function getStreamName() {
+      $user = common_current_user();
+      if ($user instanceof User && $user->streamNicknames()) {
             return $this->nickname;
-        }
+      }
+      return $this->getBestName();
+   }
 
-        return $this->getBestName();
-    }
 
-    /**
-     * Gets the full name (if filled) with acct URI, URL, or URI as a
-     * parenthetical (in that order, for each not found). If no full
-     * name is found only the second part is returned, without ()s.
-     *
-     * @return string
-     */
-    function getFancyName()
-    {
-        $uri = null;
-        try {
-            $uri = $this->getAcctUri(false);
-        } catch (ProfileNoAcctUriException $e) {
-            try {
-                $uri = $this->getUrl();
-            } catch (InvalidUrlException $e) {
-                $uri = $this->getUri();
-            }
-        }
+   // -------------------------------------------------------------------------
+   // Function: getFancyName
+   // Gets the full name (if filled) with acct URI, URL, or URI as a 
+   // parenthetical (in that order, for each not found). If no full name is 
+   // found only the second part is returned, without ()s.
+   //
+   // Returns:
+   // o string
+   function getFancyName() {
+      $uri = null;
+      try {
+         $uri = $this->getAcctUri(false);
+      } catch (ProfileNoAcctUriException $e) {
+         try {
+            $uri = $this->getUrl();
+         } catch (InvalidUrlException $e) {
+            $uri = $this->getUri();
+         }
+      }
 
         if (mb_strlen($this->getFullname()) > 0) {
             // TRANS: The "fancy name": Full name of a profile or group (%1$s) followed by some URI (%2$s) in parentheses.
@@ -325,30 +366,29 @@ class Profile extends Managed_DataObject
         }
     }
 
-    /**
-     * Get the most recent notice posted by this user, if any.
-     *
-     * @return mixed Notice or null
-     */
-    function getCurrentNotice(Profile $scoped=null)
-    {
-        try {
-            $notice = $this->getNotices(0, 1, 0, 0, $scoped);
 
-            if ($notice->fetch()) {
-                if ($notice instanceof ArrayWrapper) {
-                    // hack for things trying to work with single notices
-                    // ...but this shouldn't happen anymore I think. Keeping it for safety...
-                    return $notice->_items[0];
-                }
-                return $notice;
+   // -------------------------------------------------------------------------
+   // Function: getCurrentNotice
+   // Get the most recent notice posted by this user, if any.
+   //
+   // Returns:
+   // o mixed Notice or null
+   function getCurrentNotice(Profile $scoped=null) {
+      try {
+         $notice = $this->getNotices(0, 1, 0, 0, $scoped);
+         if ($notice->fetch()) {
+            if ($notice instanceof ArrayWrapper) {
+               // hack for things trying to work with single notices
+               // ...but this shouldn't happen anymore I think. Keeping it for safety...
+               return $notice->_items[0];
             }
-        } catch (PrivateStreamException $e) {
-            // Maybe we should let this through if it's handled well upstream
-            return null;
-        }
-        
-        return null;
+            return $notice;
+         }
+      } catch (PrivateStreamException $e) {
+         // Maybe we should let this through if it's handled well upstream
+         return null;
+      }
+      return null;
     }
 
     function getReplies($offset=0, $limit=NOTICES_PER_PAGE, $since_id=0, $before_id=0)
@@ -1052,6 +1092,7 @@ class Profile extends Managed_DataObject
         return parent::delete($useWhere);
     }
 
+
     function _deleteNotices()
     {
         $notice = new Notice();
@@ -1065,53 +1106,56 @@ class Profile extends Managed_DataObject
         }
     }
 
-    function _deleteSubscriptions()
-    {
-        $sub = new Subscription();
-        $sub->subscriber = $this->getID();
-        $sub->find();
 
-        while ($sub->fetch()) {
-            try {
-                $other = $sub->getSubscribed();
-                if (!$other->sameAs($this)) {
-                    Subscription::cancel($this, $other);
-                }
-            } catch (NoResultException $e) {
-                // Profile not found
-                common_log(LOG_INFO, 'Subscribed profile id=='.$sub->subscribed.' not found when deleting profile id=='.$this->getID().', ignoring...');
-            } catch (ServerException $e) {
-                // Subscription cancel failed
-                common_log(LOG_INFO, 'Subscribed profile id=='.$other->getID().' could not be reached for unsubscription notice when deleting profile id=='.$this->getID().', ignoring...');
+   // -------------------------------------------------------------------------
+   // Function: _deleteSubscriptions
+   // Helper function to delete all of the subscriptions associated with this
+   // profile.
+   function _deleteSubscriptions() {
+      $sub = new Subscription();
+      $sub->subscriber = $this->getID();
+      $sub->find();
+      while ($sub->fetch()) {
+         try {
+            $other = $sub->getSubscribed();
+            if (!$other->sameAs($this)) {
+               Subscription::cancel($this, $other);
             }
-        }
+         } catch (NoResultException $e) {
+            // Profile not found
+            common_log(LOG_INFO, 'Subscribed profile id=='.$sub->subscribed.' not found when deleting profile id=='.$this->getID().', ignoring...');
+         } catch (ServerException $e) {
+            // Subscription cancel failed
+            common_log(LOG_INFO, 'Subscribed profile id=='.$other->getID().' could not be reached for unsubscription notice when deleting profile id=='.$this->getID().', ignoring...');
+         }
+      }
 
-        $sub = new Subscription();
-        $sub->subscribed = $this->getID();
-        $sub->find();
-
-        while ($sub->fetch()) {
-            try {
-                $other = $sub->getSubscriber();
-                common_log(LOG_INFO, 'Subscriber profile id=='.$sub->subscribed.' not found when deleting profile id=='.$this->getID().', ignoring...');
-                if (!$other->sameAs($this)) {
-                    Subscription::cancel($other, $this);
-                }
-            } catch (NoResultException $e) {
-                // Profile not found
-                common_log(LOG_INFO, 'Subscribed profile id=='.$sub->subscribed.' not found when deleting profile id=='.$this->getID().', ignoring...');
-            } catch (ServerException $e) {
-                // Subscription cancel failed
-                common_log(LOG_INFO, 'Subscriber profile id=='.$other->getID().' could not be reached for unsubscription notice when deleting profile id=='.$this->getID().', ignoring...');
+      $sub = new Subscription();
+      $sub->subscribed = $this->getID();
+      $sub->find();
+      while ($sub->fetch()) {
+         try {
+            $other = $sub->getSubscriber();
+            common_log(LOG_INFO, 'Subscriber profile id=='.$sub->subscribed.' not found when deleting profile id=='.$this->getID().', ignoring...');
+            if (!$other->sameAs($this)) {
+               Subscription::cancel($other, $this);
             }
-        }
+         } catch (NoResultException $e) {
+            // Profile not found
+            common_log(LOG_INFO, 'Subscribed profile id=='.$sub->subscribed.' not found when deleting profile id=='.$this->getID().', ignoring...');
+         } catch (ServerException $e) {
+            // Subscription cancel failed
+            common_log(LOG_INFO, 'Subscriber profile id=='.$other->getID().' could not be reached for unsubscription notice when deleting profile id=='.$this->getID().', ignoring...');
+         }
+      }
 
-        // Finally delete self-subscription
-        $self = new Subscription();
-        $self->subscriber = $this->getID();
-        $self->subscribed = $this->getID();
-        $self->delete();
-    }
+      // Finally delete self-subscription
+      $self = new Subscription();
+      $self->subscriber = $this->getID();
+      $self->subscribed = $this->getID();
+      $self->delete();
+   }
+
 
     function _deleteTags()
     {
@@ -1810,23 +1854,6 @@ class Profile extends Managed_DataObject
         return $profile;
     }
 
-    /**
-     * Magic function called at serialize() time.
-     *
-     * We use this to drop a couple process-specific references
-     * from DB_DataObject which can cause trouble in future
-     * processes.
-     *
-     * @return array of variable names to include in serialization.
-     */
-
-    function __sleep()
-    {
-        $vars = parent::__sleep();
-        $skip = array('_user', '_group');
-        return array_diff($vars, $skip);
-    }
-
     public function getProfile()
     {
         return $this;
@@ -1849,57 +1876,125 @@ class Profile extends Managed_DataObject
         return $this->getID() === $other->getID();
     }
 
-    /**
-     * This will perform shortenLinks with the connected User object.
-     *
-     * Won't work on remote profiles or groups, so expect a
-     * NoSuchUserException if you don't know it's a local User.
-     *
-     * @param string $text      String to shorten
-     * @param boolean $always   Disrespect minimum length etc.
-     *
-     * @return string link-shortened $text
-     */
-    public function shortenLinks($text, $always=false)
-    {
-        return $this->getUser()->shortenLinks($text, $always);
-    }
 
-    public function isPrivateStream()
-    {
-        // We only know of public remote users as of yet...
-        if (!$this->isLocal()) {
-            return false;
-        }
-        return $this->getUser()->private_stream ? true : false;
-    }
+   // -------------------------------------------------------------------------
+   // Function: shortenLinks
+   // This will perform shortenLinks with the connected User object.
+   //
+   // Won't work on remote profiles or groups, so expect a NoSuchUserException 
+   // if you don't know it's a local User.
+   //
+   // Parameters:
+   // o string $text    - String to shorten
+   // o boolean $always - Disrespect minimum length etc.
+   //
+   // Returns:
+   // o string link-shortened $text
+   public function shortenLinks($text, $always=false) {
+      return $this->getUser()->shortenLinks($text, $always);
+   }
 
-    public function delPref($namespace, $topic) {
-        return Profile_prefs::setData($this, $namespace, $topic, null);
-    }
 
-    public function getPref($namespace, $topic, $default=null) {
-        // If you want an exception to be thrown, call Profile_prefs::getData directly
-        try {
-            return Profile_prefs::getData($this, $namespace, $topic, $default);
-        } catch (NoResultException $e) {
-            return null;
-        }
-    }
+   // -------------------------------------------------------------------------
+   // Function: isPrivateStream
+   // Returns true/false whether the user's stream is set to private.
+   public function isPrivateStream() {
+      // We only know of public remote users as of yet...
+      if (!$this->isLocal()) {
+         return false;
+      }
+      return $this->getUser()->private_stream ? true : false;
+   }
 
-    // The same as getPref but will fall back to common_config value for the same namespace/topic
-    public function getConfigPref($namespace, $topic)
-    {
-        return Profile_prefs::getConfigData($this, $namespace, $topic);
-    }
 
-    public function setPref($namespace, $topic, $data) {
-        return Profile_prefs::setData($this, $namespace, $topic, $data);
-    }
+   // -------------------------------------------------------------------------
+   // Function: delPref
+   // Delete an extended preference of the profile.
+   public function delPref($namespace, $topic) {
+      return Profile_prefs::setData($this, $namespace, $topic, null);
+   }
 
-    public function getConnectedApps($offset=0, $limit=null)
-    {
-        return $this->getUser()->getConnectedApps($offset, $limit);
-    }
+
+   // -------------------------------------------------------------------------
+   // Function: getPref
+   // Retrieve an extended preference of the profile.
+   //
+   // If you want an exception to be thrown on an error, call 
+   // Profile_prefs::getData directly.
+   public function getPref($namespace, $topic, $default=null) {
+      try {
+         return Profile_prefs::getData($this, $namespace, $topic, $default);
+      } catch (NoResultException $e) {
+         return null;
+      }
+   }
+
+   // -------------------------------------------------------------------------
+   // Function: getConfigPref
+   // The same as getPref but will fall back to common_config value for the 
+   // same namespace/topic.
+   public function getConfigPref($namespace, $topic) {
+      return Profile_prefs::getConfigData($this, $namespace, $topic);
+   }
+
+
+   // -------------------------------------------------------------------------
+   // Function: setPref
+   // Set an extended preference of the user.
+   public function setPref($namespace, $topic, $data) {
+      return Profile_prefs::setData($this, $namespace, $topic, $data);
+   }
+
+
+   // -------------------------------------------------------------------------
+   // Function: getConnectedApps
+   // Returns an array containing representations of the OAuth apps associated
+   // with the user represented by this profile.
+   public function getConnectedApps($offset=0, $limit=null) {
+      return $this->getUser()->getConnectedApps($offset, $limit);
+   }
+
+
+   // -------------------------------------------------------------------------
+   // Function: getGpgPubKey
+   // Returns the GPG public key associated with the profile, if one exists.
+   public function getGpgPubKey() {
+      return $this->gpgpubkey;
+   }
+
+
+   // -------------------------------------------------------------------------
+   // Function: getXmpp
+   // Returns the XMPP account associated with the profile, if one exists.
+   public function getXmpp() {
+      return $this->xmpp;
+   }
+
+
+   // -------------------------------------------------------------------------
+   // Function: getToxId
+   // Returns the TOX ID set for the profile, if one exists.
+   public function getToxId() {
+      return $this->toxid;
+   }
+
+
+   // -------------------------------------------------------------------------
+   // Function: getMatrix
+   // Returns the Matrix ID set for the profile, if one exists.
+   public function getMatrix() {
+      return $this->matrix;
+   }
+
+
+   // -------------------------------------------------------------------------
+   // Function: getDonateUrl
+   // Returns the donation URL set for the profile, if one exists
+   public function getDonateUrl() {
+      return $this->donateurl;
+   }
 }
+
+// END OF FILE
+// ============================================================================
 ?>
