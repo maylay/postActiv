@@ -122,8 +122,8 @@ class SalmonQueueHandler extends QueueHandler {
       common_debug("Banned instances currently: " . json_encode($bans));
 
       // Transliterate to the profile URL
-      $originator  = $actor->profileurl;
-      $destination = $target->profileurl;
+      $originator  = $originator->profileurl;
+      $destination = $destination->profileurl;
 
       // Return whether this feed from a banned instance
       $is_banned = false;
