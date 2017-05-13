@@ -399,7 +399,7 @@ function keep_daemons_running {
     echo 'cd /var/www/postactiv' >> /etc/cron.hourly/postactiv-daemons
     echo 'if [[ $daemon_lines != *"/var/www/"* ]]; then' >> /etc/cron.hourly/postactiv-daemons
 
-    echo '    scripts/startdaemons.sh' >> /etc/cron.hourly/postactiv-daemons
+    echo '    su -c "sh scripts/startdaemons.sh" -s /bin/sh www-data' >> /etc/cron.hourly/postactiv-daemons
     echo 'fi' >> /etc/cron.hourly/postactiv-daemons
 
     echo 'php scripts/delete_orphan_files.php > /dev/null' >> /etc/cron.hourly/postactiv-daemons
