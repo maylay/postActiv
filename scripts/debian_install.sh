@@ -293,6 +293,11 @@ server {
   listen [::]:443 ssl;
   server_name ${POSTACTIV_DOMAIN_NAME};
 
+  gzip            on;
+  gzip_min_length 1000;
+  gzip_proxied    expired no-cache no-store private auth;
+  gzip_types      text/plain application/xml;
+
   ssl on;
   ssl_stapling on;
   ssl_stapling_verify on;
