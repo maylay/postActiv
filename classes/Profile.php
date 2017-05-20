@@ -1907,16 +1907,21 @@ class Profile extends Managed_DataObject {
         return true;
     }
 
-    static function current()
-    {
-        $user = common_current_user();
-        if (empty($user)) {
-            $profile = null;
-        } else {
-            $profile = $user->getProfile();
-        }
-        return $profile;
-    }
+
+   // -------------------------------------------------------------------------
+   // Function: current
+   // Returns the current profile as an object, because we have a fetish for
+   // returning mixed types.
+   static function current() {
+      $user = common_current_user();
+      if (empty($user)) {
+         $profile = null;
+      } else {
+         $profile = $user->getProfile();
+      }
+      return $profile;
+   }
+
 
     static function ensureCurrent()
     {
@@ -1927,34 +1932,40 @@ class Profile extends Managed_DataObject {
         return $profile;
     }
 
-    public function getProfile()
-    {
-        return $this;
-    }
 
-    /**
-     * Test whether the given profile is the same as the current class,
-     * for testing identities.
-     *
-     * @param Profile $other    The other profile, usually from Action's $this->scoped
-     *
-     * @return boolean
-     */
-    public function sameAs(Profile $other=null)
-    {
-        if (is_null($other)) {
-            // In case $this->scoped is null or something, i.e. not a current/legitimate profile.
-            return false;
-        }
-        return $this->getID() === $other->getID();
-    }
+   // -------------------------------------------------------------------------
+   // Function: getProfile
+   // Returns this profile object.  Why something would want to call something 
+   // like this, who knows.  Stop returning mixed types!
+   public function getProfile() {
+      return $this;
+   }
+
+
+   // -------------------------------------------------------------------------
+   // Function: sameAs
+   // Test whether the given profile is the same as the current class,
+   // for testing identities.
+   //
+   // Parameters:
+   // o Profile $other    The other profile, usually from Action's $this->scoped
+   //
+   // Returns:
+   // o boolean
+   public function sameAs(Profile $other=null) {
+      if (is_null($other)) {
+         // In case $this->scoped is null or something, i.e. not a current/legitimate profile.
+         return false;
+      }
+      return $this->getID() === $other->getID();
+   }
 
 
    // -------------------------------------------------------------------------
    // Function: shortenLinks
    // This will perform shortenLinks with the connected User object.
    //
-   // Won't work on remote profiles or groups, so expect a NoSuchUserException 
+   // Won't work on remote profiles or groups, so expect a NoSuchUserException
    // if you don't know it's a local User.
    //
    // Parameters:
