@@ -30,7 +30,12 @@
  * <https://www.gnu.org/licenses/agpl.html>
  * ----------------------------------------------------------------------------
  * About:
- * Table Definition for file
+ * A superclass containing the database representation of a file attatchment
+ * and the related interfaces.
+ *
+ * Basically, this is things attached to a post.  One thing to note here is that
+ * it might not represent an actual attachment like an image or movie, it can
+ * also represent the metadata for a hyperlink to another website.
  *
  * PHP version:
  * Tested with PHP 7
@@ -62,11 +67,27 @@
 
 if (!defined('POSTACTIV')) { exit(1); }
 
-/**
- * Table Definition for file
- */
-class File extends Managed_DataObject
-{
+// ============================================================================
+// Class: File
+// A superclass containing the database representation of a file attatchment
+// and the related interfaces.
+//
+// Property:
+// o __table   - 'file';                            // table name
+// o id        - int(4)  primary_key not_null
+// o urlhash   - varchar(64)  unique_key
+// o url       - text
+// o filehash  - varchar(64)     indexed
+// o mimetype  - varchar(50)
+// o size      - int(4)
+// o title     - text()
+// o date      - int(4)
+// o protected - int(4)
+// o filename  - text()
+// o width     - int(4)
+// o height    - int(4)
+// o modified  - timestamp()   not_null default_CURRENT_TIMESTAMP
+class File extends Managed_DataObject {
     public $__table = 'file';                            // table name
     public $id;                              // int(4)  primary_key not_null
     public $urlhash;                         // varchar(64)  unique_key
@@ -85,130 +106,139 @@ class File extends Managed_DataObject
     const URLHASH_ALG = 'sha256';
     const FILEHASH_ALG = 'sha256';
 
-    public static function schemaDef()
-    {
-        return array(
-            'fields' => array(
-                'id' => array('type' => 'serial', 'not null' => true),
-                'urlhash' => array('type' => 'varchar', 'length' => 64, 'not null' => true, 'description' => 'sha256 of destination URL (url field)'),
-                'url' => array('type' => 'text', 'description' => 'destination URL after following possible redirections'),
-                'filehash' => array('type' => 'varchar', 'length' => 64, 'not null' => false, 'description' => 'sha256 of the file contents, only for locally stored files of course'),
-                'mimetype' => array('type' => 'varchar', 'length' => 50, 'description' => 'mime type of resource'),
-                'size' => array('type' => 'int', 'description' => 'size of resource when available'),
-                'title' => array('type' => 'text', 'description' => 'title of resource when available'),
-                'date' => array('type' => 'int', 'description' => 'date of resource according to http query'),
-                'protected' => array('type' => 'int', 'description' => 'true when URL is private (needs login)'),
-                'filename' => array('type' => 'text', 'description' => 'if file is stored locally (too) this is the filename'),
-                'width' => array('type' => 'int', 'description' => 'width in pixels, if it can be described as such and data is available'),
-                'height' => array('type' => 'int', 'description' => 'height in pixels, if it can be described as such and data is available'),
 
-                'modified' => array('type' => 'timestamp', 'not null' => true, 'description' => 'date this record was modified'),
-            ),
-            'primary key' => array('id'),
-            'unique keys' => array(
-                'file_urlhash_key' => array('urlhash'),
-            ),
-            'indexes' => array(
-                'file_filehash_idx' => array('filehash'),
-            ),
-        );
+   // -------------------------------------------------------------------------
+   // Function: schemaDef
+   // Returns an array representing the database schema this class is 
+   // interfacing with.
+   public static function schemaDef() {
+      return array(
+         'fields' => array(
+            'id' => array('type' => 'serial', 'not null' => true),
+            'urlhash' => array('type' => 'varchar', 'length' => 64, 'not null' => true, 'description' => 'sha256 of destination URL (url field)'),
+            'url' => array('type' => 'text', 'description' => 'destination URL after following possible redirections'),
+            'filehash' => array('type' => 'varchar', 'length' => 64, 'not null' => false, 'description' => 'sha256 of the file contents, only for locally stored files of course'),
+            'mimetype' => array('type' => 'varchar', 'length' => 50, 'description' => 'mime type of resource'),
+            'size' => array('type' => 'int', 'description' => 'size of resource when available'),
+            'title' => array('type' => 'text', 'description' => 'title of resource when available'),
+            'date' => array('type' => 'int', 'description' => 'date of resource according to http query'),
+            'protected' => array('type' => 'int', 'description' => 'true when URL is private (needs login)'),
+            'filename' => array('type' => 'text', 'description' => 'if file is stored locally (too) this is the filename'),
+            'width' => array('type' => 'int', 'description' => 'width in pixels, if it can be described as such and data is available'),
+            'height' => array('type' => 'int', 'description' => 'height in pixels, if it can be described as such and data is available'),
+            'modified' => array('type' => 'timestamp', 'not null' => true, 'description' => 'date this record was modified'),),
+         'primary key' => array('id'),
+         'unique keys' => array(
+            'file_urlhash_key' => array('urlhash'),),
+         'indexes' => array(
+            'file_filehash_idx' => array('filehash'), ),);
     }
 
-    public static function isProtected($url) {
 
-		$protected_urls_exps = array(
-			'https://www.facebook.com/login.php',
-        	common_path('main/login')
-        	);
+   // -------------------------------------------------------------------------
+   // Function: isProtected
+   // Returns true/false whether the URL is considered "protected".
+   //
+   // FIXME: un-hardcode this, or at the very least, make it configurable.
+   public static function isProtected($url) {
+      $protected_urls_exps = array(
+         'https://www.facebook.com/login.php',
+         common_path('main/login'));
+      foreach ($protected_urls_exps as $protected_url_exp) {
+         if (preg_match('!^'.preg_quote($protected_url_exp).'(.*)$!i', $url) === 1) {
+            return true;
+         }
+      }
+      return false;
+   }
 
-		foreach ($protected_urls_exps as $protected_url_exp) {
-			if (preg_match('!^'.preg_quote($protected_url_exp).'(.*)$!i', $url) === 1) {
-				return true;
-			}
-		}
 
-		return false;
-    }
+   // -------------------------------------------------------------------------
+   // Function: saveNew
+   // Save a new file record.
+   //
+   // Parameters:
+   // o array $redir_data lookup data eg from File_redirection::where()
+   // o string $given_url
+   //
+   // Returns:
+   // o File class representing the saved file
+   //
+   // FIXME: we should probably give at least some debug-level feedback if we
+   // receive a link to a file that is our own allegedly, but we do not have
+   // the file available locally.
+   public static function saveNew(array $redir_data, $given_url) {
+      $file = null;
+      try {
+         // I don't know why we have to keep doing this but we run a last check to avoid
+         // uniqueness bugs.
+         $file = File::getByUrl($given_url);
+         return $file;
+      } catch (NoResultException $e) {
+         // We don't have the file's URL since before, so let's continue.
+      }
 
-    /**
-     * Save a new file record.
-     *
-     * @param array $redir_data lookup data eg from File_redirection::where()
-     * @param string $given_url
-     * @return File
-     */
-    public static function saveNew(array $redir_data, $given_url)
-    {
-        $file = null;
-        try {
-            // I don't know why we have to keep doing this but we run a last check to avoid
-            // uniqueness bugs.
-            $file = File::getByUrl($given_url);
-            return $file;
-        } catch (NoResultException $e) {
-            // We don't have the file's URL since before, so let's continue.
-        }
-
-        // if the given url is an local attachment url and the id already exists, don't
-        // save a new file record. This should never happen, but let's make it foolproof
-        // FIXME: how about attachments servers?
-        $u = parse_url($given_url);
-        if (isset($u['host']) && $u['host'] === common_config('site', 'server')) {
-            $r = Router::get();
-            // Skip the / in the beginning or $r->map won't match
-            try {
-                $args = $r->map(mb_substr($u['path'], 1));
-                if ($args['action'] === 'attachment') {
-                    try {
-                        // $args['attachment'] should always be set if action===attachment, given our routing rules
-                        $file = File::getByID($args['attachment']);
-                        return $file;
-                    } catch (EmptyPkeyValueException $e) {
-                        // ...but $args['attachment'] can also be 0...
-                    } catch (NoResultException $e) {
-                        // apparently this link goes to us, but is _not_ an existing attachment (File) ID?
-                    }
-                }
-            } catch (Exception $e) {
-                // Some other exception was thrown from $r->map, likely a
-                // ClientException (404) because of some malformed link to
-                // our own instance. It's still a valid URL however, so we
-                // won't abort anything... I noticed this when linking:
-                // https://social.umeahackerspace.se/mmn/foaf' (notice the
-                // apostrophe in the end, making it unrecognizable for our
-                // URL routing.
-                // That specific issue (the apostrophe being part of a link
-                // is something that may or may not have been fixed since,
-                // in lib/util.php in common_replace_urls_callback().
+      // if the given url is an local attachment url and the id already exists, don't
+      // save a new file record. This should never happen, but let's make it foolproof
+      // FIXME: how about attachments servers?
+      $u = parse_url($given_url);
+      if (isset($u['host']) && $u['host'] === common_config('site', 'server')) {
+         $r = Router::get();
+         // Skip the / in the beginning or $r->map won't match
+         try {
+            $args = $r->map(mb_substr($u['path'], 1));
+            if ($args['action'] === 'attachment') {
+               try {
+                  // $args['attachment'] should always be set if action===attachment, given our routing rules
+                  $file = File::getByID($args['attachment']);
+                  return $file;
+               } catch (EmptyPkeyValueException $e) {
+                  // ...but $args['attachment'] can also be 0...
+               } catch (NoResultException $e) {
+                  // apparently this link goes to us, but is _not_ an existing attachment (File) ID?
+               }
             }
-        }
+         } catch (Exception $e) {
+            // Some other exception was thrown from $r->map, likely a
+            // ClientException (404) because of some malformed link to
+            // our own instance. It's still a valid URL however, so we
+            // won't abort anything... I noticed this when linking:
+            // https://social.umeahackerspace.se/mmn/foaf' (notice the
+            // apostrophe in the end, making it unrecognizable for our
+            // URL routing.
+            // That specific issue (the apostrophe being part of a link
+            // is something that may or may not have been fixed since,
+            // in lib/util.php in common_replace_urls_callback().
+         }
+      }
 
-        $file = new File;
-        $file->url = $given_url;
-        if (!empty($redir_data['protected'])) $file->protected = $redir_data['protected'];
-        if (!empty($redir_data['title'])) $file->title = $redir_data['title'];
-        if (!empty($redir_data['type'])) $file->mimetype = $redir_data['type'];
-        if (!empty($redir_data['size'])) $file->size = intval($redir_data['size']);
-        if (isset($redir_data['time']) && $redir_data['time'] > 0) $file->date = intval($redir_data['time']);
-        $file->saveFile();
-        return $file;
-    }
+      $file = new File;
+      $file->url = $given_url;
+      if (!empty($redir_data['protected'])) $file->protected = $redir_data['protected'];
+      if (!empty($redir_data['title'])) $file->title = $redir_data['title'];
+      if (!empty($redir_data['type'])) $file->mimetype = $redir_data['type'];
+      if (!empty($redir_data['size'])) $file->size = intval($redir_data['size']);
+      if (isset($redir_data['time']) && $redir_data['time'] > 0) $file->date = intval($redir_data['time']);
+      $file->saveFile();
+      return $file;
+   }
 
-    public function saveFile() {
-        $this->urlhash = self::hashurl($this->url);
 
-        if (!Event::handle('StartFileSaveNew', array(&$this))) {
-            throw new ServerException('File not saved due to an aborted StartFileSaveNew event.');
-        }
-
-        $this->id = $this->insert();
-
-        if ($this->id === false) {
-            throw new ServerException('File/URL metadata could not be saved to the database.');
-        }
-
-        Event::handle('EndFileSaveNew', array($this));
-    }
+   // -------------------------------------------------------------------------
+   // Function: saveFile
+   // This slightly-misleadingly named function saves the File record to the 
+   // database, for actually creating a new file properly, see saveNew.
+   public function saveFile() {
+      $this->urlhash = self::hashurl($this->url);
+      if (!Event::handle('StartFileSaveNew', array(&$this))) {
+         throw new ServerException('File not saved due to an aborted StartFileSaveNew event.');
+      }
+      $this->id = $this->insert();
+      if ($this->id === false) {
+         throw new ServerException('File/URL metadata could not be saved to the database.');
+      }
+      Event::handle('EndFileSaveNew', array($this));
+   }
 
     /**
      * Go look at a URL and possibly save data about it if it's new:
@@ -691,140 +721,158 @@ class File extends Managed_DataObject
         return $count;
     }
 
-    public function isLocal()
-    {
-        return !empty($this->filename);
-    }
 
-    public function delete($useWhere=false)
-    {
-        // Delete the file, if it exists locally
-        if (!empty($this->filename) && file_exists(self::path($this->filename))) {
-            $deleted = @unlink(self::path($this->filename));
-            if (!$deleted) {
-                common_log(LOG_ERR, sprintf('Could not unlink existing file: "%s"', self::path($this->filename)));
+   // -------------------------------------------------------------------------
+   // Function: isLocal
+   // Returns whether we have a local copy of this file in the filesystem.
+   public function isLocal() {
+      return !empty($this->filename);
+   }
+
+
+   // -------------------------------------------------------------------------
+   // Function: delete
+   // Remove an attachment entry from the DB and the associated file if stored
+   // locally.  Also cleans out thumbnails in the case of visual media.
+   public function delete($useWhere=false) {
+      // Delete the file, if it exists locally
+      if (!empty($this->filename) && file_exists(self::path($this->filename))) {
+         $deleted = @unlink(self::path($this->filename));
+         if (!$deleted) {
+            common_log(LOG_ERR, sprintf('Could not unlink existing file: "%s"', self::path($this->filename)));
+         }
+      }
+
+      // Clear out related things in the database and filesystem, such as thumbnails
+      if (Event::handle('FileDeleteRelated', array($this))) {
+         $thumbs = new File_thumbnail();
+         $thumbs->file_id = $this->id;
+         if ($thumbs->find()) {
+            while ($thumbs->fetch()) {
+               $thumbs->delete();
             }
-        }
+         }
 
-        // Clear out related things in the database and filesystem, such as thumbnails
-        if (Event::handle('FileDeleteRelated', array($this))) {
-            $thumbs = new File_thumbnail();
-            $thumbs->file_id = $this->id;
-            if ($thumbs->find()) {
-                while ($thumbs->fetch()) {
-                    $thumbs->delete();
-                }
+         $f2p = new File_to_post();
+         $f2p->file_id = $this->id;
+         if ($f2p->find()) {
+            while ($f2p->fetch()) {
+               $f2p->delete();
             }
+         }
+      }
 
-            $f2p = new File_to_post();
-            $f2p->file_id = $this->id;
-            if ($f2p->find()) {
-                while ($f2p->fetch()) {
-                    $f2p->delete();
-                }
+      // And finally remove the entry from the database
+      return parent::delete($useWhere);
+   }
+
+
+   // -------------------------------------------------------------------------
+   // Function: getTitle
+   // Retrieves the title of an attachment entry, or if none is set, the
+   // filename.
+   public function getTitle() {
+      $title = $this->title ?: $this->filename;
+      return $title ?: null;
+   }
+
+
+   // -------------------------------------------------------------------------
+   // Function: setTitle
+   // Set the title of the attachment object.
+   public function setTitle($title) {
+      $orig = clone($this);
+      $this->title = mb_strlen($title) > 0 ? $title : null;
+      return $this->update($orig);
+   }
+
+
+   // ------------------------------------------------------------------------
+   // Function: hashurl
+   // Hash a URL provided using our given hash algorithm.
+   static public function hashurl($url) {
+      if (empty($url)) {
+         throw new Exception('No URL provided to hash algorithm.');
+      }
+      return hash(self::URLHASH_ALG, $url);
+   }
+
+
+   // -------------------------------------------------------------------------
+   // Function: beforeSchemaUpdate
+   // This procedure contains the various integrity checks we need to perform
+   // for the attachment system specifically.
+   static public function beforeSchemaUpdate() {
+      $table = strtolower(get_called_class());
+      $schema = Schema::get();
+      $schemadef = $schema->getTableDef($table);
+
+      // 2015-02-19 We have to upgrade our table definitions to have the urlhash field populated
+      if (isset($schemadef['fields']['urlhash']) && isset($schemadef['unique keys']['file_urlhash_key'])) {
+         // We already have the urlhash field, so no need to migrate it.
+         return;
+      }
+      echo "\nFound old $table table, upgrading it to contain 'urlhash' field...";
+
+      $file = new File();
+      $file->query(sprintf('SELECT id, LEFT(url, 191) AS shortenedurl, COUNT(*) AS c FROM %1$s WHERE LENGTH(url)>191 GROUP BY shortenedurl HAVING c > 1', $schema->quoteIdentifier($table)));
+      print "\nFound {$file->N} URLs with too long entries in file table\n";
+      while ($file->fetch()) {
+         // We've got a URL that is too long for our future file table
+         // so we'll cut it. We could save the original URL, but there is
+         // no guarantee it is complete anyway since the previous max was 255 chars.
+         $dupfile = new File();
+         // First we find file entries that would be duplicates of this when shortened
+         // ... and we'll just throw the dupes out the window for now! It's already so borken.
+         $dupfile->query(sprintf('SELECT * FROM file WHERE LEFT(url, 191) = "%1$s"', $file->shortenedurl));
+         // Leave one of the URLs in the database by using ->find(true) (fetches first entry)
+         if ($dupfile->find(true)) {
+            print "\nShortening url entry for $table id: {$file->id} [";
+            $orig = clone($dupfile);
+            $dupfile->url = $file->shortenedurl;    // make sure it's only 191 chars from now on
+            $dupfile->update($orig);
+            print "\nDeleting duplicate entries of too long URL on $table id: {$file->id} [";
+            // only start deleting with this fetch.
+            while($dupfile->fetch()) {
+               print ".";
+               $dupfile->delete();
             }
-        }
+            print "]\n";
+         } else {
+            print "\nWarning! URL suddenly disappeared from database: {$file->url}\n";
+         }
+      }
+      echo "...and now all the non-duplicates which are longer than 191 characters...\n";
+      $file->query('UPDATE file SET url=LEFT(url, 191) WHERE LENGTH(url)>191');
 
-        // And finally remove the entry from the database
-        return parent::delete($useWhere);
-    }
-
-    public function getTitle()
-    {
-        $title = $this->title ?: $this->filename;
-
-        return $title ?: null;
-    }
-
-    public function setTitle($title)
-    {
-        $orig = clone($this);
-        $this->title = mb_strlen($title) > 0 ? $title : null;
-        return $this->update($orig);
-    }
-
-    static public function hashurl($url)
-    {
-        if (empty($url)) {
-            throw new Exception('No URL provided to hash algorithm.');
-        }
-        return hash(self::URLHASH_ALG, $url);
-    }
-
-    static public function beforeSchemaUpdate()
-    {
-        $table = strtolower(get_called_class());
-        $schema = Schema::get();
-        $schemadef = $schema->getTableDef($table);
-
-        // 2015-02-19 We have to upgrade our table definitions to have the urlhash field populated
-        if (isset($schemadef['fields']['urlhash']) && isset($schemadef['unique keys']['file_urlhash_key'])) {
-            // We already have the urlhash field, so no need to migrate it.
-            return;
-        }
-        echo "\nFound old $table table, upgrading it to contain 'urlhash' field...";
-
-        $file = new File();
-        $file->query(sprintf('SELECT id, LEFT(url, 191) AS shortenedurl, COUNT(*) AS c FROM %1$s WHERE LENGTH(url)>191 GROUP BY shortenedurl HAVING c > 1', $schema->quoteIdentifier($table)));
-        print "\nFound {$file->N} URLs with too long entries in file table\n";
-        while ($file->fetch()) {
-            // We've got a URL that is too long for our future file table
-            // so we'll cut it. We could save the original URL, but there is
-            // no guarantee it is complete anyway since the previous max was 255 chars.
-            $dupfile = new File();
-            // First we find file entries that would be duplicates of this when shortened
-            // ... and we'll just throw the dupes out the window for now! It's already so borken.
-            $dupfile->query(sprintf('SELECT * FROM file WHERE LEFT(url, 191) = "%1$s"', $file->shortenedurl));
-            // Leave one of the URLs in the database by using ->find(true) (fetches first entry)
-            if ($dupfile->find(true)) {
-                print "\nShortening url entry for $table id: {$file->id} [";
-                $orig = clone($dupfile);
-                $dupfile->url = $file->shortenedurl;    // make sure it's only 191 chars from now on
-                $dupfile->update($orig);
-                print "\nDeleting duplicate entries of too long URL on $table id: {$file->id} [";
-                // only start deleting with this fetch.
-                while($dupfile->fetch()) {
-                    print ".";
-                    $dupfile->delete();
-                }
-                print "]\n";
-            } else {
-                print "\nWarning! URL suddenly disappeared from database: {$file->url}\n";
-            }
-        }
-        echo "...and now all the non-duplicates which are longer than 191 characters...\n";
-        $file->query('UPDATE file SET url=LEFT(url, 191) WHERE LENGTH(url)>191');
-
-        echo "\n...now running hacky pre-schemaupdate change for $table:";
-        // We have to create a urlhash that is _not_ the primary key,
-        // transfer data and THEN run checkSchema
-        $schemadef['fields']['urlhash'] = array (
+      echo "\n...now running hacky pre-schemaupdate change for $table:";
+      // We have to create a urlhash that is _not_ the primary key,
+      // transfer data and THEN run checkSchema
+      $schemadef['fields']['urlhash'] = array (
                                               'type' => 'varchar',
                                               'length' => 64,
                                               'not null' => false,  // this is because when adding column, all entries will _be_ NULL!
-                                              'description' => 'sha256 of destination URL (url field)',
-                                            );
-        $schemadef['fields']['url'] = array (
-                                              'type' => 'text',
-                                              'description' => 'destination URL after following possible redirections',
-                                            );
-        unset($schemadef['unique keys']);
-        $schema->ensureTable($table, $schemadef);
-        echo "DONE.\n";
+                                              'description' => 'sha256 of destination URL (url field)',);
+      $schemadef['fields']['url'] = array (
+                                           'type' => 'text',
+                                           'description' => 'destination URL after following possible redirections',);
+      unset($schemadef['unique keys']);
+      $schema->ensureTable($table, $schemadef);
+      echo "DONE.\n";
 
-        $classname = ucfirst($table);
-        $tablefix = new $classname;
-        // urlhash is hash('sha256', $url) in the File table
-        echo "Updating urlhash fields in $table table...";
-        // Maybe very MySQL specific :(
-        $tablefix->query(sprintf('UPDATE %1$s SET %2$s=%3$s;',
-                            $schema->quoteIdentifier($table),
-                            'urlhash',
-                            // The line below is "result of sha256 on column `url`"
-                            'SHA2(url, 256)'));
-        echo "DONE.\n";
-        echo "Resuming core schema upgrade...";
-    }
+      $classname = ucfirst($table);
+      $tablefix = new $classname;
+      // urlhash is hash('sha256', $url) in the File table
+      echo "Updating urlhash fields in $table table...";
+      // Maybe very MySQL specific :(
+      $tablefix->query(sprintf('UPDATE %1$s SET %2$s=%3$s;',
+                       $schema->quoteIdentifier($table),
+                       'urlhash',
+                       // The line below is "result of sha256 on column `url`"
+                       'SHA2(url, 256)'));
+      echo "DONE.\n";
+      echo "Resuming core schema upgrade...";
+   }
 }
 
 // END OF FILE
