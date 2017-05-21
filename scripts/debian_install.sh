@@ -293,6 +293,11 @@ server {
   listen [::]:443 ssl;
   server_name ${POSTACTIV_DOMAIN_NAME};
 
+  gzip            on;
+  gzip_min_length 1000;
+  gzip_proxied    expired no-cache no-store private auth;
+  gzip_types      text/plain application/xml;
+
   ssl on;
   ssl_stapling on;
   ssl_stapling_verify on;
@@ -399,7 +404,7 @@ function keep_daemons_running {
     echo 'cd /var/www/postactiv' >> /etc/cron.hourly/postactiv-daemons
     echo 'if [[ $daemon_lines != *"/var/www/"* ]]; then' >> /etc/cron.hourly/postactiv-daemons
 
-    echo '    scripts/startdaemons.sh' >> /etc/cron.hourly/postactiv-daemons
+    echo '    su -c "sh scripts/startdaemons.sh" -s /bin/sh www-data' >> /etc/cron.hourly/postactiv-daemons
     echo 'fi' >> /etc/cron.hourly/postactiv-daemons
 
     echo 'php scripts/delete_orphan_files.php > /dev/null' >> /etc/cron.hourly/postactiv-daemons
@@ -448,6 +453,12 @@ function install_qvitter {
     chown -R www-data:www-data /var/www/postactiv
 }
 
+function start_daemons {
+	cd /var/www/postactiv
+	php scripts/upgrade.php
+	su -c "sh scripts/startdaemons.sh" -s /bin/sh www-data
+}
+
 
 # =============================================================================
 # Main script logic follows
@@ -467,6 +478,7 @@ configure_web_server
 additional_postactiv_settings
 keep_daemons_running
 install_qvitter
+start_daemons
 
 echo "postActiv installed"
 
