@@ -50,16 +50,16 @@
  *  o GNU social <https://www.gnu.org/s/social/>
  * ============================================================================
  */
- 
+
 // This file is formatted so that it provides useful documentation output in
 // NaturalDocs.  Please be considerate of this before changing formatting.
 
 if (!defined('POSTACTIV')) { exit(1); }
 
-# -----------------------------------------------------------------------------
-# Canonical error codes
-# The codes for server errors should reflect the closest appropriate HTTP Status
-# Code, here.  See https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
+// -----------------------------------------------------------------------------
+// Canonical error codes
+// The codes for server errors should reflect the closest appropriate HTTP Status
+// Code, here.  See https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 define("SERVER_EXCEPTION", 500);
 define("SERVER_EXCEPTION_UNSUPPORTED_MEDIA", 416);
 define("SERVER_EXCEPTION_ALREADY_FULFILLED", 226);
@@ -87,85 +87,87 @@ define("SERVER_EXCEPTION_FEED_SUB_FAILURE", 416);
 define("SERVER_EXCEPTION_OSTATUS_SHADOW_FOUND", 500);
 define("SERVER_EXCEPTION_WEBFINGER_FAILED", 500);
 
-/* ----------------------------------------------------------------------------
- * class ServerException
- *    Subclass of PHP Exception for server errors. The user typically can't
- *    fix these.
- */
-class ServerException extends Exception
-{
-    public function __construct($message = null, $code = SERVER_EXCEPTION, Exception $previous = null, $severity = LOG_ERR) {
-        parent::__construct($message, $code);
-        $file = $this->file;
-        $line = $this->line;
-        if ($severity==LOG_DEBUG) {
-           common_debug($message . " (" . $code . ")");
-        } elseif ($severity==LOG_INFO) {
-           common_log($severity, $message . " (" . $code .")");
-        } else {
-           common_log($severity, $message . " (" . $code .")  Exception raised in " . $file . " on line " . $line . ".");
-        }
-    }
 
-    public function __toString() {
-        return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
-    }
+// ----------------------------------------------------------------------------
+// Class: ServerException
+// Subclass of PHP Exception for server errors. The user typically can't fix
+// these.
+class ServerException extends Exception {
+   
+   // -------------------------------------------------------------------------
+   // Function: __construct
+   // Constructor for the exception, which by default will log the exception
+   // even if otherwise it's caught.
+   public function __construct($message = null, $code = SERVER_EXCEPTION, Exception $previous = null, $severity = LOG_ERR) {
+      parent::__construct($message, $code);
+      $file = $this->file;
+      $line = $this->line;
+      if ($severity==LOG_DEBUG) {
+         common_debug($message . " (" . $code . ")");
+      } elseif ($severity==LOG_INFO) {
+         common_log($severity, $message . " (" . $code .")");
+      } else {
+         common_log($severity, $message . " (" . $code .")  Exception raised in " . $file . " on line " . $line . ".");
+      }
+   }
+
+
+   // -------------------------------------------------------------------------
+   // Function: __toString
+   // Return a string representation of the exception.
+   public function __toString() {
+      return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
+   }
 }
 
-/* ----------------------------------------------------------------------------
- * class AlreadyFulfilledException
- *    Class for an exception when trying to do something that was probably
- *    already done.
- *
- *    This is a common case for example when remote sites are not up to date
- *    with our database. For example subscriptions, where a remote user may be 
- *    unsubscribed from our user, but they request it anyway.
- *
- *    This exception should be caught in a manner that lets the execution 
- *    continue _as if_ the desired action did what it was supposed to do.
- */
-class AlreadyFulfilledException extends ServerException
-{
-    public function __construct($msg=null)
-    {
-        if ($msg === null) {
-            // TRANS: Exception text when attempting to perform something which seems already done.
-            $msg = _('Trying to do something that was already done.');
-        }
 
-        parent::__construct($msg, SERVER_EXCEPTION_ALREADY_FULFILLED);
-    }
+// ----------------------------------------------------------------------------
+// Class: AlreadyFulfilledException
+// Class for an exception when trying to do something that was probably already
+// done.
+//
+// This is a common case for example when remote sites are not up to date with
+// our database. For example subscriptions, where a remote user may be
+// unsubscribed from our user, but they request it anyway.
+//
+// This exception should be caught in a manner that lets the execution continue
+// _as if_ the desired action did what it was supposed to do.
+class AlreadyFulfilledException extends ServerException {
+   public function __construct($msg=null)
+   {
+      if ($msg === null) {
+         // TRANS: Exception text when attempting to perform something which seems already done.
+         $msg = _('Trying to do something that was already done.');
+      }
+      parent::__construct($msg, SERVER_EXCEPTION_ALREADY_FULFILLED);
+   }
 }
 
-/* ---------------------------------------------------------------------------
- * class UnsupportedMediaException
- *    Class for a server exception caused by handling an unsupported media 
- *    type, typically through an attachment/file upload.
- */
-class UnsupportedMediaException extends ServerException
-{
-    public function __construct($msg, $path=null)
-    {
-        //common_debug(sprintf('UnsupportedMediaException "%1$s". File path (if given): "%2$s"', $msg, $path));
-        parent::__construct($msg, SERVER_EXCEPTION_UNSUPPORTED_MEDIA);
-    }
+
+// ---------------------------------------------------------------------------
+// Class: UnsupportedMediaException
+// Class for a server exception caused by handling an unsupported media
+// type, typically through an attachment/file upload.
+class UnsupportedMediaException extends ServerException {
+   public function __construct($msg, $path=null) {
+      //common_debug(sprintf('UnsupportedMediaException "%1$s". File path (if given): "%2$s"', $msg, $path));
+      parent::__construct($msg, SERVER_EXCEPTION_UNSUPPORTED_MEDIA);
+   }
 }
 
-/* ---------------------------------------------------------------------------
- * class UnsupportedMediaException
- *    A specific variant of UnsupportedMediaException where we do not have a
- *    thumbnail generated for the given file.
- */
-class UseFileAsThumbnailException extends UnsupportedMediaException
-{
-    public $file = null;
 
-    public function __construct(File $file)
-    {
+// ----------------------------------------------------------------------------
+// Class: UseFileAsThumbnailException
+// A specific variant of UnsupportedMediaException where we do not have a
+// thumbnail generated for the given file.
+class UseFileAsThumbnailException extends UnsupportedMediaException {
+   public $file = null;
+   public function __construct(File $file) {
         $this->file = $file;
         parent::__construct('Thumbnail not generated', $this->file->getPath());
-    }
+   }
 }
+
 
 /* ----------------------------------------------------------------------------
  * class EmptyPkeyValueException
