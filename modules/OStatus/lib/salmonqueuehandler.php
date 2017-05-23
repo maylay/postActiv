@@ -96,7 +96,7 @@ class SalmonQueueHandler extends QueueHandler {
             common_log(LOG_INFO, "Salmon originating from or destined to a blocked instance, discarding.");
             return false;
          }
-      } catch (exception TypeError $e) {
+      } catch (\TypeError $e) {
          common_log(LOG_INFO, "Unable to find profile for actor or target for banned instance lookup in SalmonQueue." .
             "  PHP said: " . $e . " (This is expected when an incoming salmon's instance is blocked, so we block by default here.)");
          return false;
