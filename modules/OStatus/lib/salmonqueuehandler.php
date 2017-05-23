@@ -86,14 +86,14 @@ class SalmonQueueHandler extends QueueHandler {
       assert(is_string($data['salmonuri']));
       assert(is_string($data['entry']));
 
-      try {
-         // Get the actor and target
-         $actor = Profile::getByID($data['actor']);
-         $target = Profile::getByID($data['target']);
+      // Get the actor and target
+      $actor = Profile::getByID($data['actor']);
+      $target = Profile::getByID($data['target']);
 
+      try {
          // Make sure the neither actor nor target are on banned instances
          if ($this->isBannedInstance($actor,$target)) {
-              common_log(LOG_INFO, "Salmon originating from or destined to a blocked instance, discarding.");
+            common_log(LOG_INFO, "Salmon originating from or destined to a blocked instance, discarding.");
             return false;
          }
       } catch (exception TypeError $e) {
