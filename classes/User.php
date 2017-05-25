@@ -565,100 +565,104 @@ class User extends Managed_DataObject {
       return $this->getProfile()->mutuallySubscribed($other);
    }
 
-    function mutuallySubscribedUsers()
-    {
-        // 3-way join; probably should get cached
-        $UT = common_config('db','type')=='pgsql'?'"user"':'user';
-        $qry = "SELECT $UT.* " .
-          "FROM subscription sub1 JOIN $UT ON sub1.subscribed = $UT.id " .
-          "JOIN subscription sub2 ON $UT.id = sub2.subscriber " .
-          'WHERE sub1.subscriber = %d and sub2.subscribed = %d ' .
-          "ORDER BY $UT.nickname";
-        $user = new User();
-        $user->query(sprintf($qry, $this->id, $this->id));
 
-        return $user;
-    }
+   // -------------------------------------------------------------------------
+   // Function: mutuallySubscribedUsers
+   // Returns an array of users that mutually subscribe to this user.
+   //
+   // FIXME:
+   // o 3-way join; probably should get cached
+   function mutuallySubscribedUsers() {
+      $UT = common_config('db','type')=='pgsql'?'"user"':'user';
+      $qry = "SELECT $UT.* " .
+         "FROM subscription sub1 JOIN $UT ON sub1.subscribed = $UT.id " .
+         "JOIN subscription sub2 ON $UT.id = sub2.subscriber " .
+         'WHERE sub1.subscriber = %d and sub2.subscribed = %d ' .
+         "ORDER BY $UT.nickname";
+      $user = new User();
+      $user->query(sprintf($qry, $this->id, $this->id));
+      return $user;
+   }
 
-    function getReplies($offset=0, $limit=NOTICES_PER_PAGE, $since_id=0, $before_id=0)
-    {
-        return $this->getProfile()->getReplies($offset, $limit, $since_id, $before_id);
-    }
 
-    function getTaggedNotices($tag, $offset=0, $limit=NOTICES_PER_PAGE, $since_id=0, $before_id=0) {
-        return $this->getProfile()->getTaggedNotices($tag, $offset, $limit, $since_id, $before_id);
-    }
+   // -------------------------------------------------------------------------
+   // Function: getReplies
+   // Returns an array of replies to this user.
+   function getReplies($offset=0, $limit=NOTICES_PER_PAGE, $since_id=0, $before_id=0) {
+      return $this->getProfile()->getReplies($offset, $limit, $since_id, $before_id);
+   }
 
-    function getNotices($offset=0, $limit=NOTICES_PER_PAGE, $since_id=0, $before_id=0)
-    {
-        return $this->getProfile()->getNotices($offset, $limit, $since_id, $before_id);
-    }
 
-    function block(Profile $other)
-    {
-        // Add a new block record
+   // -------------------------------------------------------------------------
+   // Function: getTaggedNotices
+   // Returns an array of notices tagged by this user.
+   function getTaggedNotices($tag, $offset=0, $limit=NOTICES_PER_PAGE, $since_id=0, $before_id=0) {
+      return $this->getProfile()->getTaggedNotices($tag, $offset, $limit, $since_id, $before_id);
+   }
 
-        // no blocking (and thus unsubbing from) yourself
 
-        if ($this->id == $other->id) {
-            common_log(LOG_WARNING,
-                sprintf(
-                    "Profile ID %d (%s) tried to block themself.",
-                    $this->id,
-                    $this->nickname
-                )
-            );
-            return false;
-        }
+   // -------------------------------------------------------------------------
+   // Function: getReplies
+   // Returns an array of notices from this user.
+   function getNotices($offset=0, $limit=NOTICES_PER_PAGE, $since_id=0, $before_id=0) {
+      return $this->getProfile()->getNotices($offset, $limit, $since_id, $before_id);
+   }
 
-        $block = new Profile_block();
 
-        // Begin a transaction
+   // -------------------------------------------------------------------------
+   // Function: block
+   // Add a new block record for this user, indicating they blocked target
+   // profile $other.  This will also remove subscriptions where they exist,
+   // locally.  (But not remotely.)
+   function block(Profile $other) {
+      // no blocking (and thus unsubbing from) yourself
+      if ($this->id == $other->id) {
+         common_log(LOG_WARNING, sprintf("Profile ID %d (%s) tried to block themself.", $this->id, $this->nickname));
+         return false;
+      }
 
-        $block->query('BEGIN');
+      $block = new Profile_block();
 
-        $block->blocker = $this->id;
-        $block->blocked = $other->id;
+      // Begin a transaction
+      $block->query('BEGIN');
+      $block->blocker = $this->id;
+      $block->blocked = $other->id;
+      $result = $block->insert();
+      if (!$result) {
+         common_log_db_error($block, 'INSERT', __FILE__);
+         return false;
+      }
 
-        $result = $block->insert();
+      $self = $this->getProfile();
+      if (Subscription::exists($other, $self)) {
+         Subscription::cancel($other, $self);
+      }
+      if (Subscription::exists($self, $other)) {
+         Subscription::cancel($self, $other);
+      }
+      $block->query('COMMIT');
+      return true;
+   }
 
-        if (!$result) {
-            common_log_db_error($block, 'INSERT', __FILE__);
-            return false;
-        }
 
-        $self = $this->getProfile();
-        if (Subscription::exists($other, $self)) {
-            Subscription::cancel($other, $self);
-        }
-        if (Subscription::exists($self, $other)) {
-            Subscription::cancel($self, $other);
-        }
+   // -------------------------------------------------------------------------
+   // Function: unblock
+   // Remove the block record this has for target profile $other.
+   function unblock(Profile $other) {
+      // Get the block record
+      $block = Profile_block::exists($this->getProfile(), $other);
+      if (!$block) {
+         return false;
+      }
 
-        $block->query('COMMIT');
+      $result = $block->delete();
+      if (!$result) {
+         common_log_db_error($block, 'DELETE', __FILE__);
+         return false;
+      }
+      return true;
+   }
 
-        return true;
-    }
-
-    function unblock(Profile $other)
-    {
-        // Get the block record
-
-        $block = Profile_block::exists($this->getProfile(), $other);
-
-        if (!$block) {
-            return false;
-        }
-
-        $result = $block->delete();
-
-        if (!$result) {
-            common_log_db_error($block, 'DELETE', __FILE__);
-            return false;
-        }
-
-        return true;
-    }
 
     function isMember(User_group $group)
     {
@@ -943,34 +947,32 @@ class User extends Managed_DataObject {
         return common_shorten_links($text, $always, $this);
     }
 
-    /*
-     * Get a list of OAuth client applications that have access to this
-     * user's account.
-     */
-    function getConnectedApps($offset = 0, $limit = null)
-    {
-        $qry =
-          'SELECT u.* ' .
-          'FROM oauth_application_user u, oauth_application a ' .
-          'WHERE u.profile_id = %d ' .
-          'AND a.id = u.application_id ' .
-          'AND u.access_type > 0 ' .
-          'ORDER BY u.created DESC ';
 
-        if ($offset > 0) {
-            if (common_config('db','type') == 'pgsql') {
-                $qry .= ' LIMIT ' . $limit . ' OFFSET ' . $offset;
-            } else {
-                $qry .= ' LIMIT ' . $offset . ', ' . $limit;
-            }
-        }
+   // -------------------------------------------------------------------------
+   // Function: getConnectedApps
+   // Get a list of OAuth client applications that have access to this
+   // user's account.
+   function getConnectedApps($offset = 0, $limit = null) {
+      $qry =
+         'SELECT u.* ' .
+         'FROM oauth_application_user u, oauth_application a ' .
+         'WHERE u.profile_id = %d ' .
+         'AND a.id = u.application_id ' .
+         'AND u.access_type > 0 ' .
+         'ORDER BY u.created DESC ';
 
-        $apps = new Oauth_application_user();
+      if ($offset > 0) {
+         if (common_config('db','type') == 'pgsql') {
+            $qry .= ' LIMIT ' . $limit . ' OFFSET ' . $offset;
+         } else {
+            $qry .= ' LIMIT ' . $offset . ', ' . $limit;
+         }
+      }
 
-        $cnt = $apps->query(sprintf($qry, $this->id));
-
-        return $apps;
-    }
+      $apps = new Oauth_application_user();
+      $cnt = $apps->query(sprintf($qry, $this->id));
+      return $apps;
+   }
 
 
    // -------------------------------------------------------------------------
