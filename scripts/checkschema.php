@@ -107,7 +107,11 @@ if (have_option('x', 'extensions')) {
     }
 }
 
-Event::handle('BeforePluginCheckSchema');
+try {
+	Event::handle('BeforePluginCheckSchema');
+} catch (Exception $e) {
+	print 'Caught exception during BeforePluginCheckSchema: ' . $e->getMessage() . "\n";
+}
 Event::handle('CheckSchema');
 
 // END OF FILE

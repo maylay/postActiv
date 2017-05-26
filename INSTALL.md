@@ -66,21 +66,6 @@ The above package names are for Debian based systems. In the case of
 Arch Linux, PHP is compiled with support for most extensions but they
 require manual enabling in the relevant php.ini file (mostly php5-gmp).
 
-Debian install
---------------
-
-Here's how to set the system up on a new installation of Debian stable. You will need a domain name capable of getting a LetsEncrypt certificate and also to forward ports 80 and 443 to your server machine. Then run:
-
-``` bash
-su
-apt-get -yq install git
-git clone https://git.postactiv.com/postActiv/postActiv.git /var/www/postactiv
-cd /var/www/postactiv
-./scripts/debian_install.sh [mariadb password] [username] [password] [domain] [email address]
-```
-
-This installs everything needed, including the web server, TLS certificate and database.
-
 Better performance
 ------------------
 
@@ -104,6 +89,26 @@ Enable it in your php.ini where it is documented together with its settings.
 
 Installation
 ============
+
+Debian install
+--------------
+
+Here's how to set the system up on a new installation of Debian stable. You
+will need a domain name capable of getting a LetsEncrypt certificate and also
+to forward ports 80 and 443 to your server machine. Then run:
+
+``` bash
+su
+apt-get -yq install git
+git clone https://git.postactiv.com/postActiv/postActiv.git /var/www/postactiv
+cd /var/www/postactiv
+./scripts/debian_install.sh [mariadb password] [username] [password] [domain] [email address]
+```
+
+This installs everything needed, including the web server, TLS certificate and
+database.
+
+For systems on other OSes without the auto-installer, read on:
 
 Getting it up and running
 -------------------------
@@ -429,7 +434,7 @@ Access to file attachments can also be restricted to logged-in users only:
 
        chmod a+x /var/www/postactiv-files
 
-3. Tell GNU social to use this directory for file uploads. Add a line
+3. Tell postActiv to use this directory for file uploads. Add a line
    like this to your config.php:
 
        $config['attachments']['dir'] = '/var/www/postactiv-files';
@@ -439,7 +444,6 @@ Extra features
 
 Sphinx
 ------
-
 To use a Sphinx server to search users and notices, you'll need to
 enable the SphinxSearch plugin. Add to your config.php:
 
@@ -451,10 +455,10 @@ php on the client side, which itself depends on the sphinx development files.
 
 See plugins/SphinxSearch/README for more details and server setup.
 
+
 SMS
 ---
-
-StatusNet supports a cheap-and-dirty system for sending update messages
+postActiv supports a cheap-and-dirty system for sending update messages
 to mobile phones and for receiving updates from the mobile. Instead of
 sending through the SMS network itself, which is costly and requires
 buy-in from the wireless carriers, it simply piggybacks on the email
@@ -502,7 +506,6 @@ For this to work, there *must* be a domain or sub-domain for which all
 
 Translations
 ------------
-
 For info on helping with translations, see the platform currently in use
 for translations: https://www.transifex.com/projects/p/gnu-social/
 
@@ -516,18 +519,20 @@ tracking the git repo, you will need to install at least 'gettext' on
 your system and then run:
     $ make translations
 
+
 Queues and daemons
 ------------------
-
 Some activities that postActiv needs to do, like broadcast OStatus, SMS,
 XMPP messages and TwitterBridge operations, can be 'queued' and done by
 off-line bots instead.
 
-Two mechanisms are available to achieve offline operations:
+Four mechanisms are available to achieve offline operations:
 
 * Embedded OpportunisticQM plugin, which is enabled by default
 * Redis-backed queue manager, which is the recommended option, but
   requires a Redis server set up.
+* STOMP-backed queue manager, which uses a STOMP-based external server to
+  send messages.
 * Legacy queuedaemon script, which can be enabled via config file.
 
 ### OpportunisticQM plugin
@@ -544,7 +549,7 @@ This is a good solution whether you:
 
 * have no access to command line (shared hosting)
 * do not want to deal with long-running PHP processes
-* run a low traffic postActiv instance
+* run a low-traffic postActiv instance
 
 In other case, you really should consider enabling the Redis queue manager or
 queuedaemon for performance reasons.  OpprotunisticQM is essentially the slower
@@ -666,15 +671,13 @@ After installation
 
 Backups
 -------
-
 There is no built-in system for doing backups in postActiv. You can make
-backups of a working StatusNet system by backing up the database and
+backups of a working postActiv system by backing up the database and
 the Web directory. To backup the database use mysqldump <https://mariadb.com/kb/en/mariadb/mysqldump/>
 and to backup the Web directory, try tar.
 
 Upgrading
 ---------
-
 Upgrading is strongly recommended to stay up to date with security fixes
 and new features. For instructions on how to upgrade postActiv code,
 please see the UPGRADE file.

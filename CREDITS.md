@@ -17,16 +17,25 @@ Lead Developer
 * Maiyannah Bishop <maiyannah.bishop@postactiv.com>
 
 Developers
-* Verius <verius@postactiv.com>
-* Neil E Hodges
-* Moonman
-* Normandy
 * Bob Mottram
 * David Yip
+* Neil E Hodges <47hasbegun@postactiv.com>
+* Moonman
+* Normandy
+* Verius <verius@postactiv.com>
 
 Financial Supporters
-* Thomas Karpiniec
+* Bryan Tsang
+* DJ Sundog
+* Extropic
+* Gregory Marco
+* Kit Redgrave
+* Mono
+* Robek
 * Sonya Mann
+* Sungo
+* Thomas Karpiniec
+* Vinzenz Vietzke
 
 
 GNU social Team

@@ -111,9 +111,7 @@ class PublicSite extends SiteProfileSettings
             ),
             'plugins' => array(
                 'core'    => self::corePlugins(),
-                'default' => array_merge(self::defaultPlugins(), array(
-                    'RegisterThrottle'        => array(),
-                ))
+                'default' => array_merge(self::defaultPlugins(), array())
             ),
             'discovery' => array('cors' => true) // Allow Cross-Origin Resource Sharing for service discovery (host-meta, XRD, etc.)
         );
@@ -144,10 +142,7 @@ class PrivateSite extends SiteProfileSettings
             ),
             'plugins' => array(
                 'core'    => self::corePlugins(),
-                'default' => array_merge(self::defaultPlugins(), array(
-                    'ExtendedProfile'         => array(),
-                    'EmailRegistration'       => array(),
-                )),
+                'default' => array_merge(self::defaultPlugins(), array()),
                 'disable-OStatus' => 1,
                 'disable-WebFinger' => 1,
              ),
@@ -197,8 +192,7 @@ class CommunitySite extends SiteProfileSettings
             ),
             'plugins' => array(
                 'core'    => self::corePlugins(),
-                'default' => array_merge(self::defaultPlugins(), array(
-                ))
+                'default' => array_merge(self::defaultPlugins(), array())
             ),
             'public'    => array('localonly' => true),
             'discovery' => array('cors' => true) // Allow Cross-Origin Resource Sharing for service discovery (host-meta, XRD, etc.)

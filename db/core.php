@@ -33,6 +33,33 @@
  *     double-check what we've been doing on postgres?
  */
 
+// Quick and dirty hack - lets make sure we load the classes we need - mb
+$pa_path = dirname(dirname(__FILE__));
+require_once(INSTALLDIR . "/modules/Bookmark/classes/Bookmark.php");
+require_once(INSTALLDIR . "/modules/DirectMessage/classes/Message.php");
+require_once(INSTALLDIR . "/modules/EmailReminder/classes/Email_reminder.php");
+require_once(INSTALLDIR . "/modules/EmailSummary/classes/Email_summary_status.php");
+require_once(INSTALLDIR . "/modules/Event/classes/Happening.php");
+require_once(INSTALLDIR . "/modules/Event/classes/RSVP.php");
+require_once(INSTALLDIR . "/modules/Favorite/classes/Fave.php");
+require_once(INSTALLDIR . "/modules/Oembed/classes/File_oembed.php");
+require_once(INSTALLDIR . "/modules/OpenID/classes/User_openid.php");
+require_once(INSTALLDIR . "/modules/OpenID/classes/User_openid_prefs.php");
+require_once(INSTALLDIR . "/modules/OpenID/classes/User_openid_trustroot.php");
+require_once(INSTALLDIR . "/modules/OStatus/classes/FeedSub.php");
+require_once(INSTALLDIR . "/modules/OStatus/classes/HubSub.php");
+require_once(INSTALLDIR . "/modules/OStatus/classes/Magicsig.php");
+require_once(INSTALLDIR . "/modules/OStatus/classes/Ostatus_profile.php");
+require_once(INSTALLDIR . "/modules/Poll/classes/Poll.php");
+require_once(INSTALLDIR . "/modules/Poll/classes/Poll_response.php");
+require_once(INSTALLDIR . "/modules/Poll/classes/User_poll_prefs.php");
+require_once(INSTALLDIR . "/modules/QnA/classes/QnA_Answer.php");
+require_once(INSTALLDIR . "/modules/QnA/classes/QnA_Question.php");
+require_once(INSTALLDIR . "/modules/QnA/classes/QnA_Vote.php");
+require_once(INSTALLDIR . "/modules/SearchSub/classes/SearchSub.php");
+require_once(INSTALLDIR . "/modules/TagSub/classes/TagSub.php");
+
+
 $classes = array('Schema_version',
                  'Profile',
                  'Avatar',
@@ -49,6 +76,7 @@ $classes = array('Schema_version',
                  'Consumer',
                  'Token',
                  'Nonce',
+                 'Conversation',
                  'Oauth_application',
                  'Oauth_application_user',
                  'Confirm_address',
@@ -67,14 +95,15 @@ $classes = array('Schema_version',
                  'Profile_block',
                  'User_group',
                  'Related_group',
+                 'Group_alias',
+                 'Group_block',
                  'Group_inbox',
                  'Group_member',
                  'File',
                  'File_redirection',
                  'File_thumbnail',
                  'File_to_post',
-                 'Group_block',
-                 'Group_alias',
+                 'File_oembed',
                  'Session',
                  'Config',
                  'Profile_role',
@@ -82,12 +111,31 @@ $classes = array('Schema_version',
                  'Login_token',
                  'User_location_prefs',
                  'User_im_prefs',
-                 'Conversation',
                  'Local_group',
                  'User_urlshortener_prefs',
                  'Old_school_prefs',
                  'User_username',
                  'Attention',
+                 'Bookmark',
+                 'Deleted_notice',
+                 'Feedsub',
+                 'Happening',
+                 'Magicsig',
+                 'Message',
+                 'Poll',
+                 'Poll_response',
+                 'User_poll_prefs',
+                 'QnA_Answer',
+                 'QnA_Question',
+                 'QnA_Vote',
+                 'SearchSub',
+                 'TagSub',
+                 'Ostatus_profile',
+                 'Fave',
+                 'Email_reminder',
+                 'User_openid',
+                 'User_openid_prefs',
+                 'User_openid_trustroot',
 );
 
 foreach ($classes as $cls) {

@@ -52,7 +52,7 @@
  *  o GNU social <https://www.gnu.org/s/social/>
  * ============================================================================
  */
- 
+
 // This file is formatted so that it provides useful documentation output in
 // NaturalDocs.  Please be considerate of this before changing formatting.
 
@@ -67,121 +67,134 @@ define("CLIENT_EXCEPTION_PRIVATE_STREAM_NO_AUTH", 401);
 define("CLIENT_EXCEPTION_PRIVATE_STREAM_UNAUTHORIZED", 403);
 define("CLIENT_EXCEPTION_BAD_QUEUE_MANAGER_KEY", 403);
 
-/* ----------------------------------------------------------------------------
- * class ClientException
- *    Subclass of PHP Exception for user or client errors.  By default, these 
- *    are put into LOG_DEBUG since most client errors aren't actually our 
- *    problem, but we may need the information for this if a 3rd party app or
- *    something is acting up.
- */
-class ClientException extends Exception
-{
-    public function __construct($message = null, $code = CLIENT_EXCEPTION, Exception $previous = null, $severity = LOG_DEBUG) {
-        parent::__construct($message, $code);
-        if ($severity==LOG_DEBUG) {
-           common_debug($message . " (" . $code . ")");
-        } else {
-           common_log($severity, $message . " (" . $code .")");
-        }
-    }
 
-   // custom string representation of object
+// ============================================================================
+// Class: ClientException
+// Subclass of PHP Exception for user or client errors.  By default, these
+// are put into LOG_DEBUG since most client errors aren't actually our
+// problem, but we may need the information for this if a 3rd party app or
+// something is acting up.
+class ClientException extends Exception {
+
+   // -------------------------------------------------------------------------
+   // Function: __construct
+   // Form the exception class and log the exception
+   public function __construct($message = null, $code = CLIENT_EXCEPTION, Exception $previous = null, $severity = LOG_DEBUG) {
+      parent::__construct($message, $code);
+      if ($severity==LOG_DEBUG) {
+         common_debug($message . " (" . $code . ")");
+      } else {
+         common_log($severity, $message . " (" . $code .")");
+      }
+   }
+
+   // -------------------------------------------------------------------------
+   // Function: __toString
+   // Returns a string representation of the exception object.
    public function __toString() {
       return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
    }
 }
 
-/* ----------------------------------------------------------------------------
- * class AuthorizationException
- *    A class for client exceptions caused by improper authorization.
- */
-class AuthorizationException extends ClientException
-{
-    /**
-     * Constructor
-     *
-     * @param string $message Message for the exception
-     */
-    public function __construct($message=null)
-    {
-        parent::__construct($message, CLIENT_EXCEPTION_UNAUTHORIZED);
-    }
+
+// ============================================================================
+// Class: AuthorizationException
+// Subclass of ClientException for client exceptions caused by improper 
+// authorization.
+class AuthorizationException extends ClientException {
+   
+   // -------------------------------------------------------------------------
+   // Function: __construct
+   // Construct the error message
+   //
+   // Parameters:
+   // o string $message Message for the exception
+   public function __construct($message=null) {
+      parent::__construct($message, CLIENT_EXCEPTION_UNAUTHORIZED);
+   }
 }
 
-/* ----------------------------------------------------------------------------
- * class PrivateStreamException
- *    A class for client exceptions caused by trying to access a notice stream
- *    which is private in nature.
- */
-class PrivateStreamException extends AuthorizationException
-{
-    var $owner = null;  // owner of the private stream
-    var $reader = null; // reader, may be null if not logged in
 
-    public function __construct(Profile $owner, Profile $reader=null)
-    {
-        $this->owner = $owner;
-        $this->reader = $reader;
+// ============================================================================
+// Class: PrivateStreamException
+// A class for client exceptions caused by trying to access a notice stream
+// which is private in nature.
+//
+// Properties:
+// o owner  - owner of the private stream
+// o reader - user attempting to read the stream, may be null if not logged in
+class PrivateStreamException extends AuthorizationException {
+   var $owner = null;  // owner of the private stream
+   var $reader = null; // reader, may be null if not logged in
 
-        // TRANS: Message when a private stream attemps to be read by unauthorized third party.
-        $msg = sprintf(_m('This stream is protected and only authorized subscribers may see its contents.'));
-
-        // If $reader is a profile, authentication has been made but still not accepted (403),
-        // otherwise authentication may give access to this resource (401).
-        parent::__construct($msg, ($reader instanceof Profile ? 
-           CLIENT_EXCEPTION_PRIVATE_STREAM_UNAUTHORIZED : CLIENT_EXCEPTION_PRIVATE_STREAM_NO_AUTH));
-    }
+   // -------------------------------------------------------------------------
+   // Function: __construct
+   // Construct the error message.
+   public function __construct(Profile $owner, Profile $reader=null) {
+      $this->owner = $owner;
+      $this->reader = $reader;
+      // TRANS: Message when a private stream attemps to be read by unauthorized third party.
+      $msg = sprintf(_m('This stream is protected and only authorized subscribers may see its contents.'));
+      // If $reader is a profile, authentication has been made but still not accepted (403),
+      // otherwise authentication may give access to this resource (401).
+      parent::__construct($msg, ($reader instanceof Profile ?
+         CLIENT_EXCEPTION_PRIVATE_STREAM_UNAUTHORIZED : CLIENT_EXCEPTION_PRIVATE_STREAM_NO_AUTH));
+   }
 }
 
-/* ----------------------------------------------------------------------------
- * class NoUploadedMediaException
- *    Class for a client exception caused when a POST upload does not contain a
- *    file.
- */
-class NoUploadedMediaException extends ClientException
-{
-    public $fieldname = null;
 
-    public function __construct($fieldname, $msg=null)
-    {
-        $this->fieldname = $fieldname;
+// ============================================================================
+// Class: NoUploadedMediaException
+// Class for a client exception caused when a POST upload does not contain a
+// file.
+class NoUploadedMediaException extends ClientException {
+   public $fieldname = null;
 
-        if ($msg === null) {
-            // TRANS: Exception text shown when no uploaded media was provided in POST
-            // TRANS: %s is the HTML input field name.
-            $msg = sprintf(_('There is no uploaded media for input field "%s".'), $this->fieldname);
-        }
-
-        parent::__construct($msg, CLIENT_EXCEPTION_EMPTY_POST);
-    }
+   // -------------------------------------------------------------------------
+   // Function: __construct
+   // Construct the error message.
+   public function __construct($fieldname, $msg=null) {
+      $this->fieldname = $fieldname;
+      if ($msg === null) {
+         // TRANS: Exception text shown when no uploaded media was provided in POST
+         // TRANS: %s is the HTML input field name.
+         $msg = sprintf(_('There is no uploaded media for input field "%s".'), $this->fieldname);
+      }
+      parent::__construct($msg, CLIENT_EXCEPTION_EMPTY_POST);
+   }
 }
 
-/* ----------------------------------------------------------------------------
- * class RunQueueBadKeyException
- *    Class for a client exception caused by an interfacing queue software not
- *    presenting a valid manager key.
- */
-class RunQueueBadKeyException extends ClientException
-{
-    public $qmkey;
 
-    public function __construct($qmkey)
-    {
-        $this->qmkey = $qmkey;
-        $msg = _('Bad queue manager key was used.');
-        parent::__construct($msg, CLIENT_EXCEPTION_BAD_QUEUE_MANAGER_KEY);
-    }
+// ============================================================================
+// Class: RunQueueBadKeyException
+// Class for a client exception caused by an interfacing queue software not
+// presenting a valid manager key.
+//
+// Properties:
+// o qmkey - the bad key passed
+class RunQueueBadKeyException extends ClientException {
+   public $qmkey;
+
+   // -------------------------------------------------------------------------
+   // Function: __construct
+   // Construct the error message.
+   public function __construct($qmkey) {
+      $this->qmkey = $qmkey;
+      $msg = _('Bad queue manager key was used.');
+      parent::__construct($msg, CLIENT_EXCEPTION_BAD_QUEUE_MANAGER_KEY);
+   }
 }
 
-/* ----------------------------------------------------------------------------
- * class RunQueueOutOfWorkException
- *    Class for a client exception caused by the queue running out of queue
- *    items.  This is not normally an error state.
- */
-class RunQueueOutOfWorkException extends ServerException
-{
-   public function __construct()
-   {
+// ============================================================================
+// Class RunQueueOutOfWorkException
+// Class for a client exception caused by the queue running out of queue
+// items.  This is not normally an error state.
+class RunQueueOutOfWorkException extends ServerException {
+   
+   // -------------------------------------------------------------------------
+   // Function: __construct
+   // Creates the error message.
+   public function __construct() {
       $msg = _('Opportunistic queue manager is out of work (no more items).');
       parent::__construct($msg,0,null,LOG_DEBUG);
    }

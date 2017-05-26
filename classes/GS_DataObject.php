@@ -32,6 +32,10 @@
  * About:
  * GS DB object abstraction
  *
+ * How many bloody redefinitions of DataObject do we need?  Basically this one
+ * exists to suppress errors which is a BAD IDEA and we should rectify the
+ * errors instead.
+ *
  * PHP version:
  * Tested with PHP 7
  * ----------------------------------------------------------------------------
@@ -50,227 +54,277 @@
 
 if (!defined('POSTACTIV')) { exit(1); }
 
-class GS_DataObject extends DB_DataObject
-{
-    public function _autoloadClass($class, $table=false)
-    {
-        // avoid those annoying PEAR::DB strict standards warnings it causes
-        $old = error_reporting();
-        error_reporting(error_reporting() & ~E_STRICT);
 
-        $res = parent::_autoloadClass($class, $table);
+// ============================================================================
+// Class: DB_DataObject
+// Superclass redefining DB_DataObject with GS specific functions/overrides.
+class GS_DataObject extends DB_DataObject {
+   
+   // -------------------------------------------------------------------------
+   // Function: _autoloadClass
+   // Redefine autoload to avoid those annoying PEAR::DB strict standards
+   // warnings it causes.
+   //
+   // This is a dirty hack and suppressing errors, we shouldn't do this and it
+   // should be written out.
+   public function _autoloadClass($class, $table=false) {
+      $old = error_reporting();
+      error_reporting(error_reporting() & ~E_STRICT);
+      $res = parent::_autoloadClass($class, $table);
+      // reset
+      error_reporting($old);
+      return $res;
+   }
 
-        // reset
-        error_reporting($old);
-        return $res;
-    }
+   // -------------------------------------------------------------------------
+   // Function: _connect
+   // Wraps the _connect call so we don't throw E_STRICT warnings during it.
+   //
+   // This is a dirty hack and suppressing errors, we shouldn't do this and it
+   // should be written out.
+   public function _connect() {
+      $old = error_reporting();
+      error_reporting(error_reporting() & ~E_STRICT);
+      $res = parent::_connect();
+      // reset
+      error_reporting($old);
+      return $res;
+   }
 
-    // wraps the _connect call so we don't throw E_STRICT warnings during it
-    public function _connect()
-    {
-        // avoid those annoying PEAR::DB strict standards warnings it causes
-        $old = error_reporting();
-        error_reporting(error_reporting() & ~E_STRICT);
+   // -------------------------------------------------------------------------
+   // Function: _loadConfig
+   // Wwraps the _loadConfig call so we don't throw E_STRICT warnings during it.
+   // Doesn't actually return anything, but we'll follow the same model as the 
+   // rest of the wrappers.
+   //
+   // This is a dirty hack and suppressing errors, we shouldn't do this and it
+   // should be written out.
+   public function _loadConfig() {
+      $old = error_reporting();
+      error_reporting(error_reporting() & ~E_STRICT);
+      $res = parent::_loadConfig();
+      // reset
+      error_reporting($old);
+      return $res;
+   }
 
-        $res = parent::_connect();
 
-        // reset
-        error_reporting($old);
-        return $res;
-    }
+   // -------------------------------------------------------------------------
+   // Function: count
+   // Wraps the count call so we don't throw E_STRICT warnings during it.
+   //
+   // This is a dirty hack and suppressing errors, we shouldn't do this and it
+   // should be written out.
+   public function count($countWhat = false,$whereAddOnly = false) {
+      $old = error_reporting();
+      error_reporting(error_reporting() & ~E_STRICT);
+      $res = parent::count($countWhat, $whereAddOnly);
+      // reset
+      error_reporting($old);
+      return $res;
+   }
 
-    // wraps the _loadConfig call so we don't throw E_STRICT warnings during it
-    // doesn't actually return anything, but we'll follow the same model as the rest of the wrappers
-    public function _loadConfig()
-    {
-        // avoid those annoying PEAR::DB strict standards warnings it causes
-        $old = error_reporting();
-        error_reporting(error_reporting() & ~E_STRICT);
 
-        $res = parent::_loadConfig();
+   // -------------------------------------------------------------------------
+   // Function: debugLevel
+   // Wraps the debugLevel call so we don't throw E_STRICT warnings during it.
+   //
+   // This is a dirty hack and suppressing errors, we shouldn't do this and it
+   // should be written out.
+   static public function debugLevel($v = null) {
+      $old = error_reporting();
+      error_reporting(error_reporting() & ~E_STRICT);
+      $res = parent::debugLevel($v);
+      // reset
+      error_reporting($old);
+      return $res;
+   }
 
-        // reset
-        error_reporting($old);
-        return $res;
-    }
 
-    // wraps the count call so we don't throw E_STRICT warnings during it
-    public function count($countWhat = false,$whereAddOnly = false)
-    {
-        // avoid those annoying PEAR::DB strict standards warnings it causes
-        $old = error_reporting();
-        error_reporting(error_reporting() & ~E_STRICT);
+   // -------------------------------------------------------------------------
+   // Function: delete
+   // Delete calls PEAR::isError from DB_DataObject, so let's make that disappear too
+   //
+   // This is a dirty hack and suppressing errors, we shouldn't do this and it
+   // should be written out.
+   public function delete($useWhere = false) {
+      $old = error_reporting();
+      error_reporting(error_reporting() & ~E_STRICT);
+      $res = parent::delete($useWhere);
+      // reset
+      error_reporting($old);
+      return $res;
+   }
 
-        $res = parent::count($countWhat, $whereAddOnly);
 
-        // reset
-        error_reporting($old);
-        return $res;
-    }
+   // -------------------------------------------------------------------------
+   // Function: factory
+   // Avoid those annoying PEAR::DB strict standards warnings it causes.
+   //
+   // This is a dirty hack and suppressing errors, we shouldn't do this and it
+   // should be written out.
+   static public function factory($table = '') {
+      $old = error_reporting();
+      error_reporting(error_reporting() & ~E_STRICT);
+      $res = parent::factory($table);
+      // reset
+      error_reporting($old);
+      return $res;
+   }
 
-    static public function debugLevel($v = null)
-    {
-        // avoid those annoying PEAR::DB strict standards warnings it causes
-        $old = error_reporting();
-        error_reporting(error_reporting() & ~E_STRICT);
 
-        $res = parent::debugLevel($v);
+   // -------------------------------------------------------------------------
+   // Function: get
+   // Avoid those annoying PEAR::DB strict standards warnings it causes.
+   //
+   // This is a dirty hack and suppressing errors, we shouldn't do this and it
+   // should be written out.
+   public function get($k = null, $v = null) {
+      $old = error_reporting();
+      error_reporting(error_reporting() & ~E_STRICT);
+      $res = parent::get($k, $v);
+      // reset
+      error_reporting($old);
+      return $res;
+   }
 
-        // reset
-        error_reporting($old);
-        return $res;
-    }
+   
+   // -------------------------------------------------------------------------
+   // Function: fetch
+   // Avoid those annoying PEAR::DB strict standards warnings it causes.
+   //
+   // This is a dirty hack and suppressing errors, we shouldn't do this and it
+   // should be written out.
+   public function fetch() {
+      // avoid those annoying PEAR::DB strict standards warnings it causes
+      $old = error_reporting();
+      error_reporting(error_reporting() & ~E_STRICT);
+      $res = parent::fetch();
+      // reset
+      error_reporting($old);
+      return $res;
+   }
 
-    // delete calls PEAR::isError from DB_DataObject, so let's make that disappear too
-    public function delete($useWhere = false)
-    {
-        // avoid those annoying PEAR::DB strict standards warnings it causes
-        $old = error_reporting();
-        error_reporting(error_reporting() & ~E_STRICT);
+   // -------------------------------------------------------------------------
+   // Function: find
+   // Avoid those annoying PEAR::DB strict standards warnings it causes.
+   //
+   // This is a dirty hack and suppressing errors, we shouldn't do this and it
+   // should be written out.
+   public function find($n = false) {
+      $old = error_reporting();
+      error_reporting(error_reporting() & ~E_STRICT);
+      $res = parent::find($n);
+      // reset
+      error_reporting($old);
+      return $res;
+   }
 
-        $res = parent::delete($useWhere);
 
-        // reset
-        error_reporting($old);
-        return $res;
-    }
+   // -------------------------------------------------------------------------
+   // Function: fetchRow
+   // Avoid those annoying PEAR::DB strict standards warnings it causes.
+   //
+   // This is a dirty hack and suppressing errors, we shouldn't do this and it
+   // should be written out.
+   public function fetchRow($row = null) {
+      $old = error_reporting();
+      error_reporting(error_reporting() & ~E_STRICT);
+      $res = parent::fetchRow($row);
+      // reset
+      error_reporting($old);
+      return $res;
+   }
 
-    static public function factory($table = '')
-    {
-        // avoid those annoying PEAR::DB strict standards warnings it causes
-        $old = error_reporting();
-        error_reporting(error_reporting() & ~E_STRICT);
 
-        $res = parent::factory($table);
+   // -------------------------------------------------------------------------
+   // Function: insert
+   // Avoid those annoying PEAR::DB strict standards warnings it causes.
+   //
+   // This is a dirty hack and suppressing errors, we shouldn't do this and it
+   // should be written out.
+   public function insert() {
+      $old = error_reporting();
+      error_reporting(error_reporting() & ~E_STRICT);
+      $res = parent::insert();
+      // reset
+      error_reporting($old);
+      return $res;
+   }
 
-        // reset
-        error_reporting($old);
-        return $res;
-    }
 
-    public function get($k = null, $v = null)
-    {
-        // avoid those annoying PEAR::DB strict standards warnings it causes
-        $old = error_reporting();
-        error_reporting(error_reporting() & ~E_STRICT);
+   // -------------------------------------------------------------------------
+   // Function: joinAdd
+   // Avoid those annoying PEAR::DB strict standards warnings it causes.
+   //
+   // This is a dirty hack and suppressing errors, we shouldn't do this and it
+   // should be written out.
+   public function joinAdd($obj = false, $joinType='INNER', $joinAs=false, $joinCol=false) {
+      $old = error_reporting();
+      error_reporting(error_reporting() & ~E_STRICT);
+      $res = parent::joinAdd($obj, $joinType, $joinAs, $joinCol);
+      // reset
+      error_reporting($old);
+      return $res;
+   }
 
-        $res = parent::get($k, $v);
 
-        // reset
-        error_reporting($old);
-        return $res;
-    }
+   // -------------------------------------------------------------------------
+   // Function: links
+   // Avoid those annoying PEAR::DB strict standards warnings it causes.
+   //
+   // This is a dirty hack and suppressing errors, we shouldn't do this and it
+   // should be written out.
+   public function links() {
+      $old = error_reporting();
+      error_reporting(error_reporting() & ~E_STRICT);
+      $res = parent::links();
+      // reset
+      error_reporting($old);
+      return $res;
+   }
 
-    public function fetch()
-    {
-        // avoid those annoying PEAR::DB strict standards warnings it causes
-        $old = error_reporting();
-        error_reporting(error_reporting() & ~E_STRICT);
 
-        $res = parent::fetch();
+   // -------------------------------------------------------------------------
+   // Function: update
+   // Avoid those annoying PEAR::DB strict standards warnings it causes.
+   //
+   // This is a dirty hack and suppressing errors, we shouldn't do this and it
+   // should be written out.
+   public function update($dataObject = false) {
+      $old = error_reporting();
+      error_reporting(error_reporting() & ~E_STRICT);
+      $res = parent::update($dataObject);
+      // reset
+      error_reporting($old);
+      return $res;
+   }
+    
 
-        // reset
-        error_reporting($old);
-        return $res;
-    }
+   // -------------------------------------------------------------------------
+   // Function: staticGet
+   // Avoid those annoying PEAR::DB strict standards warnings it causes.
+   //
+   // This is a dirty hack and suppressing errors, we shouldn't do this and it
+   // should be written out.
+   static public function staticGet($class, $k, $v = null) {
+      $old = error_reporting();
+      error_reporting(error_reporting() & ~E_STRICT);
+      $res = parent::staticGet($class, $k, $v);
+      // reset
+      error_reporting($old);
+      return $res;
+   }
 
-    public function find($n = false)
-    {
-        // avoid those annoying PEAR::DB strict standards warnings it causes
-        $old = error_reporting();
-        error_reporting(error_reporting() & ~E_STRICT);
 
-        $res = parent::find($n);
-
-        // reset
-        error_reporting($old);
-        return $res;
-    }
-
-    public function fetchRow($row = null)
-    {
-        // avoid those annoying PEAR::DB strict standards warnings it causes
-        $old = error_reporting();
-        error_reporting(error_reporting() & ~E_STRICT);
-
-        $res = parent::fetchRow($row);
-
-        // reset
-        error_reporting($old);
-        return $res;
-    }
-
-    // insert calls PEAR::isError from DB_DataObject, so let's make that disappear too
-    public function insert()
-    {
-        // avoid those annoying PEAR::DB strict standards warnings it causes
-        $old = error_reporting();
-        error_reporting(error_reporting() & ~E_STRICT);
-
-        $res = parent::insert();
-
-        // reset
-        error_reporting($old);
-        return $res;
-    }
-
-    // DB_DataObject's joinAdd calls DB_DataObject::factory explicitly, so our factory-override doesn't work
-    public function joinAdd($obj = false, $joinType='INNER', $joinAs=false, $joinCol=false)
-    {
-        // avoid those annoying PEAR::DB strict standards warnings it causes
-        $old = error_reporting();
-        error_reporting(error_reporting() & ~E_STRICT);
-
-        $res = parent::joinAdd($obj, $joinType, $joinAs, $joinCol);
-
-        // reset
-        error_reporting($old);
-        return $res;
-    }
-
-    public function links()
-    {
-        // avoid those annoying PEAR::DB strict standards warnings it causes
-        $old = error_reporting();
-        error_reporting(error_reporting() & ~E_STRICT);
-
-        $res = parent::links();
-
-        // reset
-        error_reporting($old);
-        return $res;
-    }
-
-    // wraps the update call so we don't throw E_STRICT warnings during it
-    public function update($dataObject = false)
-    {
-        // avoid those annoying PEAR::DB strict standards warnings it causes
-        $old = error_reporting();
-        error_reporting(error_reporting() & ~E_STRICT);
-
-        $res = parent::update($dataObject);
-
-        // reset
-        error_reporting($old);
-        return $res;
-    }
-
-    static public function staticGet($class, $k, $v = null)
-    {
-        // avoid those annoying PEAR::DB strict standards warnings it causes
-        $old = error_reporting();
-        error_reporting(error_reporting() & ~E_STRICT);
-
-        $res = parent::staticGet($class, $k, $v);
-
-        // reset
-        error_reporting($old);
-        return $res;
-    }
-
-    public function staticGetAutoloadTable($table)
-    {
-        // avoid those annoying PEAR::DB strict standards warnings it causes
+   // -------------------------------------------------------------------------
+   // Function: staticGetAutoloadTable
+   // Avoid those annoying PEAR::DB strict standards warnings it causes.
+   //
+   // This is a dirty hack and suppressing errors, we shouldn't do this and it
+   // should be written out.
+   public function staticGetAutoloadTable($table)
+   {
         $old = error_reporting();
         error_reporting(error_reporting() & ~E_STRICT);
 
@@ -279,7 +333,7 @@ class GS_DataObject extends DB_DataObject
         // reset
         error_reporting($old);
         return $res;
-    }
+   }
 }
 
 // END OF FILE

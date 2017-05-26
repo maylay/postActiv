@@ -69,12 +69,12 @@ class ApiGNUsocialVersionAction extends ApiPrivateAuthAction
         switch ($this->format) {
         case 'xml':
             $this->initDocument('xml');
-            $this->element('version', null, GNUSOCIAL_VERSION);
+            $this->element('version', null, 'postactiv-' . GNUSOCIAL_VERSION);
             $this->endDocument('xml');
             break;
         case 'json':
             $this->initDocument('json');
-            print '"'.GNUSOCIAL_VERSION.'"';
+            print '"'. 'postactiv-' . GNUSOCIAL_VERSION.'"';
             $this->endDocument('json');
             break;
         default:

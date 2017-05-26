@@ -36,7 +36,7 @@ if (!defined('STATUSNET')) {
     exit(1);
 }
 
-require_once INSTALLDIR.'/plugins/OpenID/openid.php';
+require_once __DIR__.'/../openid.php';
 
 /**
  * Settings for OpenID

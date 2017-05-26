@@ -55,104 +55,109 @@ if (!defined('POSTACTIV')) { exit(1); }
 
 require_once INSTALLDIR.'/classes/Memcached_DataObject.php';
 
-class Group_block extends Managed_DataObject
-{
-    ###START_AUTOCODE
-    /* the code below is auto generated do not remove the above tag */
 
-    public $__table = 'group_block';                     // table name
-    public $group_id;                        // int(4)  primary_key not_null
-    public $blocked;                         // int(4)  primary_key not_null
-    public $blocker;                         // int(4)   not_null
-    public $modified;                        // timestamp()   not_null default_CURRENT_TIMESTAMP
+// ============================================================================
+// Class: Group_block
+// Superclass representing a block record from a group blocking a user.
+//
+// Properties:
+// o __table = 'group_block';                     // table name
+// o group_id;                        // int(4)  primary_key not_null
+// o blocked;                         // int(4)  primary_key not_null
+// o blocker;                         // int(4)   not_null
+// o modified;                        // timestamp()   not_null default_CURRENT_TIMESTAMP
+class Group_block extends Managed_DataObject {
+   public $__table = 'group_block';
+   public $group_id;
+   public $blocked;
+   public $blocker;
+   public $modified;
 
-    /* the code above is auto generated do not remove the tag below */
-    ###END_AUTOCODE
 
-    public static function schemaDef()
-    {
-        return array(
-            'fields' => array(
-                'group_id' => array('type' => 'int', 'not null' => true, 'description' => 'group profile is blocked from'),
-                'blocked' => array('type' => 'int', 'not null' => true, 'description' => 'profile that is blocked'),
-                'blocker' => array('type' => 'int', 'not null' => true, 'description' => 'user making the block'),
-                'modified' => array('type' => 'timestamp', 'not null' => true, 'description' => 'date of blocking'),
-            ),
-            'primary key' => array('group_id', 'blocked'),
-            'foreign keys' => array(
-                'group_block_group_id_fkey' => array('user_group', array('group_id' => 'id')),
-                'group_block_blocked_fkey' => array('profile', array('blocked' => 'id')),
-                'group_block_blocker_fkey' => array('user', array('blocker' => 'id')),
-            ),
-        );
-    }
+   // -------------------------------------------------------------------------
+   // Function: schemaDef
+   // Returns an array representing the table schema in the DB.
+   public static function schemaDef() {
+      return array(
+         'fields' => array(
+            'group_id' => array('type' => 'int', 'not null' => true, 'description' => 'group profile is blocked from'),
+            'blocked' => array('type' => 'int', 'not null' => true, 'description' => 'profile that is blocked'),
+            'blocker' => array('type' => 'int', 'not null' => true, 'description' => 'user making the block'),
+            'modified' => array('type' => 'timestamp', 'not null' => true, 'description' => 'date of blocking'),),
+         'primary key' => array('group_id', 'blocked'),
+         'foreign keys' => array(
+            'group_block_group_id_fkey' => array('user_group', array('group_id' => 'id')),
+            'group_block_blocked_fkey' => array('profile', array('blocked' => 'id')),
+            'group_block_blocker_fkey' => array('user', array('blocker' => 'id')),),);
+   }
 
-    static function isBlocked($group, $profile)
-    {
-        $block = Group_block::pkeyGet(array('group_id' => $group->id,
-                                            'blocked' => $profile->id));
-        return !empty($block);
-    }
 
-    static function blockProfile($group, $profile, $blocker)
-    {
-        // Insert the block
+   // -------------------------------------------------------------------------
+   // Function: isBlocked
+   // Returns true/false whether a given group has a given user blocked.
+   static function isBlocked($group, $profile) {
+      $block = Group_block::pkeyGet(array('group_id' => $group->id,
+                                          'blocked' => $profile->id));
+      return !empty($block);
+   }
 
-        $block = new Group_block();
 
-        $block->query('BEGIN');
+   // -------------------------------------------------------------------------
+   // Function: blockProfile
+   // Block a user from a group.
+   //
+   // Returns:
+   // o created block entry
+   static function blockProfile($group, $profile, $blocker) {
+      // Insert the block
+      $block = new Group_block();
+      $block->query('BEGIN');
+      $block->group_id = $group->id;
+      $block->blocked  = $profile->id;
+      $block->blocker  = $blocker->id;
+      $result = $block->insert();
 
-        $block->group_id = $group->id;
-        $block->blocked  = $profile->id;
-        $block->blocker  = $blocker->id;
+      if ($result === false) {
+         common_log_db_error($block, 'INSERT', __FILE__);
+         return null;
+      }
 
-        $result = $block->insert();
+      // Delete membership if any
+      $member = new Group_member();
+      $member->group_id   = $group->id;
+      $member->profile_id = $profile->id;
 
-        if ($result === false) {
-            common_log_db_error($block, 'INSERT', __FILE__);
+      if ($member->find(true)) {
+         $result = $member->delete();
+         if ($result === false) {
+            common_log_db_error($member, 'DELETE', __FILE__);
             return null;
-        }
+         }
+      }
 
-        // Delete membership if any
+      // Commit, since both have been done
+      $block->query('COMMIT');
+      return $block;
+   }
 
-        $member = new Group_member();
 
-        $member->group_id   = $group->id;
-        $member->profile_id = $profile->id;
-
-        if ($member->find(true)) {
-            $result = $member->delete();
-            if ($result === false) {
-                common_log_db_error($member, 'DELETE', __FILE__);
-                return null;
-            }
-        }
-
-        // Commit, since both have been done
-
-        $block->query('COMMIT');
-
-        return $block;
-    }
-
-    static function unblockProfile($group, $profile)
-    {
-        $block = Group_block::pkeyGet(array('group_id' => $group->id,
-                                            'blocked' => $profile->id));
-
-        if (empty($block)) {
-            return null;
-        }
-
-        $result = $block->delete();
-
-        if (!$result) {
-            common_log_db_error($block, 'DELETE', __FILE__);
-            return null;
-        }
-
-        return true;
-    }
+   // -------------------------------------------------------------------------
+   // Function: unblockProfile
+   // Unblock a user from a group.
+   static function unblockProfile($group, $profile) {
+      $block = Group_block::pkeyGet(array('group_id' => $group->id,
+                                          'blocked' => $profile->id));
+      if (empty($block)) {
+         return null;
+      }
+      
+      $result = $block->delete();
+      if (!$result) {
+         common_log_db_error($block, 'DELETE', __FILE__);
+         return null;
+      }
+      return true;
+   }
 }
 
 // END OF FILE

@@ -46,6 +46,11 @@ abstract class ProfileBlock extends Widget
     abstract function location();
     abstract function homepage();
     abstract function description();
+    abstract function xmpp();
+    abstract function gpgpubkey();
+    abstract function toxid();
+    abstract function matrix();
+    abstract function donateurl();
 
     function show()
     {
@@ -55,6 +60,7 @@ abstract class ProfileBlock extends Widget
         $this->showLocation();
         $this->showHomepage();
         $this->showOtherProfiles();
+        $this->showProfileIcons();
         $this->showDescription();
         $this->showTags();
     }
@@ -96,6 +102,91 @@ abstract class ProfileBlock extends Widget
         if (!empty($location)) {
             $this->out->element('p', 'profile_block_location', $location);
         }
+    }
+
+    function showProfileIcons()
+    {
+        $xmpp = $this->xmpp();
+        $gpgpubkey = $this->gpgpubkey();
+        $toxid = $this->toxid();
+        $matrix = $this->matrix();
+		$donateurl = $this->donateurl();
+
+        if (!empty($donateurl)) {
+            $this->out->elementStart('p');
+            $this->out->elementStart('a',
+                                     array('href' => "$donateurl",
+                                           'rel' => '',
+                                           'class' => 'profile_block_homepage'));
+
+            $this->out->element('img', array('src' => Avatar::url("../theme/neo-gnu/images/donatebutton.jpg"),
+			                    'width' => 218,
+                                'height' => 40,
+                                'alt' => "Donate"));
+			
+            $this->out->elementEnd('a');
+            $this->out->elementEnd('p');
+        }
+
+        $this->out->elementStart('p');
+
+        if (!empty($xmpp)) {
+            $this->out->elementStart('a',
+                                     array('href' => "xmpp:$xmpp",
+                                           'rel' => '',
+                                           'class' => 'profile_block_homepage'));
+
+            $this->out->element('img', array('src' => Avatar::url("../theme/neo-gnu/images/xmppbutton.png"),
+                                'width' => 40,
+                                'height' => 40,
+                                'alt' => $xmpp));
+
+            $this->out->elementEnd('a');
+        }
+
+        if (!empty($gpgpubkey)) {
+            $this->out->elementStart('a',
+                                     array('href' => "pgp:$gpgpubkey",
+                                           'rel' => '',
+                                           'class' => 'profile_block_homepage'));
+
+            $this->out->element('img', array('src' => Avatar::url("../theme/neo-gnu/images/gpgbutton.jpg"),
+                                'width' => 40,
+                                'height' => 40,
+                                'alt' => $gpgpubkey));
+
+            $this->out->elementEnd('a');
+        }
+
+        if (!empty($toxid)) {
+            $this->out->elementStart('a',
+                                     array('href' => "tox:$toxid",
+                                           'rel' => '',
+                                           'class' => 'profile_block_homepage'));
+
+            $this->out->element('img', array('src' => Avatar::url("../theme/neo-gnu/images/toxbutton.png"),
+                                'width' => 40,
+                                'height' => 40,
+                                'alt' => $toxid));
+
+            $this->out->elementEnd('a');
+        }
+
+        if (!empty($matrix)) {
+            $this->out->elementStart('a',
+                                     array('href' => "matrix:$matrix",
+                                           'rel' => '',
+                                           'class' => 'profile_block_homepage'));
+
+            $this->out->element('img', array('src' => Avatar::url("../theme/neo-gnu/images/matrixbutton.png"),
+                                'width' => 40,
+                                'height' => 40,
+                                'alt' => $matrix));
+
+            $this->out->elementEnd('a');
+        }
+
+        $this->out->elementEnd('p');
     }
 
     function showHomepage()

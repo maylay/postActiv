@@ -1,11 +1,19 @@
 <?php
-/*
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
- * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
+/* ============================================================================
+ * Title: SalmonAction
+ * Superclass handler for receiving salmon messages
  *
+ * postActiv:
+ * the micro-blogging software
+ *
+ * Copyright:
+ * Copyright (C) 2016-2017, Maiyannah Bishop
+ *
+ * Derived from code copyright various sources:
+ * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ * o StatusNet (C) 2008-2012, StatusNet, Inc
+ * ----------------------------------------------------------------------------
+ * License:
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -19,94 +27,124 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @license   https://www.gnu.org/licenses/agpl.html 
+ * <https://www.gnu.org/licenses/agpl.html>
+ * ----------------------------------------------------------------------------
+ * About:
+ * Superclass handler for receiving salmon messages
+ *
+ * PHP version:
+ * Tested with PHP 7
+ * ----------------------------------------------------------------------------
+ * File Authors:
+ * o Gina Haeussge <osd@foosel.net>
+ * o Eric Helgeson <erichelgeson@gmail.com>
+ * o Zach Copley
+ * o Brion Vibber <brion@pobox.com>
+ * o James Walker <walkah@walkah.net>
+ * o Evan Prodromou
+ * o Sashi Gowda <connect2shashi@gmail.com>
+ * o Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * o Mikael Nordfeldth <mmn@hethane.se>
+ * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ *
+ * Web:
+ *  o postActiv  <http://www.postactiv.com>
+ *  o GNU social <https://www.gnu.org/s/social/>
+ * ============================================================================
  */
 
-/**
- * @package OStatusPlugin
- * @author James Walker <james@status.net>
- */
+// This file is formatted so that it provides useful documentation output in
+// NaturalDocs.  Please be considerate of this before changing formatting.
 
 if (!defined('POSTACTIV')) { exit(1); }
 
-class SalmonAction extends Action
-{
-    protected $needPost = true;
 
-    protected $oprofile = null; // Ostatus_profile of the actor
-    protected $actor    = null; // Profile object of the actor
+// ============================================================================
+// Class: SalmonAction
+// Superclass for handling incoming salmon messages
+class SalmonAction extends Action {
+   protected $needPost = true;
+   protected $oprofile = null; // Ostatus_profile of the actor
+   protected $actor    = null; // Profile object of the actor
 
-    var $format   = 'text'; // error messages will be printed in plaintext
+   var $format   = 'text'; // error messages will be printed in plaintext
+   var $xml      = null;
+   var $activity = null;
+   var $target   = null;
 
-    var $xml      = null;
-    var $activity = null;
-    var $target   = null;
 
-    protected function prepare(array $args=array())
-    {
-        postActiv::setApi(true); // Send smaller error pages
+   // -------------------------------------------------------------------------
+   // Function: prepare
+   // Performs a variety of pre-processing integrity checks
+   protected function prepare(array $args=array()) {
+      postActiv::setApi(true); // Send smaller error pages
+      parent::prepare($args);
 
-        parent::prepare($args);
+      // Verify the content type checks out
+      if (!isset($_SERVER['CONTENT_TYPE'])) {
+         // TRANS: Client error. Do not translate "Content-type"
+         throw new ClientException(_m('Salmon requires a Content-type header.'));
+      }
+      $envxml = null;
+      switch ($_SERVER['CONTENT_TYPE']) {
+      case 'application/magic-envelope+xml':
+         $envxml = file_get_contents('php://input');
+         break;
+      case 'application/x-www-form-urlencoded':
+         $envxml = Magicsig::base64_url_decode($this->trimmed('xml'));
+         break;
+      default:
+         // TRANS: Client error. Do not translate the quoted "application/[type]" strings.
+         throw new ClientException(_m('Salmon requires "application/magic-envelope+xml". For Diaspora we also accept "application/x-www-form-urlencoded" with an "xml" parameter.', 415));
+      }
 
-        if (!isset($_SERVER['CONTENT_TYPE'])) {
-            // TRANS: Client error. Do not translate "Content-type"
-            throw new ClientException(_m('Salmon requires a Content-type header.'));
-        }
-        $envxml = null;
-        switch ($_SERVER['CONTENT_TYPE']) {
-        case 'application/magic-envelope+xml':
-            $envxml = file_get_contents('php://input');
-            break;
-        case 'application/x-www-form-urlencoded':
-            $envxml = Magicsig::base64_url_decode($this->trimmed('xml'));
-            break;
-        default:
-            // TRANS: Client error. Do not translate the quoted "application/[type]" strings.
-            throw new ClientException(_m('Salmon requires "application/magic-envelope+xml". For Diaspora we also accept "application/x-www-form-urlencoded" with an "xml" parameter.', 415));
-        }
+      // Verify the MagicEnvelope
+      if (empty($envxml)) {
+         throw new ClientException('No magic envelope supplied in POST.');
+      }
+      try {
+         $magic_env = new MagicEnvelope($envxml);   // parse incoming XML as a MagicEnvelope
+         $entry = $magic_env->getPayload();  // Not cryptographically verified yet!
+         $this->activity = new Activity($entry->documentElement);
 
-        if (empty($envxml)) {
-            throw new ClientException('No magic envelope supplied in POST.');
-        }
-        try {
-            $magic_env = new MagicEnvelope($envxml);   // parse incoming XML as a MagicEnvelope
+         if (empty($this->activity->actor->id)) {
+            common_log(LOG_ERR, "Broken actor: " . var_export($this->activity->actor->id, true));
+            common_log(LOG_ERR, "Activity with no actor: " . var_export($this->activity, true));
+            // TRANS: Exception.
+            throw new ClientException(_m('Activity in salmon slap has no actor id.'));
+         }
+         // ensureProfiles sets $this->actor and $this->oprofile
+         $this->ensureProfiles();
+      } catch (Exception $e) {
+         common_debug('Salmon envelope parsing failed with: '.$e->getMessage());
+         // convert exception to ClientException
+         throw new ClientException($e->getMessage());
+      }
 
-            $entry = $magic_env->getPayload();  // Not cryptographically verified yet!
-            $this->activity = new Activity($entry->documentElement);
-            if (empty($this->activity->actor->id)) {
-                common_log(LOG_ERR, "broken actor: " . var_export($this->activity->actor->id, true));
-                common_log(LOG_ERR, "activity with no actor: " . var_export($this->activity, true));
-                // TRANS: Exception.
-                throw new ClientException(_m('Activity in salmon slap has no actor id.'));
-            }
-            // ensureProfiles sets $this->actor and $this->oprofile
-            $this->ensureProfiles();
-        } catch (Exception $e) {
-            common_debug('Salmon envelope parsing failed with: '.$e->getMessage());
-            // convert exception to ClientException
-            throw new ClientException($e->getMessage());
-        }
+      // Cryptographic verification test, throws exception on failure
+      $magic_env->verify($this->actor);
+      common_debug('Salmon slap is carrying activity URI=='._ve($this->activity->id));
 
-        // Cryptographic verification test, throws exception on failure
-        $magic_env->verify($this->actor);
+      // If we got this far, it's checked out!
+      return true;
+   }
 
-        common_debug('Salmon slap is carrying activity URI=='._ve($this->activity->id));
-
-        return true;
-    }
-
-    /**
-     * Check the posted activity type and break out to appropriate processing.
-     */
-
-    protected function handle()
-    {
+   // -------------------------------------------------------------------------
+   // Function: handle
+   // Check the posted activity type and break out to appropriate processing.
+   protected function handle() {
         parent::handle();
 
+        // Make sure the activity and target are valid
         assert($this->activity instanceof Activity);
         assert($this->target instanceof Profile);
-
         common_log(LOG_DEBUG, "Got a " . $this->activity->verb);
+
+        // If they are, also make sure the originating instance isn't banned
+        if ($this->isInstanceBlocked()) {
+           common_log(LOG_INFO, "Salmon originating from a blocked instance, discarding.");
+           return false;
+        }
 
         try {
             $options = [ 'source' => 'ostatus' ];
@@ -169,146 +207,218 @@ class SalmonAction extends Action
             // Let's just accept it and move on.
             common_log(LOG_INFO, 'Salmon slap carried an event which had already been fulfilled.');
         }
-    }
+   }
 
-    function handlePost()
-    {
-        // TRANS: Client exception.
-        throw new ClientException(_m('This target does not understand posts.'));
-    }
 
-    function handleFollow()
-    {
-        // TRANS: Client exception.
-        throw new ClientException(_m('This target does not understand follows.'));
-    }
+   // -------------------------------------------------------------------------
+   // Function: isInstanceBlocked
+   // Returns true if the sending instance is blocked by this one
+   protected function isInstanceBlocked() {
+      // Get list of banned instances
+		$configphpsettings = common_config('site','sanctions') ?: array();
+		foreach($configphpsettings as $configphpsetting=>$value) {
+			$settings[$configphpsetting] = $value;
+		}
+		$bans = $settings['banned_instances'];
+      common_debug("Banned instances currently: " . json_encode($bans));
 
-    function handleUnfollow()
-    {
-        // TRANS: Client exception.
-        throw new ClientException(_m('This target does not understand unfollows.'));
-    }
+      // Get the instance of the sending user
+      $originator = $this->actor->id;
+      $originator = Profile::getKV('id', $originator);
+      $originator = $originator->profileurl;
+      common_log(LOG_INFO, "Received salmon from " . $originator);
 
-    function handleShare()
-    {
+		// If we have no banned instances we can bail
+      if ($bans==null) {
+         return false;
+      }
+
+      // Map bans to an array
+      $bans = explode(',', $bans);
+      
+      // Return whether this feed from a banned instance
+      $is_banned = false;
+      foreach ($bans as $banned_instance) {
+         if (strpos($originator, $banned_instance)) {
+            $is_banned = true;
+            break;
+         }
+      }
+      common_log(LOG_INFO, "This salmon's originating instance ban status: " . (($is_banned) ? "true" : "false"));
+      return $is_banned;
+
+   }
+
+
+   // -------------------------------------------------------------------------
+   // Function: handlePost
+   // Placeholder handler for a handler to inherit post handling
+   function handlePost() {
+      // TRANS: Client exception.
+      throw new ClientException(_m('This target does not understand posts.'));
+   }
+
+
+   // -------------------------------------------------------------------------
+   // Function: handleFollow
+   // Placeholder handler for a handler to inherit follow handling
+   function handleFollow() {
+      // TRANS: Client exception.
+      throw new ClientException(_m('This target does not understand follows.'));
+   }
+
+
+   // -------------------------------------------------------------------------
+   // Function: handleUnfollow
+   // Placeholder handler for a handler to inherit unfollow handling
+   function handleUnfollow() {
+      // TRANS: Client exception.
+      throw new ClientException(_m('This target does not understand unfollows.'));
+   }
+
+
+   // -------------------------------------------------------------------------
+   // Function: handleShare
+   // Placeholder handler for a handler to inherit repost handling
+   function handleShare() {
         // TRANS: Client exception.
         throw new ClientException(_m('This target does not understand share events.'));
-    }
+   }
 
-    function handleJoin()
-    {
-        // TRANS: Client exception.
-        throw new ClientException(_m('This target does not understand joins.'));
-    }
 
-    function handleLeave()
-    {
+   // -------------------------------------------------------------------------
+   // Function: handleJoin
+   // Placeholder handler for a handler to inherit group joining handling
+   function handleJoin() {
+      // TRANS: Client exception.
+      throw new ClientException(_m('This target does not understand joins.'));
+   }
+
+
+   // -------------------------------------------------------------------------
+   // Function: handleLeave
+   // Placeholder handler for a handler to inherit group leaving handling
+   function handleLeave() {
         // TRANS: Client exception.
         throw new ClientException(_m('This target does not understand leave events.'));
-    }
+   }
 
-    function handleTag()
-    {
-        // TRANS: Client exception.
-        throw new ClientException(_m('This target does not understand list events.'));
-    }
 
-    function handleUntag()
-    {
-        // TRANS: Client exception.
-        throw new ClientException(_m('This target does not understand unlist events.'));
-    }
+   // -------------------------------------------------------------------------
+   // Function: handleTag
+   // Placeholder handler for a handler to inherit hashtagging handling
+   function handleTag() {
+      // TRANS: Client exception.
+      throw new ClientException(_m('This target does not understand list events.'));
+   }
 
-    /**
-     * Remote user sent us an update to their profile.
-     * If we already know them, accept the updates.
-     */
-    function handleUpdateProfile()
-    {
-        $oprofile = Ostatus_profile::getActorProfile($this->activity);
-        if ($oprofile instanceof Ostatus_profile) {
-            common_log(LOG_INFO, "Got a profile-update ping from $oprofile->uri");
-            $oprofile->updateFromActivityObject($this->activity->actor);
-        } else {
-            common_log(LOG_INFO, "Ignoring profile-update ping from unknown " . $this->activity->actor->id);
-        }
-    }
+   // -------------------------------------------------------------------------
+   // Function: handleUntag
+   // Placeholder handler for a handler to inherit un-hashtagging handling
+   function handleUntag() {
+      // TRANS: Client exception.
+      throw new ClientException(_m('This target does not understand unlist events.'));
+   }
 
-    function ensureProfiles()
-    {
-        try {
-            $this->oprofile = Ostatus_profile::getActorProfile($this->activity);
-            if (!$this->oprofile instanceof Ostatus_profile) {
-                throw new UnknownUriException($this->activity->actor->id);
+
+   // -------------------------------------------------------------------------
+   // Function: handleUpdateProfile
+   // Remote user sent us an update to their profile.
+   // If we already know them, accept the updates.
+   function handleUpdateProfile() {
+      $oprofile = Ostatus_profile::getActorProfile($this->activity);
+      if ($oprofile instanceof Ostatus_profile) {
+         common_log(LOG_INFO, "Got a profile-update ping from $oprofile->uri");
+         $oprofile->updateFromActivityObject($this->activity->actor);
+      } else {
+         common_log(LOG_INFO, "Ignoring profile-update ping from unknown " . $this->activity->actor->id);
+      }
+   }
+
+
+   // -------------------------------------------------------------------------
+   // Function: ensureProfiles
+   // Make sure we have a profile for the originating actor
+   function ensureProfiles() {
+      try {
+         $this->oprofile = Ostatus_profile::getActorProfile($this->activity);
+         if (!$this->oprofile instanceof Ostatus_profile) {
+            throw new UnknownUriException($this->activity->actor->id);
+         }
+      } catch (UnknownUriException $e) {
+         // Apparently we didn't find the Profile object based on our URI,
+         // so OStatus doesn't have it with this URI in ostatus_profile.
+         // Try to look it up again, remote side may have changed from http to https
+         // or maybe publish an acct: URI now instead of an http: URL.
+         //
+         // Steps:
+         // 1. Check the newly received URI. Who does it say it is?
+         // 2. Compare these alleged identities to our local database.
+         // 3. If we found any locally stored identities, ask it about its aliases.
+         // 4. Do any of the aliases from our known identity match the recently introduced one?
+         //
+         // Example: We have stored http://example.com/user/1 but this URI says https://example.com/user/1
+         common_debug('No local Profile object found for a magicsigned activity author URI: '.$e->object_uri);
+         $disco = new Discovery();
+         $xrd = $disco->lookup($e->object_uri);
+         // Step 1: We got a bunch of discovery data for https://example.com/user/1 which includes
+         //         aliases https://example.com/user and hopefully our original http://example.com/user/1 too
+         $all_ids = array_merge(array($xrd->subject), $xrd->aliases);
+
+         if (!in_array($e->object_uri, $all_ids)) {
+            common_debug('The activity author URI we got was not listed itself when doing discovery on it.');
+            throw $e;
+         }
+
+         // Go through each reported alias from lookup to see if we know this already
+         foreach ($all_ids as $aliased_uri) {
+            $oprofile = Ostatus_profile::getKV('uri', $aliased_uri);
+            if (!$oprofile instanceof Ostatus_profile) {
+                continue;   // unknown locally, check the next alias
             }
-        } catch (UnknownUriException $e) {
-            // Apparently we didn't find the Profile object based on our URI,
-            // so OStatus doesn't have it with this URI in ostatus_profile.
-            // Try to look it up again, remote side may have changed from http to https
-            // or maybe publish an acct: URI now instead of an http: URL.
-            //
-            // Steps:
-            // 1. Check the newly received URI. Who does it say it is?
-            // 2. Compare these alleged identities to our local database.
-            // 3. If we found any locally stored identities, ask it about its aliases.
-            // 4. Do any of the aliases from our known identity match the recently introduced one?
-            //
-            // Example: We have stored http://example.com/user/1 but this URI says https://example.com/user/1
-            common_debug('No local Profile object found for a magicsigned activity author URI: '.$e->object_uri);
-            $disco = new Discovery();
-            $xrd = $disco->lookup($e->object_uri);
-            // Step 1: We got a bunch of discovery data for https://example.com/user/1 which includes
-            //         aliases https://example.com/user and hopefully our original http://example.com/user/1 too
-            $all_ids = array_merge(array($xrd->subject), $xrd->aliases);
+            // Step 2: We found the alleged http://example.com/user/1 URI in our local database,
+            //         but this can't be trusted yet because anyone can publish any alias.
+            common_debug('Found a local Ostatus_profile for "'.$e->object_uri.'" with this URI: '.$aliased_uri);
 
-            if (!in_array($e->object_uri, $all_ids)) {
-                common_debug('The activity author URI we got was not listed itself when doing discovery on it.');
-                throw $e;
+            // We found an existing OStatus profile, but is it really the same? Do a callback to the URI's origin
+            // Step 3: lookup our previously known http://example.com/user/1 webfinger etc.
+            $xrd = $disco->lookup($oprofile->getUri()); // getUri returns ->uri, which we filtered on earlier
+            $doublecheck_aliases = array_merge(array($xrd->subject), $xrd->aliases);
+            common_debug('Trying to match known "'.$aliased_uri.'" against its returned aliases: '.implode(' ', $doublecheck_aliases));
+            
+            // if we find our original URI here, it is a legitimate alias
+            // Step 4: Is the newly introduced https://example.com/user/1 URI in the list of aliases
+            //         presented by http://example.com/user/1 (i.e. do they both say they are the same identity?)
+            if (in_array($e->object_uri, $doublecheck_aliases)) {
+               $oprofile->updateUriKeys($e->object_uri, DiscoveryHints::fromXRD($xrd));
+               $this->oprofile = $oprofile;
+               break;  // don't iterate through aliases anymore
             }
+         }
 
-            // Go through each reported alias from lookup to see if we know this already
-            foreach ($all_ids as $aliased_uri) {
-                $oprofile = Ostatus_profile::getKV('uri', $aliased_uri);
-                if (!$oprofile instanceof Ostatus_profile) {
-                    continue;   // unknown locally, check the next alias
-                }
-                // Step 2: We found the alleged http://example.com/user/1 URI in our local database,
-                //         but this can't be trusted yet because anyone can publish any alias.
-                common_debug('Found a local Ostatus_profile for "'.$e->object_uri.'" with this URI: '.$aliased_uri);
+         // We might end up here after $all_ids is iterated through without a $this->oprofile value,
+         if (!$this->oprofile instanceof Ostatus_profile) {
+            common_debug("We do not have a local profile to connect to this activity's author. Let's create one.");
+            // ensureActivityObjectProfile throws exception on failure
+            $this->oprofile = Ostatus_profile::ensureActivityObjectProfile($this->activity->actor);
+         }
+      }
+      assert($this->oprofile instanceof Ostatus_profile);
+      $this->actor = $this->oprofile->localProfile();
+   }
 
-                // We found an existing OStatus profile, but is it really the same? Do a callback to the URI's origin
-                // Step 3: lookup our previously known http://example.com/user/1 webfinger etc.
-                $xrd = $disco->lookup($oprofile->getUri()); // getUri returns ->uri, which we filtered on earlier
-                $doublecheck_aliases = array_merge(array($xrd->subject), $xrd->aliases);
-                common_debug('Trying to match known "'.$aliased_uri.'" against its returned aliases: '.implode(' ', $doublecheck_aliases));
-                // if we find our original URI here, it is a legitimate alias
-                // Step 4: Is the newly introduced https://example.com/user/1 URI in the list of aliases
-                //         presented by http://example.com/user/1 (i.e. do they both say they are the same identity?)
-                if (in_array($e->object_uri, $doublecheck_aliases)) {
-                    $oprofile->updateUriKeys($e->object_uri, DiscoveryHints::fromXRD($xrd));
-                    $this->oprofile = $oprofile;
-                    break;  // don't iterate through aliases anymore
-                }
-            }
 
-            // We might end up here after $all_ids is iterated through without a $this->oprofile value,
-            if (!$this->oprofile instanceof Ostatus_profile) {
-                common_debug("We do not have a local profile to connect to this activity's author. Let's create one.");
-                // ensureActivityObjectProfile throws exception on failure
-                $this->oprofile = Ostatus_profile::ensureActivityObjectProfile($this->activity->actor);
-            }
-        }
-
-        assert($this->oprofile instanceof Ostatus_profile);
-
-        $this->actor = $this->oprofile->localProfile();
-    }
-
-    function saveNotice()
-    {
-        if (!$this->oprofile instanceof Ostatus_profile) {
-            common_debug('Ostatus_profile missing in ' . get_class(). ' profile: '.var_export($this->profile, true));
-        }
-        return $this->oprofile->processPost($this->activity, 'salmon');
-    }
+   // -------------------------------------------------------------------------
+   // Function: saveNotice
+   // Saves a notice received by aslmon
+   function saveNotice() {
+      if (!$this->oprofile instanceof Ostatus_profile) {
+         common_debug('Ostatus_profile missing in ' . get_class(). ' profile: '.var_export($this->profile, true));
+      }
+      return $this->oprofile->processPost($this->activity, 'salmon');
+   }
 }
+
+// END OF FILE
+// ============================================================================
+?>

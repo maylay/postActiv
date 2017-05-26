@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# This program tries to start the daemons for StatusNet.
+# This program tries to start the daemons for postActiv.
 # Note that the 'maildaemon' needs to run as a mail filter.
 
 MARIADB_PASSWORD=$1
@@ -27,252 +27,20 @@ MY_EMAIL_ADDRESS=$5
 DEBIAN_REPO="ftp.us.debian.org"
 DEBIAN_VERSION=$6
 
+ADD_REDIS=${7:-0}
+ADD_MUNIN=${8:-0}
+SYSVINIT=${9:-0}
+
 POSTACTIV_REPO="https://git.postactiv.com/postActiv/postActiv.git"
-POSTACTIV_COMMIT='1477a300de87faebfcb7fd7163c3a55c75728e2d'
+POSTACTIV_COMMIT='df3d7f87a776d46aae64539df62017994a5b804c'
 
 QVITTER_THEME_REPO="https://git.gnu.io/h2p/Qvitter.git"
 QVITTER_THEME_COMMIT='a7f82628402db3a7579bb9b2877da3c5737da77b'
 
-SSH_PORT=22
-ALLOW_PING=yes
 
-# expire posts after this number of months to prevent the database from growing indefinitely
-EXPIRE_MONTHS=3
-
-function create_firewall {
-	apt-get -yq install iptables
-	
-	iptables -P INPUT ACCEPT
-	ip6tables -P INPUT ACCEPT
-	iptables -F
-	ip6tables -F
-	iptables -t nat -F
-	ip6tables -t nat -F
-	iptables -X
-	ip6tables -X
-	iptables -P INPUT DROP
-	ip6tables -P INPUT DROP
-	iptables -P FORWARD DROP
-	ip6tables -P FORWARD DROP
-	iptables -A INPUT -i lo -j ACCEPT
-	iptables -A INPUT -m conntrack --ctstate ESTABLISHED -j ACCEPT
-
-	# Drop invalid packets
-	iptables -t mangle -A PREROUTING -m conntrack --ctstate INVALID -j DROP
-
-	# Make sure incoming tcp connections are SYN packets
-	iptables -A INPUT -p tcp ! --syn -m state --state NEW -j DROP
-	iptables -t mangle -A PREROUTING -p tcp ! --syn -m conntrack --ctstate NEW -j DROP
-
-	# Drop SYN packets with suspicious MSS value
-	iptables -t mangle -A PREROUTING -p tcp -m conntrack --ctstate NEW -m tcpmss ! --mss 536:65535 -j DROP
-
-	# Drop packets with incoming fragments
-	iptables -A INPUT -f -j DROP
-
-	# Drop bogons
-	iptables -A INPUT -p tcp --tcp-flags ALL ALL -j DROP
-	iptables -A INPUT -p tcp --tcp-flags ALL FIN,PSH,URG -j DROP
-	iptables -A INPUT -p tcp --tcp-flags ALL SYN,RST,ACK,FIN,URG -j DROP
-	iptables -t mangle -A PREROUTING -p tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG NONE -j DROP
-	iptables -t mangle -A PREROUTING -p tcp --tcp-flags FIN,SYN FIN,SYN -j DROP
-	iptables -t mangle -A PREROUTING -p tcp --tcp-flags SYN,RST SYN,RST -j DROP
-	iptables -t mangle -A PREROUTING -p tcp --tcp-flags SYN,FIN SYN,FIN -j DROP
-	iptables -t mangle -A PREROUTING -p tcp --tcp-flags FIN,RST FIN,RST -j DROP
-	iptables -t mangle -A PREROUTING -p tcp --tcp-flags FIN,ACK FIN -j DROP
-	iptables -t mangle -A PREROUTING -p tcp --tcp-flags ACK,URG URG -j DROP
-	iptables -t mangle -A PREROUTING -p tcp --tcp-flags ACK,FIN FIN -j DROP
-	iptables -t mangle -A PREROUTING -p tcp --tcp-flags ACK,PSH PSH -j DROP
-	iptables -t mangle -A PREROUTING -p tcp --tcp-flags ALL ALL -j DROP
-	iptables -t mangle -A PREROUTING -p tcp --tcp-flags ALL NONE -j DROP
-	iptables -t mangle -A PREROUTING -p tcp --tcp-flags ALL FIN,PSH,URG -j DROP
-	iptables -t mangle -A PREROUTING -p tcp --tcp-flags ALL SYN,FIN,PSH,URG -j DROP
-	iptables -t mangle -A PREROUTING -p tcp --tcp-flags ALL SYN,RST,ACK,FIN,URG -j DROP
-
-	# Incoming malformed NULL packets:
-	iptables -A INPUT -p tcp --tcp-flags ALL NONE -j DROP
-
-    # telnet isn't enabled as an input and we can also
-	# drop any outgoing telnet, just in case
-	iptables -A OUTPUT -p tcp --dport telnet -j REJECT
-	iptables -A OUTPUT -p udp --dport telnet -j REJECT
-
-    # drop spoofed packets
-    iptables -t mangle -A PREROUTING -s 224.0.0.0/3 -j DROP
-	iptables -t mangle -A PREROUTING -s 169.254.0.0/16 -j DROP
-	iptables -t mangle -A PREROUTING -s 172.16.0.0/12 -j DROP
-	iptables -t mangle -A PREROUTING -s 192.0.2.0/24 -j DROP
-	iptables -t mangle -A PREROUTING -s 10.0.0.0/8 -j DROP
-	iptables -t mangle -A PREROUTING -s 240.0.0.0/5 -j DROP
-	iptables -t mangle -A PREROUTING -s 127.0.0.0/8 ! -i lo -j DROP	
-	
-    # Limit connections per source IP
-	iptables -A INPUT -p tcp -m connlimit --connlimit-above 111 -j REJECT --reject-with tcp-reset
-
-	# Limit RST packets
-	iptables -A INPUT -p tcp --tcp-flags RST RST -m limit --limit 2/s --limit-burst 2 -j ACCEPT
-	iptables -A INPUT -p tcp --tcp-flags RST RST -j DROP
-
-	# Limit new TCP connections per second per source IP
-	iptables -A INPUT -p tcp -m conntrack --ctstate NEW -m limit --limit 60/s --limit-burst 20 -j ACCEPT
-	iptables -A INPUT -p tcp -m conntrack --ctstate NEW -j DROP
-
-	# SSH brute-force protection
-	iptables -A INPUT -p tcp --dport ssh -m conntrack --ctstate NEW -m recent --set
-	iptables -A INPUT -p tcp --dport ssh -m conntrack --ctstate NEW -m recent --update --seconds 60 --hitcount 10 -j DROP	
-
-    # These shouldn't be used anyway, but just in case
-	iptables -A INPUT -s 6.0.0.0/8 -j DROP
-	iptables -A OUTPUT -s 6.0.0.0/8 -j DROP
-	iptables -A INPUT -s 7.0.0.0/8 -j DROP
-	iptables -A OUTPUT -s 7.0.0.0/8 -j DROP
-	iptables -A INPUT -s 11.0.0.0/8 -j DROP
-	iptables -A OUTPUT -s 11.0.0.0/8 -j DROP
-	iptables -A INPUT -s 21.0.0.0/8 -j DROP
-	iptables -A OUTPUT -s 21.0.0.0/8 -j DROP
-	iptables -A INPUT -s 22.0.0.0/8 -j DROP
-	iptables -A OUTPUT -s 22.0.0.0/8 -j DROP
-	iptables -A INPUT -s 26.0.0.0/8 -j DROP
-	iptables -A OUTPUT -s 26.0.0.0/8 -j DROP
-	iptables -A INPUT -s 28.0.0.0/8 -j DROP
-	iptables -A OUTPUT -s 28.0.0.0/8 -j DROP
-	iptables -A INPUT -s 29.0.0.0/8 -j DROP
-	iptables -A OUTPUT -s 29.0.0.0/8 -j DROP
-	iptables -A INPUT -s 30.0.0.0/8 -j DROP
-	iptables -A OUTPUT -s 30.0.0.0/8 -j DROP
-	iptables -A INPUT -s 33.0.0.0/8 -j DROP
-	iptables -A OUTPUT -s 33.0.0.0/8 -j DROP
-	iptables -A INPUT -s 55.0.0.0/8 -j DROP
-	iptables -A OUTPUT -s 55.0.0.0/8 -j DROP
-	iptables -A INPUT -s 214.0.0.0/8 -j DROP
-	iptables -A OUTPUT -s 214.0.0.0/8 -j DROP
-	iptables -A INPUT -s 215.0.0.0/8 -j DROP
-	iptables -A OUTPUT -s 215.0.0.0/8 -j DROP	
-
-	if [[ $ALLOW_PING != 'yes' ]]; then
-		iptables -A INPUT -p icmp --icmp-type echo-request -j DROP
-		iptables -A OUTPUT -p icmp --icmp-type echo-reply -j DROP
-	fi
-	
-	# DNS
-    iptables -A INPUT -p udp -m udp --dport 1024:65535 --sport 53 -j ACCEPT
-	
-	# ssh
-    iptables -A INPUT -p tcp --dport $SSH_PORT -j ACCEPT
-	
-	# http/s
-    iptables -A INPUT -p tcp --dport 80 -j ACCEPT
-    iptables -A INPUT -p tcp --dport 443 -j ACCEPT
-
-	# If you are also going to install an xmpp server uncomment these lines
-    #iptables -A INPUT -p tcp --dport 5222 -j ACCEPT
-    #iptables -A INPUT -p tcp --dport 5223 -j ACCEPT
-    #iptables -A INPUT -p tcp --dport 5269 -j ACCEPT
-    #iptables -A INPUT -p tcp --dport 5280 -j ACCEPT
-    #iptables -A INPUT -p tcp --dport 5281 -j ACCEPT
-		
-	# save the firewall
-    iptables-save > /etc/firewall.conf
-	ip6tables-save > /etc/firewall6.conf
-	printf '#!/bin/sh\n' > /etc/network/if-up.d/iptables
-	printf 'iptables-restore < /etc/firewall.conf\n' >> /etc/network/if-up.d/iptables
-	printf 'ip6tables-restore < /etc/firewall6.conf\n' >> /etc/network/if-up.d/iptables
-	if [ -f /etc/network/if-up.d/iptables ]; then
-		chmod +x /etc/network/if-up.d/iptables
-	fi	
-}
-
-function configure_ip {
-	# This should be fixed in recent debian versions, but we can do it anyway
-    if ! grep -q "tcp_challenge_ack_limit" /etc/sysctl.conf; then
-        echo 'net.ipv4.tcp_challenge_ack_limit = 999999999' >> /etc/sysctl.conf
-    else
-        sed -i 's|net.ipv4.tcp_challenge_ack_limit.*|net.ipv4.tcp_challenge_ack_limit = 999999999|g' /etc/sysctl.conf
-    fi
-
-    sed -i "s/#net.ipv4.tcp_syncookies.*/net.ipv4.tcp_syncookies=1/g" /etc/sysctl.conf
-	sed -i "s/#net.ipv4.conf.all.accept_redirects.*/net.ipv4.conf.all.accept_redirects = 0/g" /etc/sysctl.conf
-	sed -i "s/#net.ipv6.conf.all.accept_redirects.*/net.ipv6.conf.all.accept_redirects = 0/g" /etc/sysctl.conf
-	sed -i "s/#net.ipv4.conf.all.send_redirects.*/net.ipv4.conf.all.send_redirects = 0/g" /etc/sysctl.conf
-	sed -i "s/#net.ipv4.conf.all.accept_source_route.*/net.ipv4.conf.all.accept_source_route = 0/g" /etc/sysctl.conf
-	sed -i "s/#net.ipv6.conf.all.accept_source_route.*/net.ipv6.conf.all.accept_source_route = 0/g" /etc/sysctl.conf
-	sed -i "s/#net.ipv4.conf.default.rp_filter.*/net.ipv4.conf.default.rp_filter=1/g" /etc/sysctl.conf
-	sed -i "s/#net.ipv4.conf.all.rp_filter.*/net.ipv4.conf.all.rp_filter=1/g" /etc/sysctl.conf
-	sed -i "s/#net.ipv4.ip_forward.*/net.ipv4.ip_forward=0/g" /etc/sysctl.conf
-	sed -i "s/#net.ipv6.conf.all.forwarding.*/net.ipv6.conf.all.forwarding=0/g" /etc/sysctl.conf
-
-	sed -i "s/# net.ipv4.tcp_syncookies.*/net.ipv4.tcp_syncookies=1/g" /etc/sysctl.conf
-	sed -i "s/# net.ipv4.conf.all.accept_redirects.*/net.ipv4.conf.all.accept_redirects = 0/g" /etc/sysctl.conf
-	sed -i "s/# net.ipv6.conf.all.accept_redirects.*/net.ipv6.conf.all.accept_redirects = 0/g" /etc/sysctl.conf
-	sed -i "s/# net.ipv4.conf.all.send_redirects.*/net.ipv4.conf.all.send_redirects = 0/g" /etc/sysctl.conf
-	sed -i "s/# net.ipv4.conf.all.accept_source_route.*/net.ipv4.conf.all.accept_source_route = 0/g" /etc/sysctl.conf
-	sed -i "s/# net.ipv6.conf.all.accept_source_route.*/net.ipv6.conf.all.accept_source_route = 0/g" /etc/sysctl.conf
-	sed -i "s/# net.ipv4.conf.default.rp_filter.*/net.ipv4.conf.default.rp_filter=1/g" /etc/sysctl.conf
-	sed -i "s/# net.ipv4.conf.all.rp_filter.*/net.ipv4.conf.all.rp_filter=1/g" /etc/sysctl.conf
-	sed -i "s/# net.ipv4.ip_forward.*/net.ipv4.ip_forward=0/g" /etc/sysctl.conf
-	sed -i "s/# net.ipv6.conf.all.forwarding.*/net.ipv6.conf.all.forwarding=0/g" /etc/sysctl.conf
-
-	if [[ $ALLOW_PING != 'yes' ]]; then
-		if ! grep -q "ignore pings" /etc/sysctl.conf; then
-			echo '# ignore pings' >> /etc/sysctl.conf
-			echo 'net.ipv4.icmp_echo_ignore_all = 1' >> /etc/sysctl.conf
-			echo 'net.ipv6.icmp_echo_ignore_all = 1' >> /etc/sysctl.conf
-		fi
-	fi
-	
-	if ! grep -q "disable ipv6" /etc/sysctl.conf; then
-		echo '# disable ipv6' >> /etc/sysctl.conf
-		echo 'net.ipv6.conf.all.disable_ipv6 = 1' >> /etc/sysctl.conf
-	fi
-	if ! grep -q "net.ipv4.tcp_synack_retries" /etc/sysctl.conf; then
-		echo 'net.ipv4.tcp_synack_retries = 2' >> /etc/sysctl.conf
-		echo 'net.ipv4.tcp_syn_retries = 1' >> /etc/sysctl.conf
-	fi
-	if ! grep -q "keepalive" /etc/sysctl.conf; then
-		echo '# keepalive' >> /etc/sysctl.conf
-		echo 'net.ipv4.tcp_keepalive_probes = 9' >> /etc/sysctl.conf
-		echo 'net.ipv4.tcp_keepalive_intvl = 75' >> /etc/sysctl.conf
-		echo 'net.ipv4.tcp_keepalive_time = 7200' >> /etc/sysctl.conf
-	fi
-	if ! grep -q "net.ipv4.conf.default.send_redirects" /etc/sysctl.conf; then
-		echo "net.ipv4.conf.default.send_redirects = 0" >> /etc/sysctl.conf
-	else
-		sed -i "s|# net.ipv4.conf.default.send_redirects.*|net.ipv4.conf.default.send_redirects = 0|g" /etc/sysctl.conf
-		sed -i "s|#net.ipv4.conf.default.send_redirects.*|net.ipv4.conf.default.send_redirects = 0|g" /etc/sysctl.conf
-		sed -i "s|net.ipv4.conf.default.send_redirects.*|net.ipv4.conf.default.send_redirects = 0|g" /etc/sysctl.conf
-	fi
-	if ! grep -q "net.ipv4.conf.all.secure_redirects" /etc/sysctl.conf; then
-		echo "net.ipv4.conf.all.secure_redirects = 0" >> /etc/sysctl.conf
-	else
-		sed -i "s|# net.ipv4.conf.all.secure_redirects.*|net.ipv4.conf.all.secure_redirects = 0|g" /etc/sysctl.conf
-		sed -i "s|#net.ipv4.conf.all.secure_redirects.*|net.ipv4.conf.all.secure_redirects = 0|g" /etc/sysctl.conf
-		sed -i "s|net.ipv4.conf.all.secure_redirects.*|net.ipv4.conf.all.secure_redirects = 0|g" /etc/sysctl.conf
-	fi
-	if ! grep -q "net.ipv4.conf.default.accept_source_route" /etc/sysctl.conf; then
-		echo "net.ipv4.conf.default.accept_source_route = 0" >> /etc/sysctl.conf
-	else
-		sed -i "s|# net.ipv4.conf.default.accept_source_route.*|net.ipv4.conf.default.accept_source_route = 0|g" /etc/sysctl.conf
-		sed -i "s|#net.ipv4.conf.default.accept_source_route.*|net.ipv4.conf.default.accept_source_route = 0|g" /etc/sysctl.conf
-		sed -i "s|net.ipv4.conf.default.accept_source_route.*|net.ipv4.conf.default.accept_source_route = 0|g" /etc/sysctl.conf
-	fi
-	if ! grep -q "net.ipv4.conf.default.secure_redirects" /etc/sysctl.conf; then
-		echo "net.ipv4.conf.default.secure_redirects = 0" >> /etc/sysctl.conf
-	else
-		sed -i "s|# net.ipv4.conf.default.secure_redirects.*|net.ipv4.conf.default.secure_redirects = 0|g" /etc/sysctl.conf
-		sed -i "s|#net.ipv4.conf.default.secure_redirects.*|net.ipv4.conf.default.secure_redirects = 0|g" /etc/sysctl.conf
-		sed -i "s|net.ipv4.conf.default.secure_redirects.*|net.ipv4.conf.default.secure_redirects = 0|g" /etc/sysctl.conf
-	fi
-	if ! grep -q "net.ipv4.conf.default.accept_redirects" /etc/sysctl.conf; then
-		echo "net.ipv4.conf.default.accept_redirects = 0" >> /etc/sysctl.conf
-	else
-		sed -i "s|# net.ipv4.conf.default.accept_redirects.*|net.ipv4.conf.default.accept_redirects = 0|g" /etc/sysctl.conf
-		sed -i "s|#net.ipv4.conf.default.accept_redirects.*|net.ipv4.conf.default.accept_redirects = 0|g" /etc/sysctl.conf
-		sed -i "s|net.ipv4.conf.default.accept_redirects.*|net.ipv4.conf.default.accept_redirects = 0|g" /etc/sysctl.conf
-	fi
-	
-    sysctl -p -q
-}
-
+# -----------------------------------------------------------------------------
+# Function: create_repo_sources
+# Construct our appropriate sourcelist for Debian
 function create_repo_sources {
     if [ ! $DEBIAN_VERSION ]; then
         DEBIAN_VERSION='jessie'
@@ -297,6 +65,9 @@ function create_repo_sources {
 }
 
 
+# -----------------------------------------------------------------------------
+# Function: install_mariadb
+# Installs and configures mariadb on the target system
 function install_mariadb {
     apt-get -yq install python-software-properties debconf-utils
     apt-get -yq install software-properties-common
@@ -318,33 +89,74 @@ function install_mariadb {
     mysqladmin -u root password "$MARIADB_PASSWORD"
 }
 
+
+# -----------------------------------------------------------------------------
+# Function: install_web_server
+# Installs the nginx web server on the target system
 function install_web_server {
-    if [[ $DEBIAN_VERSION != 'stretch' ]]; then
-        apt-get -yq install php-gettext php5-curl php5-gd php5-mysql git curl
-        apt-get -yq install php5-memcached php5-intl php-xml-parser
-        apt-get -yq remove --purge apache2
-        if [ -d /etc/apache2 ]; then
-            rm -rf /etc/apache2
-        fi
+   if [[ $DEBIAN_VERSION != 'stretch' ]]; then
+      apt-get -yq install php-gettext php5-curl php5-gd php5-mysql git curl
+      apt-get -yq install php5-memcached php5-intl php-xml-parser
+      apt-get -yq remove --purge apache2
+      if [ -d /etc/apache2 ]; then
+         rm -rf /etc/apache2
+      fi
 
-        apt-get -yq install nginx
-        apt-get -yq install php5-fpm
+      apt-get -yq install nginx
+      apt-get -yq install php5-fpm
     else
-        apt-get -yq install php-gettext php7.0-curl php7.0-gd php7.0-mysql git curl
-        apt-get -yq install php-memcached php7.0-intl php-xml-parser
-        apt-get -yq remove --purge apache2
-        if [ -d /etc/apache2 ]; then
-            rm -rf /etc/apache2
-        fi
+      apt-get -yq install php-gettext php7.0-curl php7.0-gd php7.0-mysql git curl
+      apt-get -yq install php-memcached php7.0-intl php-xml-parser
+      apt-get -yq remove --purge apache2
+      if [ -d /etc/apache2 ]; then
+         rm -rf /etc/apache2
+      fi
 
-        apt-get -yq install nginx
-        apt-get -yq install php7.0-fpm
-    fi
+      apt-get -yq install nginx
+      apt-get -yq install php7.0-fpm
+   fi
 }
 
+# -----------------------------------------------------------------------------
+# Function: install_redis
+# Installs Redis 2.8 on the system - the version number is important here,
+# later does not work!
+function install_redis {
+   apt-get -yq install redis-server
+   systemctl restart redis-server
+}
+
+
+# -----------------------------------------------------------------------------
+# Function: install_munin
+# Installs a munin-node onto the server.  Cluster config is something you'll
+# have to do yourself, it's outside of the scope of this.
+function install_munin {
+   apt-get -yq install munin munin-node munin-plugins-extra
+   systemctl restart munin-node
+   systemctl restart nginx
+}
+
+
+# -----------------------------------------------------------------------------
+# Function: switch_systemd_to_sysv
+# Optionally, switch the systemd init system to system V
+function switch_systemd_to_sysv {
+   apt-get install sysvinit-core sysvinit-utils
+   cp /usr/share/sysvinit/inittab /etc/inittab
+   apt-get --purge remove systemd
+   apt-get autoremove
+   echo -e 'Package: systemd\nPin: release *\nPin-Priority: -1' > /etc/apt/preferences.d/systemd
+   echo -e '\n\nPackage: *systemd*\nPin: release *\nPin-Priority: -1' >> /etc/apt/preferences.d/systemd
+}
+
+
+# -----------------------------------------------------------------------------
+# Function: create_postactiv_database
+# Set up MariaDB with a database for postActiv
 function create_postactiv_database {
     echo "create database postactiv;
-CREATE USER '${POSTACTIV_ADMIN_USER}@localhost' IDENTIFIED BY '${POSTACTIV_ADMIN_PASSWORD}';
+CREATE USER '${POSTACTIV_ADMIN_USER}'@'localhost' IDENTIFIED BY '${POSTACTIV_ADMIN_PASSWORD}';
 GRANT ALL PRIVILEGES ON postactiv.* TO '${POSTACTIV_ADMIN_USER}@localhost';
 quit" > ~/batch.sql
     chmod 600 ~/batch.sql
@@ -352,6 +164,10 @@ quit" > ~/batch.sql
     shred -zu ~/batch.sql
 }
 
+
+# -----------------------------------------------------------------------------
+# Function: install_postactiv_from_repo
+# Install postactiv from the latest vetted commit.
 function install_postactiv_from_repo {
     # Clone the PostActiv repo
     if [ ! -d /var/www/postactiv ]; then
@@ -460,38 +276,43 @@ aDWQRvTrh5+SQAlDi0gcbNeImgAu1e44K8kZDab8Am5HlVjkR1Z36aqeMFDidlaU
 
 function configure_web_server {
     echo "server {
-    listen 80;
-    listen [::]:80;
-    server_name ${POSTACTIV_DOMAIN_NAME};
-    root /var/www/postactiv;
-    access_log /var/log/nginx/postactiv.access.log;
-    error_log /var/log/nginx/postactiv.err.log warn;
-    client_max_body_size 20m;
-    client_body_buffer_size 128k;
+  listen 80;
+  listen [::]:80;
+  server_name ${POSTACTIV_DOMAIN_NAME};
+  root /var/www/postactiv;
+  access_log /var/log/nginx/postactiv.access.log;
+  error_log /var/log/nginx/postactiv.err.log warn;
+  client_max_body_size 20m;
+  client_body_buffer_size 128k;
 
-    rewrite ^ https://$server_name$request_uri? permanent;
+  rewrite ^ https://$server_name$request_uri? permanent;
 }
 
 server {
-    listen 443 ssl;
-    listen [::]:443 ssl;
-    server_name ${POSTACTIV_DOMAIN_NAME};
+  listen 443 ssl;
+  listen [::]:443 ssl;
+  server_name ${POSTACTIV_DOMAIN_NAME};
 
-    ssl_stapling off;
-    ssl_stapling_verify off;
-    ssl on;
-    ssl_certificate /etc/ssl/certs/${POSTACTIV_DOMAIN_NAME}.pem;
-    ssl_certificate_key /etc/ssl/private/${POSTACTIV_DOMAIN_NAME}.key;
-    ssl_dhparam /etc/ssl/certs/${POSTACTIV_DOMAIN_NAME}.dhparam;
+  gzip            on;
+  gzip_min_length 1000;
+  gzip_proxied    expired no-cache no-store private auth;
+  gzip_types      text/plain application/xml;
 
-    ssl_session_cache  builtin:1000  shared:SSL:10m;
-    ssl_session_timeout 60m;
-    ssl_prefer_server_ciphers on;
-    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-    ssl_ciphers 'EDH+CAMELLIA:EDH+aRSA:EECDH+aRSA+AESGCM:EECDH+aRSA+SHA256:EECDH:+CAMELLIA128:+AES128:+SSLv3:!aNULL:!eNULL:!LOW:!3DES:!MD5:!EXP:!PSK:!DSS:!RC4:!SEED:!IDEA:!ECDSA:kEDH:CAMELLIA128-SHA:AES128-SHA';
-    add_header Content-Security-Policy \"default-src https:; script-src https: 'unsafe-inline'; style-src https: 'unsafe-inline'\";
-    add_header X-Frame-Options DENY;
-    add_header X-Content-Type-Options nosniff;
+  ssl on;
+  ssl_stapling on;
+  ssl_stapling_verify on;
+  ssl_certificate /etc/ssl/certs/${POSTACTIV_DOMAIN_NAME}.pem;
+  ssl_certificate_key /etc/ssl/private/${POSTACTIV_DOMAIN_NAME}.key;
+  ssl_dhparam /etc/ssl/certs/${POSTACTIV_DOMAIN_NAME}.dhparam;
+
+  ssl_session_cache  builtin:1000  shared:SSL:10m;
+  ssl_session_timeout 60m;
+  ssl_prefer_server_ciphers on;
+  ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+  ssl_ciphers 'EDH+CAMELLIA:EDH+aRSA:EECDH+aRSA+AESGCM:EECDH+aRSA+SHA256:EECDH:+CAMELLIA128:+AES128:+SSLv3:!aNULL:!eNULL:!LOW:!3DES:!MD5:!EXP:!PSK:!DSS:!RC4:!SEED:!IDEA:!ECDSA:kEDH:CAMELLIA128-SHA:AES128-SHA';
+  add_header Content-Security-Policy \"default-src https:; script-src https: 'unsafe-inline'; style-src https: 'unsafe-inline'\";
+  add_header X-Frame-Options DENY;
+  add_header X-Content-Type-Options nosniff;
 
   add_header Strict-Transport-Security max-age=15768000;
 
@@ -545,6 +366,9 @@ server {
     systemctl start nginx
 }
 
+# -----------------------------------------------------------------------------
+# Function: additional_postactiv_settings
+# Adds the additional recommended settings for postactiv to the config file
 function additional_postactiv_settings {
     postactiv_config_file=/var/www/postactiv/config.php
 
@@ -568,6 +392,11 @@ function additional_postactiv_settings {
     fi
 }
 
+
+# -----------------------------------------------------------------------------
+# Function: keep_daemons_running
+# Sets the system to keep the queue daemons running, and also schedules some
+# basic maintenance tasks
 function keep_daemons_running {
     echo '#!/bin/bash' > /etc/cron.hourly/postactiv-daemons
     echo -n 'daemon_lines=$(ps aux | grep "' >> /etc/cron.hourly/postactiv-daemons
@@ -575,7 +404,7 @@ function keep_daemons_running {
     echo 'cd /var/www/postactiv' >> /etc/cron.hourly/postactiv-daemons
     echo 'if [[ $daemon_lines != *"/var/www/"* ]]; then' >> /etc/cron.hourly/postactiv-daemons
 
-    echo '    scripts/startdaemons.sh' >> /etc/cron.hourly/postactiv-daemons
+    echo '    su -c "sh scripts/startdaemons.sh" -s /bin/sh www-data' >> /etc/cron.hourly/postactiv-daemons
     echo 'fi' >> /etc/cron.hourly/postactiv-daemons
 
     echo 'php scripts/delete_orphan_files.php > /dev/null' >> /etc/cron.hourly/postactiv-daemons
@@ -586,6 +415,10 @@ function keep_daemons_running {
     chmod +x /etc/cron.hourly/postactiv-daemons
 }
 
+
+# -----------------------------------------------------------------------------
+# Function: install_qvitter
+# Installs the qvitter UI plugin for postActiv
 function install_qvitter {
     mkdir -p /var/www/postactiv/local/plugins
 
@@ -620,42 +453,21 @@ function install_qvitter {
     chown -R www-data:www-data /var/www/postactiv
 }
 
-function expire_posts {
-	expire_days=$((EXPIRE_MONTHS * 30))
-
-	if [ ! -f /var/www/postactiv/scripts/expire_posts.php ]; then
-		echo $"post expiry script not found"
-		exit 76257
-	fi
-
-	expire_posts_script=/usr/bin/postactiv-expire-posts
-	cp /var/www/postactiv/scripts/expire_posts.php $expire_posts_script
-	sed -i "s|YourPassword|$MARIADB_PASSWORD|g" $expire_posts_script
-	sed -i "s|ExpireMonths|$EXPIRE_MONTHS|g" $expire_posts_script
-	chmod 600 $expire_posts_script	
-	chmod +x $expire_posts_script
-
-	expire_script=/usr/bin/postactiv-expire
-	echo '#!/bin/bash' > $expire_script
-	echo "/usr/bin/php $expire_posts_script" >> $expire_script
-	echo 'if [ -d /var/www/postactiv/file ]; then' >> $expire_script
-	echo "  find /var/www/postactiv/file/* -mtime +${expire_days} -exec rm {} +" >> $expire_script
-	echo 'fi' >> $expire_script
-	chmod +x $expire_script
-
-	# Add a cron job
-	if ! grep -q "${expire_script}" /etc/crontab; then
-		echo "10 3 5   *   *   root /usr/bin/timeout 500 ${expire_script}" >> /etc/crontab
-	fi
+function start_daemons {
+	cd /var/www/postactiv
+	php scripts/upgrade.php
+	su -c "sh scripts/startdaemons.sh" -s /bin/sh www-data
 }
+
+
+# =============================================================================
+# Main script logic follows
 
 if [ ! $1 ]; then
     echo './scripts/debian_install.sh [mariadb password] [username] [password] [domain] [email address] [jessie|stretch]'
     exit 0
 fi
 
-create_firewall
-configure_ip
 create_repo_sources
 install_mariadb
 install_web_server
@@ -666,8 +478,11 @@ configure_web_server
 additional_postactiv_settings
 keep_daemons_running
 install_qvitter
-expire_posts
+start_daemons
 
 echo "postActiv installed"
 
 exit 0
+
+# END OF FILE
+# =============================================================================

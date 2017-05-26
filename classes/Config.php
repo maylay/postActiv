@@ -30,7 +30,12 @@
  * <https://www.gnu.org/licenses/agpl.html>
  * ----------------------------------------------------------------------------
  * About:
- * Table definition for config
+ * Superclass holding a representation of configuration settings and interfaces.
+ *
+ * This superclass represents a legacy implementation of holding the
+ * configuration settings in the database and is kept mostly for caching
+ * purposes.  There's probably a better way to do this and it is a candidate
+ * for revision or removal.
  *
  * PHP version:
  * Tested with PHP 7
@@ -46,154 +51,182 @@
  *  o GNU social <https://www.gnu.org/s/social/>
  * ============================================================================
  */
- 
+
 // This file is formatted so that it provides useful documentation output in
 // NaturalDocs.  Please be considerate of this before changing formatting.
 
 if (!defined('POSTACTIV')) { exit(1); }
 
-/**
- * Table Definition for config
- */
 
-class Config extends Managed_DataObject
-{
-    ###START_AUTOCODE
-    /* the code below is auto generated do not remove the above tag */
+// ============================================================================
+// Class: Config
+// Superclass holding a representation of configuration settings and interfaces.
+//
+// Properties:
+// o __table = 'config' - table name
+// o section - varchar(32)  primary_key not_null
+// o setting - varchar(32)  primary_key not_null
+// o value   - text
+//
+// Constants:
+// o settingsKey = 'config:settings';
+class Config extends Managed_DataObject {
+   public $__table = 'config';                          // table name
+   public $section;                         // varchar(32)  primary_key not_null
+   public $setting;                         // varchar(32)  primary_key not_null
+   public $value;                           // text
 
-    public $__table = 'config';                          // table name
-    public $section;                         // varchar(32)  primary_key not_null
-    public $setting;                         // varchar(32)  primary_key not_null
-    public $value;                           // text
+   const settingsKey = 'config:settings';
 
-    /* the code above is auto generated do not remove the tag below */
-    ###END_AUTOCODE
 
-    public static function schemaDef()
-    {
-        return array(
-            'fields' => array(
-                'section' => array('type' => 'varchar', 'length' => 32, 'not null' => true, 'default' => '', 'description' => 'configuration section'),
-                'setting' => array('type' => 'varchar', 'length' => 32, 'not null' => true, 'default' => '', 'description' => 'configuration setting'),
-                'value' => array('type' => 'text', 'description' => 'configuration value'),
-            ),
-            'primary key' => array('section', 'setting'),
-        );
+   // -------------------------------------------------------------------------
+   // Function: schemaDef
+   // Returns a representation of the database schema for the table this
+   // superclass itself represents, in an array.
+   public static function schemaDef() {
+      return array(
+         'fields' => array(
+            'section' => array('type' => 'varchar', 'length' => 32, 'not null' => true, 'default' => '', 'description' => 'configuration section'),
+            'setting' => array('type' => 'varchar', 'length' => 32, 'not null' => true, 'default' => '', 'description' => 'configuration setting'),
+            'value' => array('type' => 'text', 'description' => 'configuration value'),),
+         'primary key' => array('section', 'setting'),
+      );
+   }
+
+
+   // -------------------------------------------------------------------------
+   // Function: loadSettings
+   // Load the settings currently stored into the database into the class.
+   // FIXME: This silently drops errors.
+   static function loadSettings() {
+      try {
+         $settings = self::_getSettings();
+         if (!empty($settings)) {
+            self::_applySettings($settings);
+         }
+      } catch (Exception $e) {
+         return;
+      }
+   }
+
+
+   // -------------------------------------------------------------------------
+   // Function: _getSettings
+   // Helper function for loadSettings that does iterating through different
+   // settings, checking the cache first and database second.
+   //
+   // Returns:
+   // o array containing all the retrieved settings
+   static function _getSettings() {
+      $c = self::memcache();
+      if (!empty($c)) {
+         $settings = $c->get(Cache::key(self::settingsKey));
+         if ($settings !== false) {
+            return $settings;
+         }
+      }
+
+      $settings = array();
+      $config = new Config();
+      $config->find();
+      while ($config->fetch()) {
+         $settings[] = array($config->section, $config->setting, $config->value);
+      }
+      $config->free();
+      if (!empty($c)) {
+         $c->set(Cache::key(self::settingsKey), $settings);
+      }
+      return $settings;
+   }
+
+
+   // -------------------------------------------------------------------------
+   // Function: _applySettings
+   // Helper function to apply configuration settings represented in an 
+   // associative array into the config class.
+   static function _applySettings($settings) {
+      global $config;
+      foreach ($settings as $s) {
+         list($section, $setting, $value) = $s;
+         $config[$section][$setting] = $value;
+      }
     }
 
-    const settingsKey = 'config:settings';
 
-    static function loadSettings()
-    {
-        try {
-            $settings = self::_getSettings();
-            if (!empty($settings)) {
-                self::_applySettings($settings);
-            }
-        } catch (Exception $e) {
-            return;
-        }
-    }
+   // -------------------------------------------------------------------------
+   // Function: insert
+   // Save the configuration settings to database.
+   function insert() {
+      $result = parent::insert();
+      if ($result) {
+         Config::_blowSettingsCache();
+      }
+      return $result;
+   }
 
-    static function _getSettings()
-    {
-        $c = self::memcache();
 
-        if (!empty($c)) {
-            $settings = $c->get(Cache::key(self::settingsKey));
-            if ($settings !== false) {
-                return $settings;
-            }
-        }
+   // -------------------------------------------------------------------------
+   // Function: delete
+   // Remove the configuration settings from the database.
+   function delete($useWhere=false) {
+      $result = parent::delete($useWhere);
+      if ($result !== false) {
+         Config::_blowSettingsCache();
+      }
+      return $result;
+   }
 
-        $settings = array();
 
-        $config = new Config();
+   // -------------------------------------------------------------------------
+   // Function: update
+   // Updates existing configuration settings in the database.
+   function update($dataObject=false) {
+      $result = parent::update($dataObject);
+      if ($result !== false) {
+         Config::_blowSettingsCache();
+      }
+      return $result;
+   }
 
-        $config->find();
 
-        while ($config->fetch()) {
-            $settings[] = array($config->section, $config->setting, $config->value);
-        }
+   // -------------------------------------------------------------------------
+   // Function: save
+   // Given a $section, $setting, and $value, save a configuration value in the
+   // database.
+   //
+   // Returns:
+   // o result of the insertion function
+   static function save($section, $setting, $value) {
+      $result = null;
+      $config = Config::pkeyGet(array('section' => $section,
+                                      'setting' => $setting));
 
-        $config->free();
+      if (!empty($config)) {
+         $orig = clone($config);
+         $config->value = $value;
+         $result = $config->update($orig);
+      } else {
+         $config = new Config();
+         $config->section = $section;
+         $config->setting = $setting;
+         $config->value   = $value;
+         $result = $config->insert();
+      }
 
-        if (!empty($c)) {
-            $c->set(Cache::key(self::settingsKey), $settings);
-        }
+      return $result;
+   }
 
-        return $settings;
-    }
 
-    static function _applySettings($settings)
-    {
-        global $config;
-
-        foreach ($settings as $s) {
-            list($section, $setting, $value) = $s;
-            $config[$section][$setting] = $value;
-        }
-    }
-
-    function insert()
-    {
-        $result = parent::insert();
-        if ($result) {
-            Config::_blowSettingsCache();
-        }
-        return $result;
-    }
-
-    function delete($useWhere=false)
-    {
-        $result = parent::delete($useWhere);
-        if ($result !== false) {
-            Config::_blowSettingsCache();
-        }
-        return $result;
-    }
-
-    function update($dataObject=false)
-    {
-        $result = parent::update($dataObject);
-        if ($result !== false) {
-            Config::_blowSettingsCache();
-        }
-        return $result;
-    }
-
-    static function save($section, $setting, $value)
-    {
-        $result = null;
-
-        $config = Config::pkeyGet(array('section' => $section,
-                                        'setting' => $setting));
-
-        if (!empty($config)) {
-            $orig = clone($config);
-            $config->value = $value;
-            $result = $config->update($orig);
-        } else {
-            $config = new Config();
-
-            $config->section = $section;
-            $config->setting = $setting;
-            $config->value   = $value;
-
-            $result = $config->insert();
-        }
-
-        return $result;
-    }
-
-    function _blowSettingsCache()
-    {
-        $c = self::memcache();
-
-        if (!empty($c)) {
-            $c->delete(Cache::key(self::settingsKey));
-        }
-    }
+   // -------------------------------------------------------------------------
+   // Function: _blowSettingsCache
+   // A helper function to clear all of the configuration settings we presently
+   // have in the settings cache.
+   function _blowSettingsCache() {
+      $c = self::memcache();
+      if (!empty($c)) {
+         $c->delete(Cache::key(self::settingsKey));
+      }
+   }
 }
 
 // END OF FILE

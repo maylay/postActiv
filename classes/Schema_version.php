@@ -30,7 +30,11 @@
  * <https://www.gnu.org/licenses/agpl.html>
  * ----------------------------------------------------------------------------
  * About:
- * Table Definition for schema_version
+ * Table Definition for schema_version.
+ *
+ * To avoid checking database structure all the time, we store a checksum of 
+ * the expected schema info for each table here. If it has not changed since 
+ * the last time we checked the table, we can leave it as is.
  *
  * PHP version:
  * Tested with PHP 7
@@ -50,30 +54,35 @@
 // This file is formatted so that it provides useful documentation output in
 // NaturalDocs.  Please be considerate of this before changing formatting.
 
-class Schema_version extends Managed_DataObject
-{
-    ###START_AUTOCODE
-    /* the code below is auto generated do not remove the above tag */
 
-    public $__table = 'schema_version';      // table name
-    public $table_name;                      // varchar(64)  primary_key not_null
-    public $checksum;                        // varchar(64)  not_null
-    public $modified;                        // datetime()   not_null
+// ============================================================================
+// Functions: Schema_version
+// Superclass representing a cached database structure checksum so we don't 
+// have to keep looking up database structures.
+//
+// Properties:
+// o __table = 'schema_version' - table name
+// o table_name - varchar(64)  primary_key not_null
+// o checksum   - varchar(64)  not_null
+// o modified   - datetime()   not_null
+class Schema_version extends Managed_DataObject {
+   public $__table = 'schema_version';      // table name
+   public $table_name;                      // varchar(64)  primary_key not_null
+   public $checksum;                        // varchar(64)  not_null
+   public $modified;                        // datetime()   not_null
 
-    /* the code above is auto generated do not remove the tag below */
-    ###END_AUTOCODE
 
-    public static function schemaDef()
-    {
-        return array(
-            'description' => 'To avoid checking database structure all the time, we store a checksum of the expected schema info for each table here. If it has not changed since the last time we checked the table, we can leave it as is.',
-            'fields' => array(
-                'table_name' => array('type' => 'varchar', 'length' => '64', 'not null' => true, 'description' => 'Table name'),
-                'checksum' => array('type' => 'varchar', 'length' => '64', 'not null' => true, 'description' => 'Checksum of schema array; a mismatch indicates we should check the table more thoroughly.'),
-                'modified' => array('type' => 'timestamp', 'not null' => true, 'description' => 'date this record was modified'),
-            ),
-            'primary key' => array('table_name'),
-        );
+   // -------------------------------------------------------------------------
+   // Function: schemaDef
+   // Returns an array representing the table schema in the DB.
+   public static function schemaDef() {
+      return array(
+         'description' => 'To avoid checking database structure all the time, we store a checksum of the expected schema info for each table here. If it has not changed since the last time we checked the table, we can leave it as is.',
+         'fields' => array(
+            'table_name' => array('type' => 'varchar', 'length' => '64', 'not null' => true, 'description' => 'Table name'),
+            'checksum' => array('type' => 'varchar', 'length' => '64', 'not null' => true, 'description' => 'Checksum of schema array; a mismatch indicates we should check the table more thoroughly.'),
+            'modified' => array('type' => 'timestamp', 'not null' => true, 'description' => 'date this record was modified'),),
+         'primary key' => array('table_name'),);
     }
 }
 

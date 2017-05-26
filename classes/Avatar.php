@@ -51,7 +51,7 @@
  *  o GNU social <https://www.gnu.org/s/social/>
  * ============================================================================
  */
- 
+
 // This file is formatted so that it provides useful documentation output in
 // NaturalDocs.  Please be considerate of this before changing formatting.
 
@@ -60,8 +60,7 @@ if (!defined('POSTACTIV')) { exit(1); }
 // ----------------------------------------------------------------------------
 // Class: Avatar
 // Class to hold the information about a user's avatar(s)
-class Avatar extends Managed_DataObject
-{
+class Avatar extends Managed_DataObject {
    public $__table = 'avatar';                          // table name
    public $profile_id;                      // int(4)  primary_key not_null
    public $original;                        // tinyint(1)
@@ -90,18 +89,13 @@ class Avatar extends Managed_DataObject
             'mediatype' => array('type' => 'varchar', 'length' => 32, 'not null' => true, 'description' => 'file type'),
             'filename' => array('type' => 'varchar', 'length' => 191, 'description' => 'local filename, if local'),
             'created' => array('type' => 'datetime', 'not null' => true, 'description' => 'date this record was created'),
-            'modified' => array('type' => 'timestamp', 'not null' => true, 'description' => 'date this record was modified'),
-         ),
+            'modified' => array('type' => 'timestamp', 'not null' => true, 'description' => 'date this record was modified'),),
          'primary key' => array('profile_id', 'width', 'height'),
-         'unique keys' => array(
-//          'avatar_filename_key' => array('filename'),
-         ),
+         'unique keys' => array(),
          'foreign keys' => array(
-            'avatar_profile_id_fkey' => array('profile', array('profile_id' => 'id')),
-         ),
+            'avatar_profile_id_fkey' => array('profile', array('profile_id' => 'id')),),
          'indexes' => array(
-            'avatar_profile_id_idx' => array('profile_id'),
-         ),
+            'avatar_profile_id_idx' => array('profile_id'),),
       );
    }
 

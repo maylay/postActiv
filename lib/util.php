@@ -954,6 +954,8 @@ function common_url_schemes($filter=null)
                 'mailto'    => _URL_SCHEME_SINGLE_COLON,
                 'tel'       => _URL_SCHEME_SINGLE_COLON,
                 'xmpp'      => _URL_SCHEME_SINGLE_COLON,
+                'matrix'    => _URL_SCHEME_SINGLE_COLON,
+                'donateurl' => _URL_SCHEME_SINGLE_COLON,
                 'magnet'    => _URL_SCHEME_NO_DOMAIN,
                 'geo'       => _URL_SCHEME_COLON_COORDINATES,
                 ];
@@ -2265,6 +2267,11 @@ function common_user_property($property)
     }
 
     switch ($property) {
+    case 'xmpp':
+    case 'toxid':
+    case 'matrix':
+    case 'donateurl':
+    case 'gpgpubkey':
     case 'profileurl':
     case 'nickname':
     case 'fullname':

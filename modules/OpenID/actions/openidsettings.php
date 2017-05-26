@@ -33,7 +33,7 @@
 
 if (!defined('GNUSOCIAL')) { exit(1); }
 
-require_once INSTALLDIR.'/modules/OpenID/openid.php';
+require_once __DIR__.'/../openid.php';
 
 /**
  * Settings for OpenID

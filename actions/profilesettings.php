@@ -164,6 +164,46 @@ class ProfilesettingsAction extends SettingsAction
             $this->textarea('bio', _('Bio'),
                             $this->trimmed('bio') ?: $this->scoped->getDescription(),
                             $bioInstr);
+
+            $this->elementEnd('li');
+            $this->elementStart('li');
+            $this->input('xmpp', _('XMPP'),
+                         $this->trimmed('xmpp') ?: $this->scoped->getXmpp(),
+                         // TRANS: Your XMPP address
+                         _('Your XMPP address.'),
+                         null, false);
+
+            $this->elementEnd('li');
+            $this->elementStart('li');
+            $this->textarea('gpgpubkey', _('PGP/GPG'),
+                            $this->trimmed('gpgpubkey') ?: $this->scoped->getGpgPubKey(),
+                            // TRANS: Your XMPP address
+                            _('Your PGP/GPG public key'));
+
+            $this->elementEnd('li');
+            $this->elementStart('li');
+            $this->input('toxid', _('Tox ID'),
+                         $this->trimmed('toxid') ?: $this->scoped->getToxId(),
+                         // TRANS: Your Tox ID
+                         _('Your Tox ID'),
+                         null, false);
+
+            $this->elementEnd('li');
+            $this->elementStart('li');
+            $this->input('matrix', _('Matrix address'),
+                         $this->trimmed('matrix') ?: $this->scoped->getMatrix(),
+                         // TRANS: Your Matrix address
+                         _('Your Matrix address'),
+                         null, false);
+
+            $this->elementEnd('li');
+            $this->elementStart('li');
+            $this->input('donateurl', _('Donations link'),
+                         $this->trimmed('donateurl') ?: $this->scoped->getDonateUrl(),
+                         // TRANS: Donations link
+                         _('Donations link'),
+                         null, false);
+
             $this->elementEnd('li');
             $this->elementStart('li');
             // TRANS: Field label in form for profile settings.
@@ -277,6 +317,11 @@ class ProfilesettingsAction extends SettingsAction
             $fullname = $this->trimmed('fullname');
             $homepage = $this->trimmed('homepage');
             $bio = $this->trimmed('bio');
+            $xmpp = $this->trimmed('xmpp');
+            $gpgpubkey = $this->trimmed('gpgpubkey');
+            $toxid = $this->trimmed('toxid');
+            $matrix = $this->trimmed('matrix');
+            $donateurl = $this->trimmed('donateurl');
             $location = $this->trimmed('location');
             $autosubscribe = $this->booleanintstring('autosubscribe');
             $subscribe_policy = $this->trimmed('subscribe_policy');
@@ -384,6 +429,11 @@ class ProfilesettingsAction extends SettingsAction
             $this->scoped->fullname = (mb_strlen($fullname)>0 ? $fullname : $this->scoped->nickname);
             $this->scoped->homepage = $homepage;
             $this->scoped->bio = $bio;
+            $this->scoped->xmpp = $xmpp;
+            $this->scoped->gpgpubkey = $gpgpubkey;
+            $this->scoped->toxid = $toxid;
+            $this->scoped->matrix = $matrix;
+            $this->scoped->donateurl = $donateurl;
             $this->scoped->location = $location;
 
             $loc = Location::fromName($location);
