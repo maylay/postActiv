@@ -827,125 +827,141 @@ class User extends Managed_DataObject {
     }
 
 
-    function repeatsOfMe($offset=0, $limit=20, $since_id=null, $max_id=null)
-    {
-        // FIXME: Use another way to get Profile::current() since we
-        // want to avoid confusion between session user and queue processing.
-        $stream = new RepeatsOfMeNoticeStream($this->getProfile(), Profile::current());
-        return $stream->getNotices($offset, $limit, $since_id, $max_id);
-    }
+   // -------------------------------------------------------------------------
+   // Function: repeatsOfMe
+   // Returns an array of notices of this user which have been repeated by 
+   // others, that we are aware of.
 
-    public function repeatedToMe($offset=0, $limit=20, $since_id=null, $max_id=null)
-    {
-        return $this->getProfile()->repeatedToMe($offset, $limit, $since_id, $max_id);
-    }
+   // FIXME:
+   // Use another way to get Profile::current() since we want to avoid 
+   // confusion between session user and queue processing.
+   function repeatsOfMe($offset=0, $limit=20, $since_id=null, $max_id=null) {
+      $stream = new RepeatsOfMeNoticeStream($this->getProfile(), Profile::current());
+      return $stream->getNotices($offset, $limit, $since_id, $max_id);
+   }
 
-    public static function siteOwner()
-    {
-        $owner = self::cacheGet('user:site_owner');
 
-        if ($owner === false) { // cache miss
+   // -------------------------------------------------------------------------
+   // Functions: repeatedToMe
+   // Returns an array of notices repeated to this user.
+   public function repeatedToMe($offset=0, $limit=20, $since_id=null, $max_id=null) {
+      return $this->getProfile()->repeatedToMe($offset, $limit, $since_id, $max_id);
+   }
 
-            $pr = new Profile_role();
-            $pr->role = Profile_role::OWNER;
-            $pr->orderBy('created');
-            $pr->limit(1);
 
-            if (!$pr->find(true)) {
-                throw new NoResultException($pr);
-            }
+   // -------------------------------------------------------------------------
+   // Function: siteOwner
+   // Returns the User object of the account labelled as the site owner.  Note
+   // that this will return the FIRST account found with such a role if
+   // multiple are assigned.
+   public static function siteOwner() {
+      $owner = self::cacheGet('user:site_owner');
 
-            $owner = User::getKV('id', $pr->profile_id);
+      if ($owner === false) { // cache miss
+         $pr = new Profile_role();
+         $pr->role = Profile_role::OWNER;
+         $pr->orderBy('created');
+         $pr->limit(1);
+         if (!$pr->find(true)) {
+            throw new NoResultException($pr);
+         }
 
-            self::cacheSet('user:site_owner', $owner);
-        }
+         $owner = User::getKV('id', $pr->profile_id);
+         self::cacheSet('user:site_owner', $owner);
+      }
+      if ($owner instanceof User) {
+         return $owner;
+      }
+      throw new ServerException(_('No site owner configured.'));
+   }
 
-        if ($owner instanceof User) {
-            return $owner;
-        }
 
-        throw new ServerException(_('No site owner configured.'));
-    }
+   // -------------------------------------------------------------------------
+   // Function: singleUser
+   // Pull the primary site account to use in single-user mode.
+   // If a valid user nickname is listed in 'singleuser':'nickname'
+   // in the config, this will be used; otherwise the site owner
+   // account is taken by default.
+   //
+   // Returns:
+   // o object User
+   //
+   // Error States:
+   // o throws ServerException if no valid single user account is present
+   // o throws ServerException if called when not in single-user mode
+   public static function singleUser() {
+      if (!common_config('singleuser', 'enabled')) {
+         // TRANS: Server exception.
+         throw new ServerException(_('Single-user mode code called when not enabled.'));
+      }
+      if ($nickname = common_config('singleuser', 'nickname')) {
+         $user = User::getKV('nickname', $nickname);
+         if ($user instanceof User) {
+            return $user;
+         }
+      }
 
-    /**
-     * Pull the primary site account to use in single-user mode.
-     * If a valid user nickname is listed in 'singleuser':'nickname'
-     * in the config, this will be used; otherwise the site owner
-     * account is taken by default.
-     *
-     * @return User
-     * @throws ServerException if no valid single user account is present
-     * @throws ServerException if called when not in single-user mode
-     */
-    public static function singleUser()
-    {
-        if (!common_config('singleuser', 'enabled')) {
-            // TRANS: Server exception.
-            throw new ServerException(_('Single-user mode code called when not enabled.'));
-        }
+      // If there was no nickname or no user by that nickname,
+      // try the site owner. Throws exception if not configured.
+      return User::siteOwner();
+   }
 
-        if ($nickname = common_config('singleuser', 'nickname')) {
-            $user = User::getKV('nickname', $nickname);
-            if ($user instanceof User) {
-                return $user;
-            }
-        }
 
-        // If there was no nickname or no user by that nickname,
-        // try the site owner. Throws exception if not configured.
-        return User::siteOwner();
-    }
+   // -------------------------------------------------------------------------
+   // Function: singleUserNickname
+   // This is kind of a hack for using external setup code that's trying to
+   // build single-user sites.
+   //
+   // Will still return a username if the config singleuser/nickname is set
+   // even if the account doesn't exist, which normally indicates that the
+   // site is horribly misconfigured.
+   //
+   // At the moment, we need to let it through so that router setup can
+   // complete, otherwise we won't be able to create the account.
+   //
+   // This will be easier when we can more easily create the account and
+   // *then* switch the site to 1user mode without jumping through hoops.
+   //
+   // Returns:
+   // o string
+   //
+   // Error States:
+   // o throws ServerException if no valid single user account is present
+   // o throws ServerException if called when not in single-user mode
+   static function singleUserNickname() {
+      try {
+         $user = User::singleUser();
+         return $user->nickname;
+      } catch (Exception $e) {
+         if (common_config('singleuser', 'enabled') && common_config('singleuser', 'nickname')) {
+            common_log(LOG_WARNING, "Warning: code attempting to pull single-user nickname when the account does not exist. If this is not setup time, this is probably a bug.");
+            return common_config('singleuser', 'nickname');
+         }
+         throw $e;
+      }
+   }
 
-    /**
-     * This is kind of a hack for using external setup code that's trying to
-     * build single-user sites.
-     *
-     * Will still return a username if the config singleuser/nickname is set
-     * even if the account doesn't exist, which normally indicates that the
-     * site is horribly misconfigured.
-     *
-     * At the moment, we need to let it through so that router setup can
-     * complete, otherwise we won't be able to create the account.
-     *
-     * This will be easier when we can more easily create the account and
-     * *then* switch the site to 1user mode without jumping through hoops.
-     *
-     * @return string
-     * @throws ServerException if no valid single user account is present
-     * @throws ServerException if called when not in single-user mode
-     */
-    static function singleUserNickname()
-    {
-        try {
-            $user = User::singleUser();
-            return $user->nickname;
-        } catch (Exception $e) {
-            if (common_config('singleuser', 'enabled') && common_config('singleuser', 'nickname')) {
-                common_log(LOG_WARNING, "Warning: code attempting to pull single-user nickname when the account does not exist. If this is not setup time, this is probably a bug.");
-                return common_config('singleuser', 'nickname');
-            }
-            throw $e;
-        }
-    }
 
-    /**
-     * Find and shorten links in the given text using this user's URL shortening
-     * settings.
-     *
-     * By default, links will be left untouched if the text is shorter than the
-     * configured maximum notice length. Pass true for the $always parameter
-     * to force all links to be shortened regardless.
-     *
-     * Side effects: may save file and file_redirection records for referenced URLs.
-     *
-     * @param string $text
-     * @param boolean $always
-     * @return string
-     */
-    public function shortenLinks($text, $always=false)
-    {
-        return common_shorten_links($text, $always, $this);
-    }
+   // -------------------------------------------------------------------------
+   // Function: shortenLinks
+   // Find and shorten links in the given text using this user's URL shortening
+   // settings.
+   //
+   // By default, links will be left untouched if the text is shorter than the
+   // configured maximum notice length. Pass true for the $always parameter
+   // to force all links to be shortened regardless.
+   //
+   // Side effects: may save file and file_redirection records for referenced URLs.
+   //
+   // Parameters:
+   // o string $text
+   // o boolean $always
+   //
+   // Returns:
+   // o string
+   public function shortenLinks($text, $always=false) {
+      return common_shorten_links($text, $always, $this);
+   }
 
 
    // -------------------------------------------------------------------------
