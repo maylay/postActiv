@@ -422,7 +422,7 @@ class User extends Managed_DataObject {
 
          // Necessary because id has been known to be reissued.
          if ($profile->hasRole(Profile_role::DELETED)) {
-            profile->revokeRole(Profile_role::DELETED);
+            $profile->revokeRole(Profile_role::DELETED);
          }
 
          $user->id = $id;
