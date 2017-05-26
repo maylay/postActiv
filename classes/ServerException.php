@@ -30,11 +30,14 @@
  * <https://www.gnu.org/licenses/agpl.html>
  * ----------------------------------------------------------------------------
  * About:
- * ServerException and descendant classes as well as the canonical error 
+ * ServerException and descendant classes as well as the canonical error
  * definitions
  *
  * These classes represent various internal server errors that ususally are not
  * fixable by the end user.
+ *
+ * Since most exception classes share similar internals, the particulares are
+ * only documented where there's a significant divergence worth noting.
  *
  * PHP version:
  * Tested with PHP 7
@@ -370,6 +373,10 @@ class UserNoProfileException extends NoProfileException {
       parent::__construct($user->id, $msg);
    }
 
+
+   // -------------------------------------------------------------------------
+   // Function: getUser
+   // Returns the user with a missing profile.
    protected function getUser() {
       return $this->user;
    }
@@ -390,6 +397,10 @@ class GroupNoProfileException extends NoProfileException {
       parent::__construct($group->profile_id, $message);
    }
 
+
+   // -------------------------------------------------------------------------
+   // Function: getGroup
+   // Returns the group with a missing profile.
    protected function getGroup() {
        return $this->group;
    }
