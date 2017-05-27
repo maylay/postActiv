@@ -383,17 +383,28 @@ class HubSub extends Managed_DataObject {
 
    // -------------------------------------------------------------------------
    // Function: push
-   // Send a 'fat ping' to the subscriber's callback endpoint
-   // containing the given Atom feed chunk.
+   // Send a 'fat ping' to the subscriber's callback endpoint containing the 
+   // given Atom feed chunk.
    //
-   // Determination of which items to send should be done at
-   // a higher level; don't just shove in a complete feed!
+   // Determination of which items to send should be done at a higher level;
+   // don't just shove in a complete feed!
    //
    // Parameters:
    // o string $atom - well-formed Atom feed
    //
    // Error States:
    // o throws Exception (HTTP or general)
+   //
+   // XXX:
+   // DO NOT trust a Location header here, _especially_ from 'http' protocols,
+   // but not 'https' either at least if we don't do proper CA verification. Trust that
+   // the most common change here is simply switching 'http' to 'https' and we will
+   // solve 99% of all of these issues for now. There should be a proper mechanism
+   // if we want to change the callback URLs, preferrably just manual resubscriptions
+   // from the remote side, combined with implemented PuSH subscription timeouts.
+   //
+   // FIXME: 
+   // Add 'failed' incremental count for this callback.   
    function push($atom) {
       $headers = array('Content-Type: application/atom+xml');
       if ($this->secret) {
@@ -417,13 +428,6 @@ class HubSub extends Managed_DataObject {
           common_debug('WebSub callback to '._ve($this->callback).' for '._ve($this->getTopic()).' failed with exception: '._ve($e->getMessage()));
       }
 
-      // XXX: DO NOT trust a Location header here, _especially_ from 'http' protocols,
-      // but not 'https' either at least if we don't do proper CA verification. Trust that
-      // the most common change here is simply switching 'http' to 'https' and we will
-      // solve 99% of all of these issues for now. There should be a proper mechanism
-      // if we want to change the callback URLs, preferrably just manual resubscriptions
-      // from the remote side, combined with implemented PuSH subscription timeouts.
-
       // We failed the PuSH, but it might be that the remote site has changed their configuration to HTTPS
       if ('http' === parse_url($this->callback, PHP_URL_SCHEME)) {
          // Test if the feed callback for this node has migrated to HTTPS
@@ -446,8 +450,6 @@ class HubSub extends Managed_DataObject {
          }
       }
 
-      // FIXME: Add 'failed' incremental count for this callback.
-      
       if (is_null($response)) {
          // This means we got a lower-than-HTTP level error, like domain not found or maybe connection refused
          // This should be using a more distinguishable exception class, but for now this will do.
