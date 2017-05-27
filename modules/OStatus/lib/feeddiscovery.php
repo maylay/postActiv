@@ -1,10 +1,7 @@
 <?php
 /*
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
- * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
+ * StatusNet - the distributed open-source microblogging tool
+ * Copyright (C) 2009, StatusNet, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -18,8 +15,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @license   https://www.gnu.org/licenses/agpl.html 
  */
 
 /**
@@ -27,7 +22,9 @@
  * @maintainer Brion Vibber <brion@status.net>
  */
 
-if (!defined('POSTACTIV')) { exit(1); }
+if (!defined('STATUSNET')) {
+    exit(1);
+}
 
 class FeedSubBadURLException extends FeedSubException
 {
@@ -97,7 +94,7 @@ class FeedDiscovery
     }
 
     /**
-     * Get the referenced PuSH hub link from an Atom feed.
+     * Get the referenced WebSub hub link from an Atom feed.
      *
      * @return mixed string or false
      */
