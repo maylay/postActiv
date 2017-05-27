@@ -36,7 +36,7 @@
  * Higher-level behavior building OStatus stuff on top is handled
  * under Ostatus_profile.
  *
- * PuSH subscription flow:
+ * WebSub (previously PubSubHubbub/PuSH) subscription flow:
  *
  *     $profile->subscribe()
  *         sends a sub request to the hub...
@@ -71,16 +71,6 @@
 
 if (!defined('POSTACTIV')) { exit(1); }
 
-class FeedDBException extends FeedSubException
-{
-    public $obj;
-
-    function __construct($obj)
-    {
-        parent::__construct('Database insert failure');
-        $this->obj = $obj;
-    }
-}
 
 // ============================================================================
 // Class: FeedSub
@@ -249,6 +239,56 @@ class FeedSub extends Managed_DataObject {
 
       return $feedsub;
     }
+    
+
+   // -------------------------------------------------------------------------
+   // Function: ensureHub
+   // ensureHub will only do $this->update if !empty($this->id) because
+   // otherwise the object has not been created yet.
+   //
+   // Parameters:
+   // o bool $autorenew - Whether to autorenew the feed after ensuring the hub URL
+   //
+   // Returns:
+   // o null - if actively avoiding the database
+   // o int  - number of rows updated in the database (0 means untouched)
+   //
+   // Error States:
+   // o throws ServerException if something went wrong when updating the database
+   // o throws FeedSubNoHubException if no hub URL was discovered
+   public function ensureHub($autorenew=false) {
+      if ($this->sub_state !== 'inactive') {
+         common_log(LOG_INFO, sprintf(__METHOD__ . ': Running hub discovery a possibly active feed in %s state for URI %s', _ve($this->sub_state), _ve($this->uri)));
+      }
+
+      $discover = new FeedDiscovery();
+      $discover->discoverFromFeedURL($this->uri);
+      $huburi = $discover->getHubLink();
+      if (empty($huburi)) {
+         // Will be caught and treated with if statements in regards to
+         // fallback hub and feed polling (nohub) configuration.
+         throw new FeedSubNoHubException();
+      }
+
+      // if we've already got a DB object stored, we want to UPDATE, not INSERT
+      $orig = !empty($this->id) ? clone($this) : null;
+      $old_huburi = $this->huburi;    // most likely null if we're INSERTing
+      $this->huburi = $huburi;
+      if (!empty($this->id)) {
+         common_debug(sprintf(__METHOD__ . ': Feed uri==%s huburi before=%s after=%s (identical==%s)', _ve($this->uri), _ve($old_huburi), _ve($this->huburi), _ve($old_huburi===$this->huburi)));
+         $result = $this->update($orig);
+         if ($result === false) {
+            // TODO: Get a DB exception class going...
+            common_debug('Database update failed for FeedSub id=='._ve($this->id).' with new huburi: '._ve($this->huburi));
+            throw new ServerException('Database update failed for FeedSub.');
+         }
+         if ($autorenew) {
+            $this->renew();
+         }
+         return $result;
+      }
+      return null;    // we haven't done anything with the database
+   }
 
 
    // -------------------------------------------------------------------------
@@ -389,6 +429,8 @@ class FeedSub extends Managed_DataObject {
    // Error States:
    // o throws Exception on failure, can be HTTPClient's or our own.
    protected function doSubscribe($mode) {
+      $msg = null;    // carries descriptive error message to enduser (no remote data strings!)
+
       $orig = clone($this);
       if ($mode == 'subscribe') {
             $this->secret = common_random_hexstr(32);
@@ -430,6 +472,12 @@ class FeedSub extends Managed_DataObject {
             return;
          } else if ($status >= 200 && $status < 300) {
             common_log(LOG_ERR, __METHOD__ . ": sub req returned unexpected HTTP $status: " . $response->getBody());
+            $msg = sprintf(_m("Unexpected HTTP status: %d"), $status);
+         } else if ($status == 422) {
+            // Error code regarding something wrong in the data (it seems
+            // that we're talking to a PuSH hub at least, so let's check
+            // our own data to be sure we're not mistaken somehow.
+            $this->ensureHub(true);
          } else {
             common_log(LOG_ERR, __METHOD__ . ": sub req failed with HTTP $status: " . $response->getBody());
          }
@@ -444,7 +492,7 @@ class FeedSub extends Managed_DataObject {
          // Throw the Exception again.
          throw $e;
       }
-      throw new ServerException("{$mode} request failed.");
+      throw new ServerException("{$mode} request failed" . (!is_null($msg) ? " ($msg)" : '.'));
    }
 
 
@@ -511,8 +559,9 @@ class FeedSub extends Managed_DataObject {
    // Returns:
    // o void
    public function receive($post, $hmac) {
+      Event::handle('StartFeedSubReceive', array($this, $feed));
+      
       common_log(LOG_INFO, sprintf(__METHOD__.': packet for %s with HMAC %s', _ve($this->getUri()), _ve($hmac)));
-
       if (!in_array($this->sub_state, array('active', 'nohub'))) {
          common_log(LOG_ERR, sprintf(__METHOD__.': ignoring PuSH for inactive feed %s (in state %s)', _ve($this->getUri()), _ve($this->sub_state)));
          return;
@@ -521,24 +570,26 @@ class FeedSub extends Managed_DataObject {
          common_log(LOG_ERR, __METHOD__ . ": ignoring empty post");
          return;
       }
-      if (!$this->validatePushSig($post, $hmac)) {
-         // Per spec we silently drop input with a bad sig,
-         // while reporting receipt to the server.
-         return;
+
+      try {
+         if (!$this->validatePushSig($post, $hmac)) {
+            // Per spec we silently drop input with a bad sig,
+            // while reporting receipt to the server.
+            return;
+         }
+         $this->receiveFeed($post);
+      } catch (FeedSubBadPushSignatureException $e) {
+         // We got a signature, so something could be wrong. Let's check to see if
+         // maybe upstream has switched to another hub. Let's fetch feed and then
+         // compare rel="hub" with $this->huburi
+         $old_huburi = $this->huburi;
+         $this->ensureHub();
+         common_debug(sprintf('Feed uri==%s huburi before=%s after=%s', _ve($this->uri), _ve($old_huburi), _ve($this->huburi)));
+         if ($old_huburi !== $this->huburi) {
+            // let's make sure that this new hub knows that we want to subscribe
+            $this->renew();
+         }
       }
-
-      $feed = new DOMDocument();
-      if (!$feed->loadXML($post)) {
-         // @fixme might help to include the err message
-         common_log(LOG_ERR, __METHOD__ . ": ignoring invalid XML");
-         return;
-      }
-
-      $orig = clone($this);
-      $this->last_update = common_sql_now();
-      $this->update($orig);
-
-      Event::handle('StartFeedSubReceive', array($this, $feed));
       Event::handle('EndFeedSubReceive', array($this, $feed));
    }
 
@@ -565,7 +616,6 @@ class FeedSub extends Managed_DataObject {
             $hash_algo  = strtolower($matches[1]);
             $their_hmac = strtolower($matches[2]);
             common_debug(sprintf(__METHOD__ . ': PuSH from feed %s uses HMAC algorithm %s with value: %s', _ve($this->getUri()), _ve($hash_algo), _ve($their_hmac)));
-
             if (!in_array($hash_algo, hash_algos())) {
                // We can't handle this at all, PHP doesn't recognize the algorithm name ('md5', 'sha1', 'sha256' etc: https://secure.php.net/manual/en/function.hash-algos.php)
                common_log(LOG_ERR, sprintf(__METHOD__.': HMAC algorithm %s unsupported, not found in PHP hash_algos()', _ve($hash_algo)));
@@ -575,12 +625,12 @@ class FeedSub extends Managed_DataObject {
                common_log(LOG_ERR, sprintf(__METHOD__.': Whitelist for HMAC algorithms exist, but %s is not included.', _ve($hash_algo)));
                return false;
             }
-
             $our_hmac = hash_hmac($hash_algo, $post, $this->secret);
-            if ($their_hmac === $our_hmac) {
-               return true;
+            if ($their_hmac !== $our_hmac) {
+               common_log(LOG_ERR, sprintf(__METHOD__.': ignoring PuSH with bad HMAC hash: got %s, expected %s for feed %s from hub %s', _ve($their_hmac), _ve($our_hmac), _ve($this->getUri()), _ve($this->huburi)));
+               throw new FeedSubBadPushSignatureException('Incoming PuSH signature did not match expected HMAC hash.');
             }
-            common_log(LOG_ERR, sprintf(__METHOD__.': ignoring PuSH with bad HMAC hash: got %s, expected %s for feed %s from hub %s', _ve($their_hmac), _ve($our_hmac), _ve($this->getUri()), _ve($this->huburi)));
+            return true;
          } else {
             common_log(LOG_ERR, sprintf(__METHOD__.': ignoring PuSH with bogus HMAC==', _ve($hmac)));
          }
