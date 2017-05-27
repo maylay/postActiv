@@ -1,10 +1,7 @@
 <?php
 /*
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
- * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
+ * StatusNet - the distributed open-source microblogging tool
+ * Copyright (C) 2008, 2009, StatusNet, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -18,8 +15,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.     If not, see <http://www.gnu.org/licenses/>.
- *
- * @license   https://www.gnu.org/licenses/agpl.html 
  */
 
 if (!defined('GNUSOCIAL')) { exit(1); }
@@ -129,11 +124,9 @@ class File_oembed extends Managed_DataObject
                     $file = File::getByUrl($given_url);
                     $file_oembed->mimetype = $file->mimetype;
                 } catch (NoResultException $e) {
-                    $redir = File_redirection::where($given_url);
-                    if (empty($redir->file_id)) {
-                        $f = $redir->getFile();
-                        $file_oembed->mimetype = $f->mimetype;
-                    } else {
+                    // File_redirection::where argument 'discover' is false to avoid loops
+                    $redir = File_redirection::where($given_url, false);
+                    if (!empty($redir->file_id)) {
                         $file_id = $redir->file_id;
                     }
                 }
