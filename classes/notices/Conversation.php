@@ -1,7 +1,8 @@
 <?php
+
 /* ============================================================================
- * Title: Conversation
- * Data class for Conversations
+ * Title: User
+ * Superclass for conversations as they are stored in the DB
  *
  * postActiv:
  * the micro-blogging software
@@ -30,72 +31,74 @@
  * <https://www.gnu.org/licenses/agpl.html>
  * ----------------------------------------------------------------------------
  * About:
- * Data class for Conversations
+ * Superclass for conversations as they are stored in the DB, with associated
+ * interfaces.
  *
  * PHP version:
  * Tested with PHP 7
  * ----------------------------------------------------------------------------
  * File Authors:
- * o Zach Copley
- * o Brion Vibber <brion@pobox.com>
- * o Siebrand Mazeland <s.mazeland@xs4all.nl>
- * o Evan Prodromou
- * o Mikael Nordfeldth <mmn@hethane.se>
- * o Roland Haeder <roland@mxchange.org>
- * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+- * o Zach Copley
+- * o Brion Vibber <brion@pobox.com>
+- * o Siebrand Mazeland <s.mazeland@xs4all.nl>
+- * o Evan Prodromou
+- * o Mikael Nordfeldth <mmn@hethane.se>
+- * o Roland Haeder <roland@mxchange.org>
+- * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  *
  * Web:
  *  o postActiv  <http://www.postactiv.com>
  *  o GNU social <https://www.gnu.org/s/social/>
  * ============================================================================
  */
- 
+
 // This file is formatted so that it provides useful documentation output in
 // NaturalDocs.  Please be considerate of this before changing formatting.
 
 if (!defined('POSTACTIV')) { exit(1); }
 
 
-// ----------------------------------------------------------------------------
-// Class: Conversation
-// Base superclass for Conversations
+// ============================================================================
+// Superclass representing a stored conversation which we use as the meta 
+// method for organizing notice replies.
 //
-// Variables:
-// o $__table  - table name ('conversation')
-// o $id       - int(4)  primary_key not_null auto_increment
-// o $uri      - varchar(191)  unique_key   not 255 because utf8mb4 takes more space
-// o $created  - datetime   not_null
-// o $modified - timestamp   not_null default_CURRENT_TIMESTAMP
-class Conversation extends Managed_DataObject
-{
-   public $__table = 'conversation';        // table name
-   public $id;                              // int(4)  primary_key not_null auto_increment
-   public $uri;                             // varchar(191)  unique_key   not 255 because utf8mb4 takes more space
-   public $created;                         // datetime   not_null
-   public $modified;                        // timestamp   not_null default_CURRENT_TIMESTAMP
+// Properties:
+// o __table = 'conversation' - table name
+// o id       - int(4)  primary_key not_null auto_increment
+// o uri      - varchar(191)  unique_key   not 255 because utf8mb4 takes more space
+// o url      - varchar(191)  unique_key   not 255 because utf8mb4 takes more space
+// o created  - datetime   not_null
+// o modified - timestamp   not_null default_CURRENT_TIMESTAMP
+class Conversation extends Managed_DataObject {
+   public $__table = 'conversation';
+   public $id;
+   public $uri;
+   public $url;
+   public $created;
+   public $modified;
 
 
    // -------------------------------------------------------------------------
    // Function: schemaDef
-   // Returns an array with the table schema definition
+   // Returns an array representing the schema that describes the conversation
+   // in the backend database.
    public static function schemaDef() {
       return array(
          'fields' => array(
             'id' => array('type' => 'serial', 'not null' => true, 'description' => 'Unique identifier, (again) unrelated to notice id since 2016-01-06'),
             'uri' => array('type' => 'varchar', 'not null'=>true, 'length' => 191, 'description' => 'URI of the conversation'),
+            'url' => array('type' => 'varchar', 'length' => 191, 'description' => 'Resolvable URL, preferrably remote (local can be generated on the fly)'),
             'created' => array('type' => 'datetime', 'not null' => true, 'description' => 'date this record was created'),
-            'modified' => array('type' => 'timestamp', 'not null' => true, 'description' => 'date this record was modified')),
+            'modified' => array('type' => 'timestamp', 'not null' => true, 'description' => 'date this record was modified'),),
          'primary key' => array('id'),
-         'unique keys' => array(
-            'conversation_uri_key' => array('uri')));
+         'unique keys' => array('conversation_uri_key' => array('uri'),),);
    }
 
 
    // -------------------------------------------------------------------------
    // Function: beforeSchemaUpdate
-   // Cleanup to do prior to database schema checks.
-   static public function beforeSchemaUpdate()
-   {
+   // Integrity checks before we
+   static public function beforeSchemaUpdate() {
       $table = strtolower(get_called_class());
       $schema = Schema::get();
       $schemadef = $schema->getTableDef($table);
@@ -118,7 +121,7 @@ class Conversation extends Managed_DataObject
             $conv->delete();
          }
       }
-   }
+    }
 
 
    // -------------------------------------------------------------------------
@@ -129,15 +132,21 @@ class Conversation extends Managed_DataObject
    // preferrably supply their own conversation URIs in the OStatus feed.
    //
    // Returns:
-   // o Conversation $conv - the new conversation DO
-   static function create($uri=null, $created=null) {
+   // o the created Conversation object
+   static function create(ActivityContext $ctx=null, $created=null) {
       // Be aware that the Notice does not have an id yet since it's not inserted!
       $conv = new Conversation();
       $conv->created = $created ?: common_sql_now();
-      $conv->uri = $uri ?: sprintf('%s%s=%s:%s=%s',
-                           TagURI::mint(),
-                           'objectType', 'thread',
-                           'nonce', common_random_hexstr(8));
+      if ($ctx instanceof ActivityContext) {
+            $conv->uri = $ctx->conversation;
+            $conv->url = $ctx->conversation_url;
+      } else {
+            $conv->uri = sprintf('%s%s=%s:%s=%s',
+                             TagURI::mint(),
+                             'objectType', 'thread',
+                             'nonce', common_random_hexstr(8));
+            $conv->url = null;  // locally generated Conversation objects don't get static URLs stored
+      }
       // This insert throws exceptions on failure
       $conv->insert();
       return $conv;
@@ -146,17 +155,14 @@ class Conversation extends Managed_DataObject
 
    // -------------------------------------------------------------------------
    // Function: noticeCount
-   // How many notices are in this conversation?
-   //
-   // Returns:
-   // o integer $cnt
-   static function noticeCount($id)
-   {
+   // Returns the number of notices in this conversation.
+   static function noticeCount($id) {
       $keypart = sprintf('conversation:notice_count:%d', $id);
       $cnt = self::cacheGet($keypart);
       if ($cnt !== false) {
          return $cnt;
       }
+
       $notice               = new Notice();
       $notice->conversation = $id;
       $notice->whereAddIn('verb', array(ActivityVerb::POST, ActivityUtils::resolveUri(ActivityVerb::POST, true)), $notice->columnType('verb'));
@@ -168,14 +174,8 @@ class Conversation extends Managed_DataObject
 
    // -------------------------------------------------------------------------
    // Function: getUrlFromNotice
-   // Get the URL of the specified notice in the conversation.
-   //
-   // Parameters:
-   // o Notice $notice
-   // o boolean $anchor (default TRUE)
-   //
-   // Returns:
-   // o Url of Notice
+   // Retrieves a the conversation for a given notice, and then returns the
+   // URL for the associated conversation.
    static public function getUrlFromNotice(Notice $notice, $anchor=true) {
       $conv = Conversation::getByID($notice->conversation);
       return $conv->getUrl($anchor ? $notice->getID() : null);
@@ -184,45 +184,27 @@ class Conversation extends Managed_DataObject
 
    // -------------------------------------------------------------------------
    // Function: getUri
-   // Get the URI of the conversation
-   //
-   // Returns:
-   // o string $uri
+   // Returns the URI of the conversation.
    public function getUri() {
       return $this->uri;
    }
 
-
    // -------------------------------------------------------------------------
    // Function: getUrl
-   // Get the URL of the conversation
-   //
-   // Parameters:
-   // o integer noticeId (default NULL)
-   //
-   // Returns:
-   // o string $url - the URL location of this conversation
+   // Returns the URL of the conversation.
    public function getUrl($noticeId=null) {
       // FIXME: the URL router should take notice-id as an argument...
       return common_local_url('conversation', array('id' => $this->getID())) .
          ($noticeId===null ? '' : "#notice-{$noticeId}");
    }
 
-   
+
    // -------------------------------------------------------------------------
    // Function: getNotices
-   // Retrieve the notices of the conversation.
+   // Returns a stream containing the notices associated with this
+   // conversation.
    //
-   // FIXME: 
-   // ...will 500 ever be too low? Taken from ConversationAction::MAX_NOTICES
-   //
-   // Parameters:
-   // o Profile $scoped (default NULL)
-   // o integer $offset (default 0)
-   // o integer $limit (default 500)
-   //
-   // Returns:
-   // o array of Notice objects
+   // FIXME: ...will 500 ever be too low? Taken from ConversationAction::MAX_NOTICES
    public function getNotices(Profile $scoped=null, $offset=0, $limit=500) {
       $stream = new ConversationNoticeStream($this->getID(), $scoped);
       $notices = $stream->getNotices($offset, $limit);
@@ -231,11 +213,8 @@ class Conversation extends Managed_DataObject
 
 
    // -------------------------------------------------------------------------
-   // Function:
-   // Insert a new conversation record into the database
-   //
-   // Error States:
-   // o raises a ServerException if inserting the record fails
+   // Function: insert
+   // Save the conversation entry into the database.
    public function insert() {
       $result = parent::insert();
       if ($result === false) {
