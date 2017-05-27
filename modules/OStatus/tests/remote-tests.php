@@ -1,7 +1,4 @@
 <?php
-/****
- * @license   https://www.gnu.org/licenses/agpl.html
- */
 
 if (php_sapi_name() != 'cli') {
     die('not for web');
@@ -145,7 +142,7 @@ class OStatusTester extends TestBase
         $this->assertTrue($this->pub->hasSubscriber($this->sub->getProfileUri()));
 
         $name = $this->sub->username;
-        $post = $this->pub->post("Regular post, which $name should get via PuSH");
+        $post = $this->pub->post("Regular post, which $name should get via WebSub");
         $this->sub->assertReceived($post);
     }
 
@@ -381,11 +378,6 @@ class SNTestClient extends TestBase
                   'fullname' => $this->fullname,
                   'homepage' => $this->homepage,
                   'bio' => $this->bio,
-                  'xmpp' => $this->xmpp,
-                  'gpgpubkey' => $this->gpgpubkey,
-                  'toxid' => $this->toxid,
-                  'matrix' => $this->matrix,
-                  'donateurl' => $this->donateurl,
                   'license' => 1,
                   'submit' => 'Register'));
     }
