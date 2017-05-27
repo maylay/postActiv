@@ -1,11 +1,5 @@
 <?php
 /**
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
- * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
- *
  * Abstract class for LRDD discovery methods
  *
  * Objects that extend this class can retrieve an array of
@@ -16,7 +10,7 @@
  * @package   StatusNet
  * @author    James Walker <james@status.net>
  * @copyright 2010 StatusNet, Inc.
- * @license   https://www.gnu.org/licenses/agpl.html
+ * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
  * @link      http://status.net/
  */
 abstract class LRDDMethod
@@ -38,6 +32,9 @@ abstract class LRDDMethod
 
     protected function fetchUrl($url, $method=HTTPClient::METHOD_GET)
     {
+        // If we have a blacklist enabled, let's check against it
+        Event::handle('UrlBlacklistTest', array($url));
+
         $client  = new HTTPClient();
 
         // GAAHHH, this method sucks! How about we make a better HTTPClient interface?
