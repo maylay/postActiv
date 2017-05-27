@@ -1,7 +1,7 @@
 <?php
 /* ============================================================================
  * Title: HubSub
- * Class representation of a PuSH hub subscription
+ * Class representation of a WebSub hub subscription
  *
  * postActiv:
  * the micro-blogging software
@@ -30,13 +30,11 @@
  * <https://www.gnu.org/licenses/agpl.html>
  * ----------------------------------------------------------------------------
  * About:
- * Class representation of a PuSH hub subscription
+ * HubSub handles low-level WebSub (formerly PubHubSubbub aka PuSH) 
+ * subscriptions.  Higher-level behavior building OStatus stuff on top is 
+ * handled under Ostatus_profile.
  *
- * HubSub handles low-level PubHubSubbub (PuSH) subscriptions.
- * Higher-level behavior building OStatus stuff on top is handled
- * under Ostatus_profile.
- *
- * PuSH subscription flow:
+ * WebSub (formerly PuSH) subscription flow:
  *
  *     $profile->subscribe()
  *         sends a sub request to the hub...
@@ -73,7 +71,7 @@ if (!defined('POSTACTIV')) { exit(1); }
 
 // ============================================================================
 // Class: HubSub
-// PuSH feed subscription record
+// WebSub feed subscription record
 //
 // Variables:
 // o hashkey   - sha1(topic . '|' . $callback); (topic, callback) key is too long for myisam in utf8
@@ -157,7 +155,7 @@ class HubSub extends Managed_DataObject {
    // Parameters:
    // o int $length - length of lease in seconds
    function setLease($length) {
-      common_debug('PuSH hub got requested lease_seconds=='._ve($length));
+      common_debug('WebSub hub got requested lease_seconds=='._ve($length));
       assert(is_int($length));
       $min = 86400;   // 3600*24 (one day)
       $max = 86400 * 30;
@@ -171,7 +169,7 @@ class HubSub extends Managed_DataObject {
          $length = $max;
       }
 
-      common_debug('PuSH hub after sanitation: lease_seconds=='._ve($length));
+      common_debug('WebSub hub after sanitation: lease_seconds=='._ve($length));
       $this->sub_start = common_sql_now();
       $this->sub_end = common_sql_date(time() + $length);
    }
@@ -349,7 +347,7 @@ class HubSub extends Managed_DataObject {
       $data = array('sub' => $sub,
                     'atom' => $atom,
                     'retries' => $retries);
-      common_log(LOG_INFO, "Queuing PuSH: {$this->getTopic()} to {$this->callback}");
+      common_log(LOG_INFO, "Queuing WebSub: {$this->getTopic()} to {$this->callback}");
       $qm = QueueManager::get();
       $qm->enqueue($data, 'hubout');
    }
@@ -376,7 +374,7 @@ class HubSub extends Managed_DataObject {
       $data = array('atom' => $atom,
                     'topic' => $this->getTopic(),
                     'pushCallbacks' => $pushCallbacks);
-      common_log(LOG_INFO, "Queuing PuSH batch: {$this->getTopic()} to ".count($pushCallbacks)." sites");
+      common_log(LOG_INFO, "Queuing WebSub batch: {$this->getTopic()} to ".count($pushCallbacks)." sites");
       $qm = QueueManager::get();
       $qm->enqueue($data, 'hubprep');
       return true;
@@ -416,7 +414,7 @@ class HubSub extends Managed_DataObject {
          }
       } catch (Exception $e) {
           $response = null;
-          common_debug('PuSH callback to '._ve($this->callback).' for '._ve($this->getTopic()).' failed with exception: '._ve($e->getMessage()));
+          common_debug('WebSub callback to '._ve($this->callback).' for '._ve($this->getTopic()).' failed with exception: '._ve($e->getMessage()));
       }
 
       // XXX: DO NOT trust a Location header here, _especially_ from 'http' protocols,
@@ -436,7 +434,7 @@ class HubSub extends Managed_DataObject {
             throw new AlreadyFulfilledException('The remote side has already established an HTTPS callback, deleting the legacy HTTP entry.');
          }
 
-         common_debug('PuSH callback to '._ve($this->callback).' for '._ve($this->getTopic()).' trying HTTPS callback: '._ve($httpscallback));
+         common_debug('WebSub callback to '._ve($this->callback).' for '._ve($this->getTopic()).' trying HTTPS callback: '._ve($httpscallback));
          $response = $request->post($httpscallback, $headers);
 
          if ($response->isOk()) {
