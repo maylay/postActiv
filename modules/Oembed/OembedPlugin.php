@@ -648,4 +648,7 @@ class OembedPlugin extends Plugin
       return true;
    }
 }
+
+// END OF FILE
+// ============================================================================
 ?>
