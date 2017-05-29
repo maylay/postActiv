@@ -15,7 +15,7 @@
  * Tested with PHP 7
  * ----------------------------------------------------------------------------
  * File Authors:
- * o Brion Vibber <brion@status.net>
+ * o Brion Vibber <brion@pobox.com>
  * o Evan Prodromou
  * o Zach Copley
  * o Mikael Nordfeldth <mmn@hethane.se>

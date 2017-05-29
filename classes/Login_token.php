@@ -55,64 +55,71 @@ if (!defined('POSTACTIV')) { exit(1); }
 
 require_once INSTALLDIR.'/classes/Memcached_DataObject.php';
 
-class Login_token extends Managed_DataObject
-{
-    ###START_AUTOCODE
-    /* the code below is auto generated do not remove the above tag */
+// ============================================================================
+// Class: Login_token
+// Superclass representing a login token in the database, with the related
+// interfaces.
+//
+// Constants:
+// o TIMEOUT = 120; - seconds after which to timeout the token
+//
+// Properties:
+// o __table = 'login_token' - table name
+// o user_id    - int(4)  primary_key not_null
+// o token      - char(32)  not_null
+// o created    - datetime()   not_null
+// o modified   - timestamp()   not_null default_CURRENT_TIMESTAMP
+class Login_token extends Managed_DataObject {
+   const TIMEOUT = 120; // seconds after which to timeout the token
 
-    public $__table = 'login_token';         // table name
-    public $user_id;                         // int(4)  primary_key not_null
-    public $token;                           // char(32)  not_null
-    public $created;                         // datetime()   not_null
-    public $modified;                        // timestamp()   not_null default_CURRENT_TIMESTAMP
+   public $__table = 'login_token';         // table name
+   public $user_id;                         // int(4)  primary_key not_null
+   public $token;                           // char(32)  not_null
+   public $created;                         // datetime()   not_null
+   public $modified;                        // timestamp()   not_null default_CURRENT_TIMESTAMP
 
-    /* the code above is auto generated do not remove the tag below */
-    ###END_AUTOCODE
 
-    public static function schemaDef()
-    {
-        return array(
-            'fields' => array(
-                'user_id' => array('type' => 'int', 'not null' => true, 'description' => 'user owning this token'),
-                'token' => array('type' => 'char', 'length' => 32, 'not null' => true, 'description' => 'token useable for logging in'),
-                'created' => array('type' => 'datetime', 'not null' => true, 'description' => 'date this record was created'),
-                'modified' => array('type' => 'timestamp', 'not null' => true, 'description' => 'date this record was modified'),
-            ),
-            'primary key' => array('user_id'),
-            'foreign keys' => array(
-                'login_token_user_id_fkey' => array('user', array('user_id' => 'id')),
-            ),
-        );
+   // -------------------------------------------------------------------------
+   // Function: schemaDef
+   // Returns an associative array containing a description of how the login 
+   // token is stored in the backend database.
+   public static function schemaDef() {
+      return array(
+         'fields' => array(
+            'user_id' => array('type' => 'int', 'not null' => true, 'description' => 'user owning this token'),
+            'token' => array('type' => 'char', 'length' => 32, 'not null' => true, 'description' => 'token useable for logging in'),
+            'created' => array('type' => 'datetime', 'not null' => true, 'description' => 'date this record was created'),
+            'modified' => array('type' => 'timestamp', 'not null' => true, 'description' => 'date this record was modified'),),
+         'primary key' => array('user_id'),
+         'foreign keys' => array('login_token_user_id_fkey' => array('user', array('user_id' => 'id')),),);
     }
 
-    const TIMEOUT = 120; // seconds after which to timeout the token
 
-    function makeNew($user)
-    {
-        $login_token = Login_token::getKV('user_id', $user->id);
+   // -------------------------------------------------------------------------
+   // Function: makeNew
+   // Construct a new login token for User $user.
+   //
+   // Returns:
+   // o constructed Login_token
+   function makeNew($user) {
+      $login_token = Login_token::getKV('user_id', $user->id);
+      if (!empty($login_token)) {
+         $login_token->delete();
+      }
 
-        if (!empty($login_token)) {
-            $login_token->delete();
-        }
-
-        $login_token = new Login_token();
-
-        $login_token->user_id = $user->id;
-        $login_token->token   = common_random_hexstr(16);
-        $login_token->created = common_sql_now();
-
-        $result = $login_token->insert();
-
-        if (!$result) {
-            common_log_db_error($login_token, 'INSERT', __FILE__);
-            // TRANS: Exception thrown when trying creating a login token failed.
-            // TRANS: %s is the user nickname for which token creation failed.
-            throw new Exception(sprintf(_('Could not create login token for %s'),
-                                                 $user->nickname));
-        }
-
-        return $login_token;
-    }
+      $login_token = new Login_token();
+      $login_token->user_id = $user->id;
+      $login_token->token   = common_random_hexstr(16);
+      $login_token->created = common_sql_now();
+      $result = $login_token->insert();
+      if (!$result) {
+         common_log_db_error($login_token, 'INSERT', __FILE__);
+         // TRANS: Exception thrown when trying creating a login token failed.
+         // TRANS: %s is the user nickname for which token creation failed.
+         throw new Exception(sprintf(_('Could not create login token for %s'), $user->nickname));
+      }
+      return $login_token;
+   }
 }
 
 // END OF FILE
