@@ -1,6 +1,6 @@
 <?php
 /* ============================================================================
- * Title: Username
+ * Title: User_username
  * Class to hold information about a username
  *
  * postActiv:

@@ -1,6 +1,6 @@
 <?php
 /* ============================================================================
- * Title: User IM Preferences
+ * Title: User_im_prefs
  * Class to hold a user's instant messaging preferences
  *
  * postActiv:
