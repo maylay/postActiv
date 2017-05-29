@@ -559,8 +559,6 @@ class FeedSub extends Managed_DataObject {
    // Returns:
    // o void
    public function receive($post, $hmac) {
-      Event::handle('StartFeedSubReceive', array($this, $post));
-      
       common_log(LOG_INFO, sprintf(__METHOD__.': packet for %s with HMAC %s', _ve($this->getUri()), _ve($hmac)));
       if (!in_array($this->sub_state, array('active', 'nohub'))) {
          common_log(LOG_ERR, sprintf(__METHOD__.': ignoring PuSH for inactive feed %s (in state %s)', _ve($this->getUri()), _ve($this->sub_state)));
@@ -590,7 +588,6 @@ class FeedSub extends Managed_DataObject {
             $this->renew();
          }
       }
-      Event::handle('EndFeedSubReceive', array($this, $post));
    }
 
 
