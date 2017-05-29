@@ -57,39 +57,49 @@ if (!defined('POSTACTIV')) { exit(1); }
 
 require_once INSTALLDIR.'/classes/Memcached_DataObject.php';
 
-class Profile_block extends Managed_DataObject
-{
-    ###START_AUTOCODE
-    /* the code below is auto generated do not remove the above tag */
 
-    public $__table = 'profile_block';                   // table name
-    public $blocker;                         // int(4)  primary_key not_null
-    public $blocked;                         // int(4)  primary_key not_null
-    public $modified;                        // timestamp()   not_null default_CURRENT_TIMESTAMP
+// ============================================================================
+// Class: Profile_block
+// Superclass representing how a block is saved in the backend database, and
+// related interfaces.
+//
+// Properties:
+// o __table = 'profile_block' - table name
+// o blocker  - int(4)  primary_key not_null
+// o blocked  - int(4)  primary_key not_null
+// o modified - timestamp()   not_null default_CURRENT_TIMESTAMP
+class Profile_block extends Managed_DataObject {
+   public $__table = 'profile_block';                   // table name
+   public $blocker;                         // int(4)  primary_key not_null
+   public $blocked;                         // int(4)  primary_key not_null
+   public $modified;                        // timestamp()   not_null default_CURRENT_TIMESTAMP
 
-    /* the code above is auto generated do not remove the tag below */
-    ###END_AUTOCODE
 
-    public static function schemaDef()
-    {
-        return array(
-            'fields' => array(
-                'blocker' => array('type' => 'int', 'not null' => true, 'description' => 'user making the block'),
-                'blocked' => array('type' => 'int', 'not null' => true, 'description' => 'profile that is blocked'),
-                'modified' => array('type' => 'timestamp', 'not null' => true, 'description' => 'date of blocking'),
-            ),
-            'foreign keys' => array(
-                'profile_block_blocker_fkey' => array('user', array('blocker' => 'id')),
-                'profile_block_blocked_fkey' => array('profile', array('blocked' => 'id')),
-            ),
-            'primary key' => array('blocker', 'blocked'),
-        );
-    }
+   // -------------------------------------------------------------------------
+   // Function: schemaDef
+   // Returns an associative array representing how the block is stored in the
+   // backend database.
+   public static function schemaDef() {
+      return array(
+         'fields' => array(
+            'blocker' => array('type' => 'int', 'not null' => true, 'description' => 'user making the block'),
+            'blocked' => array('type' => 'int', 'not null' => true, 'description' => 'profile that is blocked'),
+            'modified' => array('type' => 'timestamp', 'not null' => true, 'description' => 'date of blocking'),),
+         'foreign keys' => array(
+            'profile_block_blocker_fkey' => array('user', array('blocker' => 'id')),
+            'profile_block_blocked_fkey' => array('profile', array('blocked' => 'id')),),
+         'primary key' => array('blocker', 'blocked'),);
+   }
 
-    static function exists(Profile $blocker, Profile $blocked)
-    {
-        return Profile_block::pkeyGet(array('blocker' => $blocker->id,
-                                            'blocked' => $blocked->id));
-    }
+   // -------------------------------------------------------------------------
+   // Function: exists
+   // Returns true/false whether $blocker has a block record on file for
+   // $blocked.
+   static function exists(Profile $blocker, Profile $blocked) {
+      return Profile_block::pkeyGet(array('blocker' => $blocker->id, 'blocked' => $blocked->id));
+   }
 }
+
+// END OF FILE
+// ============================================================================
 ?>
