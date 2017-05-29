@@ -559,7 +559,7 @@ class FeedSub extends Managed_DataObject {
    // Returns:
    // o void
    public function receive($post, $hmac) {
-      Event::handle('StartFeedSubReceive', array($this, $feed));
+      Event::handle('StartFeedSubReceive', array($this, $post));
       
       common_log(LOG_INFO, sprintf(__METHOD__.': packet for %s with HMAC %s', _ve($this->getUri()), _ve($hmac)));
       if (!in_array($this->sub_state, array('active', 'nohub'))) {
@@ -590,7 +590,7 @@ class FeedSub extends Managed_DataObject {
             $this->renew();
          }
       }
-      Event::handle('EndFeedSubReceive', array($this, $feed));
+      Event::handle('EndFeedSubReceive', array($this, $post));
    }
 
 
