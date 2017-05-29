@@ -32,6 +32,9 @@
  * About:
  * Table Definition for location_namespace
  *
+ * I'm not entirely sure we need this, it seems extraneous and probably a 
+ * candidate for removal to reduce complexity of the code. - mb
+ *
  * PHP version:
  * Tested with PHP 7
  * ----------------------------------------------------------------------------
@@ -53,32 +56,39 @@ if (!defined('POSTACTIV')) { exit(1); }
 
 require_once INSTALLDIR.'/classes/Memcached_DataObject.php';
 
-class Location_namespace extends Managed_DataObject
-{
-    ###START_AUTOCODE
-    /* the code below is auto generated do not remove the above tag */
 
-    public $__table = 'location_namespace';              // table name
-    public $id;                              // int(4)  primary_key not_null
-    public $description;                     // varchar(191)
-    public $created;                         // datetime()   not_null
-    public $modified;                        // timestamp()   not_null default_CURRENT_TIMESTAMP
+// ============================================================================
+// Function: Location_namespace
+// Superclass holding the representation of a location namespace form the 
+// database.
+//
+// Properties:
+// o __table = 'location_namespace' - table name
+// o id          - int(4)  primary_key not_null
+// o description - varchar(191)
+// o created     - datetime()   not_null
+// o modified    - timestamp()   not_null default_CURRENT_TIMESTAMP
+class Location_namespace extends Managed_DataObject {
+   public $__table = 'location_namespace';
+   public $id;
+   public $description;
+   public $created;
+   public $modified;
 
-    /* the code above is auto generated do not remove the tag below */
-    ###END_AUTOCODE
 
-    public static function schemaDef()
-    {
-        return array(
-            'fields' => array(
-                'id' => array('type' => 'int', 'not null' => true, 'description' => 'identity for this namespace'),
-                'description' => array('type' => 'varchar', 'length' => 191, 'description' => 'description of the namespace'),
-                'created' => array('type' => 'datetime', 'not null' => true, 'description' => 'date the record was created'),
-                'modified' => array('type' => 'timestamp', 'not null' => true, 'description' => 'date this record was modified'),
-            ),
-            'primary key' => array('id'),
-        );
-    }
+   // -------------------------------------------------------------------------
+   // Function: schemaDef
+   // Returns an array representing how schemaDef is stored in the backend 
+   // database.
+   public static function schemaDef() {
+      return array(
+         'fields' => array(
+            'id' => array('type' => 'int', 'not null' => true, 'description' => 'identity for this namespace'),
+            'description' => array('type' => 'varchar', 'length' => 191, 'description' => 'description of the namespace'),
+            'created' => array('type' => 'datetime', 'not null' => true, 'description' => 'date the record was created'),
+            'modified' => array('type' => 'timestamp', 'not null' => true, 'description' => 'date this record was modified'),),
+         'primary key' => array('id'),);
+   }
 }
 
 // END OF FILE
