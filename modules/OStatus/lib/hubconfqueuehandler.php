@@ -1,10 +1,7 @@
 <?php
 /*
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
- * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
+ * StatusNet - the distributed open-source microblogging tool
+ * Copyright (C) 2010, StatusNet, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -18,14 +15,14 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @license   https://www.gnu.org/licenses/agpl.html
  */
 
-if (!defined('POSTACTIV')) { exit(1); }
+if (!defined('STATUSNET')) {
+    exit(1);
+}
 
 /**
- * Send a PuSH subscription verification from our internal hub.
+ * Send a WebSub subscription verification from our internal hub.
  * @package Hub
  * @author Brion Vibber <brion@status.net>
  */
@@ -49,7 +46,7 @@ class HubConfQueueHandler extends QueueHandler
         try {
             $sub->verify($mode, $token);
         } catch (Exception $e) {
-            common_log(LOG_ERR, "Failed PuSH $mode verify to $sub->callback for $sub->topic: " .
+            common_log(LOG_ERR, "Failed WebSub $mode verify to $sub->callback for $sub->topic: " .
                                 $e->getMessage());
             // @fixme schedule retry?
             // @fixme just kill it?

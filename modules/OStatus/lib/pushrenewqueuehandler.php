@@ -1,11 +1,5 @@
 <?php
 /*
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
- * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -18,11 +12,11 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @license   https://www.gnu.org/licenses/agpl.html 
  */
 
-if (!defined('POSTACTIV')) { exit(1); }
+if (!defined('STATUSNET')) {
+    exit(1);
+}
 
 /**
  * Renew an expiring feedsub
@@ -45,7 +39,7 @@ class PushRenewQueueHandler extends QueueHandler
                 common_log(LOG_INFO, "Renewing feed subscription\n\tExp.: {$feedsub->sub_end}\n\tFeed: {$feedsub->uri}\n\tHub:  {$feedsub->huburi}");
                 $feedsub->renew();
             } catch(Exception $e) {
-                common_log(LOG_ERR, "Exception during PuSH renew processing for $feedsub->uri: " . $e->getMessage());
+                common_log(LOG_ERR, "Exception during WebSub renew processing for $feedsub->uri: " . $e->getMessage());
             }
         } else {
             common_log(LOG_ERR, "Discarding renew for unknown feed subscription id $feedsub_id");

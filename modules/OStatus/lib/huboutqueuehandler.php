@@ -1,10 +1,7 @@
 <?php
 /*
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
- * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
+ * StatusNet - the distributed open-source microblogging tool
+ * Copyright (C) 2010, StatusNet, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -18,14 +15,14 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @license   https://www.gnu.org/licenses/agpl.html
  */
 
-if (!defined('POSTACTIV')) { exit(1); }
+if (!defined('STATUSNET')) {
+    exit(1);
+}
 
 /**
- * Send a raw PuSH atom update from our internal hub.
+ * Send a raw WebSub push atom update from our internal hub.
  * @package Hub
  * @author Brion Vibber <brion@status.net>
  */
@@ -48,10 +45,10 @@ class HubOutQueueHandler extends QueueHandler
         try {
             $sub->push($atom);
         } catch (AlreadyFulfilledException $e) {
-            common_log(LOG_INFO, "Failed PuSH to $sub->callback for $sub->topic (".get_class($e)."): " . $e->getMessage());
+            common_log(LOG_INFO, "Failed WebSub push to $sub->callback for $sub->topic (".get_class($e)."): " . $e->getMessage());
         } catch (Exception $e) {
             $retries--;
-            $msg = "Failed PuSH to $sub->callback for $sub->topic (".get_class($e)."): " . $e->getMessage();
+            $msg = "Failed WebSub push to $sub->callback for $sub->topic (".get_class($e)."): " . $e->getMessage();
             if ($retries > 0) {
                 common_log(LOG_INFO, "$msg; scheduling for $retries more tries");
 

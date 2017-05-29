@@ -1,10 +1,7 @@
 <?php
 /*
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
- * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
+ * StatusNet - the distributed open-source microblogging tool
+ * Copyright (C) 2010, StatusNet, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -18,14 +15,14 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @license   https://www.gnu.org/licenses/agpl.html
  */
 
-if (!defined('POSTACTIV')) { exit(1); }
+if (!defined('STATUSNET')) {
+    exit(1);
+}
 
 /**
- * When we have a large batch of PuSH consumers, we break the data set
+ * When we have a large batch of WebSub consumers, we break the data set
  * into smaller chunks. Enqueue final destinations...
  *
  * @package Hub
@@ -70,14 +67,14 @@ class HubPrepQueueHandler extends QueueHandler
                 $callback = array_shift($pushCallbacks);
                 $sub = HubSub::getByHashkey($topic, $callback);
                 if (!$sub) {
-                    common_log(LOG_ERR, "Skipping PuSH delivery for deleted(?) consumer $callback on $topic");
+                    common_log(LOG_ERR, "Skipping WebSub delivery for deleted(?) consumer $callback on $topic");
                     continue;
                 }
 
                 $sub->distribute($atom);
             }
         } catch (Exception $e) {
-            common_log(LOG_ERR, "Exception during PuSH batch out: " .
+            common_log(LOG_ERR, "Exception during WebSub batch out: " .
                                 $e->getMessage() .
                                 " prepping $topic to $callback");
         }

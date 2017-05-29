@@ -1,10 +1,7 @@
 <?php
 /*
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
- * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
+ * StatusNet - the distributed open-source microblogging tool
+ * Copyright (C) 2010, StatusNet, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -18,14 +15,14 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @license   https://www.gnu.org/licenses/agpl.html 
  */
 
-if (!defined('POSTACTIV')) { exit(1); }
+if (!defined('STATUSNET')) {
+    exit(1);
+}
 
 /**
- * Prepare PuSH and Salmon distributions for an outgoing message.
+ * Prepare WebSub and Salmon distributions for an outgoing message.
  *
  * @package OStatusPlugin
  * @author Brion Vibber <brion@status.net>
@@ -33,7 +30,7 @@ if (!defined('POSTACTIV')) { exit(1); }
 class OStatusQueueHandler extends QueueHandler
 {
     // If we have more than this many subscribing sites on a single feed,
-    // break up the PuSH distribution into smaller batches which will be
+    // break up the WebSub distribution into smaller batches which will be
     // rolled into the queue progressively. This reduces disruption to
     // other, shorter activities being enqueued while we work.
     const MAX_UNBATCHED = 50;
@@ -135,7 +132,7 @@ class OStatusQueueHandler extends QueueHandler
     {
         if ($this->user) {
             common_debug("OSTATUS [{$this->notice->getID()}]: pushing feed for local user {$this->user->getID()}");
-            // For local posts, ping the PuSH hub to update their feed.
+            // For local posts, ping the WebSub hub to update their feed.
             // http://identi.ca/api/statuses/user_timeline/1.atom
             $feed = common_local_url('ApiTimelineUser',
                                      array('id' => $this->user->id,
@@ -147,7 +144,7 @@ class OStatusQueueHandler extends QueueHandler
     function pushGroup(User_group $group)
     {
         common_debug("OSTATUS [{$this->notice->getID()}]: pushing group '{$group->getNickname()}' profile_id={$group->profile_id}");
-        // For a local group, ping the PuSH hub to update its feed.
+        // For a local group, ping the WebSub hub to update its feed.
         // Updates may come from either a local or a remote user.
         $feed = common_local_url('ApiTimelineGroup',
                                  array('id' => $group->getID(),
@@ -158,7 +155,7 @@ class OStatusQueueHandler extends QueueHandler
     function pushPeopletag($ptag)
     {
         common_debug("OSTATUS [{$this->notice->getID()}]: pushing peopletag '{$ptag->id}'");
-        // For a local people tag, ping the PuSH hub to update its feed.
+        // For a local people tag, ping the WebSub hub to update its feed.
         // Updates may come from either a local or a remote user.
         $feed = common_local_url('ApiTimelineList',
                                  array('id' => $ptag->id,
@@ -224,7 +221,7 @@ class OStatusQueueHandler extends QueueHandler
             $atom = call_user_func_array($callback, $args);
             $this->pushFeedInternal($atom, $sub);
         } else {
-            common_log(LOG_INFO, "OSTATUS [{$this->notice->getID()}]: No PuSH subscribers for $feed");
+            common_log(LOG_INFO, "OSTATUS [{$this->notice->getID()}]: No WebSub subscribers for $feed");
         }
     }
 
@@ -234,7 +231,7 @@ class OStatusQueueHandler extends QueueHandler
      * Not guaranteed safe in an environment with database replication.
      *
      * @param string $feed feed topic URI
-     * @param string $hub PuSH hub URI
+     * @param string $hub WebSub hub URI
      * @fixme can consolidate pings for user & group posts
      */
     function pushFeedExternal($feed, $hub)
@@ -245,15 +242,15 @@ class OStatusQueueHandler extends QueueHandler
                           'hub.url' => $feed);
             $response = $client->post($hub, array(), $data);
             if ($response->getStatus() == 204) {
-                common_log(LOG_INFO, "PuSH ping to hub $hub for $feed ok");
+                common_log(LOG_INFO, "WebSub ping to hub $hub for $feed ok");
                 return true;
             } else {
-                common_log(LOG_ERR, "PuSH ping to hub $hub for $feed failed with HTTP " .
+                common_log(LOG_ERR, "WebSub ping to hub $hub for $feed failed with HTTP " .
                                     $response->getStatus() . ': ' .
                                     $response->getBody());
             }
         } catch (Exception $e) {
-            common_log(LOG_ERR, "PuSH ping to hub $hub for $feed failed: " . $e->getMessage());
+            common_log(LOG_ERR, "WebSub ping to hub $hub for $feed failed: " . $e->getMessage());
             return false;
         }
     }
@@ -268,7 +265,7 @@ class OStatusQueueHandler extends QueueHandler
      */
     function pushFeedInternal($atom, $sub)
     {
-        common_log(LOG_INFO, "Preparing $sub->N PuSH distribution(s) for $sub->topic");
+        common_log(LOG_INFO, "Preparing $sub->N WebSub distribution(s) for $sub->topic");
         $n = 0;
         $batch = array();
         while ($sub->fetch()) {

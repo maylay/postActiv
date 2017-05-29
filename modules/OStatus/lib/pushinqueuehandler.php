@@ -1,10 +1,7 @@
 <?php
 /*
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
- * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
+ * StatusNet - the distributed open-source microblogging tool
+ * Copyright (C) 2010, StatusNet, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -18,14 +15,12 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @license   https://www.gnu.org/licenses/agpl.html 
  */
 
-if (!defined('POSTACTIV')) { exit(1); }
+if (!defined('GNUSOCIAL')) { exit(1); }
 
 /**
- * Process a feed distribution POST from a PuSH hub.
+ * Process a feed distribution POST from a WebSub (previously PuSH) hub.
  * @package FeedSub
  * @author Brion Vibber <brion@status.net>
  */
@@ -44,15 +39,13 @@ class PushInQueueHandler extends QueueHandler
         $post = $data['post'];
         $hmac = $data['hmac'];
 
-        $feedsub = FeedSub::getKV('id', $feedsub_id);
-        if ($feedsub instanceof FeedSub) {
-            try {
-                $feedsub->receive($post, $hmac);
-            } catch(Exception $e) {
-                common_log(LOG_ERR, "Exception during PuSH input processing for $feedsub->uri: " . $e->getMessage());
-            }
-        } else {
-            common_log(LOG_ERR, "Discarding POST to unknown feed subscription id $feedsub_id");
+        try {
+            $feedsub = FeedSub::getByID($feedsub_id);
+            $feedsub->receive($post, $hmac);
+        } catch(NoResultException $e) {
+            common_log(LOG_INFO, "Discarding POST to unknown feed subscription id {$feedsub_id}");
+        } catch(Exception $e) {
+            common_log(LOG_ERR, "Exception "._ve(get_class($e))." during WebSub push input processing for {$feedsub->getUri()}: " . $e->getMessage());
         }
         return true;
     }
