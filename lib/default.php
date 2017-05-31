@@ -365,7 +365,6 @@ $default =
               'default' => array(
                             'Activity' => array(),
                             'AntiBrute' => array(),
-                            'Blacklist' => array(),
                             'Bookmark' => array(),
                             'ClientSideShorten' => array(),
                             'DefaultLayout' => array(),
