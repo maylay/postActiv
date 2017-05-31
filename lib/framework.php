@@ -60,7 +60,7 @@ define('GNUSOCIAL_ENGINE', 'postActiv');
 define('GNUSOCIAL_ENGINE_URL', 'http://www.postactiv.com/');
 
 define('GNUSOCIAL_BASE_VERSION', '1.0.3');
-define('GNUSOCIAL_LIFECYCLE', 'dev'); // 'dev', 'alpha[0-9]+', 'beta[0-9]+', 'rc[0-9]+', 'release'
+define('GNUSOCIAL_LIFECYCLE', 'rc1'); // 'dev', 'alpha[0-9]+', 'beta[0-9]+', 'rc[0-9]+', 'release'
 
 define('GNUSOCIAL_VERSION', GNUSOCIAL_BASE_VERSION . '-' . GNUSOCIAL_LIFECYCLE);
 
