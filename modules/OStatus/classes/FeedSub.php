@@ -559,35 +559,36 @@ class FeedSub extends Managed_DataObject {
    // Returns:
    // o void
    public function receive($post, $hmac) {
-      common_log(LOG_INFO, sprintf(__METHOD__.': packet for %s with HMAC %s', _ve($this->getUri()), _ve($hmac)));
-      if (!in_array($this->sub_state, array('active', 'nohub'))) {
-         common_log(LOG_ERR, sprintf(__METHOD__.': ignoring PuSH for inactive feed %s (in state %s)', _ve($this->getUri()), _ve($this->sub_state)));
-         return;
-      }
-      if ($post === '') {
-         common_log(LOG_ERR, __METHOD__ . ": ignoring empty post");
-         return;
-      }
+        common_log(LOG_INFO, __METHOD__ . ": packet for \"" . $this->getUri() . "\"! $hmac $post");
 
-      try {
-         if (!$this->validatePushSig($post, $hmac)) {
+        if (!in_array($this->sub_state, array('active', 'nohub'))) {
+            common_log(LOG_ERR, __METHOD__ . ": ignoring PuSH for inactive feed " . $this->getUri() . " (in state '$this->sub_state')");
+            return;
+        }
+
+        if ($post === '') {
+            common_log(LOG_ERR, __METHOD__ . ": ignoring empty post");
+            return;
+        }
+
+        if (!$this->validatePushSig($post, $hmac)) {
             // Per spec we silently drop input with a bad sig,
             // while reporting receipt to the server.
             return;
-         }
-         $this->receiveFeed($post);
-      } catch (FeedSubBadPushSignatureException $e) {
-         // We got a signature, so something could be wrong. Let's check to see if
-         // maybe upstream has switched to another hub. Let's fetch feed and then
-         // compare rel="hub" with $this->huburi
-         $old_huburi = $this->huburi;
-         $this->ensureHub();
-         common_debug(sprintf('Feed uri==%s huburi before=%s after=%s', _ve($this->uri), _ve($old_huburi), _ve($this->huburi)));
-         if ($old_huburi !== $this->huburi) {
-            // let's make sure that this new hub knows that we want to subscribe
-            $this->renew();
-         }
-      }
+        }
+
+        $feed = new DOMDocument();
+        Event::handle('StartFeedSubReceive', array($this, $feed));        
+        if (!$feed->loadXML($post)) {
+            // @fixme might help to include the err message
+            common_log(LOG_ERR, __METHOD__ . ": ignoring invalid XML");
+            return;
+        }
+
+        $orig = clone($this);
+        $this->last_update = common_sql_now();
+        $this->update($orig);
+        Event::handle('EndFeedSubReceive', array($this, $feed));
    }
 
 
