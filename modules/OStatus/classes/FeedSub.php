@@ -578,7 +578,6 @@ class FeedSub extends Managed_DataObject {
         }
 
         $feed = new DOMDocument();
-        Event::handle('StartFeedSubReceive', array($this, $feed));        
         if (!$feed->loadXML($post)) {
             // @fixme might help to include the err message
             common_log(LOG_ERR, __METHOD__ . ": ignoring invalid XML");
@@ -588,6 +587,7 @@ class FeedSub extends Managed_DataObject {
         $orig = clone($this);
         $this->last_update = common_sql_now();
         $this->update($orig);
+        Event::handle('StartFeedSubReceive', array($this, $feed));        
         Event::handle('EndFeedSubReceive', array($this, $feed));
    }
 
