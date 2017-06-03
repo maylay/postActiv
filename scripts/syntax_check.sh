@@ -63,7 +63,7 @@ do
    fi
 done
 
-if [ "$NUMBADFILES" > 0 ]
+if [ "$NUMBADFILES" -gt "0" ]
 then
    printf "\nThe following files appear to have errors:\n${BADFILES}"
 fi
