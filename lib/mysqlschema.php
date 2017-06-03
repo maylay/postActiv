@@ -444,6 +444,9 @@ class MysqlSchema extends Schema
                 $col['auto_increment'] = true;
             }
             
+            if ($col['type'] == 'timestamp' && !isset($col['default'])) {
+                $col['default'] = 'CURRENT_TIMESTAMP';
+            } 
             if ($col['type'] == 'datetime') {
                 // Avoid invalid date errors in MySQL 5.7+
                 if (!isset($col['default'])) {
