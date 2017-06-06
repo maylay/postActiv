@@ -134,8 +134,9 @@ class Poll extends Managed_DataObject
     {
         $pr = new Poll_response();
         $pr->poll_id = $this->id;
-        $pr->groupBy('selection');
-        $pr->selectAdd('count(profile_id) as votes');
+	$pr->groupBy('selection');
+	$pr->selectAdd();
+	$pr->selectAdd('count(profile_id) as votes');
         $pr->find();
 
         $raw = array();
