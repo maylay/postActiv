@@ -9,8 +9,6 @@ Unfinished basic stuff:
 Known issues:
 --------------
 * HTTP caching needs fixing on show-poll; may show you old data if you voted after
-* Breaks in MySQL 5.7+ default configuration due to `SQL_MODE "ONLY_FULL_GROUP_BY"`.
-This can be resolved by setting `SQL_MODE` to `STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION`
 
 Things todo:
 ---------------
