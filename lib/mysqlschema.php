@@ -52,7 +52,6 @@ class MysqlSchema extends Schema
     static $_single = null;
     protected $conn = null;
 
-
     /**
      * Main public entry point. Use this to get
      * the singleton object.
@@ -438,13 +437,30 @@ class MysqlSchema extends Schema
      */
     function filterDef(array $tableDef)
     {
+        $version = $this->conn->getVersion();
         foreach ($tableDef['fields'] as $name => &$col) {
             if ($col['type'] == 'serial') {
                 $col['type'] = 'int';
                 $col['auto_increment'] = true;
             }
-            if ($col['type'] == 'datetime' && isset($col['default']) && $col['default'] == 'CURRENT_TIMESTAMP') {
-                $col['type'] = 'timestamp';
+            
+            // Avoid invalid date errors in MySQL 5.7+
+            if ($col['type'] == 'timestamp' && !isset($col['default'])) {
+                $col['default'] = 'CURRENT_TIMESTAMP';
+            } 
+            if ($col['type'] == 'datetime') {
+                // Avoid invalid date errors in MySQL 5.7+
+                if (!isset($col['default'])) {
+                    $col['default'] = 'CURRENT_TIMESTAMP'; 
+                }
+                
+                // If we are using MySQL 5.5, convert datetime to timestamp if
+                // default value is CURRENT_TIMESTAMP. Not needed for MySQL 5.6+
+                // and MariaDB 10.0+
+                if (isset($col['default']) && $col['default'] == 'CURRENT_TIMESTAMP'
+                    && $version['major'] == 5 && $version['minor'] == 5) {
+                    $col['type'] = 'timestamp';
+                }
             }
             $col['type'] = $this->mapType($col);
             unset($col['size']);
@@ -454,5 +470,6 @@ class MysqlSchema extends Schema
         }
         return $tableDef;
     }
+
 }
 ?>
