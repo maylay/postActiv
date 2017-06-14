@@ -457,8 +457,9 @@ class MysqlSchema extends Schema
                 // If we are using MySQL 5.5, convert datetime to timestamp if
                 // default value is CURRENT_TIMESTAMP. Not needed for MySQL 5.6+
                 // and MariaDB 10.0+
-                if (isset($col['default']) && $col['default'] == 'CURRENT_TIMESTAMP'
-                    && $version['major'] == 5 && $version['minor'] == 5) {
+                if (isset($col['default']) 
+                    && $col['default'] == 'CURRENT_TIMESTAMP'
+                    && $version <= 50605) {
                     $col['type'] = 'timestamp';
                 }
             }
