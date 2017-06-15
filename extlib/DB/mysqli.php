@@ -1087,9 +1087,7 @@ class DB_mysqli extends DB_common
     }
     
     public function getVersion() {
-        $info = mysqli_get_server_info($this->connection);
-        preg_match('/(?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)/', $info, $version);
-        return $version;
+        return mysqli_get_server_version($this->connection);
     }
     // }}}
 
