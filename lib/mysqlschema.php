@@ -445,12 +445,13 @@ class MysqlSchema extends Schema
             }
             
             // Avoid invalid date errors in MySQL 5.7+
-            if ($col['type'] == 'timestamp' && !isset($col['default'])) {
+            if ($col['type'] == 'timestamp' && !isset($col['default']) 
+                && $version >= 50605) {
                 $col['default'] = 'CURRENT_TIMESTAMP';
             } 
             if ($col['type'] == 'datetime') {
                 // Avoid invalid date errors in MySQL 5.7+
-                if (!isset($col['default'])) {
+                if (!isset($col['default']) && $version >= 50605) {
                     $col['default'] = 'CURRENT_TIMESTAMP'; 
                 }
                 
@@ -458,8 +459,8 @@ class MysqlSchema extends Schema
                 // default value is CURRENT_TIMESTAMP. Not needed for MySQL 5.6+
                 // and MariaDB 10.0+
                 if (isset($col['default']) 
-                    && $col['default'] == 'CURRENT_TIMESTAMP'
-                    && $version <= 50605) {
+                    && $col['default'] == 'CURRENT_TIMESTAMP' 
+                    && $version < 50605) {
                     $col['type'] = 'timestamp';
                 }
             }
