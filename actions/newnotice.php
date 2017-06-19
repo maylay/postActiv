@@ -246,7 +246,7 @@ class NewnoticeAction extends FormAction
         if ($this->getInfo() && $this->stored instanceof Notice) {
             $this->showNotice($this->stored);
         } elseif (!$this->getError()) {
-            if (!GNUsocial::isAjax() && $this->inreplyto instanceof Notice) {
+            if (!postActiv::isAjax() && $this->inreplyto instanceof Notice) {
                 $this->showNotice($this->inreplyto);
             }
             parent::showContent();
