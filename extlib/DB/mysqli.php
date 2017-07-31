@@ -1085,7 +1085,10 @@ class DB_mysqli extends DB_common
                 return null;
         }
     }
-
+    
+    public function getVersion() {
+        return mysqli_get_server_version($this->connection);
+    }
     // }}}
 
 }
