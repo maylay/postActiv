@@ -1,11 +1,19 @@
 <?php
-/****
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop
- * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2012, StatusNet, Inc
+/* ============================================================================
+ * Title: ActivityPlugin
+ * Shows social activities in the output feed
  *
+ * postActiv:
+ * the micro-blogging software
+ *
+ * Copyright:
+ * Copyright (C) 2016-2017, Maiyannah Bishop
+ *
+ * Derived from code copyright various sources:
+ * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ * o StatusNet (C) 2008-2012, StatusNet, Inc
+ * ----------------------------------------------------------------------------
+ * License:
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -18,73 +26,73 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * PHP version 5
- *
+ * ----------------------------------------------------------------------------
+ * About:
  * Shows social activities in the output feed
  *
- * @category  Activity
- * @package   postActiv
- * @author    Evan Prodromou <evan@prodromou.name>
- * @author    Eric Helgeson <erichelgeson@gmail.com>
- * @author    Brenda Wallace <shiny@cpan.org>
- * @author    Sean Corbett <sean@gnu.org>
- * @author    James Walker <walkah@walkah.net>
- * @author    Jeroen De Dauw <jeroendedauw@gmail.com>
- * @author    Max Shinn <trombonechamp@gmail.com>
- * @author    Craig Andrews <candrews@integralblue.com>
- * @author    Ian Denhardt <ian@zenhack.net>
- * @author    flyingmana <flyingmana@googlemail.com>
- * @author    Sashi Gowda <connect2shashi@gmail.com>
- * @author    Jordan Conway <jordan@conway.name>
- * @author    Dan Scott <dan@coffeecode.net>
- * @author    Antonin Kral <a.kral@bobek.cz>
- * @author    Luke Fitzegerald <lw.fitzgerald@googlemail.com>
- * @author    Scott Sweeny <ssweeny@gmail.com>
- * @author    Samantha Doherty <samantha@doherty.name>
- * @author    Zach Copley <zach@copley.name>
- * @author    Brion Vibber <brion@pobox.com>
- * @author    Michele Azzolari <macno@macno.org>
- * @author    Siebrand Mazeland <s.mazeland@xs4all.nl>
- * @author    Joshua Wise <jwise@nvidia.com>
- * @author    Mikael Nordfeldth <mmn@hethane.se>
- * @author    Thomas Johnson <NTmatter@gmail.com>
- * @author    Emily O'leary <emily@oleary.name>
- * @author    Brian Tegtmeier <btegtmeier@gmail.com>
- * @author    Florian Schmaus <flo@geekplace.eu>
- * @author    Jean Baptiste Favre <github@jbfavre.org>
- * @author    Florian Hülsmann <fh@cbix.de>
- * @author    Vinilox <vinilox@vinilox.eu>
- * @author    Marcel van der Boom <marcel@hsdev.com>
- * @author    Rob Myers <rob@robmyers.org>
- * @author    Matt Lee <mattl@creativecommons.org>
- * @author    Mats Sjöberg <mats@sjoberg.fi>
- * @author    Aqeel Zafar <aqeel@aqeeliz.com>
- * @author    Jeremy Malcolm <jeremy@ciroap.org>
- * @author    Stanislav N. <pztrn@pztrn.name>
- * @author    Joshua Judson Rosen <rozzin@geekspace.com>
- * @author    Antonio Roquentin <antonio.roquentin@sfr.fr>
- * @author    Adam Moore <laemeur@sdf.org>
- * @author    Chris Buttle <chris@gatopaleo.org>
- * @author    abjectio <abjectio@kollektivet0x242.no>
- * @author    chimo <chimo@chromic.org>
- * @author    Marcus Moeller <marcus.moeller@gmx.ch>
- * @author    Bhuvan Krishna <bhuvan@swecha.net>
- * @author    Hannes Mannerheim <h@nnesmannerhe.im>
- * @author    digital-dreamer <digitaldreamer@email.>
- * @author    Stephen Paul Weber <singpolyma@singpolyma.net>
- * @author    Matthias Fritzsche <txt.file@txtfile.eu>
- * @author    Akio Nishimura <akio@akionux.net>
- * @author    Guillaume Hayot <postblue+git@postblue.info>
- * @author    Roland Haeder <roland@mxchange.net>
- * @author    Carlos Sanbu <carsanbu@entramado.net>
- * @author    Bob Mottram <bob@robotics.uk.to>
- * @author    Maiyannah Bishop <maiyannah.bishop@postactiv.com>
- * @copyright 2010-2012 StatusNet, Inc.
- * @copyright 2013-2016 Free Software Foundation, Inc.
- * @copyright 2016 Maiyannah Bishop
- * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://www.postactiv.com
+ * PHP version:
+ * Tested with PHP 5.6, PHP 7
+ * ----------------------------------------------------------------------------
+ * File Authors:
+ * o Evan Prodromou
+ * o Eric Helgeson <erichelgeson@gmail.com>
+ * o Brenda Wallace <shiny@cpan.org>
+ * o Sean Corbett <sean@gnu.org>
+ * o James Walker <walkah@walkah.net>
+ * o Jeroen De Dauw <jeroendedauw@gmail.com>
+ * o Max Shinn <trombonechamp@gmail.com>
+ * o Craig Andrews <candrews@integralblue.com>
+ * o Ian Denhardt <ian@zenhack.net>
+ * o flyingmana <flyingmana@googlemail.com>
+ * o Sashi Gowda <connect2shashi@gmail.com>
+ * o Jordan Conway <jordan@conway.name>
+ * o Dan Scott <dan@coffeecode.net>
+ * o Antonin Kral <a.kral@bobek.cz>
+ * o Luke Fitzegerald <lw.fitzgerald@googlemail.com>
+ * o Scott Sweeny <ssweeny@gmail.com>
+ * o Samantha Doherty <samantha@doherty.name>
+ * o Zach Copley <zach@copley.name>
+ * o Brion Vibber <brion@pobox.com>
+ * o Michele Azzolari <macno@macno.org>
+ * o Siebrand Mazeland <s.mazeland@xs4all.nl>
+ * o Joshua Wise <jwise@nvidia.com>
+ * o Mikael Nordfeldth <mmn@hethane.se>
+ * o Thomas Johnson <NTmatter@gmail.com>
+ * o Emily O'leary <emily@oleary.name>
+ * o Brian Tegtmeier <btegtmeier@gmail.com>
+ * o Florian Schmaus <flo@geekplace.eu>
+ * o Jean Baptiste Favre <github@jbfavre.org>
+ * o Florian Hülsmann <fh@cbix.de>
+ * o Vinilox <vinilox@vinilox.eu>
+ * o Marcel van der Boom <marcel@hsdev.com>
+ * o Rob Myers <rob@robmyers.org>
+ * o Matt Lee <mattl@creativecommons.org>
+ * o Mats Sjöberg <mats@sjoberg.fi>
+ * o Aqeel Zafar <aqeel@aqeeliz.com>
+ * o Jeremy Malcolm <jeremy@ciroap.org>
+ * o Stanislav N. <pztrn@pztrn.name>
+ * o Joshua Judson Rosen <rozzin@geekspace.com>
+ * o Antonio Roquentin <antonio.roquentin@sfr.fr>
+ * o Adam Moore <laemeur@sdf.org>
+ * o Chris Buttle <chris@gatopaleo.org>
+ * o abjectio <abjectio@kollektivet0x242.no>
+ * o chimo <chimo@chromic.org>
+ * o Marcus Moeller <marcus.moeller@gmx.ch>
+ * o Bhuvan Krishna <bhuvan@swecha.net>
+ * o Hannes Mannerheim <h@nnesmannerhe.im>
+ * o digital-dreamer <digitaldreamer@email.>
+ * o Stephen Paul Weber <singpolyma@singpolyma.net>
+ * o Matthias Fritzsche <txt.file@txtfile.eu>
+ * o Akio Nishimura <akio@akionux.net>
+ * o Guillaume Hayot <postblue+git@postblue.info>
+ * o Roland Haeder <roland@mxchange.net>
+ * o Carlos Sanbu <carsanbu@entramado.net>
+ * o Bob Mottram <bob@robotics.uk.to>
+ *
+ * Web:
+ *  o postActiv  <http://www.postactiv.com>
+ *  o GNU social <https://www.gnu.org/s/social/>
+ * ============================================================================
  */
 
 if (!defined('STATUSNET')) {
@@ -400,3 +408,4 @@ class ActivityPlugin extends Plugin
         return true;
     }
 }
+?>
