@@ -128,6 +128,34 @@ class Diaspora extends FederationModule {
       }
       return $data;
    }
+
+   // -------------------------------------------------------------------------
+   // Function: aes_encrypt
+   // Encrypts data via AES
+   //
+   // o string $key The AES key
+   // o string $iv The IV (is used for CBC encoding)
+   // o string $data The data that is to be encrypted
+   //
+   // Returns:
+   // o string encrypted data
+   private static function aes_encrypt($key, $iv, $data) {
+      return openssl_encrypt($data, 'aes-256-cbc', str_pad($key, 32, "\0"), OPENSSL_RAW_DATA, str_pad($iv, 16, "\0"));
+   }
+   
+   // -------------------------------------------------------------------------
+   // Function: aes_decrypt
+   // Decrypts data via AES
+   //
+   // o param string $key The AES key
+   // o param string $iv The IV (is used for CBC encoding)
+   // o string $encrypted The encrypted data
+   //
+   // Returns:
+   // o string decrypted data
+   private static function aes_decrypt($key, $iv, $encrypted) {
+      return openssl_decrypt($encrypted,'aes-256-cbc', str_pad($key, 32, "\0"), OPENSSL_RAW_DATA,str_pad($iv, 16, "\0"));
+   }
 }
 
 ?>
