@@ -1,10 +1,10 @@
 # postActiv 1.0.3
 (c) 2016-2017 Maiyannah Bishop
 
-If you're reading this on GitLab and you want the most up-to-date documentation,
+If you're reading this on Gitea and you want the most up-to-date documentation,
 go here: 
 
-https://git.postactiv.com/postActiv/postActiv/blob/nightly/README.md
+http://gitea.postactiv.com/postActiv/postActiv/src/master/README.md
 
 postActiv is derived from code copyright various sources:
  * GNU Social (C) 2013-2016, Free Software Foundation, Inc
@@ -177,7 +177,7 @@ If you're adventurous or impatient, you may want to install the development
 version of postActiv. To get it, use the git version control tool
 <http://git-scm.com/> like so:
 
-    git clone git@git.postactiv.com:postActiv/postActiv.git
+    git clone git@gitea.postactiv.com:postActiv/postActiv.git
 
 In the current phase of development it is probably recommended to use git as a
 means to stay up to date with the source code. You can choose between these
