@@ -160,10 +160,10 @@ class Magicsig extends Managed_DataObject
         $keypair = $rsa->createKey($bits);
 
         $magicsig->privateKey = new \phpseclib\Crypt\RSA();
-        $magicsig->privateKey->load($keypair['privatekey']);
+        $magicsig->privateKey->loadKey($keypair['privatekey']);
 
         $magicsig->publicKey = new \phpseclib\Crypt\RSA();
-        $magicsig->publicKey->load($keypair['publickey']);
+        $magicsig->publicKey->loadKey($keypair['publickey']);
 
         $magicsig->insert();        // will do $this->keypair = $this->toString(true);
         $magicsig->importKeys();    // seems it's necessary to re-read keys from text keypair
@@ -202,7 +202,7 @@ class Magicsig extends Managed_DataObject
         return strtolower(hash('sha256', $this->toString(false, false)));
     }
 
-    public function exportPublicKey($type='PKCS1')
+    public function exportPublicKey($type='PUBLIC_FORMAT_PKCS1')
     {
         $this->publicKey->setPublicKey();
         return $this->publicKey->getPublicKey($type);
@@ -264,7 +264,7 @@ class Magicsig extends Managed_DataObject
     public function loadPublicKeyPKCS1($key)
     {
         $rsa = new \phpseclib\Crypt\RSA();
-        if (!$rsa->setPublicKey($key, 'PKCS1')) {
+        if (!$rsa->setPublicKey($key, 'PUBLIC_FORMAT_PKCS1')) {
             throw new ServerException('Could not load PKCS1 public key. We probably got this from a remote Diaspora node as the profile public key.');
         }
         $this->publicKey = $rsa;
@@ -303,7 +303,8 @@ class Magicsig extends Managed_DataObject
      */
     public function sign($bytes)
     {
-        $sig = $this->privateKey->sign($bytes, \phpseclib\Crypt\RSA::PADDING_PKCS1);
+        $this->privateKey->setSignatureMode(\phpseclib\Crypt\RSA::SIGNATURE_PKCS1);
+        $sig = $this->privateKey->sign($bytes);
         if ($sig === false) {
             throw new ServerException('Could not sign data');
         }
@@ -319,7 +320,7 @@ class Magicsig extends Managed_DataObject
     public function verify($signed_bytes, $signature)
     {
         $signature = self::base64_url_decode($signature);
-        return $this->publicKey->verify($signed_bytes, $signature, \phpseclib\Crypt\RSA::PADDING_PKCS1);
+        return $this->publicKey->verify($signed_bytes, $signature, \phpseclib\Crypt\RSA::SIGNATURE_PKCS1);
     }
 
     /**
