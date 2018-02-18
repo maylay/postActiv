@@ -190,7 +190,7 @@ File headers follow a consistent format, as such:
      * the micro-blogging software
      *
      * Copyright:
-     * Copyright (C) 2016-2017, Maiyannah Bishop
+     * Copyright (C) 2016-2018, Maiyannah Bishop
      *
      * Derived from code copyright various sources:
      * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
