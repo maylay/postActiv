@@ -1,5 +1,5 @@
 # postActiv 1.0.3
-(c) 2016-2017 Maiyannah Bishop
+(c) 2016-2018 Maiyannah Bishop
 
 If you're reading this on Gitea and you want the most up-to-date documentation,
 go here: 

@@ -7,7 +7,7 @@
  * the micro-blogging software
  *
  * Copyright:
- * Copyright (C) 2016-2017, Maiyannah Bishop
+ * Copyright (C) 2016-2018, Maiyannah Bishop
  *
  * Derived from code copyright various sources:
  * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
@@ -18,7 +18,7 @@
  *
  * Original code is copyright 2005-2006 The Apache Software Foundation
  * Modifications copyright 2009 StatusNet Inc by Brion Vibber
- * Documentation copyright 2016-2017 Maiyannah Bishop
+ * Documentation copyright 2016-2018 Maiyannah Bishop
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

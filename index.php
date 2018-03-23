@@ -7,7 +7,7 @@
  * the micro-blogging software
  *
  * Copyright:
- * Copyright (C) 2016-2017, Maiyannah Bishop
+ * Copyright (C) 2016-2018, Maiyannah Bishop
  *
  * Derived from code copyright various sources:
  * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
@@ -68,7 +68,7 @@
  *  o GNU social <https://www.gnu.org/s/social/>
  * ============================================================================
  */
- 
+
 // This file is formatted so that it provides useful documentation output in
 // NaturalDocs.  Please be considerate of this before changing formatting.
 

@@ -7,7 +7,7 @@
  * the micro-blogging software
  *
  * Copyright:
- * Copyright (C) 2016-2017, Maiyannah Bishop
+ * Copyright (C) 2016-2018, Maiyannah Bishop
  *
  * Derived from code copyright various sources:
  * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
@@ -62,12 +62,12 @@
  * o Brian Tegtmeier <btegtmeier@gmail.com>
  * o Florian Schmaus <flo@geekplace.eu>
  * o Jean Baptiste Favre <github@jbfavre.org>
- * o Florian Hülsmann <fh@cbix.de>
+ * o Florian Hï¿½lsmann <fh@cbix.de>
  * o Vinilox <vinilox@vinilox.eu>
  * o Marcel van der Boom <marcel@hsdev.com>
  * o Rob Myers <rob@robmyers.org>
  * o Matt Lee <mattl@creativecommons.org>
- * o Mats Sjöberg <mats@sjoberg.fi>
+ * o Mats Sjï¿½berg <mats@sjoberg.fi>
  * o Aqeel Zafar <aqeel@aqeeliz.com>
  * o Jeremy Malcolm <jeremy@ciroap.org>
  * o Stanislav N. <pztrn@pztrn.name>

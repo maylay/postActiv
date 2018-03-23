@@ -6,7 +6,7 @@
  * the micro-blogging software
  *
  * Copyright:
- * Copyright (C) 2016-2017, Maiyannah Bishop
+ * Copyright (C) 2016-2018, Maiyannah Bishop
  *
  * Derived from code copyright various sources:
  * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
@@ -40,7 +40,7 @@
  *  o Michael Vogel
  *  o Tobias Diekershoff
  *  o Hypolite Petovan
- *  o Roland Häder
+ *  o Roland Hï¿½der
  *  o Rainulf Pineda
  *  o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  *
