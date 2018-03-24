@@ -258,14 +258,15 @@ class OStatusPlugin extends Plugin
 
     /**
      * Webfinger matches: @user@example.com or even @user--one.george_orwell@1984.biz
+     * @param   string  $text       The text from which to extract webfinger IDs
+     * @param   string  $preMention Character(s) that signals a mention ('@', '!'...)
      *
-     * @return  array   The matching IDs (without @ or acct:) and each respective position in the given string.
+     * @return  array   The matching IDs (without $preMention) and each respective position in the given string.
      */
-    static function extractWebfingerIds($text)
+    static function extractWebfingerIds($text, $preMention='@')
     {
         $wmatches = array();
-        // Maybe this should harmonize with lib/nickname.php and Nickname::WEBFINGER_FMT
-        $result = preg_match_all('/(?<!\S)@((?:\w+[\w\-\_\.]*)?\w+@'.URL_REGEX_DOMAIN_NAME.')/',
+        $result = preg_match_all('/(?<!\S)'.preg_quote($preMention, '/').'('.Nickname::WEBFINGER_FMT.')/',
                        $text,
                        $wmatches,
                        PREG_OFFSET_CAPTURE);
@@ -279,15 +280,17 @@ class OStatusPlugin extends Plugin
 
     /**
      * Profile URL matches: @example.com/mublog/user
+     * @param   string  $text       The text from which to extract URL mentions
+     * @param   string  $preMention Character(s) that signals a mention ('@', '!'...)
      *
      * @return  array   The matching URLs (without @ or acct:) and each respective position in the given string.
      */
-    static function extractUrlMentions($text)
+    static function extractUrlMentions($text, $preMention='@')
     {
         $wmatches = array();
         // In the regexp below we need to match / _before_ URL_REGEX_VALID_PATH_CHARS because it otherwise gets merged
         // with the TLD before (but / is in URL_REGEX_VALID_PATH_CHARS anyway, it's just its positioning that is important)
-        $result = preg_match_all('/(?:^|\s+)@('.URL_REGEX_DOMAIN_NAME.'(?:\/['.URL_REGEX_VALID_PATH_CHARS.']*)*)/',
+        $result = preg_match_all('/(?:^|\s+)'.preg_quote($preMention, '/').'('.URL_REGEX_DOMAIN_NAME.'(?:\/['.URL_REGEX_VALID_PATH_CHARS.']*)*)/',
                        $text,
                        $wmatches,
                        PREG_OFFSET_CAPTURE);
@@ -312,9 +315,9 @@ class OStatusPlugin extends Plugin
     {
         $matches = array();
 
-        foreach (self::extractWebfingerIds($text) as $wmatch) {
+        foreach (self::extractWebfingerIds($text, '@') as $wmatch) {
             list($target, $pos) = $wmatch;
-            $this->log(LOG_INFO, "Checking webfinger '$target'");
+            $this->log(LOG_INFO, "Checking webfinger person '$target'");
             $profile = null;
             try {
                 $oprofile = Ostatus_profile::ensureWebfinger($target);
@@ -332,7 +335,7 @@ class OStatusPlugin extends Plugin
 
             assert($profile instanceof Profile);
 
-            $text = !empty($profile->nickname) && mb_strlen($profile->nickname) < mb_strlen($target)
+            $displayName = !empty($profile->nickname) && mb_strlen($profile->nickname) < mb_strlen($target)
                     ? $profile->getNickname()   // TODO: we could do getBestName() or getFullname() here
                     : $target;
             $url = $profile->getUri();
@@ -341,7 +344,69 @@ class OStatusPlugin extends Plugin
             }
             $matches[$pos] = array('mentioned' => array($profile),
                                    'type' => 'mention',
-                                   'text' => $text,
+                                   'text' => $displayName,
+                                   'position' => $pos,
+                                   'length' => mb_strlen($target),
+                                   'url' => $url);
+        }
+
+        // Doing groups in a separate routine because webfinger lookups don't work
+        // remotely until everyone updates etc. etc.
+        foreach (self::extractWebfingerIds($text, '!') as $wmatch) {
+            list($target, $pos) = $wmatch;
+            list($target_nickname, $target_hostname) = explode('@', parse_url($target, PHP_URL_PATH));
+            $this->log(LOG_INFO, sprintf('Checking webfinger group %s as user %s on server %s', $target, $target_nickname, $target_hostname));
+
+            $profile = null;
+            if ($target_hostname === mb_strtolower(common_config('site', 'server'))) {
+                try {
+                    $profile = Local_group::getKV('nickname', $target_nickname)->getProfile();
+                } catch (NoSuchGroupException $e) {
+                    // referenced a local group which does not exist, so not returning it as a mention
+                    $this->log(LOG_ERR, "Local group lookup failed: " . _ve($e->getMessage()));
+                    continue;
+                }
+            } else {
+                // XXX: Superhacky. Domain name can be incorrectly matched
+                //      here. But since users are only members of groups
+                //      they trust (of course they are!), the likelihood of
+                //      a mention-hijacking is very very low... for now.
+                $possible_groups = new User_group();
+                $possible_groups->nickname = $target_nickname;
+                if (!$possible_groups->find()) {
+                    common_debug('No groups at all found with nickname: '._ve($target_nickname));
+                    continue;
+                }
+                while ($possible_groups->fetch()) {
+                    if (!$sender->isMember($possible_groups)) {
+                        continue;
+                    }
+                    $group_hostname = mb_strtolower(parse_url($possible_groups->mainpage, PHP_URL_HOST));
+                    if ($target_hostname === $group_hostname) {
+                        common_debug(sprintf('Found group with nick@host (%s@%s) matching %s', _ve($possible_groups->nickname), _ve($group_hostname), _ve($target)));
+                        $profile = $possible_groups->getProfile();
+                        break;
+                    }
+                }
+                $possible_groups->free();
+                if (!$profile instanceof Profile) {
+                    common_debug('Found groups with correct nickname but not hostname for: '._ve($target));
+                    continue;
+                }
+            }
+
+            assert($profile instanceof Profile);
+
+            $displayName = !empty($profile->nickname) && mb_strlen($profile->nickname) < mb_strlen($target)
+                    ? $profile->getNickname()   // TODO: we could do getBestName() or getFullname() here
+                    : $target;
+            $url = $profile->getUri();
+            if (!common_valid_http_url($url)) {
+                $url = $profile->getUrl();
+            }
+            $matches[$pos] = array('mentioned' => array($profile),
+                                   'type' => 'group',
+                                   'text' => $displayName,
                                    'position' => $pos,
                                    'length' => mb_strlen($target),
                                    'url' => $url);
@@ -357,11 +422,11 @@ class OStatusPlugin extends Plugin
                     $oprofile = Ostatus_profile::ensureProfileURL($url);
                     if ($oprofile instanceof Ostatus_profile && !$oprofile->isGroup()) {
                         $profile = $oprofile->localProfile();
-                        $text = !empty($profile->nickname) && mb_strlen($profile->nickname) < mb_strlen($target) ?
+                        $displayName = !empty($profile->nickname) && mb_strlen($profile->nickname) < mb_strlen($target) ?
                                 $profile->nickname : $target;
                         $matches[$pos] = array('mentioned' => array($profile),
                                                'type' => 'mention',
-                                               'text' => $text,
+                                               'text' => $displayName,
                                                'position' => $pos,
                                                'length' => mb_strlen($target),
                                                'url' => $profile->getUrl());
@@ -1498,9 +1563,11 @@ class OStatusPlugin extends Plugin
             return true;
         }
 
-        // 200 OK is the best response
-        // 202 Accepted is what we get from Diaspora for example
-        if (!in_array($response->getStatus(), array(200, 202))) {
+        // The different kinds of accepted responses...
+        // 200 OK means it's all ok
+        // 201 Created is what Mastodon returns when it's ok
+        // 202 Accepted is what we get from Diaspora, also good
+        if (!in_array($response->getStatus(), array(200, 201, 202))) {
             common_log(LOG_ERR, sprintf('Salmon (from profile %d) endpoint %s returned status %s: %s',
                                 $magic_env->getActor()->getID(), $endpoint_uri, $response->getStatus(), $response->getBody()));
             return true;
