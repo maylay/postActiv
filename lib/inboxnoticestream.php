@@ -36,7 +36,7 @@
  * File Authors:
  *  o Evan Prodromou <evan@status.net>
  *  o Mikael Nordfeldth <mmn@hethane.se>
- *  o Alexi Sorokin <sor.alexei@meowr.ru>
+ *  o Alexei Sorokin <sor.alexei@meowr.ru>
  *  o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
  * ============================================================================
  */
