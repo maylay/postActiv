@@ -27,6 +27,7 @@
  * @package   StatusNet
  * @author    Evan Prodromou <evan@status.net>
  * @author    Mikael Nordfeldth <mmn@hethane.se>
+ * @author    Alexi Sorokin <sor.alexei@meowr.ru>
  * @copyright 2011 StatusNet, Inc.
  * @copyright 2014 Free Software Foundation, Inc.
  * @license   https://www.gnu.org/licenses/agpl.html
@@ -91,19 +92,49 @@ class RawInboxNoticeStream extends FullNoticeStream
      */
     function getNoticeIds($offset, $limit, $since_id, $max_id)
     {
+        $notice_ids = array();
+
+        // Subscription:: is a table of subscriptions (every user is subscribed to themselves)
+        $subscription = new Subscription();
+        $subscription->selectAdd();
+        $subscription->selectAdd('subscribed');
+        $subscription->whereAdd(sprintf('subscriber = %1$d', $this->target->id));
+        $subscription_profile_ids = $subscription->fetchAll('subscribed');
+
+        // Reply:: is a table of mentions
+        $reply = new Reply();
+        $reply->selectAdd();
+        $reply->selectAdd('notice_id');
+        $reply->whereAdd(sprintf('profile_id = %1$d', $this->target->id));
+        $notice_ids += $reply->fetchAll('notice_id');
+
+        $attention = new Attention();
+        $attention->selectAdd();
+        $attention->selectAdd('notice_id');
+        $attention->whereAdd(sprintf('profile_id = %1$d', $this->target->id));
+        $notice_ids += $attention->fetchAll('notice_id');
+
+        $group_inbox = new Group_inbox();
+        $group_inbox->selectAdd();
+        $group_inbox->selectAdd('notice_id');
+        $group_inbox->whereAdd(
+                sprintf('group_id IN (SELECT group_id FROM group_member WHERE profile_id = %1$d)',
+                        $this->target->id));
+        $notice_ids += $group_inbox->fetchAll('notice_id');
+
+        $query_ids = '';
+        if (!empty($notice_ids)) {
+            $query_ids .= 'notice.id IN (' . implode(', ', $notice_ids) . ') OR ';
+        }
+        $query_ids .= 'notice.profile_id IN (' . implode(', ', $subscription_profile_ids) . ')';
+
         $notice = new Notice();
         $notice->selectAdd();
         $notice->selectAdd('id');
         $notice->whereAdd(sprintf('notice.created > "%s"', $notice->escape($this->target->created)));
-        // Reply:: is a table of mentions
-        // Subscription:: is a table of subscriptions (every user is subscribed to themselves)
-        $notice->whereAdd(
-                sprintf('notice.id IN (SELECT notice_id FROM reply WHERE profile_id=%1$d) ' .
-                        'OR notice.profile_id IN (SELECT subscribed FROM subscription WHERE subscriber=%1$d) ' .
-                        'OR notice.id IN (SELECT notice_id FROM group_inbox WHERE group_id IN (SELECT group_id FROM group_member WHERE profile_id=%1$d))' .
-                        'OR notice.id IN (SELECT notice_id FROM attention WHERE profile_id=%1$d)',
-                    $this->target->id)
-            );
+        if (!is_null($query_ids)) {
+            $notice->whereAdd($query_ids);
+        }
         if (!empty($since_id)) {
             $notice->whereAdd(sprintf('notice.id > %d', $since_id));
         }
@@ -129,4 +160,5 @@ class RawInboxNoticeStream extends FullNoticeStream
         return $ids;
     }
 }
+
 ?>
