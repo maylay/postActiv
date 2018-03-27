@@ -33,7 +33,7 @@
  * Bootstrapping code to initialize the application
  *
  * PHP version:
- * Tested with PHP 5.6, PHP 7
+ * Tested with PHP 7
  * ----------------------------------------------------------------------------
  * File Authors:
  * o Robin Millette <robin@millette.info>
@@ -59,8 +59,8 @@ if (!defined('POSTACTIV')) { exit(1); }
 define('GNUSOCIAL_ENGINE', 'postActiv');
 define('GNUSOCIAL_ENGINE_URL', 'http://www.postactiv.com/');
 
-define('GNUSOCIAL_BASE_VERSION', '1.0.3');
-define('GNUSOCIAL_LIFECYCLE', 'rc1'); // 'dev', 'alpha[0-9]+', 'beta[0-9]+', 'rc[0-9]+', 'release'
+define('GNUSOCIAL_BASE_VERSION', '1.0.4');
+define('GNUSOCIAL_LIFECYCLE', 'dev'); // 'dev', 'alpha[0-9]+', 'beta[0-9]+', 'rc[0-9]+', 'release'
 
 define('GNUSOCIAL_VERSION', GNUSOCIAL_BASE_VERSION . '-' . GNUSOCIAL_LIFECYCLE);
 
@@ -175,6 +175,16 @@ function postActiv_class_autoload($cls)
       require_once(INSTALLDIR.'/classes/plugins/' . $cls . '.php');
    } else if (file_exists(INSTALLDIR.'/classes/queue/' . $cls . '.php')) {
       require_once(INSTALLDIR.'/classes/queue/' . $cls . '.php');
+   } else if (file_exists(INSTALLDIR.'/modules/Activity/classes/' . $cls . '.php')) {
+      require_once(INSTALLDIR.'/modules/Activity/classes/' . $cls . '.php');
+   } else if (file_exists(INSTALLDIR.'/modules/ActivityModeration/classes/' . $cls . '.php')) {
+      require_once(INSTALLDIR.'/modules/ActivityModeration/classes/' . $cls . '.php');
+   } else if (file_exists(INSTALLDIR.'/modules/ActivityVerb/classes/' . $cls . '.php')) {
+      require_once(INSTALLDIR.'/modules/ActivityVerb/classes/' . $cls . '.php');
+   } else if (file_exists(INSTALLDIR.'/modules/Oembed/classes/' . $cls . '.php')) {
+      require_once(INSTALLDIR.'/modules/Oembed/classes/' . $cls . '.php');
+   } else if (file_exists(INSTALLDIR.'/modules/OStatus/classes/' . $cls . '.php')) {
+      require_once(INSTALLDIR.'/modules/OStatus/classes/' . $cls . '.php');
    } else if (file_exists(INSTALLDIR.'/lib/' . strtolower($cls) . '.php')) {
       require_once(INSTALLDIR.'/lib/' . strtolower($cls) . '.php');
    } else if (mb_substr($cls, -6) == 'Action' &&
@@ -255,8 +265,7 @@ require_once INSTALLDIR.'/classes/ServerException.php';
 require_once INSTALLDIR.'/classes/ClientException.php';
 
 // Find all our plugin classes
-foreach (glob(INSTALLDIR."/classes/plugins/*.php") as $filename)
-{
+foreach (glob(INSTALLDIR."/classes/plugins/*.php") as $filename) {
     require_once $filename;
 }
 
