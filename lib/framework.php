@@ -166,6 +166,9 @@ function _have_config() {
 // ----------------------------------------------------------------------------
 // function postActiv_class_autoload
 //    If a class isn't already in memory, look in some common locations for it.
+//
+// NOTE: This is a bit of a cluster-fuck, surely we can do this much more
+//       elegantly - MB
 function postActiv_class_autoload($cls) {
    if (file_exists(INSTALLDIR.'/classes/' . $cls . '.php')) {
       require_once(INSTALLDIR.'/classes/' . $cls . '.php');
