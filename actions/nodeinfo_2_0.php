@@ -204,8 +204,8 @@ class Nodeinfo_2_0Action extends ApiAction {
       $xmpp_enabled     = (array_key_exists('xmpp', $this->plugins) && common_config('xmpp', 'enabled')) ? true : false;
 
       // FIXME: Are those always on?
-      $inboundServices = array('atom1.0', 'rss2.0', 'activpost');
-      
+      $outboundServices = array('atom1.0', 'rss2.0', 'activpost');
+
       if ($diaspora_enabled) {
          $outboundServices[] = 'diaspora';
       }
