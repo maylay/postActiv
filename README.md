@@ -33,16 +33,23 @@ such as FAQs, more extensive mailing docs, and mailing list archives.
 
 ## About
 
-postActiv is a free software project to develop a social networking platform.
-It helps people in a community, company, or group to exchange short status
-updates, do polls, annouce events, or other social activites.  Users can choose
-which people to "follow" and receive only their friends' or collegues' status
-messages.  They can also view the public timeline of the site to see everyone,
-or the "whole known network" timeline, to see all the people in sites that have
-connected with this one, by someone following them.  It provides a similar
-service to proprietary social network sites, but is decentralized, and with
-many additional features and an open, free software codebase that you can
-develop your own plugins for, it is much more awesome.
+postActiv is a software you can run to allow you to create your own social 
+network site from scratch, with the only knowledge neccesary that to upload
+files to your server and run an install script.
+
+With postActiv, you can form your own community, or use it for an existing
+company or other organization, to exchange status updates, run polls, 
+announce events, and other such social activities.  Users can chose what
+people they wish to "follow" and receive only their friends' or collegues'
+status messages.  postActiv also helpfully provides a site-wide "timeline"
+of messages, which allows you to see all of the notices, polls, and events
+that are posted locally on the server you share.
+
+The chief strength of postActiv compared to many other similar social 
+software projects, such as wikis or forums, is that it is federated, meaning
+that if you make your server public, it can connect with an entire network 
+(often called "the Fediverse") of sites running postActiv or other inter-
+operable software projects such as GNU social, Friendica, and Hubzilla.
 
 Using plugins available to postActiv, status messages can be sent to mobile
 phones or pages, instant messenger clients that implement XMPP, and desktop
@@ -54,9 +61,9 @@ postActiv supports an open standard called OStatus
 follow each other. It enables a distributed social network spread all across
 the Web.
 
-is derived from GNU Social, which is itself derived from StatusNet and
-Laconica.  It is forked form commit 
-bd306bdb9fb43e80f9092784602a9508a7d52031 in the Nightly branch of GNU Social, 
+postActiv is derived from GNU Social, which is itself derived from StatusNet
+and Laconica.  It is forked form commit
+bd306bdb9fb43e80f9092784602a9508a7d52031 in the Nightly branch of GNU Social,
 available here:
 
 <https://git.gnu.io/gnu/gnu-social/commit/bd306bdb9fb43e80f9092784602a9508a7d52031>
@@ -128,6 +135,9 @@ want to download the branch archive of your choice, unzip it to a web-accessible
 directory, and then run the Install.php file, which will guide you through
 further setup.  You will want to have a database available for postActiv, of
 course.
+
+For users of Debian linux and it's derivatives, in the /scripts/ directory there
+resides a BASH script which will completely automate installation of postActiv.
 
 The postActiv repository also contains MoonMan's SensitiveContent as a
 submodule, which allows users to block the display of attachments on posts
@@ -205,7 +215,7 @@ There are several ways to get more information about postActiv.
 Credits
 =======
 
-The following is a list of developers who've contributed to postActiv:
+The following is a list of developers who've contributed to directly postActiv:
 
 ## Lead Maintainer / Developer
 
