@@ -1,16 +1,20 @@
 <?php
-/***
- * postActiv - a fork of the GNU Social microblogging software
- * Copyright (C) 2016, Maiyannah Bishop <maiyannah@member.fsf.org>
+/* ============================================================================
+ * Title: Router
+ * Site URL router's class abstraction
+ *
+ * postActiv:
+ * the micro-blogging software
+ *
+ * Copyright:
+ * Copyright (C) 2016-2018, Maiyannah Bishop
+ *
  * Derived from code copyright various sources:
- *   GNU Social (C) 2013-2016, Free Software Foundation, Inc
- *   StatusNet (C) 2008-2011, StatusNet, Inc
- *
- * URL routing utilities
- *
- * PHP version 5
- *
- * LICENCE: This program is free software: you can redistribute it and/or modify
+ * o GNU Social (C) 2013-2016, Free Software Foundation, Inc
+ * o StatusNet (C) 2008-2012, StatusNet, Inc
+ * ----------------------------------------------------------------------------
+ * License:
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -23,12 +27,19 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @category  URL
- * @package   StatusNet
- * @author    Evan Prodromou <evan@status.net>
- * @copyright 2009 StatusNet, Inc.
- * @license   https://www.gnu.org/licenses/agpl.html
- * @link      http://status.net/
+ * <https://www.gnu.org/licenses/agpl.html>
+ * ----------------------------------------------------------------------------
+ * About:
+ * URL routing utilities
+ *
+ * PHP version:
+ * Tested with PHP 7
+ * ----------------------------------------------------------------------------
+ * File Authors:
+ * o Evan Prodromou
+ * o Chimo
+ * o Maiyannah Bishop <maiyannah.bishop@postactiv.com>
+ * ============================================================================
  */
 
 if (!defined('POSTACTIV')) { exit(1); }
@@ -446,96 +457,108 @@ class Router
 
          // -------------------------------------------------------------------
          // Social graph
+         $m->connect('api/friends/ids/:id.:format',
+                     array('action' => 'ApiUserFriends',
+                           'ids_only' => true));
 
-            $m->connect('api/friends/ids/:id.:format',
-                        array('action' => 'ApiUserFriends',
-                              'ids_only' => true));
+         $m->connect('api/followers/ids/:id.:format',
+                     array('action' => 'ApiUserFollowers',
+                           'ids_only' => true));
 
-            $m->connect('api/followers/ids/:id.:format',
-                        array('action' => 'ApiUserFollowers',
-                              'ids_only' => true));
+         $m->connect('api/friends/ids.:format',
+                     array('action' => 'ApiUserFriends',
+                           'ids_only' => true));
 
-            $m->connect('api/friends/ids.:format',
-                        array('action' => 'ApiUserFriends',
-                              'ids_only' => true));
+         $m->connect('api/followers/ids.:format',
+                     array('action' => 'ApiUserFollowers',
+                           'ids_only' => true));
 
-            $m->connect('api/followers/ids.:format',
-                        array('action' => 'ApiUserFollowers',
-                              'ids_only' => true));
 
-            // account
+         // -------------------------------------------------------------------
+         // Account-related Actions
+         $m->connect('api/account/verify_credentials.:format',
+                     array('action' => 'ApiAccountVerifyCredentials'));
 
-            $m->connect('api/account/verify_credentials.:format',
-                        array('action' => 'ApiAccountVerifyCredentials'));
+         $m->connect('api/account/update_profile.:format',
+                     array('action' => 'ApiAccountUpdateProfile'));
 
-            $m->connect('api/account/update_profile.:format',
-                        array('action' => 'ApiAccountUpdateProfile'));
+         $m->connect('api/account/update_profile_image.:format',
+                     array('action' => 'ApiAccountUpdateProfileImage'));
 
-            $m->connect('api/account/update_profile_image.:format',
-                        array('action' => 'ApiAccountUpdateProfileImage'));
+         $m->connect('api/account/update_delivery_device.:format',
+                     array('action' => 'ApiAccountUpdateDeliveryDevice'));
 
-            $m->connect('api/account/update_delivery_device.:format',
-                        array('action' => 'ApiAccountUpdateDeliveryDevice'));
+         // special case where verify_credentials is called w/out a format
+         $m->connect('api/account/verify_credentials',
+                     array('action' => 'ApiAccountVerifyCredentials'));
 
-            // special case where verify_credentials is called w/out a format
+         $m->connect('api/account/rate_limit_status.:format',
+                      array('action' => 'ApiAccountRateLimitStatus'));
 
-            $m->connect('api/account/verify_credentials',
-                        array('action' => 'ApiAccountVerifyCredentials'));
 
-            $m->connect('api/account/rate_limit_status.:format',
-                        array('action' => 'ApiAccountRateLimitStatus'));
+         // -------------------------------------------------------------------
+         // Block-related actions
 
-            // blocks
+         $m->connect('api/blocks/create/:id.:format',
+                     array('action' => 'ApiBlockCreate',
+                           'id' => Nickname::INPUT_FMT,
+                           'format' => '(xml|json)'));
 
-            $m->connect('api/blocks/create/:id.:format',
-                        array('action' => 'ApiBlockCreate',
-                              'id' => Nickname::INPUT_FMT,
-                              'format' => '(xml|json)'));
+         $m->connect('api/blocks/create.:format',
+                     array('action' => 'ApiBlockCreate',
+                           'format' => '(xml|json)'));
 
-            $m->connect('api/blocks/create.:format',
-                        array('action' => 'ApiBlockCreate',
-                              'format' => '(xml|json)'));
+         $m->connect('api/blocks/destroy/:id.:format',
+                     array('action' => 'ApiBlockDestroy',
+                           'id' => Nickname::INPUT_FMT,
+                           'format' => '(xml|json)'));
 
-            $m->connect('api/blocks/destroy/:id.:format',
-                        array('action' => 'ApiBlockDestroy',
-                              'id' => Nickname::INPUT_FMT,
-                              'format' => '(xml|json)'));
+         $m->connect('api/blocks/destroy.:format',
+                     array('action' => 'ApiBlockDestroy',
+                           'format' => '(xml|json)'));
 
-            $m->connect('api/blocks/destroy.:format',
-                        array('action' => 'ApiBlockDestroy',
-                              'format' => '(xml|json)'));
 
-            // help
-
-            $m->connect('api/help/test.:format',
+         // ------------------------------------------------------------------
+         // Help action
+         $m->connect('api/help/test.:format',
                         array('action' => 'ApiHelpTest',
                               'format' => '(xml|json)'));
 
-            // statusnet
+         // ------------------------------------------------------------------
+         // Status-net (legacy stuff)
+         $m->connect('api/statusnet/version.:format',
+                     array('action' => 'ApiGNUsocialVersion',
+                           'format' => '(xml|json)'));
 
-            $m->connect('api/statusnet/version.:format',
-                        array('action' => 'ApiGNUsocialVersion',
-                              'format' => '(xml|json)'));
+         $m->connect('api/statusnet/config.:format',
+                     array('action' => 'ApiGNUsocialConfig',
+                           'format' => '(xml|json)'));
 
-            $m->connect('api/statusnet/config.:format',
-                        array('action' => 'ApiGNUsocialConfig',
-                              'format' => '(xml|json)'));
+         // For GS cross-compat:
+         $m->connect('api/gnusocial/version.:format',
+                     array('action' => 'ApiGNUsocialVersion',
+                           'format' => '(xml|json)'));
 
-            // For our current software name, we provide "gnusocial" base action
+         $m->connect('api/gnusocial/config.:format',
+                     array('action' => 'ApiGNUsocialConfig',
+                           'format' => '(xml|json)'));
 
-            $m->connect('api/gnusocial/version.:format',
-                        array('action' => 'ApiGNUsocialVersion',
-                              'format' => '(xml|json)'));
+         // postActiv-branded:
+         $m->connect('api/postActiv/version.:format',
+                     array('action' => 'ApiGNUsocialVersion',
+                           'format' => '(xml|json)'));
 
-            $m->connect('api/gnusocial/config.:format',
-                        array('action' => 'ApiGNUsocialConfig',
-                              'format' => '(xml|json)'));
+         $m->connect('api/postActiv/config.:format',
+                     array('action' => 'ApiGNUsocialConfig',
+                           'format' => '(xml|json)'));
 
-            // Groups and tags are newer than 0.8.1 so no backward-compatibility
-            // necessary
+         // -------------------------------------------------------------------
+         // Groups and tags are newer than 0.8.1 so no backward-compatibility
+         // necessary
 
-            // Groups
-            //'list' has to be handled differently, as php will not allow a method to be named 'list'
+         // -------------------------------------------------------------------
+         // Groups
+         //'list' has to be handled differently, as php will not allow a method to be named 'list'
 
             $m->connect('api/statusnet/groups/timeline/:id.:format',
                         array('action' => 'ApiTimelineGroup',
@@ -716,43 +739,44 @@ class Router
             $m->connect('api/oauth/authorize',
                         array('action' => 'ApiOAuthAuthorize'));
 
-            // Admin
+         // -------------------------------------------------------------------
+         // Admin panel
+         $m->connect('panel/site', array('action' => 'siteadminpanel'));
+         $m->connect('panel/user', array('action' => 'useradminpanel'));
+         $m->connect('panel/access', array('action' => 'accessadminpanel'));
+         $m->connect('panel/paths', array('action' => 'pathsadminpanel'));
+         $m->connect('panel/sessions', array('action' => 'sessionsadminpanel'));
+         $m->connect('panel/sitenotice', array('action' => 'sitenoticeadminpanel'));
+         $m->connect('panel/license', array('action' => 'licenseadminpanel'));
+         $m->connect('panel/plugins', array('action' => 'pluginsadminpanel'));
+         $m->connect('panel/plugins/enable/:plugin',
+                     array('action' => 'pluginenable'),
+                     array('plugin' => '[A-Za-z0-9_]+'));
+         $m->connect('panel/plugins/disable/:plugin',
+                     array('action' => 'plugindisable'),
+                     array('plugin' => '[A-Za-z0-9_]+'));
+         $m->connect('getfile/:filename',
+                     array('action' => 'getfile'),
+                     array('filename' => '[A-Za-z0-9._-]+'));
 
-            $m->connect('panel/site', array('action' => 'siteadminpanel'));
-            $m->connect('panel/user', array('action' => 'useradminpanel'));
-            $m->connect('panel/access', array('action' => 'accessadminpanel'));
-            $m->connect('panel/paths', array('action' => 'pathsadminpanel'));
-            $m->connect('panel/sessions', array('action' => 'sessionsadminpanel'));
-            $m->connect('panel/sitenotice', array('action' => 'sitenoticeadminpanel'));
-            $m->connect('panel/license', array('action' => 'licenseadminpanel'));
+         // -------------------------------------------------------------------
+         // Common people-tag stuff
+         $m->connect('peopletag/:tag', array('action' => 'peopletag',
+                                             'tag'    => self::REGEX_TAG));
+         $m->connect('selftag/:tag', array('action' => 'selftag',
+                                           'tag'    => self::REGEX_TAG));
+         $m->connect('main/addpeopletag', array('action' => 'addpeopletag'));
+         $m->connect('main/removepeopletag', array('action' => 'removepeopletag'));
+         $m->connect('main/profilecompletion', array('action' => 'profilecompletion'));
+         $m->connect('main/peopletagautocomplete', array('action' => 'peopletagautocomplete'));
 
-            $m->connect('panel/plugins', array('action' => 'pluginsadminpanel'));
-            $m->connect('panel/plugins/enable/:plugin',
-                        array('action' => 'pluginenable'),
-                        array('plugin' => '[A-Za-z0-9_]+'));
-            $m->connect('panel/plugins/disable/:plugin',
-                        array('action' => 'plugindisable'),
-                        array('plugin' => '[A-Za-z0-9_]+'));
 
-            $m->connect('getfile/:filename',
-                        array('action' => 'getfile'),
-                        array('filename' => '[A-Za-z0-9._-]+'));
-
-            // Common people-tag stuff
-
-            $m->connect('peopletag/:tag', array('action' => 'peopletag',
-                                                'tag'    => self::REGEX_TAG));
-
-            $m->connect('selftag/:tag', array('action' => 'selftag',
-                                              'tag'    => self::REGEX_TAG));
-
-            $m->connect('main/addpeopletag', array('action' => 'addpeopletag'));
-
-            $m->connect('main/removepeopletag', array('action' => 'removepeopletag'));
-
-            $m->connect('main/profilecompletion', array('action' => 'profilecompletion'));
-
-            $m->connect('main/peopletagautocomplete', array('action' => 'peopletagautocomplete'));
+         // -------------------------------------------------------------------
+         // NodeInfo 2.0 endpoints
+         // for site stats reporting
+         // TODO: Make this optional
+         $m->connect('.well-known/nodeinfo', array('action' => 'nodeinfojrd'));
+         $m->connect('main/nodeinfo/2.0', array('action' => 'nodeinfo_2_0'));
 
             // In the "root"
 
@@ -1071,4 +1095,7 @@ class Router
         return $url;
     }
 }
+
+// END OF FILE
+// ============================================================================
 ?>
