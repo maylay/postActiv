@@ -1,4 +1,4 @@
-# postActiv 1.0.3
+# postActiv 1.0.5
 (c) 2016-2018 Maiyannah Bishop
 
 If you're reading this on Gitea and you want the most up-to-date documentation,
