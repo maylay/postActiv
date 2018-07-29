@@ -55,80 +55,85 @@
 
 if (!defined('POSTACTIV')) { exit(1); }
 
-
-define('GNUSOCIAL_ENGINE', 'postActiv');
+// ============================================================================
+// Global constants
+define('GNUSOCIAL_ENGINE',     'postActiv');
 define('GNUSOCIAL_ENGINE_URL', 'http://www.postactiv.com/');
 
-define('GNUSOCIAL_BASE_VERSION', '1.0.4');
-define('GNUSOCIAL_LIFECYCLE', 'dev'); // 'dev', 'alpha[0-9]+', 'beta[0-9]+', 'rc[0-9]+', 'release'
+define('GNUSOCIAL_BASE_VERSION', '1.0.5');
+define('GNUSOCIAL_LIFECYCLE',    'dev'); // 'dev', 'alpha[0-9]+', 'beta[0-9]+', 'rc[0-9]+', 'release'
 
 define('GNUSOCIAL_VERSION', GNUSOCIAL_BASE_VERSION . '-' . GNUSOCIAL_LIFECYCLE);
 
 define('GNUSOCIAL_CODENAME', 'Genesis');
 
 define('AVATAR_PROFILE_SIZE', 96);
-define('AVATAR_STREAM_SIZE', 48);
-define('AVATAR_MINI_SIZE', 24);
+define('AVATAR_STREAM_SIZE',  48);
+define('AVATAR_MINI_SIZE',    24);
 
-define('NOTICES_PER_PAGE', 20);
-define('PROFILES_PER_PAGE', 20);
-define('MESSAGES_PER_PAGE', 20);
-define('GROUPS_PER_PAGE', 20);
-define('APPS_PER_PAGE', 20);
+define('NOTICES_PER_PAGE',    20);
+define('PROFILES_PER_PAGE',   20);
+define('MESSAGES_PER_PAGE',   20);
+define('GROUPS_PER_PAGE',     20);
+define('APPS_PER_PAGE',       20);
 define('PEOPLETAGS_PER_PAGE', 20);
 
-define('GROUPS_PER_MINILIST', 8);
+define('GROUPS_PER_MINILIST',   8);
 define('PROFILES_PER_MINILIST', 8);
 
-define('FOREIGN_NOTICE_SEND', 1);
-define('FOREIGN_NOTICE_RECV', 2);
-define('FOREIGN_NOTICE_SEND_REPLY', 4);
+define('FOREIGN_NOTICE_SEND',        1);
+define('FOREIGN_NOTICE_RECV',        2);
+define('FOREIGN_NOTICE_SEND_REPLY',  4);
 define('FOREIGN_NOTICE_SEND_REPEAT', 8);
 
 define('FOREIGN_FRIEND_SEND', 1);
 define('FOREIGN_FRIEND_RECV', 2);
 
-define('NOTICE_INBOX_SOURCE_SUB', 1);
-define('NOTICE_INBOX_SOURCE_GROUP', 2);
-define('NOTICE_INBOX_SOURCE_REPLY', 3);
-define('NOTICE_INBOX_SOURCE_FORWARD', 4);
+define('NOTICE_INBOX_SOURCE_SUB',         1);
+define('NOTICE_INBOX_SOURCE_GROUP',       2);
+define('NOTICE_INBOX_SOURCE_REPLY',       3);
+define('NOTICE_INBOX_SOURCE_FORWARD',     4);
 define('NOTICE_INBOX_SOURCE_PROFILE_TAG', 5);
-define('NOTICE_INBOX_SOURCE_GATEWAY', -1);
+define('NOTICE_INBOX_SOURCE_GATEWAY',     -1);
 
-/**
- * StatusNet had this string as valid path characters: '\pN\pL\,\!\(\)\.\:\-\_\+\/\=\&\;\%\~\*\$\'\@'
- * Some of those characters can be troublesome when auto-linking plain text. Such as "http://some.com/)"
- * URL encoding should be used whenever a weird character is used, the following strings are not definitive.
- */
+// -----------------------------------------------------------------------------
+// StatusNet had this string as valid path characters:
+//     '\pN\pL\,\!\(\)\.\:\-\_\+\/\=\&\;\%\~\*\$\'\@'
+// Some of those characters can be troublesome when auto-linking plain text.
+//     Such as "http://some.com/)"
+// URL encoding should be used whenever a weird character is used, the
+// following strings are not definitive.
 define('URL_REGEX_VALID_PATH_CHARS',        '\pN\pL\,\!\.\:\-\_\+\/\=\:\;\%\~\*\@');
 define('URL_REGEX_VALID_QSTRING_CHARS',     URL_REGEX_VALID_PATH_CHARS    . '\&');
 define('URL_REGEX_VALID_FRAGMENT_CHARS',    URL_REGEX_VALID_QSTRING_CHARS . '\?\#');
 define('URL_REGEX_EXCLUDED_END_CHARS',      '\?\.\,\!\#\:\'');  // don't include these if they are directly after a URL
 define('URL_REGEX_DOMAIN_NAME', '(?:(?!-)[A-Za-z0-9\-]{1,63}(?<!-)\.)+[A-Za-z]{2,10}');
 
-// append our extlib dir as the last-resort place to find libs
 
+// ============================================================================
+// Bootstrapping
+// ----------------------------------------------------------------------------
+// append our extlib dir as the last-resort place to find libs
 set_include_path(get_include_path() . PATH_SEPARATOR . INSTALLDIR . '/extlib/');
 
 // To protect against upstream libraries which haven't updated
 // for PHP 5.3 where dl() function may not be present...
 if (!function_exists('dl')) {
-    // function_exists() returns false for things in disable_functions,
-    // but they still exist and we'll die if we try to redefine them.
-    //
-    // Fortunately trying to call the disabled one will only trigger
-    // a warning, not a fatal, so it's safe to leave it for our case.
-    // Callers will be suppressing warnings anyway.
-    $disabled = array_filter(array_map('trim', explode(',', ini_get('disable_functions'))));
-    if (!in_array('dl', $disabled)) {
-        function dl($library) {
-            return false;
-        }
-    }
+   // function_exists() returns false for things in disable_functions,
+   // but they still exist and we'll die if we try to redefine them.
+   //
+   // Fortunately trying to call the disabled one will only trigger
+   // a warning, not a fatal, so it's safe to leave it for our case.
+   // Callers will be suppressing warnings anyway.
+   $disabled = array_filter(array_map('trim', explode(',', ini_get('disable_functions'))));
+   if (!in_array('dl', $disabled)) {
+      function dl($library) {
+         return false;
+      }
+   }
 }
 
-// global configuration object
-
+// Global configuration objects
 require_once 'PEAR.php';
 require_once 'PEAR/Exception.php';
 global $_PEAR;
@@ -150,21 +155,18 @@ require_once(INSTALLDIR.'/lib/event.php');
 require_once(INSTALLDIR.'/classes/plugins/Plugin.php');
 require_once(INSTALLDIR.'/lib/xml.php');
 
-function addPlugin($name, array $attrs=array())
-{
-    return postActiv::addPlugin($name, $attrs);
+function addPlugin($name, array $attrs=array()) {
+   return postActiv::addPlugin($name, $attrs);
 }
 
-function _have_config()
-{
-    return postActiv::haveConfig();
+function _have_config() {
+   return postActiv::haveConfig();
 }
 
 // ----------------------------------------------------------------------------
 // function postActiv_class_autoload
 //    If a class isn't already in memory, look in some common locations for it.
-function postActiv_class_autoload($cls)
-{
+function postActiv_class_autoload($cls) {
    if (file_exists(INSTALLDIR.'/classes/' . $cls . '.php')) {
       require_once(INSTALLDIR.'/classes/' . $cls . '.php');
    } else if (file_exists(INSTALLDIR.'/classes/activity/' . $cls . '.php')) {
