@@ -134,7 +134,7 @@ class Nodeinfo_2_0Action extends ApiAction {
    // Function: getProtocols
    // Returns the protocols which the instance speaks.
    function getProtocols() {
-      $oStatusEnabled  = (array_key_exists('ostatus', $this->plugins) | array_key_exists('federateOstatus'), $this->plugins));
+      $oStatusEnabled  = (array_key_exists('ostatus', $this->plugins) | array_key_exists('federateOstatus', $this->plugins));
       $xmppEnabled     = (array_key_exists('xmpp', $this->plugins) && common_config('xmpp', 'enabled')) ? true : false;
       $diasporaEnabled = array_key_exists('federateDiaspora', $this->plugins);
       $protocols = array();
@@ -165,9 +165,9 @@ class Nodeinfo_2_0Action extends ApiAction {
    // nodes will accept and will contain a superset of different federation
    // network features.
    function getInboundServices() {
-      $diaspora_enabled = array_key_exists('federateDiaspora', $this->plugins)
-      $ostatus_enabled  = array_key_exists('ostatus', $this->plugins)
-      $twitter_enabled  = array_key_exists('twitterbridge', $this->plugins) && $config['twitterimport']['enabled']
+      $diaspora_enabled = array_key_exists('federateDiaspora', $this->plugins);
+      $ostatus_enabled  = array_key_exists('ostatus', $this->plugins);
+      $twitter_enabled  = array_key_exists('twitterbridge', $this->plugins) && $config['twitterimport']['enabled'];
       $xmpp_enabled     = (array_key_exists('xmpp', $this->plugins) && common_config('xmpp', 'enabled')) ? true : false;
 
       // FIXME: Are those always on?
@@ -183,7 +183,7 @@ class Nodeinfo_2_0Action extends ApiAction {
          $inboundServices[] = 'twitter';
       }
       if ($xmpp_enabled) {
-         $outboundServices[] = 'xmpp';
+         $inboundServices[] = 'xmpp';
       }
       return $inboundServices;
    }
@@ -198,21 +198,25 @@ class Nodeinfo_2_0Action extends ApiAction {
    // nodes will accept and will contain a superset of different federation
    // network features.
    function getOutboundServices() {
-      $diaspora_enabled = array_key_exists('federateDiaspora', $this->plugins)
-      $ostatus_enabled  = array_key_exists('ostatus', $this->plugins)
-      $twitter_enabled  = array_key_exists('twitterbridge', $this->plugins) && $config['twitterimport']['enabled']
+      $diaspora_enabled = array_key_exists('federateDiaspora', $this->plugins);
+      $ostatus_enabled  = array_key_exists('ostatus', $this->plugins);
+      $twitter_enabled  = array_key_exists('twitterbridge', $this->plugins) && $config['twitterimport']['enabled'];
       $xmpp_enabled     = (array_key_exists('xmpp', $this->plugins) && common_config('xmpp', 'enabled')) ? true : false;
 
       // FIXME: Are those always on?
-      $outboundServices = array('atom1.0', 'rss2.0');
-      if (array_key_exists('twitterbridge', $this->plugins)) {
-            $outboundServices[] = 'twitter';
+      $inboundServices = array('atom1.0', 'rss2.0', 'activpost');
+      
+      if ($diaspora_enabled) {
+         $outboundServices[] = 'diaspora';
       }
-      if (array_key_exists('ostatus', $this->plugins)) {
-          $outboundServices[] = 'gnusocial';
+      if ($ostatus_enabled) {
+         $outboundServices[] = 'ostatus';
       }
-      if ($xmppEnabled) {
-          $outboundServices[] = 'xmpp';
+      if ($twitter_enabled) {
+         $outboundServices[] = 'twitter';
+      }
+      if ($xmpp_enabled) {
+         $outboundServices[] = 'xmpp';
       }
       return $outboundServices;
    }
