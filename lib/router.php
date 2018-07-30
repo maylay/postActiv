@@ -50,17 +50,15 @@ if (!defined('POSTACTIV')) { exit(1); }
 // URL Router
 //
 // Cheap wrapper around Net_URL_Mapper
-class Router
-{
-    var $m = null;
-    static $inst = null;
-
-    const REGEX_TAG = '[^\/]+'; // [\pL\pN_\-\.]{1,64} better if we can do unicode regexes
+class Router {
+   var $m = null;
+   static $inst = null;
+   const REGEX_TAG = '[^\/]+'; // [\pL\pN_\-\.]{1,64} better if we can do unicode regexes
 
 
-    // ------------------------------------------------------------------------
-    // Function: get
-    // Returns the router
+   // ------------------------------------------------------------------------
+   // Function: get
+   // Returns the router
    static function get() {
       if (!Router::$inst) {
          Router::$inst = new Router();
@@ -77,12 +75,12 @@ class Router
       Router::$inst = null;
    }
 
-    function __construct()
-    {
-        if (empty($this->m)) {
-            $this->m = $this->initialize();
-        }
-    }
+
+   function __construct() {
+      if (empty($this->m)) {
+         $this->m = $this->initialize();
+      }
+   }
 
 
    // -------------------------------------------------------------------------
@@ -301,6 +299,7 @@ class Router
          $m->connect('groups/', array('action' => 'groups'));
          $m->connect('groups', array('action' => 'groups'));
 
+
          // --------------------------------------------------------------------
          // Twitter-compatible API
          $m->connect('api',
@@ -418,6 +417,7 @@ class Router
                      array('action' => 'ApiCheckNickname',
                            'format' => '(xml|json)'));
 
+
          // --------------------------------------------------------------------
          // Users API
          $m->connect('api/users/show/:id.:format',
@@ -431,6 +431,7 @@ class Router
                      array('action' => 'ApiUserProfileImage',
                            'screen_name' => Nickname::DISPLAY_FMT,
                            'format' => '(xml|json)'));
+
 
          // -------------------------------------------------------------------
          // Friendships (subscriptions/following) API
@@ -498,7 +499,6 @@ class Router
 
          // -------------------------------------------------------------------
          // Block-related actions
-
          $m->connect('api/blocks/create/:id.:format',
                      array('action' => 'ApiBlockCreate',
                            'id' => Nickname::INPUT_FMT,
@@ -523,6 +523,7 @@ class Router
          $m->connect('api/help/test.:format',
                         array('action' => 'ApiHelpTest',
                               'format' => '(xml|json)'));
+
 
          // ------------------------------------------------------------------
          // Status-net (legacy stuff)
@@ -552,6 +553,7 @@ class Router
                      array('action' => 'ApiGNUsocialConfig',
                            'format' => '(xml|json)'));
 
+
          // -------------------------------------------------------------------
          // Groups and tags are newer than 0.8.1 so no backward-compatibility
          // necessary
@@ -559,185 +561,154 @@ class Router
          // -------------------------------------------------------------------
          // Groups
          //'list' has to be handled differently, as php will not allow a method to be named 'list'
+         $m->connect('api/statusnet/groups/timeline/:id.:format',
+                     array('action' => 'ApiTimelineGroup',
+                           'id' => Nickname::INPUT_FMT,
+                           'format' => '(xml|json|rss|atom|as)'));
+         $m->connect('api/statusnet/groups/show/:id.:format',
+                     array('action' => 'ApiGroupShow',
+                           'id' => Nickname::INPUT_FMT,
+                           'format' => '(xml|json)'));
+         $m->connect('api/statusnet/groups/show.:format',
+                     array('action' => 'ApiGroupShow',
+                           'format' => '(xml|json)'));
+         $m->connect('api/statusnet/groups/join/:id.:format',
+                     array('action' => 'ApiGroupJoin',
+                           'id' => Nickname::INPUT_FMT,
+                           'format' => '(xml|json)'));
+         $m->connect('api/statusnet/groups/join.:format',
+                     array('action' => 'ApiGroupJoin',
+                           'format' => '(xml|json)'));
+         $m->connect('api/statusnet/groups/leave/:id.:format',
+                     array('action' => 'ApiGroupLeave',
+                           'format' => '(xml|json)'));
+         $m->connect('api/statusnet/groups/leave.:format',
+                     array('action' => 'ApiGroupLeave',
+                           'id' => Nickname::INPUT_FMT,
+                           'format' => '(xml|json)'));
+         $m->connect('api/statusnet/groups/is_member.:format',
+                     array('action' => 'ApiGroupIsMember',
+                           'format' => '(xml|json)'));
+         $m->connect('api/statusnet/groups/list/:id.:format',
+                     array('action' => 'ApiGroupList',
+                           'id' => Nickname::INPUT_FMT,
+                           'format' => '(xml|json|rss|atom)'));
+         $m->connect('api/statusnet/groups/list.:format',
+                     array('action' => 'ApiGroupList',
+                           'format' => '(xml|json|rss|atom)'));
+         $m->connect('api/statusnet/groups/list_all.:format',
+                     array('action' => 'ApiGroupListAll',
+                           'format' => '(xml|json|rss|atom)'));
+         $m->connect('api/statusnet/groups/membership/:id.:format',
+                     array('action' => 'ApiGroupMembership',
+                           'id' => Nickname::INPUT_FMT,
+                           'format' => '(xml|json)'));
+         $m->connect('api/statusnet/groups/membership.:format',
+                     array('action' => 'ApiGroupMembership',
+                           'format' => '(xml|json)'));
+         $m->connect('api/statusnet/groups/create.:format',
+                     array('action' => 'ApiGroupCreate',
+                           'format' => '(xml|json)'));
+         $m->connect('api/statusnet/groups/update/:id.:format',
+                     array('action' => 'ApiGroupProfileUpdate',
+                           'id' => '[a-zA-Z0-9]+',
+                           'format' => '(xml|json)'));
+         $m->connect('api/statusnet/conversation/:id.:format',
+                     array('action' => 'apiconversation',
+                           'id' => '[0-9]+',
+                           'format' => '(xml|json|rss|atom|as)'));
 
-            $m->connect('api/statusnet/groups/timeline/:id.:format',
-                        array('action' => 'ApiTimelineGroup',
-                              'id' => Nickname::INPUT_FMT,
-                              'format' => '(xml|json|rss|atom|as)'));
 
-            $m->connect('api/statusnet/groups/show/:id.:format',
-                        array('action' => 'ApiGroupShow',
-                              'id' => Nickname::INPUT_FMT,
-                              'format' => '(xml|json)'));
+         // -------------------------------------------------------------------
+         // Lists (people tags)
+         $m->connect('api/lists/list.:format',
+                     array('action' => 'ApiListSubscriptions',
+                           'format' => '(xml|json)'));
+         $m->connect('api/lists/memberships.:format',
+                     array('action' => 'ApiListMemberships',
+                           'format' => '(xml|json)'));
+         $m->connect('api/:user/lists/memberships.:format',
+                     array('action' => 'ApiListMemberships',
+                           'user' => '[a-zA-Z0-9]+',
+                           'format' => '(xml|json)'));
+         $m->connect('api/lists/subscriptions.:format',
+                     array('action' => 'ApiListSubscriptions',
+                           'format' => '(xml|json)'));
+         $m->connect('api/:user/lists/subscriptions.:format',
+                     array('action' => 'ApiListSubscriptions',
+                           'user' => '[a-zA-Z0-9]+',
+                           'format' => '(xml|json)'));
+         $m->connect('api/lists.:format',
+                     array('action' => 'ApiLists',
+                           'format' => '(xml|json)'));
+         $m->connect('api/:user/lists/:id.:format',
+                     array('action' => 'ApiList',
+                           'user' => '[a-zA-Z0-9]+',
+                           'id' => '[a-zA-Z0-9]+',
+                           'format' => '(xml|json)'));
+         $m->connect('api/:user/lists.:format',
+                     array('action' => 'ApiLists',
+                           'user' => '[a-zA-Z0-9]+',
+                           'format' => '(xml|json)'));
+         $m->connect('api/:user/lists/:id/statuses.:format',
+                     array('action' => 'ApiTimelineList',
+                           'user' => '[a-zA-Z0-9]+',
+                           'id' => '[a-zA-Z0-9]+',
+                           'format' => '(xml|json|rss|atom)'));
+         $m->connect('api/:user/:list_id/members/:id.:format',
+                     array('action' => 'ApiListMember',
+                           'user' => '[a-zA-Z0-9]+',
+                           'list_id' => '[a-zA-Z0-9]+',
+                           'id' => '[a-zA-Z0-9]+',
+                           'format' => '(xml|json)'));
+         $m->connect('api/:user/:list_id/members.:format',
+                     array('action' => 'ApiListMembers',
+                           'user' => '[a-zA-Z0-9]+',
+                           'list_id' => '[a-zA-Z0-9]+',
+                           'format' => '(xml|json)'));
+         $m->connect('api/:user/:list_id/subscribers/:id.:format',
+                     array('action' => 'ApiListSubscriber',
+                           'user' => '[a-zA-Z0-9]+',
+                           'list_id' => '[a-zA-Z0-9]+',
+                           'id' => '[a-zA-Z0-9]+',
+                           'format' => '(xml|json)'));
+         $m->connect('api/:user/:list_id/subscribers.:format',
+                     array('action' => 'ApiListSubscribers',
+                           'user' => '[a-zA-Z0-9]+',
+                           'list_id' => '[a-zA-Z0-9]+',
+                           'format' => '(xml|json)'));
 
-            $m->connect('api/statusnet/groups/show.:format',
-                        array('action' => 'ApiGroupShow',
-                              'format' => '(xml|json)'));
 
-            $m->connect('api/statusnet/groups/join/:id.:format',
-                        array('action' => 'ApiGroupJoin',
-                              'id' => Nickname::INPUT_FMT,
-                              'format' => '(xml|json)'));
+         // -------------------------------------------------------------------
+         // Tags
+         $m->connect('api/statusnet/tags/timeline/:tag.:format',
+                     array('action' => 'ApiTimelineTag',
+                           'tag'    => self::REGEX_TAG,
+                           'format' => '(xml|json|rss|atom|as)'));
 
-            $m->connect('api/statusnet/groups/join.:format',
-                        array('action' => 'ApiGroupJoin',
-                              'format' => '(xml|json)'));
 
-            $m->connect('api/statusnet/groups/leave/:id.:format',
-                        array('action' => 'ApiGroupLeave',
-                              'format' => '(xml|json)'));
+         // -------------------------------------------------------------------
+         // Media related
+         $m->connect('api/statusnet/media/upload', array('action' => 'ApiMediaUpload'));
+         $m->connect('api/statuses/update_with_media.json', array('action' => 'ApiMediaUpload'));
+         
+         // Twitter Media upload API v1.1
+         $m->connect('api/media/upload.:format',
+                     array('action' => 'ApiMediaUpload',
+                           'format' => '(xml|json)',));
 
-            $m->connect('api/statusnet/groups/leave.:format',
-                        array('action' => 'ApiGroupLeave',
-                              'id' => Nickname::INPUT_FMT,
-                              'format' => '(xml|json)'));
+         // -------------------------------------------------------------------
+         // Search actions
+         $m->connect('api/search.atom', array('action' => 'ApiSearchAtom'));
+         $m->connect('api/search.json', array('action' => 'ApiSearchJSON'));
+         $m->connect('api/trends.json', array('action' => 'ApiTrends'));
+         $m->connect('api/oauth/request_token',
+                     array('action' => 'ApiOAuthRequestToken'));
+         $m->connect('api/oauth/access_token',
+                     array('action' => 'ApiOAuthAccessToken'));
+         $m->connect('api/oauth/authorize',
+                     array('action' => 'ApiOAuthAuthorize'));
 
-            $m->connect('api/statusnet/groups/is_member.:format',
-                        array('action' => 'ApiGroupIsMember',
-                              'format' => '(xml|json)'));
-
-            $m->connect('api/statusnet/groups/list/:id.:format',
-                        array('action' => 'ApiGroupList',
-                              'id' => Nickname::INPUT_FMT,
-                              'format' => '(xml|json|rss|atom)'));
-
-            $m->connect('api/statusnet/groups/list.:format',
-                        array('action' => 'ApiGroupList',
-                              'format' => '(xml|json|rss|atom)'));
-
-            $m->connect('api/statusnet/groups/list_all.:format',
-                        array('action' => 'ApiGroupListAll',
-                              'format' => '(xml|json|rss|atom)'));
-
-            $m->connect('api/statusnet/groups/membership/:id.:format',
-                        array('action' => 'ApiGroupMembership',
-                              'id' => Nickname::INPUT_FMT,
-                              'format' => '(xml|json)'));
-
-            $m->connect('api/statusnet/groups/membership.:format',
-                        array('action' => 'ApiGroupMembership',
-                              'format' => '(xml|json)'));
-
-            $m->connect('api/statusnet/groups/create.:format',
-                        array('action' => 'ApiGroupCreate',
-                              'format' => '(xml|json)'));
-
-            $m->connect('api/statusnet/groups/update/:id.:format',
-                        array('action' => 'ApiGroupProfileUpdate',
-                              'id' => '[a-zA-Z0-9]+',
-                              'format' => '(xml|json)'));
-                              
-            $m->connect('api/statusnet/conversation/:id.:format',
-                        array('action' => 'apiconversation',
-                              'id' => '[0-9]+',
-                              'format' => '(xml|json|rss|atom|as)'));
-
-            // Lists (people tags)
-            $m->connect('api/lists/list.:format',
-                        array('action' => 'ApiListSubscriptions',
-                              'format' => '(xml|json)'));
-
-            $m->connect('api/lists/memberships.:format',
-                        array('action' => 'ApiListMemberships',
-                              'format' => '(xml|json)'));
-
-            $m->connect('api/:user/lists/memberships.:format',
-                        array('action' => 'ApiListMemberships',
-                              'user' => '[a-zA-Z0-9]+',
-                              'format' => '(xml|json)'));
-
-            $m->connect('api/lists/subscriptions.:format',
-                        array('action' => 'ApiListSubscriptions',
-                              'format' => '(xml|json)'));
-
-            $m->connect('api/:user/lists/subscriptions.:format',
-                        array('action' => 'ApiListSubscriptions',
-                              'user' => '[a-zA-Z0-9]+',
-                              'format' => '(xml|json)'));
-
-            $m->connect('api/lists.:format',
-                        array('action' => 'ApiLists',
-                              'format' => '(xml|json)'));
-
-            $m->connect('api/:user/lists/:id.:format',
-                        array('action' => 'ApiList',
-                              'user' => '[a-zA-Z0-9]+',
-                              'id' => '[a-zA-Z0-9]+',
-                              'format' => '(xml|json)'));
-
-            $m->connect('api/:user/lists.:format',
-                        array('action' => 'ApiLists',
-                              'user' => '[a-zA-Z0-9]+',
-                              'format' => '(xml|json)'));
-
-            $m->connect('api/:user/lists/:id/statuses.:format',
-                        array('action' => 'ApiTimelineList',
-                              'user' => '[a-zA-Z0-9]+',
-                              'id' => '[a-zA-Z0-9]+',
-                              'format' => '(xml|json|rss|atom)'));
-
-            $m->connect('api/:user/:list_id/members/:id.:format',
-                        array('action' => 'ApiListMember',
-                              'user' => '[a-zA-Z0-9]+',
-                              'list_id' => '[a-zA-Z0-9]+',
-                              'id' => '[a-zA-Z0-9]+',
-                              'format' => '(xml|json)'));
-
-            $m->connect('api/:user/:list_id/members.:format',
-                        array('action' => 'ApiListMembers',
-                              'user' => '[a-zA-Z0-9]+',
-                              'list_id' => '[a-zA-Z0-9]+',
-                              'format' => '(xml|json)'));
-
-            $m->connect('api/:user/:list_id/subscribers/:id.:format',
-                        array('action' => 'ApiListSubscriber',
-                              'user' => '[a-zA-Z0-9]+',
-                              'list_id' => '[a-zA-Z0-9]+',
-                              'id' => '[a-zA-Z0-9]+',
-                              'format' => '(xml|json)'));
-
-            $m->connect('api/:user/:list_id/subscribers.:format',
-                        array('action' => 'ApiListSubscribers',
-                              'user' => '[a-zA-Z0-9]+',
-                              'list_id' => '[a-zA-Z0-9]+',
-                              'format' => '(xml|json)'));
-
-            // Tags
-            $m->connect('api/statusnet/tags/timeline/:tag.:format',
-                        array('action' => 'ApiTimelineTag',
-                              'tag'    => self::REGEX_TAG,
-                              'format' => '(xml|json|rss|atom|as)'));
-
-            // media related
-            $m->connect(
-                'api/statusnet/media/upload',
-                array('action' => 'ApiMediaUpload')
-            );
-            $m->connect(
-                'api/statuses/update_with_media.json',
-                array('action' => 'ApiMediaUpload')
-            );
-            // Twitter Media upload API v1.1
-            $m->connect(
-                'api/media/upload.:format',
-                array('action' => 'ApiMediaUpload',
-                      'format' => '(xml|json)',
-                      )
-            );
-
-            // search
-            $m->connect('api/search.atom', array('action' => 'ApiSearchAtom'));
-            $m->connect('api/search.json', array('action' => 'ApiSearchJSON'));
-            $m->connect('api/trends.json', array('action' => 'ApiTrends'));
-
-            $m->connect('api/oauth/request_token',
-                        array('action' => 'ApiOAuthRequestToken'));
-
-            $m->connect('api/oauth/access_token',
-                        array('action' => 'ApiOAuthAccessToken'));
-
-            $m->connect('api/oauth/authorize',
-                        array('action' => 'ApiOAuthAuthorize'));
 
          // -------------------------------------------------------------------
          // Admin panel
@@ -758,6 +729,8 @@ class Router
          $m->connect('getfile/:filename',
                      array('action' => 'getfile'),
                      array('filename' => '[A-Za-z0-9._-]+'));
+         $m->connect('panel/websub', array('action' => 'websubadminpanel'));
+
 
          // -------------------------------------------------------------------
          // Common people-tag stuff
