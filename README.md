@@ -203,14 +203,13 @@ To keep it up-to-date, use 'git pull'. Watch for conflicts!
 
 There are several ways to get more information about postActiv.
 
-* Following us on the Fediverse --
-<https://community.highlandarrow.com/postActiv>
-* Our web page at <www.postactiv.com>
+* Following us on the Fediverse - <https://community.highlandarrow.com/postActiv>.
+* Our web page at <www.postactiv.com>.
 * postActiv has a bug tracker for any defects you may find, or ideas for
-  making things better. <https://git.postactiv.com/postActiv/postActiv/issues>
+  making things better. <https://git.postactiv.com/postActiv/postActiv/issues>.
 * Patches are welcome, preferrably to our repository on git.postactiv.com.
-  <https://git.postactiv.com/postActiv/postActiv/>
-* There is a users mailing list at <users@postactiv.com>
+  <https://git.postactiv.com/postActiv/postActiv/>.
+* There is a users mailing list at <users@postactiv.com>.
 
 If you can't find the answer you're looking for, feel free to ask on the fediverse!
 
