@@ -4,7 +4,7 @@
 If you're reading this on Gitea and you want the most up-to-date documentation,
 go here: 
 
-http://gitea.postactiv.com/postActiv/postActiv/src/master/README.md
+http://gitea.postactiv.com/postActiv/postActiv/src/nightly/README.md
 
 postActiv is derived from code copyright various sources:
  * GNU Social (C) 2013-2016, Free Software Foundation, Inc
