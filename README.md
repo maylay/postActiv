@@ -231,6 +231,9 @@ The following is a list of developers who've contributed to directly postActiv:
 * Normandy
 * Bob Mottram
 * David Yip
+* Mark Caudill
+* Dan Supernault
+* Alexei Sorokin
 
 See CREDITS.md for a full listing of contributors to upstream sources such as
 GNU social or StatusNet.
