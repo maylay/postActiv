@@ -94,7 +94,7 @@ with this program, in the file "COPYING".  If not, see
 
 *IMPORTANT NOTE:* The GNU Affero General Public License (AGPL) has *different
 requirements* from the "regular" GPL. In particular, if you make modifications
-to the GNU social source code on your server, you *MUST MAKE AVAILABLE* the
+to the postActiv source code on your server, you *MUST MAKE AVAILABLE* the
 modified version of the source code to your users under the same license. This
 is a legal requirement of using the software, and if you do not wish to share
 your modifications, *YOU MAY NOT INSTALL POSTACTIV*.
