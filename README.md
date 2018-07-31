@@ -87,16 +87,19 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License along
-with this program, in the file "COPYING".  If not, see <http://www.gnu.org/
-licenses/>.
+with this program, in the file "COPYING".  If not, see
+<http://www.gnu.org/licenses/>.
 
-    IMPORTANT NOTE: The GNU Affero General Public License (AGPL) has
-    *different requirements* from the "regular" GPL. In particular, if
-    you make modifications to the GNU social source code on your server,
-    you *MUST MAKE AVAILABLE* the modified version of the source code
-    to your users under the same license. This is a legal requirement
-    of using the software, and if you do not wish to share your
-    modifications, *YOU MAY NOT INSTALL GNU SOCIAL*.
+----
+
+*IMPORTANT NOTE:* The GNU Affero General Public License (AGPL) has *different
+requirements* from the "regular" GPL. In particular, if you make modifications
+to the GNU social source code on your server, you *MUST MAKE AVAILABLE* the
+modified version of the source code to your users under the same license. This
+is a legal requirement of using the software, and if you do not wish to share
+your modifications, *YOU MAY NOT INSTALL POSTACTIV*.
+
+----
 
 Documentation in the /doc-src/ directory is available under the
 Creative Commons Attribution 3.0 Unported license, with attribution to
@@ -120,8 +123,8 @@ license file in the extlib directory for additional terms.
 ## Requirements
 The minimum requirements to run postActiv are the following:
 
-* PHP: PHP 5 or higher is neccesary.  We recommend using PHP 7 as all new
-  postActiv code is being designed with that as the target version.
+* PHP: PHP 7 or higher is neccesary after 1.0.5.  Versions before this require
+  PHP 5.6 or higher.
 * MySQL: You need either a MariaDB or MySQL database available for postActiv
   to store information in.  MySQL 5.6 is the recommended version.  MariaDB
   also works fine, but has some installation technicalities.
