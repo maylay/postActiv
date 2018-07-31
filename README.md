@@ -212,6 +212,8 @@ There are several ways to get more information about postActiv.
   <https://git.postactiv.com/postActiv/postActiv/>
 * There is a users mailing list at <users@postactiv.com>
 
+If you can't find the answer you're looking for, feel free to ask on the fediverse!
+
 ## Credits
 
 The following is a list of developers who've contributed to directly postActiv:
