@@ -29,7 +29,7 @@ the "help" section on-line, or you can contact maiyannah on the fediverse at
 <maiyannah.bishop@postactiv.com>
 
 There is also a website at <postactiv.com> with a lot of useful information,
-such as FAQs, more extensive mailing docs, and mailing list archives.
+such as FAQs, more extensive documentation, and mailing list archives.
 
 ## About
 
