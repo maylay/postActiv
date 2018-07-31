@@ -45,7 +45,7 @@ status messages.  postActiv also helpfully provides a site-wide "timeline"
 of messages, which allows you to see all of the notices, polls, and events
 that are posted locally on the server you share.
 
-The chief strength of postActiv compared to many other similar social 
+The chief strength of postActiv compared to many other similar social
 software projects, such as wikis or forums, is that it is federated, meaning
 that if you make your server public, it can connect with an entire network 
 (often called "the Fediverse") of sites running postActiv or other inter-
@@ -212,16 +212,15 @@ There are several ways to get more information about postActiv.
   <https://git.postactiv.com/postActiv/postActiv/>
 * There is a users mailing list at <users@postactiv.com>
 
-Credits
-=======
+## Credits
 
 The following is a list of developers who've contributed to directly postActiv:
 
-## Lead Maintainer / Developer
+### Lead Maintainer / Developer
 
 * Maiyannah Bishop - <maiyannah.bishop@postactiv.com>
 
-## Contributors
+### Contributors
 * Verius - <verius@postactiv.com>
 * Neil E Hodges
 * Moonman
