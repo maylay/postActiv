@@ -747,69 +747,57 @@ class Router {
          // -------------------------------------------------------------------
          // NodeInfo 2.0 endpoints
          // for site stats reporting
-         // TODO: Make this optional
-         $m->connect('.well-known/nodeinfo', array('action' => 'nodeinfojrd'));
-         $m->connect('main/nodeinfo/2.0', array('action' => 'nodeinfo_2_0'));
+         if (common_config('nodeinfo', 'enabled')) {
+            $m->connect('.well-known/nodeinfo', array('action' => 'nodeinfojrd'));
+            $m->connect('main/nodeinfo/2.0', array('action' => 'nodeinfo_2_0'));
+         }
 
-            // In the "root"
+         // -------------------------------------------------------------------
+         // In the "root"
+         if (common_config('singleuser', 'enabled')) {
+            $nickname = User::singleUserNickname();
+            $m->connect('subscribers/pending',
+                        array('action' => 'subqueue',
+                              'nickname' => $nickname));
+            $m->connect('avatar',
+                        array('action' => 'avatarbynickname',
+                              'nickname' => $nickname));
+            $m->connect('avatar/:size',
+                        array('action' => 'avatarbynickname',
+                              'nickname' => $nickname),
+                        array('size' => '(|original|\d+)'));
+            $m->connect('tag/:tag/rss',
+                        array('action' => 'userrss',
+                              'nickname' => $nickname),
+                        array('tag' => self::REGEX_TAG));
+            $m->connect('tag/:tag',
+                        array('action' => 'showstream',
+                              'nickname' => $nickname),
+                        array('tag' => self::REGEX_TAG));
+            $m->connect('rsd.xml',
+                        array('action' => 'rsd',
+                              'nickname' => $nickname));
 
-            if (common_config('singleuser', 'enabled')) {
+            foreach (array('subscriptions', 'subscribers',
+                           'all', 'foaf', 'replies',) as $a) {
+                    $m->connect($a, array('action' => $a, 'nickname' => $nickname)); }
 
-                $nickname = User::singleUserNickname();
-
-                foreach (array('subscriptions', 'subscribers',
-                               'all', 'foaf', 'replies',
-                               ) as $a) {
-                    $m->connect($a,
-                                array('action' => $a,
-                                      'nickname' => $nickname));
-                }
-
-                foreach (array('subscriptions', 'subscribers') as $a) {
+            foreach (array('subscriptions', 'subscribers') as $a) {
                     $m->connect($a.'/:tag',
-                                array('action' => $a,
-                                      'nickname' => $nickname),
-                                array('tag' => self::REGEX_TAG));
-                }
+                                array('action' => $a, 'nickname' => $nickname),
+                                array('tag' => self::REGEX_TAG));}
 
-                $m->connect('subscribers/pending',
-                            array('action' => 'subqueue',
-                                  'nickname' => $nickname));
-
-                foreach (array('rss', 'groups') as $a) {
+            foreach (array('rss', 'groups') as $a) {
                     $m->connect($a,
                                 array('action' => 'user'.$a,
-                                      'nickname' => $nickname));
-                }
+                                      'nickname' => $nickname));}
 
-                foreach (array('all', 'replies') as $a) {
+            foreach (array('all', 'replies') as $a) {
                     $m->connect($a.'/rss',
                                 array('action' => $a.'rss',
-                                      'nickname' => $nickname));
-                }
+                                      'nickname' => $nickname));}
 
-                $m->connect('avatar',
-                            array('action' => 'avatarbynickname',
-                                  'nickname' => $nickname));
-                $m->connect('avatar/:size',
-                            array('action' => 'avatarbynickname',
-                                  'nickname' => $nickname),
-                            array('size' => '(|original|\d+)'));
-
-                $m->connect('tag/:tag/rss',
-                            array('action' => 'userrss',
-                                  'nickname' => $nickname),
-                            array('tag' => self::REGEX_TAG));
-
-                $m->connect('tag/:tag',
-                            array('action' => 'showstream',
-                                  'nickname' => $nickname),
-                            array('tag' => self::REGEX_TAG));
-
-                $m->connect('rsd.xml',
-                            array('action' => 'rsd',
-                                  'nickname' => $nickname));
-
+         //
                 // peopletags
 
                 $m->connect('peopletags',
@@ -984,6 +972,7 @@ class Router {
                         array('action' => 'showstream'),
                         array('nickname' => Nickname::DISPLAY_FMT));
 
+         // -------------------------------------------------------------------
             // AtomPub API
 
             $m->connect('api/statusnet/app/service/:id.xml',
