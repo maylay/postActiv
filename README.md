@@ -204,7 +204,7 @@ To keep it up-to-date, use 'git pull'. Watch for conflicts!
 There are several ways to get more information about postActiv.
 
 * Following us on the Fediverse - <https://community.highlandarrow.com/postActiv>.
-* Our web page at <www.postactiv.com>.
+* Our web page at <http://www.postactiv.com>.
 * postActiv has a bug tracker for any defects you may find, or ideas for
   making things better. <https://git.postactiv.com/postActiv/postActiv/issues>.
 * Patches are welcome, preferrably to our repository on git.postactiv.com.
